@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MeetYou</string>
+    <string name="cookie_and_private_police_accept">Нажав кнопку Войти или Регестрация, вы соглашаетесь с нашими <b>Условиями</b>. О том, как мы обрабатываем ваши данные, вы можете узнать из нашей <b>Политики конфиденциальности</b> и <b>Политики использования файлов cookie</b></string>
 </resources>
