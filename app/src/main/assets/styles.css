@@ -1,0 +1,243 @@
+.people-find-window,
+.people-find-window * {
+  box-sizing: border-box;
+}
+.people-find-window {
+  background: #ffffff;
+  width: 360px;
+  height: 781px;
+  position: relative;
+  overflow: hidden;
+}
+.buttom-frame {
+  background: #000000;
+  border-style: solid;
+  border-color: #ffffff;
+  border-width: 0.24px 0px 0px 0px;
+  width: 360.27px;
+  height: 55.79px;
+  position: absolute;
+  left: 0px;
+  top: 725.23px;
+  overflow: hidden;
+}
+.power-up-button {
+  position: absolute;
+  left: 311.12px;
+  top: 10.43px;
+  overflow: visible;
+}
+.mega-s-button {
+  position: absolute;
+  left: 163.71px;
+  top: 7.25px;
+  overflow: visible;
+}
+.dislike-button {
+  position: absolute;
+  left: 88.25px;
+  top: 5.88px;
+  overflow: visible;
+}
+.go-back-button {
+  position: absolute;
+  left: 59.86px;
+  top: 7.25px;
+  transform: translate(-42.66px, 0px);
+  overflow: visible;
+}
+.like-button {
+  position: absolute;
+  left: 240.97px;
+  top: 12.8px;
+  overflow: visible;
+}
+.work-space {
+  width: 360.27px;
+  height: 687.06px;
+  position: absolute;
+  left: 0px;
+  top: 38.17px;
+  overflow: hidden;
+}
+.demo-imgae {
+  width: 360.27px;
+  height: 687.06px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+.description-header {
+  background: linear-gradient(
+    180.19deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.76) 57.8125%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  width: 360.27px;
+  height: 153.27px;
+  position: absolute;
+  left: 0px;
+  top: 533.79px;
+  overflow: hidden;
+}
+.additional-space {
+  width: 360.27px;
+  height: 78.4px;
+  position: absolute;
+  left: 0px;
+  top: 61.95px;
+  overflow: hidden;
+}
+.information {
+  color: #ffffff;
+  text-align: left;
+  font: 400 14.09px/105% "Segoe UI", sans-serif;
+  position: absolute;
+  left: 22.9px;
+  top: 5.87px;
+  width: 327.38px;
+  height: 66.65px;
+}
+.gender-color {
+  background: #e337ff;
+  border-radius: 13.21px;
+  width: 2.35px;
+  height: 67.53px;
+  position: absolute;
+  left: 15.86px;
+  top: 4.11px;
+}
+.name-space {
+  width: 360.27px;
+  height: 53.73px;
+  position: absolute;
+  left: 0px;
+  top: 0.88px;
+  overflow: hidden;
+}
+.russia-moscow {
+  color: #ffffff;
+  text-align: left;
+  font: 300 14.68px/100% "Segoe UI", sans-serif;
+  position: absolute;
+  left: 22.31px;
+  top: 29.95px;
+  width: 327.38px;
+}
+.gender-color2 {
+  background: #e337ff;
+  border-radius: 13.21px;
+  width: 2.35px;
+  height: 39.93px;
+  position: absolute;
+  left: 15.86px;
+  top: 7.63px;
+}
+.work-space-header {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.47) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  width: 360.27px;
+  height: 12.63px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+}
+.image-right {
+  background: rgba(217, 217, 217, 0.45);
+  border-radius: 13.21px;
+  width: 22.02px;
+  height: 4.11px;
+  position: absolute;
+  left: 142.7px;
+  top: 3.52px;
+}
+.image-right2 {
+  background: rgba(217, 217, 217, 0.45);
+  border-radius: 13.21px;
+  width: 22.02px;
+  height: 4.11px;
+  position: absolute;
+  left: 116.27px;
+  top: 3.52px;
+}
+.image-center {
+  background: #d9d9d9;
+  border-radius: 13.21px;
+  width: 22.02px;
+  height: 4.11px;
+  position: absolute;
+  left: 169.12px;
+  top: 3.52px;
+}
+.image-left {
+  background: rgba(217, 217, 217, 0.45);
+  border-radius: 13.21px;
+  width: 22.02px;
+  height: 4.11px;
+  position: absolute;
+  left: 195.55px;
+  top: 3.52px;
+}
+.image-left2 {
+  background: rgba(217, 217, 217, 0.45);
+  border-radius: 13.21px;
+  width: 22.02px;
+  height: 4.11px;
+  position: absolute;
+  left: 221.97px;
+  top: 3.52px;
+}
+.main-header {
+  background: #ffffff;
+  width: 360.27px;
+  height: 38.17px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+}
+.profile {
+  width: 23.49px;
+  height: 23.49px;
+  position: absolute;
+  left: 330.02px;
+  top: 7.34px;
+}
+.ellipse-5 {
+  background: #d9d9d9;
+  border-radius: 50%;
+  width: 23.49px;
+  height: 23.49px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+.ellipse-3 {
+  background: #d9d9d9;
+  border-radius: 50%;
+  width: 10.16px;
+  height: 10.99px;
+  position: absolute;
+  left: 6.66px;
+  top: 3.3px;
+}
+.ellipse-4 {
+  background: #d9d9d9;
+  border-radius: 50%;
+  width: 18.45px;
+  height: 18.45px;
+  position: absolute;
+  left: 2.25px;
+  top: 11.9px;
+}
+.messager {
+  position: absolute;
+  left: 292.73px;
+  top: 7.34px;
+  overflow: visible;
+}

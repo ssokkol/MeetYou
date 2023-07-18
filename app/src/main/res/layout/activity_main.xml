@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="90dp"
+        android:layout_marginTop="42dp"
+        app:srcCompat="@drawable/photo_2023_07_17_20_31_45"
+        android:scaleType="centerCrop"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/gradient_bottom"
+        android:scaleY="0.4"
+        android:layout_marginTop="600dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="0dp"
+        android:background="#000000"
+        android:gravity="bottom">
+
+
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bottomline"
+                android:background="#FFFFFF" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleY="0.55"
+                android:scaleX="0.50"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/gobackbutton" />
+
+            <Button
+                android:id="@+id/gobackbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bottomline"
+                android:background="#FFFFFF" />
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleY="0.55"
+                android:scaleX="0.55"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/dislikebutton" />
+
+            <Button
+                android:id="@+id/dislikebutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bottomline"
+                android:background="#FFFFFF" />
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleY="0.7"
+                android:scaleX="0.7"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/megasbutton" />
+
+            <Button
+                android:id="@+id/megasbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bottomline"
+                android:background="#FFFFFF" />
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleY="0.55"
+                android:scaleX="0.55"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/likebutton" />
+
+            <Button
+                android:id="@+id/likebutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bottomline"
+                android:background="#FFFFFF" />
+
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleY="0.55"
+                android:scaleX="0.55"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/powerupbutton" />
+
+            <Button
+                android:id="@+id/boostbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent" />
+
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="42dp"
+        android:gravity="center_horizontal"
+        android:background="@drawable/gradient_shadow">
+
+        <FrameLayout
+            android:layout_width="50dp"
+            android:layout_height="14dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imageselector1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:scaleX="0.75"
+                android:scaleY="0.45"
+                app:srcCompat="@drawable/selectedimage" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="50dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="1dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imageselector2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:scaleX="0.75"
+                android:scaleY="0.45"
+                app:srcCompat="@drawable/unselectedimage" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="50dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="1dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imageselector3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:scaleX="0.75"
+                android:scaleY="0.45"
+                app:srcCompat="@drawable/unselectedimage" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="50dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="1dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imageselector4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:scaleX="0.75"
+                android:scaleY="0.45"
+                app:srcCompat="@drawable/unselectedimage" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="50dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="1dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imageselector5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:scaleX="0.75"
+                android:scaleY="0.45"
+                app:srcCompat="@drawable/unselectedimage" />
+        </FrameLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:elevation="15dp"
+        android:background="@android:color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="meet"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#2C59CC"
+            android:paddingLeft="16dp"
+            android:paddingRight="0dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="you"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:paddingLeft="5dp"
+            android:paddingRight="16dp"
+            android:layout_marginRight="230dp"/>
+        <FrameLayout
+            android:layout_width="28dp"
+            android:layout_height="42dp"
+            android:layout_marginLeft="5dp">
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/messagerbutton" />
+            <Button
+                android:id="@+id/profilebutton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent" />
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="28dp"
+            android:layout_height="42dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/profilebutton" />
+            <Button
+                android:id="@+id/anotherbutton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                />
+        </FrameLayout>
+    </LinearLayout>
+</RelativeLayout>
