@@ -17,10 +17,19 @@ public class StartAcivity extends AppCompatActivity {
         getWindow().setStatusBarColor(ContextCompat.getColor(StartAcivity.this, R.color.main));
 
         AppCompatButton signUpButton = findViewById(R.id.sign_up_button);
+        AppCompatButton signInButton = findViewById(R.id.sign_in_button);
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(StartAcivity.this, RegisterationActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StartAcivity.this, SignInActivity.class);
                 startActivity(intent);
             }
         });

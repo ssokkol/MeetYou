@@ -43,8 +43,7 @@
             android:textColor="#2c59cc"
             android:textSize="18.76sp"
             android:textStyle="normal"
-            android:background="@drawable/button_background"
-            android:onClick="RegisterationEvent"/>
+            android:background="@drawable/button_background"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/sign_in_button"
@@ -57,7 +56,7 @@
             android:textColor="#ffffff"
             android:textSize="18.76sp"
             android:textStyle="normal"
-            android:background="@drawable/button_outline_background" />
+            android:background="@drawable/button_outline_background"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/forgot_password_button"
