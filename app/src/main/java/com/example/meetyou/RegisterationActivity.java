@@ -5,22 +5,22 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.view.View;;
 
-public class StartAcivity extends AppCompatActivity {
+public class RegisterationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start_acivity);
+        setContentView(R.layout.activity_registeration);
 
-        getWindow().setStatusBarColor(ContextCompat.getColor(StartAcivity.this, R.color.main));
+        getWindow().setStatusBarColor(ContextCompat.getColor(RegisterationActivity.this, R.color.main));
 
-        AppCompatButton signUpButton = findViewById(R.id.sign_up_button);
-        signUpButton.setOnClickListener(new View.OnClickListener() {
+        AppCompatButton backButton = findViewById(R.id.go_back_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(StartAcivity.this, RegisterationActivity.class);
+                Intent intent = new Intent(RegisterationActivity.this, StartAcivity.class);
                 startActivity(intent);
             }
         });

@@ -43,7 +43,8 @@
             android:textColor="#2c59cc"
             android:textSize="18.76sp"
             android:textStyle="normal"
-            android:background="@drawable/button_background" />
+            android:background="@drawable/button_background"
+            android:onClick="RegisterationEvent"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/sign_in_button"
