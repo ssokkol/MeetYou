@@ -8,7 +8,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
-
+import android.content.SharedPreferences;
 import com.example.meetyou.Database.DatabaseHelper;
 import com.example.meetyou.databinding.ActivityRegisterationBinding;
 
@@ -49,8 +49,10 @@ public class RegisterationActivity extends AppCompatActivity {
                     if (!databaseHelper.checkEmail(email)) {
                         boolean insert = databaseHelper.insertData(email, password);
                         if (insert) {
+                            saveUserInfo(email, password);
                             Toast.makeText(RegisterationActivity.this, "Успешная регистрация!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(RegisterationActivity.this, MainActivity.class);
+                            Intent intent = new Intent(RegisterationActivity.this, SignInActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();
                         } else {
@@ -69,5 +71,13 @@ public class RegisterationActivity extends AppCompatActivity {
 
     private boolean isValidEmail(String email) {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private void saveUserInfo(String email, String password) {
+        SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("email", email);
+        editor.putString("password", password);
+        editor.apply();
     }
 }

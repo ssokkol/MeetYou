@@ -5,6 +5,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -49,6 +50,7 @@ public class SignInActivity extends AppCompatActivity {
                 } else {
                     Boolean checkCredentials = databaseHelper.checkEmailPassword(email, password);
                     if (checkCredentials) {
+                        saveUserCredentials(email, password);
                         Toast.makeText(SignInActivity.this, "Вы успешно вошли", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                         startActivity(intent);
@@ -63,5 +65,13 @@ public class SignInActivity extends AppCompatActivity {
 
     private boolean isValidEmail(String email) {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private void saveUserCredentials(String email, String password) {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("email", email);
+        editor.putString("password", password);
+        editor.apply();
     }
 }
