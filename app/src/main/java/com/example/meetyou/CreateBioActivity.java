@@ -81,6 +81,12 @@ public class CreateBioActivity extends AppCompatActivity {
                     Toast.makeText(CreateBioActivity.this, "Имя должно содержать не более 30 символов", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                if (!name.matches("[a-zA-Zа-яА-Я\\s]+")) {
+                    Toast.makeText(CreateBioActivity.this, "Имя не должно содержать цифр или символов", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 // Ограничение на био (не более 150 символов)
                 else if (bio.length() > 150) {
                     Toast.makeText(CreateBioActivity.this, "Биография должна содержать не более 150 символов", Toast.LENGTH_SHORT).show();
@@ -90,6 +96,12 @@ public class CreateBioActivity extends AppCompatActivity {
                     int birthMonth = Integer.parseInt(birthMonthStr);
                     int birthDay = Integer.parseInt(birthDayStr);
 
+                    if (calculateAge(birthYear, birthMonth, birthDay) > 72) {
+                        Toast.makeText(CreateBioActivity.this, "Возраст не должен превышать 72 года", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    // Проверка, что пользователь не младше 18 лет
                     if (isUnderage(birthYear, birthMonth, birthDay)) {
                         Toast.makeText(CreateBioActivity.this, "Регистрация для лиц младше 18 лет запрещена", Toast.LENGTH_SHORT).show();
                     } else {
@@ -107,6 +119,7 @@ public class CreateBioActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     // Проверка, что пользователю меньше 18 лет
