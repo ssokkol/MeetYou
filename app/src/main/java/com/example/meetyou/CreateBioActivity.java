@@ -100,7 +100,6 @@ public class CreateBioActivity extends AppCompatActivity {
                         Toast.makeText(CreateBioActivity.this, "Возраст не должен превышать 72 года", Toast.LENGTH_SHORT).show();
                         return;
                     }
-
                     // Проверка, что пользователь не младше 18 лет
                     if (isUnderage(birthYear, birthMonth, birthDay)) {
                         Toast.makeText(CreateBioActivity.this, "Регистрация для лиц младше 18 лет запрещена", Toast.LENGTH_SHORT).show();
