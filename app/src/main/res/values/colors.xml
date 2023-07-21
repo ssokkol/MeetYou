@@ -5,4 +5,5 @@
     <color name="main">#2C59CC</color>
     <color name="neutral_light_gray">#d9d9d9</color>
     <color name="neutral_dark_gray">#959595</color>
+    <color name="red">#CC2C2C</color>
 </resources>

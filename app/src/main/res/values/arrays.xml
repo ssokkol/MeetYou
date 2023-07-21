@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="own_height_options_array">
+        <item>Under 160</item>
+        <item>160-170</item>
+        <item>170-180</item>
+        <item>Over 180</item>
+    </string-array>
+    <string-array name="own_weight_options_array">
+        <item>Under 50 kg</item>
+        <item>50-65 kg</item>
+        <item>65-80 kg</item>
+        <item>Over 80 kg</item>
+    </string-array>
+    <string-array name="own_attitude_to_smoking_options_array">
+        <item>Any</item>
+        <item>Non-smoker</item>
+        <item>Occasional smoker</item>
+        <item>Regular smoker</item>
+    </string-array>
+    <string-array name="own_attitude_to_alcohol_options_array">
+        <item>Any</item>
+        <item>Does not drink</item>
+        <item>Occasional drinker</item>
+        <item>Moderate drinker</item>
+        <item>Heavy drinker</item>
+    </string-array>
+</resources>

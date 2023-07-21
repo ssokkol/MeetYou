@@ -15,7 +15,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase MyDatabase) {
-        MyDatabase.execSQL("CREATE TABLE allusers(id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, password TEXT, verificated INTEGER DEFAULT 0, gender TEXT, find TEXT, name TEXT, age INTEGER, bio TEXT(150), height INTEGER, weight INTEGER)");
+        MyDatabase.execSQL("CREATE TABLE allusers(" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "email TEXT," +
+                "password TEXT," +
+                "verificated INTEGER DEFAULT 0," +
+                "gender TEXT," +
+                "find TEXT," +
+                "name TEXT," +
+                "age INTEGER," +
+                "bio TEXT(150)," +
+                "height INTEGER," +
+                "weight INTEGER," +
+                "photo1 BLOB," +
+                "photo2 BLOB," +
+                "photo3 BLOB," +
+                "photo4 BLOB," +
+                "photo5 BLOB)");
     }
 
     @Override
@@ -54,5 +70,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         Cursor cursor = MyDatabase.rawQuery("SELECT * FROM allusers WHERE email = ? AND password = ?", new String[]{email, password});
         return cursor.getCount() > 0;
+    }
+    public long insertPhoto(long userID, int photoNumber, byte[] photoData) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        String columnName = "photo" + photoNumber;
+        contentValues.put(columnName, photoData);
+        long result = MyDatabase.update("allusers", contentValues, "id=?", new String[]{String.valueOf(userID)});
+        return result;
+    }
+
+    public byte[] getPhoto(long userID, int photoNumber) {
+        SQLiteDatabase MyDatabase = this.getReadableDatabase();
+        String columnName = "photo" + photoNumber;
+        Cursor cursor = MyDatabase.rawQuery("SELECT " + columnName + " FROM allusers WHERE id=?", new String[]{String.valueOf(userID)});
+        if (cursor.moveToFirst()) {
+            return cursor.getBlob(0);
+        }
+        return null;
+    }
+
+    public boolean checkAllPhotosUploaded(long userID) {
+        SQLiteDatabase MyDatabase = this.getReadableDatabase();
+        Cursor cursor = MyDatabase.rawQuery("SELECT photo1, photo2, photo3, photo4, photo5 FROM allusers WHERE id=?", new String[]{String.valueOf(userID)});
+        if (cursor.moveToFirst()) {
+            byte[] photo1 = cursor.getBlob(0);
+            byte[] photo2 = cursor.getBlob(1);
+            byte[] photo3 = cursor.getBlob(2);
+            byte[] photo4 = cursor.getBlob(3);
+            byte[] photo5 = cursor.getBlob(4);
+            return photo1 != null && photo2 != null && photo3 != null && photo4 != null && photo5 != null;
+        }
+        return false;
     }
 }

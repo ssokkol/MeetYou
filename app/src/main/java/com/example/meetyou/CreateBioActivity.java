@@ -3,7 +3,9 @@ package com.example.meetyou;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -45,9 +47,16 @@ public class CreateBioActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // Счетчик букв
+                // Счетчик букав
                 int charCount = charSequence.length();
                 binding.charsCount.setText(charCount + "/150");
+                if(charCount > 150)
+                {
+                    binding.charsCount.setTextColor(getResources().getColor(R.color.red));
+                } else if (charCount <= 150)
+                {
+                    binding.charsCount.setTextColor(getResources().getColor(R.color.black));
+                }
             }
 
             @Override
@@ -59,6 +68,7 @@ public class CreateBioActivity extends AppCompatActivity {
         binding.goNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Херь всякая про типа
                 String bio = binding.bio.getText().toString();
                 String name = binding.enterName.getText().toString();
                 // Вычисление возраста
@@ -86,7 +96,8 @@ public class CreateBioActivity extends AppCompatActivity {
                         long result = databaseHelper.insertBio(userID, name, calculateAge(birthYear, birthMonth, birthDay), bio);
                         if (result != -1) {
                             Toast.makeText(CreateBioActivity.this, "Данные успешно сохранены", Toast.LENGTH_SHORT).show();
-                            finish();
+                            Intent intent = new Intent(CreateBioActivity.this, ChangeParametersActivity.class);
+                            startActivity(intent);
                         } else {
                             Toast.makeText(CreateBioActivity.this, "Ошибка при сохранении данных", Toast.LENGTH_SHORT).show();
                         }

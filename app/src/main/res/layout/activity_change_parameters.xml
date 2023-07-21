@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChangeParametersActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="25dp"
+            android:text="Choose your parameters"
+            android:textColor="@color/main"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="24sp"
+            />
+        <!-- Add the Spinners and TextViews for the dropdown menus -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="550dp">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/go_next_button"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="65dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="65dp"
+                android:background="@drawable/btn_bg_blue"
+                android:text="@string/next_button"
+                android:textColor="@color/white" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/go_back_button"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="65dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="65dp"
+                android:background="@drawable/button_outline_background_blue"
+                android:text="@string/back_button"
+                android:textColor="@color/main" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            android:layout_marginTop="85dp">
+
+            <TextView
+                android:id="@+id/height_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Height:"
+                android:textColor="@color/main"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/height_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/height_label"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp" />
+
+            <TextView
+                android:id="@+id/weight_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/height_spinner"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:text="Weight:"
+                android:textColor="@color/main"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/weight_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/weight_label"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp" />
+
+            <TextView
+                android:id="@+id/smoking_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/weight_spinner"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:text="Attitude to Smoking:"
+                android:textColor="@color/main"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/attitudeToSmokingSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/smoking_label"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp" />
+
+            <TextView
+                android:id="@+id/alcohol_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attitudeToSmokingSpinner"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:text="Attitude to Alcohol:"
+                android:textColor="@color/main"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/attitudeToAlcoholSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/alcohol_label"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

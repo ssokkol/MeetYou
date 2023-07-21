@@ -52,7 +52,7 @@ public class RegisterationActivity extends AppCompatActivity {
                             saveUserInfo(email, password);
                             saveUserID(userID);
                             Toast.makeText(RegisterationActivity.this, R.string.success_registration_message, Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(RegisterationActivity.this, SignInActivity.class);
+                            Intent intent = new Intent(RegisterationActivity.this, ChangeGenderActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();

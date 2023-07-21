@@ -16,6 +16,7 @@
     <string name="wrong_mail_format_message">Некорректный формат электронной почты</string>
     <string name="registration_button">Зарегистрироваться</string>
     <string name="back_button">Назад</string>
+    <string name="next_button">Вперед</string>
     <string name="mail_input_text">E-mail</string>
     <string name="password_input_text">Password</string>
     <string name="confirm_password_input_text">Confirm password</string>

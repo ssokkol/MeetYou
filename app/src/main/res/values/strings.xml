@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MeetYou</string>
     <string name="cookie_and_private_police_accept">By clicking the Sign In or Registration button, you agree to our <b>Terms and Conditions</b>. You can learn about how we process your data in our <b>Privacy Policy</b> and <b>Cookie Policy</b>.</string>
-    <string name="wong_mail_format_message">Incorrect email format</string>
+    <string name="wrong_mail_format_message">Incorrect email format</string>
     <string name="zero_input_message">Please fill in all fields</string>
     <string name="success_sign_in_message">You have successfully signed in!</string>
     <string name="wrong_password_or_mail_message">Incorrect email or password</string>
@@ -12,9 +12,9 @@
     <string name="success_registration_message">Successful registration!</string>
     <string name="registration_error_message">Registration error</string>
     <string name="email_was_used_message">A user with this email is already registered!</string>
-    <string name="wrong_mail_format_message">Incorrect email format</string>
     <string name="registration_button">Register</string>
     <string name="back_button">Back</string>
+    <string name="next_button">Next</string>
     <string name="mail_input_text">E-mail</string>
     <string name="password_input_text">Password</string>
     <string name="confirm_password_input_text">Confirm password</string>
