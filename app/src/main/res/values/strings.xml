@@ -1,4 +1,30 @@
 <resources>
     <string name="app_name">MeetYou</string>
-    <string name="cookie_and_private_police_accept">Нажав кнопку Войти или Регестрация, вы соглашаетесь с нашими <b>Условиями</b>. О том, как мы обрабатываем ваши данные, вы можете узнать из нашей <b>Политики конфиденциальности</b> и <b>Политики использования файлов cookie</b></string>
+    <string name="cookie_and_private_police_accept">By clicking the Sign In or Registration button, you agree to our <b>Terms and Conditions</b>. You can learn about how we process your data in our <b>Privacy Policy</b> and <b>Cookie Policy</b>.</string>
+    <string name="wong_mail_format_message">Incorrect email format</string>
+    <string name="zero_input_message">Please fill in all fields</string>
+    <string name="success_sign_in_message">You have successfully signed in!</string>
+    <string name="wrong_password_or_mail_message">Incorrect email or password</string>
+    <string name="wrong_password_lenght_message">Password is too short!</string>
+    <string name="wrong_password_chars_format_message">Password must contain at least one uppercase letter</string>
+    <string name="password_has_spaces_message">Password should not contain spaces</string>
+    <string name="wrong_confirm_password_message">Passwords do not match!</string>
+    <string name="success_registration_message">Successful registration!</string>
+    <string name="registration_error_message">Registration error</string>
+    <string name="email_was_used_message">A user with this email is already registered!</string>
+    <string name="wrong_mail_format_message">Incorrect email format</string>
+    <string name="registration_button">Register</string>
+    <string name="back_button">Back</string>
+    <string name="mail_input_text">E-mail</string>
+    <string name="password_input_text">Password</string>
+    <string name="confirm_password_input_text">Confirm password</string>
+    <string name="sign_in_button">Sign In</string>
+    <string name="cant_sign_in_button">Can\'t sign in</string>
+    <string name="enter_birth_date_text">Enter your birth date:</string>
+    <string name="enter_your_name_text">Enter your name</string>
+    <string name="write_something_about_you">Write something about you...</string>
+    <string name="who_are_you">Who are you?</string>
+    <string name="confirm">Confirm</string>
+    <string name="woman_button">Woman</string>
+    <string name="man_button">Man</string>
 </resources>

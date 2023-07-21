@@ -15,7 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase MyDatabase) {
-        MyDatabase.execSQL("CREATE TABLE allusers(email TEXT PRIMARY KEY, password TEXT, verificated INTEGER DEFAULT 0, gender TEXT, find TEXT, name TEXT, height INTEGER, weight INTEGER)");
+        MyDatabase.execSQL("CREATE TABLE allusers(id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, password TEXT, verificated INTEGER DEFAULT 0, gender TEXT, find TEXT, name TEXT, age INTEGER, bio TEXT(150), height INTEGER, weight INTEGER)");
     }
 
     @Override
@@ -24,30 +24,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(MyDatabase);
     }
 
-    public Boolean insertData(String email, String password) {
+    public long insertData(String email, String password) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("email", email);
         contentValues.put("password", password);
+        contentValues.put("verificated", 0);
         long result = MyDatabase.insert("allusers", null, contentValues);
-        return result != -1;
+        return result;
     }
 
-    public Boolean checkEmail(String email) {
+    public long insertBio(long userID, String name, int age, String bio) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name", name);
+        contentValues.put("age", age);
+        contentValues.put("bio", bio);
+        long result = MyDatabase.update("allusers", contentValues, "id=?", new String[]{String.valueOf(userID)});
+        return result;
+    }
+
+    public boolean checkEmail(String email) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         Cursor cursor = MyDatabase.rawQuery("SELECT * FROM allusers WHERE email = ?", new String[]{email});
         return cursor.getCount() > 0;
     }
 
-    public Boolean checkEmailPassword(String email, String password) {
+    public boolean checkEmailPassword(String email, String password) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         Cursor cursor = MyDatabase.rawQuery("SELECT * FROM allusers WHERE email = ? AND password = ?", new String[]{email, password});
         return cursor.getCount() > 0;
-    }
-
-    public Boolean verification(String code){
-        SQLiteDatabase MyDatabase = this.getWritableDatabase();
-        Cursor cursor = MyDatabase.rawQuery("SELECT * FROM allusers", new String[]{});
-        return false;
     }
 }

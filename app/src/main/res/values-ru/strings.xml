@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MeetYou</string>
+    <string name="cookie_and_private_police_accept">Нажав кнопку Войти или Регестрация, вы соглашаетесь с нашими <b>Условиями</b>. О том, как мы обрабатываем ваши данные, вы можете узнать из нашей <b>Политики конфиденциальности</b> и <b>Политики использования файлов cookie</b></string>
+    <string name="wong_mail_format_message">Некорректный формат электронной почты</string>
+    <string name="zero_input_message">Пожалуйста, заполните все поля</string>
+    <string name="success_sign_in_message">Вы успешно вошли!</string>
+    <string name="wrong_password_or_mail_message">Неверная почта или пароль</string>
+    <string name="wrong_password_lenght_message">Пароль слишком короткий!</string>
+    <string name="wrong_password_chars_format_message">Пароль должен содержать хотя бы одну заглавную букву</string>
+    <string name="password_has_spaces_message">Пароль не должен содержать пробелы</string>
+    <string name="wrong_confirm_password_message">Пароли не совпадают!</string>
+    <string name="success_registration_message">Успешная регистрация!</string>
+    <string name="registration_error_message">Ошибка регистрации</string>
+    <string name="email_was_used_message">Пользователь с таким email уже зарегистрирован!</string>
+    <string name="wrong_mail_format_message">Некорректный формат электронной почты</string>
+    <string name="registration_button">Зарегистрироваться</string>
+    <string name="back_button">Назад</string>
+    <string name="mail_input_text">E-mail</string>
+    <string name="password_input_text">Password</string>
+    <string name="confirm_password_input_text">Confirm password</string>
+    <string name="sign_in_button">Войти</string>
+    <string name="cant_sign_in_button">Не могу войти</string>
+    <string name="enter_birth_date_text">Введите вашу дату рождения:</string>
+    <string name="enter_your_name_text">Введите ваше имя</string>
+    <string name="write_something_about_you">Расскажите о себе...</string>
+    <string name="who_are_you">Кто ты?</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="woman_button">Девушка</string>
+    <string name="man_button">Парень</string>
+</resources>

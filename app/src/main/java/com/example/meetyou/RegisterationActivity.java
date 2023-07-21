@@ -1,6 +1,7 @@
 package com.example.meetyou;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.widget.Toast;
@@ -8,7 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
-import android.content.SharedPreferences;
+
 import com.example.meetyou.Database.DatabaseHelper;
 import com.example.meetyou.databinding.ActivityRegisterationBinding;
 
@@ -37,34 +38,34 @@ public class RegisterationActivity extends AppCompatActivity {
 
             if (isValidEmail(email)) {
                 if (password.length() < 8) {
-                    Toast.makeText(RegisterationActivity.this, "Длина пароля должна быть больше 8 символов", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterationActivity.this, R.string.wrong_password_lenght_message, Toast.LENGTH_SHORT).show();
                 } else if (!password.matches(".*[A-Z].*")) {
-                    Toast.makeText(RegisterationActivity.this, "Пароль должен содержать хотя бы одну заглавную букву", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterationActivity.this, R.string.wrong_password_chars_format_message, Toast.LENGTH_SHORT).show();
                 } else if (password.contains(" ")) {
-                    Toast.makeText(RegisterationActivity.this, "Пароль не должен содержать пробелы", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterationActivity.this, R.string.password_has_spaces_message, Toast.LENGTH_SHORT).show();
                 } else if (!confirmPassword.equals(password)) {
-                    Toast.makeText(RegisterationActivity.this, "Пароли не совпадают!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterationActivity.this, R.string.wrong_confirm_password_message, Toast.LENGTH_SHORT).show();
                 } else {
-                    // Проверяем, что такой email не зарегистрирован ранее
                     if (!databaseHelper.checkEmail(email)) {
-                        boolean insert = databaseHelper.insertData(email, password);
-                        if (insert) {
+                        long userID = databaseHelper.insertData(email, password);
+                        if (userID != -1) {
                             saveUserInfo(email, password);
-                            Toast.makeText(RegisterationActivity.this, "Успешная регистрация!", Toast.LENGTH_SHORT).show();
+                            saveUserID(userID);
+                            Toast.makeText(RegisterationActivity.this, R.string.success_registration_message, Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(RegisterationActivity.this, SignInActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();
                         } else {
-                            Toast.makeText(RegisterationActivity.this, "Ошибка регистрации", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterationActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(RegisterationActivity.this, "Пользователь с таким email уже зарегистрирован!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterationActivity.this, R.string.email_was_used_message, Toast.LENGTH_SHORT).show();
                     }
                 }
             } else {
                 // Некорректный формат электронной почты
-                Toast.makeText(RegisterationActivity.this, "Некорректный формат электронной почты", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterationActivity.this, R.string.wrong_mail_format_message, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -74,10 +75,17 @@ public class RegisterationActivity extends AppCompatActivity {
     }
 
     private void saveUserInfo(String email, String password) {
-        SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("email", email);
         editor.putString("password", password);
+        editor.apply();
+    }
+
+    private void saveUserID(long userID) {
+        SharedPreferences preferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putLong("userID", userID);
         editor.apply();
     }
 }

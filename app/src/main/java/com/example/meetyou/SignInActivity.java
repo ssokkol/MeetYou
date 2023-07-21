@@ -44,19 +44,19 @@ public class SignInActivity extends AppCompatActivity {
                 String password = binding.password.getText().toString();
 
                 if (!isValidEmail(email)) {
-                    Toast.makeText(SignInActivity.this, "Некорректный формат электронной почты", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignInActivity.this, R.string.wrong_mail_format_message, Toast.LENGTH_SHORT).show();
                 } else if (email.equals("") || password.equals("")) {
-                    Toast.makeText(SignInActivity.this, "Пожалуйста, заполните все поля", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignInActivity.this, R.string.zero_input_message, Toast.LENGTH_SHORT).show();
                 } else {
-                    Boolean checkCredentials = databaseHelper.checkEmailPassword(email, password);
+                    boolean checkCredentials = databaseHelper.checkEmailPassword(email, password);
                     if (checkCredentials) {
                         saveUserCredentials(email, password);
-                        Toast.makeText(SignInActivity.this, "Вы успешно вошли", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignInActivity.this, R.string.success_sign_in_message, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(SignInActivity.this, "Неверная почта или пароль", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignInActivity.this, R.string.wrong_password_or_mail_message, Toast.LENGTH_SHORT).show();
                     }
                 }
             }
