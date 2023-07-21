@@ -40,7 +40,7 @@
 
             <EditText
                 android:id="@+id/enter_birth_year"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="195dp"
                 android:padding="8dp"
@@ -50,7 +50,7 @@
 
             <EditText
                 android:id="@+id/enter_birth_month"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="160dp"
                 android:padding="8dp"
@@ -60,7 +60,7 @@
 
             <EditText
                 android:id="@+id/enter_birth_day"
-                android:layout_width="wrap_content"
+                android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="130dp"
                 android:padding="8dp"

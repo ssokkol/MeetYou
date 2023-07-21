@@ -104,7 +104,15 @@ public class CreateBioActivity extends AppCompatActivity {
                     // Проверка, что пользователь не младше 18 лет
                     if (isUnderage(birthYear, birthMonth, birthDay)) {
                         Toast.makeText(CreateBioActivity.this, "Регистрация для лиц младше 18 лет запрещена", Toast.LENGTH_SHORT).show();
-                    } else {
+                    } else if (birthMonth < 0 || birthMonth > 12)
+                    {
+                        Toast.makeText(CreateBioActivity.this, "Некорректная дата", Toast.LENGTH_SHORT).show();
+                    } else if (birthDay < 0 || birthDay > 31) {
+                        Toast.makeText(CreateBioActivity.this, "Некорректная дата", Toast.LENGTH_SHORT).show();
+                    } else if(birthMonth == 2 && birthDay > 29){
+                        Toast.makeText(CreateBioActivity.this, "Некорректная дата", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
                         long result = databaseHelper.insertBio(userID, name, calculateAge(birthYear, birthMonth, birthDay), bio);
                         if (result != -1) {
                             Toast.makeText(CreateBioActivity.this, "Данные успешно сохранены", Toast.LENGTH_SHORT).show();
