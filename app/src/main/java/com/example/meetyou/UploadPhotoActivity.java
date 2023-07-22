@@ -130,8 +130,8 @@ public class UploadPhotoActivity extends AppCompatActivity {
                     binding.goNextButton.setTextColor(ContextCompat.getColor(UploadPhotoActivity.this, android.R.color.white));
                     long result = databaseHelper.insertPhotos(getUserID(), photo1, photo2, photo3, photo4, photo5);
                     if(result != -1) {
-                        Intent intent = new Intent(UploadPhotoActivity.this, SignInActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        Intent intent = new Intent(UploadPhotoActivity.this, StartAcivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }
                     else
