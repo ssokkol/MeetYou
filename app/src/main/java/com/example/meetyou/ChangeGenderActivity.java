@@ -90,11 +90,27 @@ public class ChangeGenderActivity extends AppCompatActivity {
                 if(!isMale && !isFemale)
                 {
                     Toast.makeText(ChangeGenderActivity.this, "Change your gender", Toast.LENGTH_SHORT).show();
-                } else if (isFemale || isMale)
+                } else if (isFemale)
                 {
+                    long result = databaseHelper.insertGender(getUserID(), "female");
+                    if (result != -1) {
+                        Intent intent = new Intent(ChangeGenderActivity.this, CreateBioActivity.class);
+                        startActivity(intent);
+                    }else
+                    {
+                        Toast.makeText(ChangeGenderActivity.this, "Registration error, please try again", Toast.LENGTH_SHORT).show();
+                    }
+                } else if (isMale)
+                {
+                    long result = databaseHelper.insertGender(getUserID(), "male");
+                    if (result != -1) {
                     Intent intent = new Intent(ChangeGenderActivity.this, CreateBioActivity.class);
                     startActivity(intent);
-
+                    }
+                    else
+                    {
+                        Toast.makeText(ChangeGenderActivity.this, "Registration error, please try again", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

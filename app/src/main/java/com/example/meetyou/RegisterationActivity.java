@@ -49,7 +49,6 @@ public class RegisterationActivity extends AppCompatActivity {
                     if (!databaseHelper.checkEmail(email)) {
                         long userID = databaseHelper.insertData(email, password);
                         if (userID != -1) {
-                            saveUserInfo(email, password);
                             saveUserID(userID);
                             Toast.makeText(RegisterationActivity.this, R.string.success_registration_message, Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(RegisterationActivity.this, ChangeGenderActivity.class);

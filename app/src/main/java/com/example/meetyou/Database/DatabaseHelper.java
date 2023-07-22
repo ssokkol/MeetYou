@@ -71,12 +71,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = MyDatabase.rawQuery("SELECT * FROM allusers WHERE email = ? AND password = ?", new String[]{email, password});
         return cursor.getCount() > 0;
     }
-    public long insertPhoto(long userID, int photoNumber, byte[] photoData) {
-        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+
+    public long insertPhotos(long userID, byte[] photo1, byte[] photo2, byte[] photo3, byte[] photo4, byte[] photo5) {
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        String columnName = "photo" + photoNumber;
-        contentValues.put(columnName, photoData);
-        long result = MyDatabase.update("allusers", contentValues, "id=?", new String[]{String.valueOf(userID)});
+        contentValues.put("id", userID);
+        contentValues.put("photo1", photo1);
+        contentValues.put("photo2", photo2);
+        contentValues.put("photo3", photo3);
+        contentValues.put("photo4", photo4);
+        contentValues.put("photo5", photo5);
+        long result = db.update("allusers", contentValues, "id=?", new String[]{String.valueOf(userID)});
+        db.close();
         return result;
     }
 
@@ -88,6 +94,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return cursor.getBlob(0);
         }
         return null;
+    }
+
+    public long insertGender(long userID, String gender){
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("gender", gender);
+        long result = MyDatabase.update("allusers", contentValues, "id=?", new String[]{String.valueOf(userID)});
+        return result;
+    }
+
+    public long insertParameters(long userID, int height, int weight) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("height", height);
+        contentValues.put("weight", weight);
+        long result = MyDatabase.update("allusers", contentValues, "id=?", new String[]{String.valueOf(userID)});
+        return result;
     }
 
     public boolean checkAllPhotosUploaded(long userID) {

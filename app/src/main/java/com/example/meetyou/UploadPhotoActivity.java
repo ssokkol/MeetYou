@@ -1,6 +1,7 @@
 package com.example.meetyou;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -17,6 +18,8 @@ import androidx.core.content.ContextCompat;
 import com.example.meetyou.Database.DatabaseHelper;
 import com.example.meetyou.R;
 import com.example.meetyou.databinding.ActivityUploadPhotoBinding;
+
+import java.io.ByteArrayOutputStream;
 
 public class UploadPhotoActivity extends AppCompatActivity {
 
@@ -37,6 +40,12 @@ public class UploadPhotoActivity extends AppCompatActivity {
     ImageView imageView3;
     ImageView imageView4;
     ImageView imageView5;
+
+    private byte[] photo1;
+    private byte[] photo2;
+    private byte[] photo3;
+    private byte[] photo4;
+    private byte[] photo5;
 
     private final int GALLERY_REQ_CODE = 1000;
 
@@ -117,10 +126,16 @@ public class UploadPhotoActivity extends AppCompatActivity {
                 if (firstUploaded && secondUploaded && thirdUploaded && fourthUploaded && fifthUploaded) {
                     binding.goNextButton.setBackgroundResource(R.drawable.button_background_blue);
                     binding.goNextButton.setTextColor(ContextCompat.getColor(UploadPhotoActivity.this, android.R.color.white));
-                    //send photos to database code
-                    Intent intent = new Intent(UploadPhotoActivity.this, MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
+                    long result = databaseHelper.insertPhotos(getUserID(), photo1, photo2, photo3, photo4, photo5);
+                    if(result != -1) {
+                        Intent intent = new Intent(UploadPhotoActivity.this, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
+                    else
+                    {
+                        Toast.makeText(UploadPhotoActivity.this, "Registration error, please try again", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(UploadPhotoActivity.this, "Please upload all 5 photos", Toast.LENGTH_SHORT).show();
                 }
@@ -143,20 +158,24 @@ public class UploadPhotoActivity extends AppCompatActivity {
             if (requestCode == GALLERY_REQ_CODE) {
                 if (selectedImageView != null) {
                     selectedImageView.setImageURI(data.getData());
-                    applyRoundedCorners(selectedImageView);
 
                     if (selectedImageView == imageView1) {
+                        photo1 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
                         firstUploaded = true;
                     } else if (selectedImageView == imageView2) {
+                        photo2 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
                         secondUploaded = true;
                     } else if (selectedImageView == imageView3) {
+                        photo3 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
                         thirdUploaded = true;
                     } else if (selectedImageView == imageView4) {
+                        photo4 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
                         fourthUploaded = true;
                     } else if (selectedImageView == imageView5) {
+                        photo5 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
                         fifthUploaded = true;
                     }
-
+                    applyRoundedCorners(selectedImageView);
                     checkAllPhotosUploaded();
                 }
             }
@@ -204,4 +223,17 @@ public class UploadPhotoActivity extends AppCompatActivity {
             binding.goNextButton.setTextColor(ContextCompat.getColor(UploadPhotoActivity.this, android.R.color.black));
         }
     }
+
+
+    private byte[] getByteArrayFromBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
+    }
+
+    private long getUserID() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getLong("userID", -1);
+    }
 }
+

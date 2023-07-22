@@ -103,10 +103,10 @@ public class CreateBioActivity extends AppCompatActivity {
                     // Проверка, что пользователь не младше 18 лет
                     if (isUnderage(birthYear, birthMonth, birthDay)) {
                         Toast.makeText(CreateBioActivity.this, "Регистрация для лиц младше 18 лет запрещена", Toast.LENGTH_SHORT).show();
-                    } else if (birthMonth < 0 || birthMonth > 12)
+                    } else if (birthMonth <= 0 || birthMonth > 12)
                     {
                         Toast.makeText(CreateBioActivity.this, "Некорректная дата", Toast.LENGTH_SHORT).show();
-                    } else if (birthDay < 0 || birthDay > 31) {
+                    } else if (birthDay <= 0 || birthDay > 31) {
                         Toast.makeText(CreateBioActivity.this, "Некорректная дата", Toast.LENGTH_SHORT).show();
                     } else if(birthMonth == 2 && birthDay > 29){
                         Toast.makeText(CreateBioActivity.this, "Некорректная дата", Toast.LENGTH_SHORT).show();
@@ -124,6 +124,13 @@ public class CreateBioActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(CreateBioActivity.this, "Пожалуйста, введите дату рождения полностью", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        binding.goBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
