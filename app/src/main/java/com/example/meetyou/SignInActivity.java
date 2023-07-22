@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -24,6 +25,7 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySignInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         databaseHelper = new DatabaseHelper(this);
 
@@ -53,6 +55,7 @@ public class SignInActivity extends AppCompatActivity {
                         saveUserCredentials(email, password);
                         Toast.makeText(SignInActivity.this, R.string.success_sign_in_message, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                         finish();
                     } else {

@@ -1,13 +1,14 @@
 package com.example.meetyou;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.meetyou.Database.DatabaseHelper;
 import com.example.meetyou.databinding.ActivityChangeGenderBinding;
@@ -26,6 +27,7 @@ public class ChangeGenderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityChangeGenderBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.main));
 

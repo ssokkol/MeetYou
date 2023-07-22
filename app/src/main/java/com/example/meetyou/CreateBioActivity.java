@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -31,6 +32,7 @@ public class CreateBioActivity extends AppCompatActivity {
         binding = ActivityCreateBioBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         getWindow().setStatusBarColor(ContextCompat.getColor(CreateBioActivity.this, R.color.main));
 
@@ -78,18 +80,18 @@ public class CreateBioActivity extends AppCompatActivity {
 
                 // Ограничение на имя (не более 30 символов)
                 if (name.length() > 30) {
-                    Toast.makeText(CreateBioActivity.this, "Имя должно содержать не более 30 символов", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateBioActivity.this, R.string.name_chars_count_message, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (!name.matches("[a-zA-Zа-яА-Я\\s]+")) {
-                    Toast.makeText(CreateBioActivity.this, "Имя не должно содержать цифр или символов", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateBioActivity.this, R.string.name_chars_message, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 // Ограничение на био (не более 150 символов)
                 else if (bio.length() > 150) {
-                    Toast.makeText(CreateBioActivity.this, "Биография должна содержать не более 150 символов", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateBioActivity.this, R.string.bio_chars_message, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (!birthYearStr.isEmpty() && !birthMonthStr.isEmpty() && !birthDayStr.isEmpty()) {
                     int birthYear = Integer.parseInt(birthYearStr);
@@ -97,32 +99,32 @@ public class CreateBioActivity extends AppCompatActivity {
                     int birthDay = Integer.parseInt(birthDayStr);
 
                     if (calculateAge(birthYear, birthMonth, birthDay) > 72) {
-                        Toast.makeText(CreateBioActivity.this, "Возраст не должен превышать 72 года", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreateBioActivity.this, R.string.old_ages_message, Toast.LENGTH_SHORT).show();
                         return;
                     }
                     // Проверка, что пользователь не младше 18 лет
                     if (isUnderage(birthYear, birthMonth, birthDay)) {
-                        Toast.makeText(CreateBioActivity.this, "Регистрация для лиц младше 18 лет запрещена", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreateBioActivity.this, R.string.eighteen_years_message, Toast.LENGTH_SHORT).show();
                     } else if (birthMonth <= 0 || birthMonth > 12)
                     {
-                        Toast.makeText(CreateBioActivity.this, "Некорректная дата", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreateBioActivity.this, R.string.wrong_date_message, Toast.LENGTH_SHORT).show();
                     } else if (birthDay <= 0 || birthDay > 31) {
-                        Toast.makeText(CreateBioActivity.this, "Некорректная дата", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreateBioActivity.this, R.string.wrong_date_message, Toast.LENGTH_SHORT).show();
                     } else if(birthMonth == 2 && birthDay > 29){
-                        Toast.makeText(CreateBioActivity.this, "Некорректная дата", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreateBioActivity.this, R.string.wrong_date_message, Toast.LENGTH_SHORT).show();
                     }
                     else{
                         long result = databaseHelper.insertBio(userID, name, calculateAge(birthYear, birthMonth, birthDay), bio);
                         if (result != -1) {
-                            Toast.makeText(CreateBioActivity.this, "Данные успешно сохранены", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CreateBioActivity.this, R.string.data_saved_successfully_message, Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(CreateBioActivity.this, ChangeParametersActivity.class);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(CreateBioActivity.this, "Ошибка при сохранении данных", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CreateBioActivity.this, R.string.error_data_saving_message, Toast.LENGTH_SHORT).show();
                         }
                     }
                 } else {
-                    Toast.makeText(CreateBioActivity.this, "Пожалуйста, введите дату рождения полностью", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateBioActivity.this, R.string.enter_date_in_full_message, Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -10,7 +10,7 @@
     <string name="password_has_spaces_message">Password should not contain spaces</string>
     <string name="wrong_confirm_password_message">Passwords do not match!</string>
     <string name="success_registration_message">Successful registration!</string>
-    <string name="registration_error_message">Registration error</string>
+    <string name="registration_error_message">Registration error, please try again</string>
     <string name="email_was_used_message">A user with this email is already registered!</string>
     <string name="registration_button">Register</string>
     <string name="back_button">Back</string>
@@ -27,4 +27,14 @@
     <string name="confirm">Confirm</string>
     <string name="woman_button">Woman</string>
     <string name="man_button">Man</string>
+    <string name="upload_all_photos_message">Please upload all 5 photos</string>
+    <string name="wrong_date_message">Wrong date</string>
+    <string name="data_saved_successfully_message">Data saved successfully</string>
+    <string name="error_data_saving_message">Error during data saving</string>
+    <string name="enter_date_in_full_message">Please enter date of birth in full</string>
+    <string name="eighteen_years_message">Registration for persons under 18 years of age is prohibited</string>
+    <string name="old_ages_message">Age must not exceed 72 years</string>
+    <string name="bio_chars_message">The bio should be no more than 150 characters</string>
+    <string name="name_chars_message">The name must not contain numbers or symbols</string>
+    <string name="name_chars_count_message">The name must be no more than 30 characters</string>
 </resources>

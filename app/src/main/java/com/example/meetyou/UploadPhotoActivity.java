@@ -2,6 +2,7 @@ package com.example.meetyou;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -54,6 +55,7 @@ public class UploadPhotoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityUploadPhotoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         getWindow().setStatusBarColor(ContextCompat.getColor(UploadPhotoActivity.this, R.color.main));
 
@@ -128,16 +130,16 @@ public class UploadPhotoActivity extends AppCompatActivity {
                     binding.goNextButton.setTextColor(ContextCompat.getColor(UploadPhotoActivity.this, android.R.color.white));
                     long result = databaseHelper.insertPhotos(getUserID(), photo1, photo2, photo3, photo4, photo5);
                     if(result != -1) {
-                        Intent intent = new Intent(UploadPhotoActivity.this, MainActivity.class);
+                        Intent intent = new Intent(UploadPhotoActivity.this, SignInActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
                     else
                     {
-                        Toast.makeText(UploadPhotoActivity.this, "Registration error, please try again", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UploadPhotoActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(UploadPhotoActivity.this, "Please upload all 5 photos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UploadPhotoActivity.this, R.string.upload_all_photos_message, Toast.LENGTH_SHORT).show();
                 }
             }
         });

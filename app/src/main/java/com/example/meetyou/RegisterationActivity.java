@@ -2,6 +2,7 @@ package com.example.meetyou;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ public class RegisterationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityRegisterationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         databaseHelper = new DatabaseHelper(this);
 

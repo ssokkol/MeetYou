@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -20,13 +21,12 @@ import java.util.Locale;
 
 public class StartAcivity extends AppCompatActivity {
 
-    Spinner spinner;
-    public static final String[] languages = {"Select Language", "Russian", "English"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_acivity);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 //        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, languages);
 //        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
