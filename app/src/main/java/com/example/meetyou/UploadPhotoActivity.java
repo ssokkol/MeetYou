@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.meetyou.Database.DatabaseHelper;
-import com.example.meetyou.R;
 import com.example.meetyou.databinding.ActivityUploadPhotoBinding;
 
 import java.io.ByteArrayOutputStream;
@@ -222,7 +221,7 @@ public class UploadPhotoActivity extends AppCompatActivity {
             binding.goNextButton.setTextColor(ContextCompat.getColor(UploadPhotoActivity.this, android.R.color.white));
         } else {
             binding.goNextButton.setBackgroundResource(R.drawable.button_background_gray);
-            binding.goNextButton.setTextColor(ContextCompat.getColor(UploadPhotoActivity.this, android.R.color.black));
+            binding.goNextButton.setTextColor(ContextCompat.getColor(UploadPhotoActivity.this, R.color.neutral_dark_gray));
         }
     }
 

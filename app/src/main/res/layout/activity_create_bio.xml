@@ -13,7 +13,6 @@
         android:layout_centerInParent="true"
         android:padding="16dp">
 
-        <!-- Поле для ввода имени -->
         <RelativeLayout
             android:id="@+id/enter_name_space"
             android:layout_width="match_parent"
@@ -23,15 +22,16 @@
             <EditText
                 android:id="@+id/enter_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:inputType="text|textNoSuggestions"
                 android:hint="@string/enter_your_name_text"
                 android:maxLength="30"
                 android:padding="8dp"
-                android:textColor="#000000"
+                android:textColor="@color/black"
+                android:textColorHint="@color/neutral_dark_gray"
                 android:textSize="13sp" />
         </RelativeLayout>
 
-        <!-- Поля для ввода даты рождения -->
         <RelativeLayout
             android:id="@+id/enter_birth_date"
             android:layout_width="match_parent"
@@ -46,8 +46,10 @@
                 android:layout_marginLeft="195dp"
                 android:padding="8dp"
                 android:hint="YYYY"
+                android:inputType="number|textNoSuggestions"
                 android:maxLength="4"
-                android:textColor="#000000"
+                android:textColor="@color/black"
+                android:textColorHint="@color/neutral_dark_gray"
                 android:textSize="13sp" />
 
             <EditText
@@ -57,8 +59,10 @@
                 android:layout_marginLeft="160dp"
                 android:padding="8dp"
                 android:hint="MM"
+                android:inputType="number|textNoSuggestions"
                 android:maxLength="2"
-                android:textColor="#000000"
+                android:textColor="@color/black"
+                android:textColorHint="@color/neutral_dark_gray"
                 android:textSize="13sp" />
 
             <EditText
@@ -68,8 +72,10 @@
                 android:layout_marginLeft="130dp"
                 android:padding="8dp"
                 android:hint="DD"
+                android:inputType="number|textNoSuggestions"
                 android:maxLength="2"
-                android:textColor="#000000"
+                android:textColor="@color/black"
+                android:textColorHint="@color/neutral_dark_gray"
                 android:textSize="13sp" />
 
             <TextView
@@ -101,7 +107,8 @@
                 android:background="@android:color/transparent"
                 android:hint="@string/write_something_about_you"
                 android:padding="8dp"
-                android:textColor="@color/neutral_dark_gray"
+                android:textColorHint="@color/neutral_dark_gray"
+                android:textColor="@color/black"
                 android:textSize="12sp" />
 
             <TextView
@@ -122,28 +129,31 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginTop="550dp">
+        android:layout_alignParentBottom="true">
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/go_next_button"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/go_back_button"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="65dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="65dp"
-            android:background="@drawable/btn_bg_blue"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/button_background_blue"
             android:text="@string/next_button"
             android:textColor="@color/white" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/go_back_button"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="65dp"
-            android:layout_marginTop="80dp"
-            android:layout_marginEnd="65dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="30dp"
             android:background="@drawable/button_outline_background_blue"
             android:text="@string/back_button"
             android:textColor="@color/main" />

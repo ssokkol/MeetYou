@@ -4,23 +4,24 @@
     android:layout_height="match_parent"
     android:background="@color/main"
     android:id="@+id/start_window">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="420dp"
-        android:layout_marginBottom="200dp"
+        android:layout_above="@+id/buttons_space"
+        android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp">
+        android:layout_marginBottom="5dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:lineSpacingExtra="5dp"
             android:text="@string/cookie_and_private_police_accept"
             android:textColor="@color/white"
-            android:textStyle="normal"
-            android:gravity="center"
             android:textSize="14sp"
-            android:lineSpacingExtra="5dp"
-            >
+            android:textStyle="normal">
 
         </TextView>
     </LinearLayout>

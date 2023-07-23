@@ -33,6 +33,11 @@ public class CreateBioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        binding.bio.setTextColor(Color.BLACK);
+        binding.enterName.setTextColor(Color.BLACK);
+        binding.enterBirthYear.setTextColor(Color.BLACK);
+        binding.enterBirthMonth.setTextColor(Color.BLACK);
+        binding.enterBirthDay.setTextColor(Color.BLACK);
 
         getWindow().setStatusBarColor(ContextCompat.getColor(CreateBioActivity.this, R.color.main));
 
