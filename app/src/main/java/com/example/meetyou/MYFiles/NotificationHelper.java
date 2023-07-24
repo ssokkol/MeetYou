@@ -80,7 +80,7 @@ public class NotificationHelper {
         float initialTranslationY = 0f;
         float finalTranslationY = dialogView.getHeight() * 0.5f; // Move the dialog down during the animation
         float initialScale = 1f;
-        float finalScale = 0.2f;
+        float finalScale = 0f;
 
         ObjectAnimator translateAnimation = ObjectAnimator.ofFloat(
                 dialogView.findViewById(R.id.matter_layout),
@@ -88,7 +88,7 @@ public class NotificationHelper {
                 initialTranslationY,
                 finalTranslationY
         );
-        translateAnimation.setDuration(400);
+        translateAnimation.setDuration(300);
 
         ObjectAnimator scaleAnimationX = ObjectAnimator.ofFloat(
                 dialogView.findViewById(R.id.matter_layout),
@@ -96,7 +96,7 @@ public class NotificationHelper {
                 initialScale,
                 finalScale
         );
-        scaleAnimationX.setDuration(400);
+        scaleAnimationX.setDuration(300);
 
         ObjectAnimator scaleAnimationY = ObjectAnimator.ofFloat(
                 dialogView.findViewById(R.id.matter_layout),
@@ -104,7 +104,7 @@ public class NotificationHelper {
                 initialScale,
                 finalScale
         );
-        scaleAnimationY.setDuration(400);
+        scaleAnimationY.setDuration(300);
 
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(translateAnimation, scaleAnimationX, scaleAnimationY);
@@ -127,7 +127,7 @@ public class NotificationHelper {
                 0f,
                 0.8f
         );
-        alphaAnimation.setDuration(500);
+        alphaAnimation.setDuration(350);
         alphaAnimation.start();
     }
 }

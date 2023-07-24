@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.meetyou.Database.DatabaseHelper;
+import com.example.meetyou.MYFiles.NotificationHelper;
 import com.example.meetyou.databinding.ActivityChangeParametersBinding;
 
 public class ChangeParametersActivity extends AppCompatActivity {
@@ -28,19 +29,15 @@ public class ChangeParametersActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        // Set status bar color
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.main));
 
-        // Initialize DatabaseHelper
         databaseHelper = new DatabaseHelper(this);
 
-        // Get references to Spinners using ViewBinding
         Spinner heightSpinner = binding.heightSpinner;
         Spinner weightSpinner = binding.weightSpinner;
         Spinner smokingSpinner = binding.attitudeToSmokingSpinner;
         Spinner alcoholSpinner = binding.attitudeToAlcoholSpinner;
 
-        // Get string arrays from resources
         String[] heightOptions = getResources().getStringArray(R.array.own_height_options_array);
         String[] weightOptions = getResources().getStringArray(R.array.own_weight_options_array);
         String[] smokingOptions = getResources().getStringArray(R.array.own_attitude_to_smoking_options_array);
@@ -52,13 +49,11 @@ public class ChangeParametersActivity extends AppCompatActivity {
         ArrayAdapter<String> smokingAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, smokingOptions);
         ArrayAdapter<String> alcoholAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, alcoholOptions);
 
-        // Set the drop-down view resource for each adapter
         heightAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         weightAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         smokingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         alcoholAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        // Set the adapters for each spinner
         heightSpinner.setAdapter(heightAdapter);
         weightSpinner.setAdapter(weightAdapter);
         smokingSpinner.setAdapter(smokingAdapter);
@@ -75,7 +70,8 @@ public class ChangeParametersActivity extends AppCompatActivity {
                 Intent intent = new Intent(ChangeParametersActivity.this, UploadPhotoActivity.class);
                 startActivity(intent);
                 }else{
-                    Toast.makeText(ChangeParametersActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
+                    NotificationHelper.showCustomNotification(ChangeParametersActivity.this, null, getString(R.string.registration_error_message), getString(R.string.close), 0, 0, 0,0);
+//                    Toast.makeText(ChangeParametersActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
                 }
             }
         });

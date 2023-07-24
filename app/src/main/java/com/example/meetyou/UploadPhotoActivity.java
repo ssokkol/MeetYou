@@ -129,8 +129,7 @@ public class UploadPhotoActivity extends AppCompatActivity {
                     binding.goNextButton.setTextColor(ContextCompat.getColor(UploadPhotoActivity.this, android.R.color.white));
                     long result = databaseHelper.insertPhotos(getUserID(), photo1, photo2, photo3, photo4, photo5);
                     if(result != -1) {
-                        Intent intent = new Intent(UploadPhotoActivity.this, StartActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent intent = new Intent(UploadPhotoActivity.this, ChangeInterestsActivity.class);
                         startActivity(intent);
                     }
                     else
@@ -237,4 +236,3 @@ public class UploadPhotoActivity extends AppCompatActivity {
         return sharedPreferences.getLong("userID", -1);
     }
 }
-

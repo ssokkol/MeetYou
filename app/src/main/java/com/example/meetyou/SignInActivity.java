@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.meetyou.Database.DatabaseHelper;
+import com.example.meetyou.MYFiles.NotificationHelper;
 import com.example.meetyou.databinding.ActivitySignInBinding;
 
 public class SignInActivity extends AppCompatActivity {
@@ -46,9 +47,11 @@ public class SignInActivity extends AppCompatActivity {
                 String password = binding.password.getText().toString();
 
                 if (!isValidEmail(email)) {
-                    Toast.makeText(SignInActivity.this, R.string.wrong_mail_format_message, Toast.LENGTH_SHORT).show();
+                    NotificationHelper.showCustomNotification(SignInActivity.this, null, getString(R.string.wrong_mail_format_message), getString(R.string.close), 0, 0, 0,0);
+                    //Toast.makeText(SignInActivity.this, R.string.wrong_mail_format_message, Toast.LENGTH_SHORT).show();
                 } else if (email.equals("") || password.equals("")) {
-                    Toast.makeText(SignInActivity.this, R.string.zero_input_message, Toast.LENGTH_SHORT).show();
+                    NotificationHelper.showCustomNotification(SignInActivity.this, null, getString(R.string.zero_input_message), getString(R.string.close), 0, 0, 0,0);
+                    //Toast.makeText(SignInActivity.this, R.string.zero_input_message, Toast.LENGTH_SHORT).show();
                 } else {
                     boolean checkCredentials = databaseHelper.checkEmailPassword(email, password);
                     if (checkCredentials) {
@@ -59,7 +62,8 @@ public class SignInActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(SignInActivity.this, R.string.wrong_password_or_mail_message, Toast.LENGTH_SHORT).show();
+                        NotificationHelper.showCustomNotification(SignInActivity.this, null, getString(R.string.wrong_password_or_mail_message), getString(R.string.close), 0, 0, 0,0);
+                        //Toast.makeText(SignInActivity.this, R.string.wrong_password_or_mail_message, Toast.LENGTH_SHORT).show();
                     }
                 }
             }

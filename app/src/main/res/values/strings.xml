@@ -39,4 +39,8 @@
     <string name="name_chars_count_message">The name must be no more than 30 characters</string>
     <string name="change_your_gender">Change your gender</string>
     <string name="close">Close</string>
+    <string name="choose_a_few_interests_message">Choose a few interests</string>
+    <string name="okay">Okay</string>
+    <string name="welcome">Welcome!</string>
+    <string name="you_ve_been_successfully_registered_please_sign_in"><![CDATA[You\'ve been successfully registered! <\n>Please Sign In!.]]></string>
 </resources>

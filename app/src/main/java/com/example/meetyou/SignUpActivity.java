@@ -41,13 +41,17 @@ public class SignUpActivity extends AppCompatActivity {
 
             if (isValidEmail(email)) {
                 if (password.length() < 8) {
-                    Toast.makeText(SignUpActivity.this, R.string.wrong_password_lenght_message, Toast.LENGTH_SHORT).show();
+                    NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.wrong_password_lenght_message), getString(R.string.close), 0, 0, 0,0);
+                    //Toast.makeText(SignUpActivity.this, R.string.wrong_password_lenght_message, Toast.LENGTH_SHORT).show();
                 } else if (!password.matches(".*[A-Z].*")) {
-                    Toast.makeText(SignUpActivity.this, R.string.wrong_password_chars_format_message, Toast.LENGTH_SHORT).show();
+                    NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.wrong_password_chars_format_message), getString(R.string.close), 0, 0, 0,0);
+                    //Toast.makeText(SignUpActivity.this, R.string.wrong_password_chars_format_message, Toast.LENGTH_SHORT).show();
                 } else if (password.contains(" ")) {
-                    Toast.makeText(SignUpActivity.this, R.string.password_has_spaces_message, Toast.LENGTH_SHORT).show();
+                    NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.password_has_spaces_message), getString(R.string.close), 0, 0, 0,0);
+                    //Toast.makeText(SignUpActivity.this, R.string.password_has_spaces_message, Toast.LENGTH_SHORT).show();
                 } else if (!confirmPassword.equals(password)) {
-                    Toast.makeText(SignUpActivity.this, R.string.wrong_confirm_password_message, Toast.LENGTH_SHORT).show();
+                    NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.wrong_confirm_password_message), getString(R.string.close), 0, 0, 0,0);
+                    //Toast.makeText(SignUpActivity.this, R.string.wrong_confirm_password_message, Toast.LENGTH_SHORT).show();
                 } else {
                     if (!databaseHelper.checkEmail(email)) {
                         long userID = databaseHelper.insertData(email, password);

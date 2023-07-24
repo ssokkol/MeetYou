@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Toast;
 import com.example.meetyou.Database.DatabaseHelper;
+import com.example.meetyou.MYFiles.NotificationHelper;
 import com.example.meetyou.databinding.ActivityCreateBioBinding;
 import java.util.Calendar;
 
@@ -19,7 +20,6 @@ public class CreateBioActivity extends AppCompatActivity {
 
     ActivityCreateBioBinding binding;
     DatabaseHelper databaseHelper;
-    long userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +36,6 @@ public class CreateBioActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(ContextCompat.getColor(CreateBioActivity.this, R.color.main));
 
         databaseHelper = new DatabaseHelper(this);
-
-        // Получаем userID текущего пользователя из SharedPreferences
-        userID = getUserID();
 
         binding.bio.addTextChangedListener(new TextWatcher() {
             @Override
@@ -103,27 +100,33 @@ public class CreateBioActivity extends AppCompatActivity {
                     }
                     // Проверка, что пользователь не младше 18 лет
                     if (isUnderage(birthYear, birthMonth, birthDay)) {
-                        Toast.makeText(CreateBioActivity.this, R.string.eighteen_years_message, Toast.LENGTH_SHORT).show();
+                        NotificationHelper.showCustomNotification(CreateBioActivity.this, null, getString(R.string.eighteen_years_message), getString(R.string.close), 0, 0, 0,0);
+                        //Toast.makeText(CreateBioActivity.this, R.string.eighteen_years_message, Toast.LENGTH_SHORT).show();
                     } else if (birthMonth <= 0 || birthMonth > 12)
                     {
-                        Toast.makeText(CreateBioActivity.this, R.string.wrong_date_message, Toast.LENGTH_SHORT).show();
+                        NotificationHelper.showCustomNotification(CreateBioActivity.this, null, getString(R.string.wrong_date_message), getString(R.string.close), 0, 0, 0,0);
+//                        Toast.makeText(CreateBioActivity.this, R.string.wrong_date_message, Toast.LENGTH_SHORT).show();
                     } else if (birthDay <= 0 || birthDay > 31) {
-                        Toast.makeText(CreateBioActivity.this, R.string.wrong_date_message, Toast.LENGTH_SHORT).show();
+                        NotificationHelper.showCustomNotification(CreateBioActivity.this, null, getString(R.string.wrong_date_message), getString(R.string.close), 0, 0, 0,0);
+//                        Toast.makeText(CreateBioActivity.this, R.string.wrong_date_message, Toast.LENGTH_SHORT).show();
                     } else if(birthMonth == 2 && birthDay > 29){
-                        Toast.makeText(CreateBioActivity.this, R.string.wrong_date_message, Toast.LENGTH_SHORT).show();
+                        NotificationHelper.showCustomNotification(CreateBioActivity.this, null, getString(R.string.wrong_date_message), getString(R.string.close), 0, 0, 0,0);
+//                        Toast.makeText(CreateBioActivity.this, R.string.wrong_date_message, Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        long result = databaseHelper.insertBio(userID, name, calculateAge(birthYear, birthMonth, birthDay), bio);
+                        long result = databaseHelper.insertBio(getUserID(), name, calculateAge(birthYear, birthMonth, birthDay), bio);
                         if (result != -1) {
                             Toast.makeText(CreateBioActivity.this, R.string.data_saved_successfully_message, Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(CreateBioActivity.this, ChangeParametersActivity.class);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(CreateBioActivity.this, R.string.error_data_saving_message, Toast.LENGTH_SHORT).show();
+                            NotificationHelper.showCustomNotification(CreateBioActivity.this, null, getString(R.string.error_data_saving_message), getString(R.string.close), 0, 0, 0,0);
+                            //Toast.makeText(CreateBioActivity.this, R.string.error_data_saving_message, Toast.LENGTH_SHORT).show();
                         }
                     }
                 } else {
-                    Toast.makeText(CreateBioActivity.this, R.string.enter_date_in_full_message, Toast.LENGTH_SHORT).show();
+                    NotificationHelper.showCustomNotification(CreateBioActivity.this, null, getString(R.string.enter_date_in_full_message), getString(R.string.close), 0, 0, 0,0);
+                    //Toast.makeText(CreateBioActivity.this, R.string.enter_date_in_full_message, Toast.LENGTH_SHORT).show();
                 }
             }
         });
