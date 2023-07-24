@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.meetyou.Database.DatabaseHelper;
+import com.example.meetyou.MYFiles.NotificationHelper;
 import com.example.meetyou.databinding.ActivityChangeGenderBinding;
 
 public class ChangeGenderActivity extends AppCompatActivity {
@@ -76,14 +77,16 @@ public class ChangeGenderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!isMale && !isFemale) {
-                    Toast.makeText(ChangeGenderActivity.this, "Выберите ваш пол", Toast.LENGTH_SHORT).show();
+                    NotificationHelper.showCustomNotification(ChangeGenderActivity.this, null, getString(R.string.change_your_gender), getString(R.string.close), 0, 0, 0,0);
+                    //Toast.makeText(ChangeGenderActivity.this, "Change your gender", Toast.LENGTH_SHORT).show();
                 } else if (isFemale) {
                     long result = databaseHelper.insertGender(getUserID(), "female");
                     if (result != -1) {
                         Intent intent = new Intent(ChangeGenderActivity.this, CreateBioActivity.class);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(ChangeGenderActivity.this, "Ошибка регистрации, попробуйте еще раз", Toast.LENGTH_SHORT).show();
+                        NotificationHelper.showCustomNotification(ChangeGenderActivity.this, null, getString(R.string.registration_error_message), getString(R.string.close), 0, 0, 0,0);
+                        //Toast.makeText(ChangeGenderActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
                     }
                 } else if (isMale) {
                     long result = databaseHelper.insertGender(getUserID(), "male");
@@ -91,7 +94,8 @@ public class ChangeGenderActivity extends AppCompatActivity {
                         Intent intent = new Intent(ChangeGenderActivity.this, CreateBioActivity.class);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(ChangeGenderActivity.this, "Ошибка регистрации, попробуйте еще раз", Toast.LENGTH_SHORT).show();
+                        NotificationHelper.showCustomNotification(ChangeGenderActivity.this, null, getString(R.string.registration_error_message), getString(R.string.close), 0, 0, 0,0);
+                        //Toast.makeText(ChangeGenderActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
                     }
                 }
             }

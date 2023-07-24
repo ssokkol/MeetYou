@@ -37,4 +37,6 @@
     <string name="bio_chars_message">The bio should be no more than 150 characters</string>
     <string name="name_chars_message">The name must not contain numbers or symbols</string>
     <string name="name_chars_count_message">The name must be no more than 30 characters</string>
+    <string name="change_your_gender">Change your gender</string>
+    <string name="close">Close</string>
 </resources>

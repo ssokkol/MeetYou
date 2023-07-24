@@ -1,7 +1,10 @@
 package com.example.meetyou.Database;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -25,8 +28,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "name TEXT," +
                 "age INTEGER," +
                 "bio TEXT(150)," +
-                "height INTEGER," +
-                "weight INTEGER," +
+                "height TEXT," +
+                "weight TEXT," +
                 "photo1 BLOB," +
                 "photo2 BLOB," +
                 "photo3 BLOB," +
@@ -104,7 +107,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public long insertParameters(long userID, int height, int weight) {
+    public long insertParameters(long userID, String height, String weight) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("height", height);

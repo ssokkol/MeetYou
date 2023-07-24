@@ -2,7 +2,6 @@ package com.example.meetyou;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -12,14 +11,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Toast;
-
 import com.example.meetyou.Database.DatabaseHelper;
 import com.example.meetyou.databinding.ActivityCreateBioBinding;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class CreateBioActivity extends AppCompatActivity {
 

@@ -1,12 +1,14 @@
 package com.example.meetyou;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -65,8 +67,16 @@ public class ChangeParametersActivity extends AppCompatActivity {
         binding.goNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String selectedHeight = heightSpinner.getSelectedItem().toString();
+                String selectedWeight = weightSpinner.getSelectedItem().toString();
+
+                long result = databaseHelper.insertParameters(getUserID(), selectedHeight, selectedWeight);
+                if(result != -1){
                 Intent intent = new Intent(ChangeParametersActivity.this, UploadPhotoActivity.class);
                 startActivity(intent);
+                }else{
+                    Toast.makeText(ChangeParametersActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -77,4 +87,10 @@ public class ChangeParametersActivity extends AppCompatActivity {
             }
         });
     }
+
+    private long getUserID() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getLong("userID", -1);
+    }
+
 }

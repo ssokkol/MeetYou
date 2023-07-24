@@ -12,9 +12,10 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 
 import com.example.meetyou.Database.DatabaseHelper;
+import com.example.meetyou.MYFiles.NotificationHelper;
 import com.example.meetyou.databinding.ActivityRegisterationBinding;
 
-public class RegisterationActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     ActivityRegisterationBinding binding;
     DatabaseHelper databaseHelper;
@@ -28,7 +29,7 @@ public class RegisterationActivity extends AppCompatActivity {
 
         databaseHelper = new DatabaseHelper(this);
 
-        getWindow().setStatusBarColor(ContextCompat.getColor(RegisterationActivity.this, R.color.main));
+        getWindow().setStatusBarColor(ContextCompat.getColor(SignUpActivity.this, R.color.main));
 
         AppCompatButton backButton = findViewById(R.id.go_back_button);
         backButton.setOnClickListener(v -> finish());
@@ -40,33 +41,35 @@ public class RegisterationActivity extends AppCompatActivity {
 
             if (isValidEmail(email)) {
                 if (password.length() < 8) {
-                    Toast.makeText(RegisterationActivity.this, R.string.wrong_password_lenght_message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, R.string.wrong_password_lenght_message, Toast.LENGTH_SHORT).show();
                 } else if (!password.matches(".*[A-Z].*")) {
-                    Toast.makeText(RegisterationActivity.this, R.string.wrong_password_chars_format_message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, R.string.wrong_password_chars_format_message, Toast.LENGTH_SHORT).show();
                 } else if (password.contains(" ")) {
-                    Toast.makeText(RegisterationActivity.this, R.string.password_has_spaces_message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, R.string.password_has_spaces_message, Toast.LENGTH_SHORT).show();
                 } else if (!confirmPassword.equals(password)) {
-                    Toast.makeText(RegisterationActivity.this, R.string.wrong_confirm_password_message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, R.string.wrong_confirm_password_message, Toast.LENGTH_SHORT).show();
                 } else {
                     if (!databaseHelper.checkEmail(email)) {
                         long userID = databaseHelper.insertData(email, password);
                         if (userID != -1) {
                             saveUserID(userID);
-                            Toast.makeText(RegisterationActivity.this, R.string.success_registration_message, Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(RegisterationActivity.this, ChangeGenderActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            Toast.makeText(SignUpActivity.this, R.string.success_registration_message, Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(SignUpActivity.this, ChangeGenderActivity.class);
                             startActivity(intent);
                             finish();
                         } else {
-                            Toast.makeText(RegisterationActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
+                            NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.registration_error_message), getString(R.string.close), 0, 0, 0,R.color.main);
+                            //Toast.makeText(SignUpActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(RegisterationActivity.this, R.string.email_was_used_message, Toast.LENGTH_SHORT).show();
+                        NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.email_was_used_message), getString(R.string.close), 0, 0, 0,R.color.main);
+                        //Toast.makeText(SignUpActivity.this, R.string.email_was_used_message, Toast.LENGTH_SHORT).show();
                     }
                 }
             } else {
                 // Некорректный формат электронной почты
-                Toast.makeText(RegisterationActivity.this, R.string.wrong_mail_format_message, Toast.LENGTH_SHORT).show();
+                NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.wrong_mail_format_message), getString(R.string.close), 0, 0, 0,R.color.main);
+                //Toast.makeText(SignUpActivity.this, R.string.wrong_mail_format_message, Toast.LENGTH_SHORT).show();
             }
         });
     }
