@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1090599406689",
+    "project_id": "meetyou-18226",
+    "storage_bucket": "meetyou-18226.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1090599406689:android:60772da6fd5f72bf28ae20",
+        "android_client_info": {
+          "package_name": "com.example.meetyou"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1090599406689-tdn2c2op23mlffvcvkkpfihnm9crh8bl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBi0iUi2CSBSbqCeBwQPzYY2CxwP9tdhOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1090599406689-tdn2c2op23mlffvcvkkpfihnm9crh8bl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
