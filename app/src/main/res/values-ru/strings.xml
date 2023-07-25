@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MeetYou</string>
-    <string name="cookie_and_private_police_accept">Нажимая кнопку «Войти» или «Зарегистрироваться», вы соглашаетесь с нашими <b>Условиями использования</b>. Вы можете ознакомиться с тем, как мы обрабатываем ваши данные, в нашей <b>Политике конфиденциальности</b> и <b>Политике использования файлов cookie</b>.</string>
-    <string name="wrong_mail_format_message">Неверный формат адреса электронной почты</string>
+    <string name="cookie_and_private_police_accept">Нажимая кнопку "Войти" или "Зарегистрироваться", вы соглашаетесь с нашими <b>Условиями использования</b>. Вы можете узнать о том, как мы обрабатываем ваши данные в нашей <b>Политике конфиденциальности</b> и <b>Политике использования файлов cookie</b>.</string>
+    <string name="wrong_mail_format_message">Неверный формат электронной почты</string>
     <string name="zero_input_message">Пожалуйста, заполните все поля</string>
     <string name="success_sign_in_message">Вы успешно вошли в систему!</string>
     <string name="wrong_password_or_mail_message">Неверный адрес электронной почты или пароль</string>
@@ -16,14 +16,14 @@
     <string name="registration_button">Зарегистрироваться</string>
     <string name="back_button">Назад</string>
     <string name="next_button">Далее</string>
-    <string name="mail_input_text">E-mail</string>
+    <string name="mail_input_text">Электронная почта</string>
     <string name="password_input_text">Пароль</string>
     <string name="confirm_password_input_text">Подтвердите пароль</string>
     <string name="sign_in_button">Войти</string>
-    <string name="cant_sign_in_button">Не могу войти</string>
-    <string name="enter_birth_date_text">Введите дату рождения:</string>
+    <string name="cant_sign_in_button">Не удается войти</string>
+    <string name="enter_birth_date_text">Введите дату вашего рождения:</string>
     <string name="enter_your_name_text">Введите ваше имя</string>
-    <string name="write_something_about_you">Расскажите немного о себе...</string>
+    <string name="write_something_about_you">Расскажите о себе...</string>
     <string name="who_are_you">Кто вы?</string>
     <string name="confirm">Подтвердить</string>
     <string name="woman_button">Женщина</string>
@@ -33,9 +33,16 @@
     <string name="data_saved_successfully_message">Данные успешно сохранены</string>
     <string name="error_data_saving_message">Ошибка при сохранении данных</string>
     <string name="enter_date_in_full_message">Пожалуйста, введите полную дату рождения</string>
-    <string name="eighteen_years_message">Регистрация лиц, не достигших 18 лет, запрещена</string>
+    <string name="eighteen_years_message">Регистрация для лиц младше 18 лет запрещена</string>
     <string name="old_ages_message">Возраст не должен превышать 72 года</string>
-    <string name="bio_chars_message">Биография должна содержать не более 150 символов</string>
+    <string name="bio_chars_message">Биография не должна превышать 150 символов</string>
     <string name="name_chars_message">Имя не должно содержать цифр или символов</string>
     <string name="name_chars_count_message">Имя должно быть не более 30 символов</string>
+    <string name="change_your_gender">Изменить ваш пол</string>
+    <string name="close">Закрыть</string>
+    <string name="choose_a_few_interests_message">Выберите несколько интересов</string>
+    <string name="okay">Окей</string>
+    <string name="welcome">Добро пожаловать!</string>
+    <string name="you_ve_been_successfully_registered_please_sign_in">Вы успешно зарегистрированы! <n>Пожалуйста, войдите в систему!</n></string>
 </resources>
+

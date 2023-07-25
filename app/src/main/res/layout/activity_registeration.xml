@@ -64,6 +64,7 @@
                 android:hint="@string/mail_input_text"
                 android:inputType="textEmailAddress"
                 android:padding="10dp"
+                android:textColor="@color/white"
                 android:textColorHint="#b3ffffff"
                 android:textSize="18sp" />
 
@@ -87,6 +88,7 @@
                 android:hint="@string/password_input_text"
                 android:inputType="textPassword"
                 android:padding="10dp"
+                android:textColor="@color/white"
                 android:textColorHint="#b3ffffff"
                 android:textSize="18sp" />
 
@@ -110,6 +112,7 @@
                 android:hint="@string/confirm_password_input_text"
                 android:inputType="textPassword"
                 android:padding="10dp"
+                android:textColor="@color/white"
                 android:textColorHint="#b3ffffff"
                 android:textSize="18sp" />
 

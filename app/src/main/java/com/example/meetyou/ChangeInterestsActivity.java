@@ -42,7 +42,7 @@ public class ChangeInterestsActivity extends AppCompatActivity {
     private static boolean isPoliticsChanged = false;
     private static boolean isPhilChanged = false;
 
-    private static final boolean isGoNextActive = false;
+    public static boolean isGoNextActive = false;
 
     ActivityChangeInterestsBinding binding;
 
@@ -462,7 +462,7 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                     Intent intent = new Intent(ChangeInterestsActivity.this, StartActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                    NotificationHelper.showCustomNotification(ChangeInterestsActivity.this, getString(R.string.welcome), getString(R.string.you_ve_been_successfully_registered_please_sign_in), getString(R.string.okay), 0, 0, 0,0);
+                    //NotificationHelper.showCustomNotification(StartActivity, getString(R.string.welcome), getString(R.string.you_ve_been_successfully_registered_please_sign_in), getString(R.string.okay), 0, 0, 0,0);
                 }
             }
         });
@@ -482,11 +482,13 @@ public class ChangeInterestsActivity extends AppCompatActivity {
         {
             binding.goNextButton.setBackgroundResource(R.drawable.button_background_blue);
             binding.goNextButton.setTextColor(getColor(R.color.white));
+            isGoNextActive = true;
         }
         else
         {
             binding.goNextButton.setTextColor(getColor(R.color.neutral_dark_gray));
             binding.goNextButton.setBackgroundResource(R.drawable.button_background_gray);
+            isGoNextActive = false;
         }
     }
 }

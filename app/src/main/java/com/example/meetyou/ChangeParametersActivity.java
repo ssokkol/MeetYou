@@ -65,14 +65,14 @@ public class ChangeParametersActivity extends AppCompatActivity {
                 String selectedHeight = heightSpinner.getSelectedItem().toString();
                 String selectedWeight = weightSpinner.getSelectedItem().toString();
 
-                long result = databaseHelper.insertParameters(getUserID(), selectedHeight, selectedWeight);
-                if(result != -1){
+//                long result = databaseHelper.insertParameters(getUserID(), selectedHeight, selectedWeight);
+//                if(result != -1){
                 Intent intent = new Intent(ChangeParametersActivity.this, UploadPhotoActivity.class);
                 startActivity(intent);
-                }else{
-                    NotificationHelper.showCustomNotification(ChangeParametersActivity.this, null, getString(R.string.registration_error_message), getString(R.string.close), 0, 0, 0,0);
-//                    Toast.makeText(ChangeParametersActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
-                }
+//                }else{
+//                    NotificationHelper.showCustomNotification(ChangeParametersActivity.this, null, getString(R.string.registration_error_message), getString(R.string.close), 0, 0, 0,0);
+////                    Toast.makeText(ChangeParametersActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
+//                }
             }
         });
 

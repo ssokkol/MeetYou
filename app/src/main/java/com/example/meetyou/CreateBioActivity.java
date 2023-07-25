@@ -76,18 +76,21 @@ public class CreateBioActivity extends AppCompatActivity {
 
                 // Ограничение на имя (не более 30 символов)
                 if (name.length() > 30) {
-                    Toast.makeText(CreateBioActivity.this, R.string.name_chars_count_message, Toast.LENGTH_SHORT).show();
+                    NotificationHelper.showCustomNotification(CreateBioActivity.this, null, getString(R.string.name_chars_count_message), getString(R.string.close), 0, 0, 0,0);
+                    //Toast.makeText(CreateBioActivity.this, R.string.name_chars_count_message, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (!name.matches("[a-zA-Zа-яА-Я\\s]+")) {
-                    Toast.makeText(CreateBioActivity.this, R.string.name_chars_message, Toast.LENGTH_SHORT).show();
+                    NotificationHelper.showCustomNotification(CreateBioActivity.this, null, getString(R.string.name_chars_message), getString(R.string.close), 0, 0, 0,0);
+                    //Toast.makeText(CreateBioActivity.this, R.string.name_chars_message, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 // Ограничение на био (не более 150 символов)
                 else if (bio.length() > 150) {
-                    Toast.makeText(CreateBioActivity.this, R.string.bio_chars_message, Toast.LENGTH_SHORT).show();
+                    NotificationHelper.showCustomNotification(CreateBioActivity.this, null, getString(R.string.bio_chars_message), getString(R.string.close), 0, 0, 0,0);
+                    //Toast.makeText(CreateBioActivity.this, R.string.bio_chars_message, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (!birthYearStr.isEmpty() && !birthMonthStr.isEmpty() && !birthDayStr.isEmpty()) {
                     int birthYear = Integer.parseInt(birthYearStr);
@@ -114,15 +117,12 @@ public class CreateBioActivity extends AppCompatActivity {
 //                        Toast.makeText(CreateBioActivity.this, R.string.wrong_date_message, Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        long result = databaseHelper.insertBio(getUserID(), name, calculateAge(birthYear, birthMonth, birthDay), bio);
-                        if (result != -1) {
+
                             Toast.makeText(CreateBioActivity.this, R.string.data_saved_successfully_message, Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(CreateBioActivity.this, ChangeParametersActivity.class);
                             startActivity(intent);
-                        } else {
-                            NotificationHelper.showCustomNotification(CreateBioActivity.this, null, getString(R.string.error_data_saving_message), getString(R.string.close), 0, 0, 0,0);
+//                            NotificationHelper.showCustomNotification(CreateBioActivity.this, null, getString(R.string.error_data_saving_message), getString(R.string.close), 0, 0, 0,0);
                             //Toast.makeText(CreateBioActivity.this, R.string.error_data_saving_message, Toast.LENGTH_SHORT).show();
-                        }
                     }
                 } else {
                     NotificationHelper.showCustomNotification(CreateBioActivity.this, null, getString(R.string.enter_date_in_full_message), getString(R.string.close), 0, 0, 0,0);

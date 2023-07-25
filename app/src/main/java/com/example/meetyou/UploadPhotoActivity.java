@@ -127,15 +127,15 @@ public class UploadPhotoActivity extends AppCompatActivity {
                 if (firstUploaded && secondUploaded && thirdUploaded && fourthUploaded && fifthUploaded) {
                     binding.goNextButton.setBackgroundResource(R.drawable.button_background_blue);
                     binding.goNextButton.setTextColor(ContextCompat.getColor(UploadPhotoActivity.this, android.R.color.white));
-                    long result = databaseHelper.insertPhotos(getUserID(), photo1, photo2, photo3, photo4, photo5);
-                    if(result != -1) {
+//                    long result = databaseHelper.insertPhotos(getUserID(), photo1, photo2, photo3, photo4, photo5);
+//                    if(result != -1) {
                         Intent intent = new Intent(UploadPhotoActivity.this, ChangeInterestsActivity.class);
                         startActivity(intent);
-                    }
-                    else
-                    {
-                        Toast.makeText(UploadPhotoActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
-                    }
+//                    }
+//                    else
+//                    {
+//                        Toast.makeText(UploadPhotoActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
+//                    }
                 } else {
                     Toast.makeText(UploadPhotoActivity.this, R.string.upload_all_photos_message, Toast.LENGTH_SHORT).show();
                 }
