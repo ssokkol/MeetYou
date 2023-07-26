@@ -6,14 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
-    <ImageView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="90dp"
         android:layout_marginTop="42dp"
-        app:srcCompat="@drawable/photo_2023_07_17_20_31_45"
-        android:scaleType="centerCrop"/>
+        android:layout_marginBottom="90dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/photo_2023_07_17_20_31_45"
+            android:scaleType="centerCrop"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+            <RelativeLayout
+                android:id="@+id/name_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/bio_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
 
     <ImageView
         android:layout_width="match_parent"
@@ -23,6 +44,7 @@
         android:layout_marginTop="600dp"/>
 
     <LinearLayout
+        android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:layout_alignParentBottom="true"
@@ -45,11 +67,10 @@
 
             <ImageView
                 android:id="@+id/imageView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="20dp"
                 android:layout_gravity="center"
-                android:scaleY="0.55"
-                android:scaleX="0.50"
                 android:scaleType="centerInside"
                 app:srcCompat="@drawable/gobackbutton" />
 
@@ -74,11 +95,10 @@
 
             <ImageView
                 android:id="@+id/imageView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="20dp"
                 android:layout_gravity="center"
-                android:scaleY="0.55"
-                android:scaleX="0.55"
                 android:scaleType="centerInside"
                 app:srcCompat="@drawable/dislikebutton" />
 
@@ -103,11 +123,10 @@
 
             <ImageView
                 android:id="@+id/imageView7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
                 android:layout_gravity="center"
-                android:scaleY="0.7"
-                android:scaleX="0.7"
                 android:scaleType="centerInside"
                 app:srcCompat="@drawable/megasbutton" />
 
@@ -132,11 +151,10 @@
 
             <ImageView
                 android:id="@+id/imageView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="20dp"
                 android:layout_gravity="center"
-                android:scaleY="0.55"
-                android:scaleX="0.55"
                 android:scaleType="centerInside"
                 app:srcCompat="@drawable/likebutton" />
 
@@ -161,11 +179,10 @@
 
             <ImageView
                 android:id="@+id/imageView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="20dp"
                 android:layout_gravity="center"
-                android:scaleY="0.55"
-                android:scaleX="0.55"
                 android:scaleType="centerInside"
                 app:srcCompat="@drawable/powerupbutton" />
 
@@ -179,106 +196,25 @@
         </FrameLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/main_header"
         android:layout_marginTop="42dp"
         android:gravity="center_horizontal"
         android:background="@drawable/gradient_shadow">
-
-        <FrameLayout
-            android:layout_width="50dp"
-            android:layout_height="14dp"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/imageselector1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:scaleX="0.75"
-                android:scaleY="0.45"
-                app:srcCompat="@drawable/selectedimage" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="50dp"
-            android:layout_height="14dp"
-            android:layout_marginStart="1dp"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/imageselector2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:scaleX="0.75"
-                android:scaleY="0.45"
-                app:srcCompat="@drawable/unselectedimage" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="50dp"
-            android:layout_height="14dp"
-            android:layout_marginStart="1dp"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/imageselector3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:scaleX="0.75"
-                android:scaleY="0.45"
-                app:srcCompat="@drawable/unselectedimage" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="50dp"
-            android:layout_height="14dp"
-            android:layout_marginStart="1dp"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/imageselector4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:scaleX="0.75"
-                android:scaleY="0.45"
-                app:srcCompat="@drawable/unselectedimage" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="50dp"
-            android:layout_height="14dp"
-            android:layout_marginStart="1dp"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/imageselector5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:scaleX="0.75"
-                android:scaleY="0.45"
-                app:srcCompat="@drawable/unselectedimage" />
-        </FrameLayout>
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/choose_image"
+            android:layout_marginRight="100dp"
+            android:layout_marginLeft="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/nochoosed"/>
+    </RelativeLayout>
 
 
     <LinearLayout
+        android:id="@+id/main_header"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:orientation="horizontal"

@@ -16,6 +16,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 
 import com.example.meetyou.Database.DatabaseHelper;
+import com.example.meetyou.Database.Users;
 import com.example.meetyou.MYFiles.NotificationHelper;
 import com.example.meetyou.databinding.ActivityRegisterationBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,7 +32,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     ActivityRegisterationBinding binding;
     DatabaseHelper databaseHelper;
-
     private FirebaseAuth mAuth;
 
     @Override
@@ -87,7 +87,6 @@ public class SignUpActivity extends AppCompatActivity {
                     //}
                 }
             } else {
-                // Некорректный формат электронной почты
                 NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.wrong_mail_format_message), getString(R.string.close), 0, 0, 0,R.color.main);
                 //Toast.makeText(SignUpActivity.this, R.string.wrong_mail_format_message, Toast.LENGTH_SHORT).show();
             }

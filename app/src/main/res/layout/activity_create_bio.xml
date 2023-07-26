@@ -32,23 +32,37 @@
                 android:textSize="13sp" />
         </RelativeLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/enter_birth_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/enter_name_space"
             android:padding="8dp">
 
-            <EditText
-                android:id="@+id/enter_birth_year"
-                android:layout_width="50dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="195dp"
-                android:padding="8dp"
-                android:hint="YYYY"
-                android:inputType="number|textNoSuggestions"
-                android:maxLength="4"
+                android:layout_marginLeft="10dp"
+                android:text="@string/enter_birth_date_text"
                 android:textColor="@color/black"
+                android:gravity="center"
+                android:textSize="13sp" />
+            <FrameLayout
+                android:layout_width="10dp"
+                android:layout_height="wrap_content">
+
+            </FrameLayout>
+
+            <EditText
+                android:id="@+id/enter_birth_day"
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:hint="DD"
+                android:inputType="number|textNoSuggestions"
+                android:maxLength="2"
+                android:textColor="@color/black"
+                android:gravity="center"
                 android:textColorHint="@color/neutral_dark_gray"
                 android:textSize="13sp" />
 
@@ -56,37 +70,28 @@
                 android:id="@+id/enter_birth_month"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="160dp"
                 android:padding="8dp"
                 android:hint="MM"
                 android:inputType="number|textNoSuggestions"
                 android:maxLength="2"
                 android:textColor="@color/black"
+                android:gravity="center"
                 android:textColorHint="@color/neutral_dark_gray"
                 android:textSize="13sp" />
 
             <EditText
-                android:id="@+id/enter_birth_day"
-                android:layout_width="35dp"
+                android:id="@+id/enter_birth_year"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="130dp"
                 android:padding="8dp"
-                android:hint="DD"
+                android:hint="YYYY"
                 android:inputType="number|textNoSuggestions"
-                android:maxLength="2"
+                android:maxLength="4"
                 android:textColor="@color/black"
+                android:gravity="center"
                 android:textColorHint="@color/neutral_dark_gray"
                 android:textSize="13sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="10dp"
-                android:text="@string/enter_birth_date_text"
-                android:textColor="@color/black"
-                android:textSize="13sp" />
-        </RelativeLayout>
+        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/description_input"
