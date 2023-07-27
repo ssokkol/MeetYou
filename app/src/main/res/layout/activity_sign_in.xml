@@ -99,7 +99,27 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:background="#ffffff" />
+            <CheckBox
+                android:id="@+id/remember_me_checkbox"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="120dp"
+                android:layout_marginLeft="15dp"
+                android:outlineAmbientShadowColor="@android:color/transparent"
+                android:outlineSpotShadowColor="@android:color/transparent"
+                android:checked="false"
+                android:buttonTint="@android:color/white" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/remember_me_checkbox"
+                android:layout_alignTop="@+id/remember_me_checkbox"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="3dp"
+                android:text="Remember me"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
         </RelativeLayout>
 
     </RelativeLayout>

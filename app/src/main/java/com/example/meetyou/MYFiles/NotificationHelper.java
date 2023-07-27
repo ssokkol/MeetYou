@@ -4,11 +4,14 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -44,17 +47,14 @@ public class NotificationHelper {
 
         TextView titleTextView = dialogView.findViewById(R.id.titleTextView);
         titleTextView.setText(title != null ? title : defaultTitle);
-        //titleTextView.setAllCaps(false);
         titleTextView.setTextColor(textColor != 0 ? ContextCompat.getColor(context, textColor) : ContextCompat.getColor(context, defaultTextColor));
 
         TextView messageTextView = dialogView.findViewById(R.id.messageTextView);
         messageTextView.setText(message != null ? message : defaultText);
-        //messageTextView.setAllCaps(false);
         messageTextView.setTextColor(textColor != 0 ? ContextCompat.getColor(context, textColor) : ContextCompat.getColor(context, defaultTextColor));
 
         AppCompatButton waitButton = dialogView.findViewById(R.id.waitButton);
         waitButton.setText(buttonLabel != null ? buttonLabel : defaultButtonLabel);
-        //waitButton.setAllCaps(false);
         waitButton.setTextColor(buttonTextColor != 0 ? ContextCompat.getColor(context, buttonTextColor) : ContextCompat.getColor(context, defaultButtonTextColor));
         waitButton.setBackgroundResource(buttonBackgroundColor != 0 ? buttonBackgroundColor : defaultButtonBackgroundColor);
 
@@ -129,5 +129,61 @@ public class NotificationHelper {
         );
         alphaAnimation.setDuration(350);
         alphaAnimation.start();
+    }
+
+    public static void showHeart(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View dialogView = inflater.inflate(R.layout.heart_layout, null);
+        builder.setView(dialogView);
+
+        ImageView heartImage = dialogView.findViewById(R.id.heart_image);
+
+        dialog = builder.create();
+        dialog.show();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+        //RelativeLayout mainLayout = dialogView.findViewById(R.id.main_layout);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) heartImage.getLayoutParams();
+        layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+        heartImage.setLayoutParams(layoutParams);
+
+        animateHeart(heartImage, dialog);
+    }
+
+    private static void animateHeart(View view, AlertDialog dialog) {
+        ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(view, "scaleX", 0.0f, 1.0f);
+        scaleXAnimator.setDuration(400);
+        scaleXAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+
+        ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(view, "scaleY", 0.0f, 1.0f);
+        scaleYAnimator.setDuration(400);
+        scaleYAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(scaleXAnimator, scaleYAnimator);
+        animatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {}
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                view.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.dismiss();
+                    }
+                }, 500); // Hide the dialog after 1 second (adjust this value for 1-2 pulses)
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {}
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {}
+        });
+
+        animatorSet.start();
     }
 }

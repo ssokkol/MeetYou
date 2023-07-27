@@ -11,6 +11,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.example.meetyou.Database.DatabaseHelper;
@@ -25,7 +26,9 @@ public class SignInActivity extends AppCompatActivity {
 
     ActivitySignInBinding binding;
     DatabaseHelper databaseHelper;
+    private CheckBox rememberMeCheckbox;
 
+    boolean isRememberMeChecked = false;
     private FirebaseAuth mAuth;
 
     @Override
@@ -64,21 +67,16 @@ public class SignInActivity extends AppCompatActivity {
                     //Toast.makeText(SignInActivity.this, R.string.zero_input_message, Toast.LENGTH_SHORT).show();
                 } else {
                     loginUser(email, password);
-//                    boolean checkCredentials = databaseHelper.checkEmailPassword(email, password);
-//                    if (checkCredentials) {
-//                        saveUserCredentials(email, password);
-//                        Toast.makeText(SignInActivity.this, R.string.success_sign_in_message, Toast.LENGTH_SHORT).show();
-//                        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                        startActivity(intent);
-//                        finish();
-//                    } else {
-//                        NotificationHelper.showCustomNotification(SignInActivity.this, null, getString(R.string.wrong_password_or_mail_message), getString(R.string.close), 0, 0, 0,0);
-//                        //Toast.makeText(SignInActivity.this, R.string.wrong_password_or_mail_message, Toast.LENGTH_SHORT).show();
-//                    }
                 }
             }
         });
+
+        rememberMeCheckbox = findViewById(R.id.remember_me_checkbox);
+
+        if (isRememberMeChecked()) {
+            rememberMeCheckbox.setChecked(true);
+            loginUser(getSavedEmail(), getSavedPassword());
+        }
     }
 
     private boolean isValidEmail(String email) {
@@ -96,6 +94,9 @@ public class SignInActivity extends AppCompatActivity {
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                             finish();
+                            if (rememberMeCheckbox.isChecked()) {
+                                saveUserCredentials(email, password);
+                            }
                         } else{
                             NotificationHelper.showCustomNotification(SignInActivity.this, null, getString(R.string.wrong_password_or_mail_message), getString(R.string.close), 0, 0, 0,0);
                         }
@@ -103,7 +104,27 @@ public class SignInActivity extends AppCompatActivity {
                 });
     }
 
+    private void saveRememberMeState(boolean isChecked) {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("remember_me", isChecked);
+        editor.apply();
+    }
 
+    private boolean isRememberMeChecked() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getBoolean("remember_me", false);
+    }
+
+    private String getSavedEmail() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getString("email", "");
+    }
+
+    private String getSavedPassword() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getString("password", "");
+    }
     private void saveUserCredentials(String email, String password) {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

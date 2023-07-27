@@ -11,38 +11,90 @@
         android:layout_height="match_parent"
         android:layout_marginTop="42dp"
         android:layout_marginBottom="90dp">
-        <ImageView
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:srcCompat="@drawable/photo_2023_07_17_20_31_45"
-            android:scaleType="centerCrop"/>
-        <LinearLayout
+            android:layout_height="match_parent" />
+
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:layout_alignParentBottom="true"
-            android:orientation="vertical">
-            <RelativeLayout
-                android:id="@+id/name_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            android:background="@drawable/description_header_background"
+            android:padding="16dp">
 
-            </RelativeLayout>
+            <!-- Name Space -->
             <RelativeLayout
-                android:id="@+id/bio_layout"
+                android:id="@+id/nameSpaceLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="100dp">
 
+                <View
+                    android:id="@+id/genderColor2View"
+                    android:layout_width="2.2dp"
+                    android:layout_height="50dp"
+                    android:background="#e337ff"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:id="@+id/name_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="Nick_Name"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/location_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="Russia, Moscow"
+                    android:textColor="#9fffffff"
+                    android:textSize="14sp"/>
             </RelativeLayout>
-        </LinearLayout>
+
+            <!-- Additional Space -->
+            <RelativeLayout
+                android:id="@+id/additionalSpaceLayout"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="15dp"
+                android:layout_above="@+id/nameSpaceLayout">
+
+                <View
+                    android:id="@+id/genderColorView"
+                    android:layout_width="2.2dp"
+                    android:layout_height="75dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#e337ff"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:id="@+id/informationTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="left"
+                    android:text="Information, hobbies, city, what do i like and many others.\nI love chocolate cookies and National Geographic, if u understood what i’ve said rn write me in DM"
+                    android:textColor="#ffffff"
+                    android:textSize="14sp"/>
+            </RelativeLayout>
+
+        </RelativeLayout>
     </RelativeLayout>
 
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/gradient_bottom"
-        android:scaleY="0.4"
-        android:layout_marginTop="600dp"/>
 
     <LinearLayout
         android:id="@+id/bottom_layout"
@@ -206,45 +258,48 @@
         android:background="@drawable/gradient_shadow">
         <ImageView
             android:id="@+id/choose_image"
-            android:layout_marginRight="100dp"
-            android:layout_marginLeft="100dp"
+            android:layout_marginRight="120dp"
+            android:layout_marginLeft="120dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/nochoosed"/>
     </RelativeLayout>
 
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/main_header"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:orientation="horizontal"
-        android:gravity="end"
         android:elevation="15dp"
         android:background="@android:color/white">
         <TextView
+            android:id="@+id/meet"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginLeft="25dp"
             android:gravity="center_vertical"
+            android:layout_alignParentLeft="true"
             android:text="meet"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="#2C59CC"
-            android:paddingLeft="16dp"
-            android:paddingRight="0dp"/>
+            android:textColor="#2C59CC"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginLeft="40dp"
             android:gravity="center_vertical"
+            android:layout_alignLeft="@+id/meet"
             android:text="you"
             android:textSize="16sp"
             android:textColor="#000000"
             android:paddingLeft="5dp"
-            android:paddingRight="16dp"
-            android:layout_marginRight="230dp"/>
+            android:paddingRight="16dp"/>
         <FrameLayout
             android:layout_width="28dp"
             android:layout_height="42dp"
+            android:layout_alignRight="@+id/profile_layout"
+            android:layout_marginRight="45dp"
             android:layout_marginLeft="5dp">
             <ImageView
                 android:id="@+id/imageView2"
@@ -253,16 +308,18 @@
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/messagerbutton" />
             <Button
-                android:id="@+id/profilebutton"
+                android:id="@+id/message_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent" />
         </FrameLayout>
         <FrameLayout
+            android:id="@+id/profile_layout"
             android:layout_width="28dp"
             android:layout_height="42dp"
+            android:layout_alignParentRight="true"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
+            android:layout_marginRight="15dp">
             <ImageView
                 android:id="@+id/imageView4"
                 android:layout_width="match_parent"
@@ -270,11 +327,11 @@
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/profilebutton" />
             <Button
-                android:id="@+id/anotherbutton"
+                android:id="@+id/profile_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
                 />
         </FrameLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#FFFFFF">
 
 
@@ -15,13 +16,15 @@
             android:layout_height="160dp"
             android:layout_marginStart="25dp"
             android:layout_marginTop="75dp">
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/image1"
                 android:layout_width="110dp"
                 android:layout_height="160dp"
                 android:background="@drawable/rounded_image"
                 android:src="@drawable/ic_plus"
-                android:scaleType="centerInside"
+                android:scaleType="centerCrop"
+                android:padding="2dp"
+                app:shapeAppearanceOverlay="@style/rounded"
                 android:adjustViewBounds="true"/>
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonUpload1"
@@ -35,13 +38,15 @@
             android:layout_height="160dp"
             android:layout_marginStart="145dp"
             android:layout_marginTop="75dp">
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/image2"
                 android:layout_width="110dp"
                 android:layout_height="160dp"
                 android:background="@drawable/rounded_image"
                 android:src="@drawable/ic_plus"
-                android:scaleType="centerInside"
+                android:scaleType="centerCrop"
+                android:padding="2dp"
+                app:shapeAppearanceOverlay="@style/rounded"
                 android:adjustViewBounds="true"/>
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonUpload2"
@@ -55,13 +60,15 @@
             android:layout_height="160dp"
             android:layout_marginStart="265dp"
             android:layout_marginTop="75dp">
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/image3"
                 android:layout_width="110dp"
                 android:layout_height="160dp"
                 android:background="@drawable/rounded_image"
                 android:src="@drawable/ic_plus"
-                android:scaleType="centerInside"
+                android:scaleType="centerCrop"
+                android:padding="2dp"
+                app:shapeAppearanceOverlay="@style/rounded"
                 android:adjustViewBounds="true"/>
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonUpload3"
@@ -75,13 +82,15 @@
             android:layout_height="160dp"
             android:layout_marginLeft="80dp"
             android:layout_marginTop="245dp">
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/image4"
                 android:layout_width="110dp"
                 android:layout_height="160dp"
                 android:background="@drawable/rounded_image"
                 android:src="@drawable/ic_plus"
-                android:scaleType="centerInside"
+                android:scaleType="centerCrop"
+                android:padding="2dp"
+                app:shapeAppearanceOverlay="@style/rounded"
                 android:adjustViewBounds="true"/>
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/buttonUpload4"
@@ -95,13 +104,15 @@
             android:layout_height="160dp"
             android:layout_marginTop="245dp"
             android:layout_marginLeft="210dp">
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/image5"
                 android:layout_width="110dp"
                 android:layout_height="160dp"
                 android:background="@drawable/rounded_image"
                 android:src="@drawable/ic_plus"
-                android:scaleType="centerInside"
+                android:scaleType="centerCrop"
+                android:padding="2dp"
+                app:shapeAppearanceOverlay="@style/rounded"
                 android:adjustViewBounds="true"/>
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/buttonUpload5"

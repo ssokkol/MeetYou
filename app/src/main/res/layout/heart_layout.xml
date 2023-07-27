@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+    <RelativeLayout
+        android:id="@+id/main_layout"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:gravity="center"
+        android:layout_centerInParent="true">
+        <ImageView
+            android:id="@+id/heart_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/heartimage"
+            android:scaleType="centerInside"
+            android:scaleY="0.7"
+            android:scaleX="0.8"/>
+    </RelativeLayout>
+
+</RelativeLayout>
