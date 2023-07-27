@@ -28,6 +28,8 @@ import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+
 public class SignUpActivity extends AppCompatActivity {
 
     ActivityRegisterationBinding binding;
@@ -76,7 +78,7 @@ public class SignUpActivity extends AppCompatActivity {
                     checkIfEmailIsUsed(email, password);
 //                        if (userID != -1) {
 //                            saveUserID(userID);
-//                            Toast.makeText(SignUpActivity.this, R.string.success_registration_message, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(SignUpActivity.thi`s, R.string.success_registration_message, Toast.LENGTH_SHORT).show();
 //                        } else {
 //                            NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.registration_error_message), getString(R.string.close), 0, 0, 0,R.color.main);
 //                            Toast.makeText(SignUpActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
@@ -118,6 +120,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
                                             Toast.makeText(SignUpActivity.this, R.string.success_registration_message, Toast.LENGTH_SHORT).show();
+                                            usertoDataBase(email, 999);
                                         } else {
                                             NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.registration_error_message), getString(R.string.close), 0, 0, 0, R.color.main);
                                         }
@@ -155,6 +158,21 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    private void usertoDataBase(String email, int age) {
+        HashMap<String, Object> user = new HashMap<>();
+        user.put("age", 1);
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        databaseReference.child(email).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                } else {
+                    Toast.makeText(SignUpActivity.this, "Failed to save data", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 
     private boolean isValidEmail(String email) {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
