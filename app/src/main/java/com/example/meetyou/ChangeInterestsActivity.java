@@ -459,7 +459,7 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                     NotificationHelper.showCustomNotification(ChangeInterestsActivity.this, null, getString(R.string.choose_a_few_interests_message), getString(R.string.close), 0, 0, 0,0);
                 } else
                 {
-                    Intent intent = new Intent(ChangeInterestsActivity.this, ChangeFindTargetActivity.class);
+                    Intent intent = new Intent(ChangeInterestsActivity.this, ChooseFindGenderActivity.class);
                     startActivity(intent);
                     //NotificationHelper.showCustomNotification(StartActivity, getString(R.string.welcome), getString(R.string.you_ve_been_successfully_registered_please_sign_in), getString(R.string.okay), 0, 0, 0,0);
                 }

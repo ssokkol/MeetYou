@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChooseFindGenderActivity"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/main_text_layout"
+            android:layout_width="match_parent"
+            android:layout_height="150dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Who are you looking for?"
+                android:textColor="@color/main"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textSize="24sp"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_alignTop="@+id/main_text_layout"
+            android:layout_marginTop="150dp">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_male"
+                android:layout_width="150dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/button_background_gray"
+                android:text="male"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="25dp"
+                />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_female"
+                android:layout_width="150dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/button_background_gray"
+                android:text="female"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="25dp"
+                />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_any"
+                android:layout_width="150dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="100dp"
+                android:background="@drawable/button_background_gray"
+                android:text="any"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_centerHorizontal="true"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentBottom="true">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/go_next_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/go_back_button"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/button_background_gray"
+                android:text="@string/next_button"
+                android:textColor="@color/neutral_dark_gray" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/go_back_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/button_outline_background_blue"
+                android:text="@string/back_button"
+                android:textColor="@color/main" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

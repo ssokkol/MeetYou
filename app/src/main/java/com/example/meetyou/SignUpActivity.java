@@ -110,10 +110,8 @@ public class SignUpActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     SignInMethodQueryResult result = task.getResult();
                     if (result != null && result.getSignInMethods() != null && result.getSignInMethods().size() > 0) {
-                        // Email already in use
                         NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.email_was_used_message), getString(R.string.close), 0, 0, 0, R.color.main);
                     } else {
-                        // Email not in use, proceed with user registration
                         mAuth.createUserWithEmailAndPassword(email, password)
                                 .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                                     @Override
@@ -127,7 +125,6 @@ public class SignUpActivity extends AppCompatActivity {
                                 });
                     }
                 } else {
-                    // Error occurred while checking email existence
                     Log.e(TAG, "Error checking email existence: " + task.getException());
                     Toast.makeText(SignUpActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
                 }
@@ -142,10 +139,8 @@ public class SignUpActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     SignInMethodQueryResult result = task.getResult();
                     if (result != null && result.getSignInMethods() != null && result.getSignInMethods().size() > 0) {
-                        // Email is already in use
                         NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.email_was_used_message), getString(R.string.close), 0, 0, 0, R.color.main);
                     } else {
-                        // Email is not in use, proceed with registration
                         registerUser(email, password);
                         saveUserEmail(email);
                         Intent intent = new Intent(SignUpActivity.this, ChangeGenderActivity.class);
@@ -153,7 +148,6 @@ public class SignUpActivity extends AppCompatActivity {
                         finish();
                     }
                 } else {
-                    // Error occurred while checking email status
                     Log.e(TAG, "Error checking email status: " + task.getException());
                     NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.registration_error_message), getString(R.string.close), 0, 0, 0, R.color.main);
                 }

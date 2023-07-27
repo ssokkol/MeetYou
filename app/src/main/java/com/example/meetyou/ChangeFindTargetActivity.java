@@ -127,6 +127,13 @@ public class ChangeFindTargetActivity extends AppCompatActivity {
                 }
             }
         });
+
+        binding.goBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void updateButtonState() {
