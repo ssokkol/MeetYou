@@ -76,10 +76,6 @@ public class SignUpActivity extends AppCompatActivity {
                     NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.wrong_confirm_password_message), getString(R.string.close), 0, 0, 0,0);
                     //Toast.makeText(SignUpActivity.this, R.string.wrong_confirm_password_message, Toast.LENGTH_SHORT).show();
                 } else {
-                    //if (!databaseHelper.checkEmail(email)) {
-//                        registerUser(email, password);
-//                        saveUserEmail(email);
-//                        long userID = databaseHelper.insertData(email, password);
                     String sanitizedEmail = sanitizeEmail(email);
                     checkIfEmailIsUsed(email, password);
                     Users users = new Users(sanitizedEmail,name,age);
@@ -91,18 +87,6 @@ public class SignUpActivity extends AppCompatActivity {
                             NotificationHelper.showCustomNotification(SignUpActivity.this, null, "User was added in database", getString(R.string.close), 0, 0, 0,0);
                         }
                     });
-
-//                        if (userID != -1) {
-//                            saveUserID(userID);
-//                            Toast.makeText(SignUpActivity.thi`s, R.string.success_registration_message, Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.registration_error_message), getString(R.string.close), 0, 0, 0,R.color.main);
-//                            Toast.makeText(SignUpActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
-//                        }
-                    //} else {
-                        //NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.email_was_used_message), getString(R.string.close), 0, 0, 0,R.color.main);
-                        //Toast.makeText(SignUpActivity.this, R.string.email_was_used_message, Toast.LENGTH_SHORT).show();
-                    //}
                 }
             } else {
                 NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.wrong_mail_format_message), getString(R.string.close), 0, 0, 0,R.color.main);
