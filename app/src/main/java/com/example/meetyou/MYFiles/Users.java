@@ -1,18 +1,15 @@
-package com.example.meetyou.Database;
+package com.example.meetyou.MYFiles;
 
 public class Users {
-
-    String email, name, gender;
+    String email, name;
     int age;
 
-    public Users(String email, String name, int age){
-
+    public Users() {
     }
 
-    public Users(String email, String name, String gender, int age) {
+    public Users(String email, String name, int age) {
         this.email = email;
         this.name = name;
-        this.gender = gender;
         this.age = age;
     }
 
@@ -30,14 +27,6 @@ public class Users {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public int getAge() {

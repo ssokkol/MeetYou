@@ -36,6 +36,9 @@ public class SignUpActivity extends AppCompatActivity {
     DatabaseHelper databaseHelper;
     private FirebaseAuth mAuth;
 
+    FirebaseDatabase db;
+    DatabaseReference reference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +59,8 @@ public class SignUpActivity extends AppCompatActivity {
             String email = binding.mailText.getText().toString().trim();
             String password = binding.password.getText().toString();
             String confirmPassword = binding.confirmPassword.getText().toString();
+            String name = "None";
+            int age = 0;
 
             if (isValidEmail(email)) {
                 if (password.length() < 8) {
@@ -76,6 +81,16 @@ public class SignUpActivity extends AppCompatActivity {
 //                        saveUserEmail(email);
 //                        long userID = databaseHelper.insertData(email, password);
                     checkIfEmailIsUsed(email, password);
+                    Users users = new Users(email,name,age);
+                    db = FirebaseDatabase.getInstance();
+                    reference = db.getReference("Users");
+                    reference.child(email).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            NotificationHelper.showCustomNotification(SignUpActivity.this, null, "User was added in database", getString(R.string.close), 0, 0, 0,0);
+                        }
+                    });
+
 //                        if (userID != -1) {
 //                            saveUserID(userID);
 //                            Toast.makeText(SignUpActivity.thi`s, R.string.success_registration_message, Toast.LENGTH_SHORT).show();
