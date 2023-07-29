@@ -277,4 +277,5 @@ public class CreateBioActivity extends AppCompatActivity {
         editor.putString("age", String.valueOf(age));
         editor.apply();
     }
+
 }

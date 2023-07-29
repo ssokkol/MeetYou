@@ -80,11 +80,12 @@ public class SignUpActivity extends AppCompatActivity {
 //                        registerUser(email, password);
 //                        saveUserEmail(email);
 //                        long userID = databaseHelper.insertData(email, password);
+                    String sanitizedEmail = sanitizeEmail(email);
                     checkIfEmailIsUsed(email, password);
-                    Users users = new Users(email,name,age);
+                    Users users = new Users(sanitizedEmail,name,age);
                     db = FirebaseDatabase.getInstance();
                     reference = db.getReference("Users");
-                    reference.child(email).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    reference.child(sanitizedEmail).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             NotificationHelper.showCustomNotification(SignUpActivity.this, null, "User was added in database", getString(R.string.close), 0, 0, 0,0);
@@ -213,5 +214,10 @@ public class SignUpActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("userEmail", email);
         editor.apply();
+    }
+
+    public String sanitizeEmail(String email) {
+        String sanitizedEmail = email.replaceAll("[.@#$\\[\\]]", "");
+        return sanitizedEmail;
     }
 }
