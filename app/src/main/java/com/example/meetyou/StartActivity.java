@@ -28,7 +28,7 @@ public class StartActivity extends AppCompatActivity {
         AppCompatButton FAQButton = findViewById(R.id.forgot_password_button);
 
         if (isUserLoggedIn()) {
-            startActivity(new Intent(StartActivity.this, MainActivity.class));
+            startActivity(new Intent(StartActivity.this, OwnProfileActivity.class));
         } else {
             signUpButton.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -45,9 +45,9 @@
             android:textColor="@color/black"
             android:gravity="center"
             android:alpha="0.6"
-            android:text="Russia, Saint Petersburg"/>
+            android:text="Country, City"/>
         <TextView
-            android:id="@+id/additional_text_layout"
+            android:id="@+id/additional_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/location_text_view"
@@ -61,7 +61,7 @@
             android:id="@+id/stats_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/additional_text_layout"
+            android:layout_alignTop="@+id/additional_text_view"
             android:layout_marginTop="55dp">
             <LinearLayout
                 android:id="@+id/likes_layout"

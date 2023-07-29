@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -161,18 +162,23 @@ public class UploadPhotoActivity extends AppCompatActivity {
 
                     if (selectedImageView == imageView1) {
                         photo1 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
+                        saveImageToSharedPreferences("photo1", photo1);
                         firstUploaded = true;
                     } else if (selectedImageView == imageView2) {
                         photo2 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
+                        saveImageToSharedPreferences("photo2", photo2);
                         secondUploaded = true;
                     } else if (selectedImageView == imageView3) {
                         photo3 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
+                        saveImageToSharedPreferences("photo3", photo3);
                         thirdUploaded = true;
                     } else if (selectedImageView == imageView4) {
                         photo4 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
+                        saveImageToSharedPreferences("photo4", photo4);
                         fourthUploaded = true;
                     } else if (selectedImageView == imageView5) {
                         photo5 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
+                        saveImageToSharedPreferences("photo5", photo5);
                         fifthUploaded = true;
                     }
                     applyRoundedCorners(selectedImageView);
@@ -235,4 +241,13 @@ public class UploadPhotoActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getLong("userID", -1);
     }
+
+    private void saveImageToSharedPreferences(String key, byte[] imageData) {
+        String base64Image = Base64.encodeToString(imageData, Base64.DEFAULT);
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, base64Image);
+        editor.apply();
+    }
+
 }

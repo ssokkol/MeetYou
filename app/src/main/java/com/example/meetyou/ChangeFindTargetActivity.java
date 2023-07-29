@@ -41,6 +41,13 @@ public class ChangeFindTargetActivity extends AppCompatActivity {
                 isSexChanged = false;
                 isFriendsChanged = false;
 
+                binding.shortTermImage.setImageResource(R.drawable.short_term_selected);
+                binding.longTermImage.setImageResource(R.drawable.long_term);
+                binding.funTermImage.setImageResource(R.drawable.fun);
+                binding.notSureTermImage.setImageResource(R.drawable.not_sure);
+                binding.quickSexTermImage.setImageResource(R.drawable.quick_sex);
+                binding.friendsTermImage.setImageResource(R.drawable.friends);
+
                 updateButtonState();
             }
         });
@@ -54,6 +61,13 @@ public class ChangeFindTargetActivity extends AppCompatActivity {
                 isSureChanged = false;
                 isSexChanged = false;
                 isFriendsChanged = false;
+
+                binding.shortTermImage.setImageResource(R.drawable.short_term);
+                binding.longTermImage.setImageResource(R.drawable.long_term_selected);
+                binding.funTermImage.setImageResource(R.drawable.fun);
+                binding.notSureTermImage.setImageResource(R.drawable.not_sure);
+                binding.quickSexTermImage.setImageResource(R.drawable.quick_sex);
+                binding.friendsTermImage.setImageResource(R.drawable.friends);
 
                 updateButtonState();
             }
@@ -69,6 +83,13 @@ public class ChangeFindTargetActivity extends AppCompatActivity {
                 isSexChanged = false;
                 isFriendsChanged = false;
 
+                binding.shortTermImage.setImageResource(R.drawable.short_term);
+                binding.longTermImage.setImageResource(R.drawable.long_term);
+                binding.funTermImage.setImageResource(R.drawable.fun_selected);
+                binding.notSureTermImage.setImageResource(R.drawable.not_sure);
+                binding.quickSexTermImage.setImageResource(R.drawable.quick_sex);
+                binding.friendsTermImage.setImageResource(R.drawable.friends);
+
                 updateButtonState();
             }
         });
@@ -82,6 +103,13 @@ public class ChangeFindTargetActivity extends AppCompatActivity {
                 isSureChanged = true;
                 isSexChanged = false;
                 isFriendsChanged = false;
+
+                binding.shortTermImage.setImageResource(R.drawable.short_term);
+                binding.longTermImage.setImageResource(R.drawable.long_term);
+                binding.funTermImage.setImageResource(R.drawable.fun);
+                binding.notSureTermImage.setImageResource(R.drawable.not_sure_selected);
+                binding.quickSexTermImage.setImageResource(R.drawable.quick_sex);
+                binding.friendsTermImage.setImageResource(R.drawable.friends);
 
                 updateButtonState();
             }
@@ -97,6 +125,13 @@ public class ChangeFindTargetActivity extends AppCompatActivity {
                 isSexChanged = true;
                 isFriendsChanged = false;
 
+                binding.shortTermImage.setImageResource(R.drawable.short_term);
+                binding.longTermImage.setImageResource(R.drawable.long_term);
+                binding.funTermImage.setImageResource(R.drawable.fun);
+                binding.notSureTermImage.setImageResource(R.drawable.not_sure);
+                binding.quickSexTermImage.setImageResource(R.drawable.quick_sex_selected);
+                binding.friendsTermImage.setImageResource(R.drawable.friends);
+
                 updateButtonState();
             }
         });
@@ -111,6 +146,13 @@ public class ChangeFindTargetActivity extends AppCompatActivity {
                 isSexChanged = false;
                 isFriendsChanged = true;
 
+                binding.shortTermImage.setImageResource(R.drawable.short_term);
+                binding.longTermImage.setImageResource(R.drawable.long_term);
+                binding.funTermImage.setImageResource(R.drawable.fun);
+                binding.notSureTermImage.setImageResource(R.drawable.not_sure);
+                binding.quickSexTermImage.setImageResource(R.drawable.quick_sex);
+                binding.friendsTermImage.setImageResource(R.drawable.friends_selected);
+
                 updateButtonState();
             }
         });
@@ -119,7 +161,7 @@ public class ChangeFindTargetActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(isFriendsChanged || isShortChanged || isFunChanged || isLongChanged || isSexChanged || isSureChanged){
-                    Intent intent = new Intent(ChangeFindTargetActivity.this, MainActivity.class);
+                    Intent intent = new Intent(ChangeFindTargetActivity.this, OwnProfileActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }else{
@@ -137,12 +179,12 @@ public class ChangeFindTargetActivity extends AppCompatActivity {
     }
 
     private void updateButtonState() {
-        binding.shortTermImage.setImageResource(isShortChanged ? R.drawable.short_term_selected : R.drawable.short_term);
-        binding.longTermImage.setImageResource(isLongChanged ? R.drawable.long_term_selected : R.drawable.long_term);
-        binding.funTermImage.setImageResource(isFunChanged ? R.drawable.fun_selected : R.drawable.fun);
-        binding.notSureTermImage.setImageResource(isSureChanged ? R.drawable.not_sure_selected : R.drawable.not_sure);
-        binding.quickSexTermImage.setImageResource(isSexChanged ? R.drawable.quick_sex_selected : R.drawable.quick_sex);
-        binding.friendsTermImage.setImageResource(isFriendsChanged ? R.drawable.friends_selected : R.drawable.friends);
+//        binding.shortTermImage.setImageResource(isShortChanged ? R.drawable.short_term_selected : R.drawable.short_term);
+//        binding.longTermImage.setImageResource(isLongChanged ? R.drawable.long_term_selected : R.drawable.long_term);
+//        binding.funTermImage.setImageResource(isFunChanged ? R.drawable.fun_selected : R.drawable.fun);
+//        binding.notSureTermImage.setImageResource(isSureChanged ? R.drawable.not_sure_selected : R.drawable.not_sure);
+//        binding.quickSexTermImage.setImageResource(isSexChanged ? R.drawable.quick_sex_selected : R.drawable.quick_sex);
+//        binding.friendsTermImage.setImageResource(isFriendsChanged ? R.drawable.friends_selected : R.drawable.friends);
         if(isFriendsChanged || isShortChanged || isFunChanged || isLongChanged || isSexChanged || isSureChanged){
             binding.goNextButton.setBackgroundResource(R.drawable.button_background_blue);
             binding.goNextButton.setTextColor(getColor(R.color.white));
@@ -151,5 +193,4 @@ public class ChangeFindTargetActivity extends AppCompatActivity {
             binding.goNextButton.setBackgroundResource(R.drawable.button_background_gray);
         }
     }
-
 }

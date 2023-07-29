@@ -37,6 +37,76 @@ public class CreateBioActivity extends AppCompatActivity {
 
         databaseHelper = new DatabaseHelper(this);
 
+        binding.enterName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                checkAllText();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        binding.enterBirthYear.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                checkAllText();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
+        binding.enterBirthMonth.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                checkAllText();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
+        binding.enterBirthDay.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                checkAllText();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         binding.bio.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -55,6 +125,7 @@ public class CreateBioActivity extends AppCompatActivity {
                 {
                     binding.charsCount.setTextColor(getResources().getColor(R.color.black));
                 }
+                checkAllText();
             }
 
             @Override
@@ -116,8 +187,10 @@ public class CreateBioActivity extends AppCompatActivity {
                         NotificationHelper.showCustomNotification(CreateBioActivity.this, null, getString(R.string.wrong_date_message), getString(R.string.close), 0, 0, 0,0);
 //                        Toast.makeText(CreateBioActivity.this, R.string.wrong_date_message, Toast.LENGTH_SHORT).show();
                     }
-                    else{
-
+                    else if(binding.bio.length() != 0){
+                            saveUserBio(bio);
+                            saveUserName(name);
+                            saveUserAge(calculateAge(Integer.parseInt(birthYearStr), Integer.parseInt(birthMonthStr), Integer.parseInt(birthDayStr)));
                             Toast.makeText(CreateBioActivity.this, R.string.data_saved_successfully_message, Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(CreateBioActivity.this, ChangeParametersActivity.class);
                             startActivity(intent);
@@ -140,18 +213,15 @@ public class CreateBioActivity extends AppCompatActivity {
 
     }
 
-    // Проверка, что пользователю меньше 18 лет
     private boolean isUnderage(int year, int month, int day) {
         Calendar currentDate = Calendar.getInstance();
         Calendar birthDate = Calendar.getInstance();
         birthDate.set(year, month - 1, day);
 
-        // Проверка на то, что дата рождения уже была в этом году
         if (birthDate.after(currentDate)) {
             return true;
         }
 
-        // Проверка, что возраст меньше 18 лет
         currentDate.add(Calendar.YEAR, -18);
         return (birthDate.after(currentDate));
     }
@@ -172,5 +242,39 @@ public class CreateBioActivity extends AppCompatActivity {
             age--;
         }
         return age;
+    }
+
+    private void checkAllText(){
+        if(binding.bio.length() > 0 && binding.enterName.length() > 0 && binding.enterBirthDay.length() > 0 && binding.enterBirthMonth.length() > 0 && binding.enterBirthYear.length() > 0)
+        {
+            binding.goNextButton.setBackgroundResource(R.drawable.button_background_blue);
+            binding.goNextButton.setTextColor(getColor(R.color.white));
+        }
+        else
+        {
+            binding.goNextButton.setBackgroundResource(R.drawable.button_background_gray);
+            binding.goNextButton.setTextColor(getColor(R.color.neutral_dark_gray));
+        }
+    }
+
+    private void saveUserBio(String bio){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("bio", bio);
+        editor.apply();
+    }
+
+    private void saveUserName(String name){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("name", name);
+        editor.apply();
+    }
+
+    private void saveUserAge(int age){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("age", String.valueOf(age));
+        editor.apply();
     }
 }

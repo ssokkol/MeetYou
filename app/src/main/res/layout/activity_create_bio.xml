@@ -145,9 +145,9 @@
             android:layout_marginStart="50dp"
             android:layout_marginEnd="50dp"
             android:layout_marginBottom="15dp"
-            android:background="@drawable/button_background_blue"
+            android:background="@drawable/button_background_gray"
             android:text="@string/next_button"
-            android:textColor="@color/white" />
+            android:textColor="@color/neutral_dark_gray" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/go_back_button"

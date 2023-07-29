@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OptionsActivity"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="42dp">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/change_email_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="15dp"
+            android:background="@drawable/buttonwitharrow"
+            android:text="      Change E-mail"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            android:textAllCaps="false"
+            android:textSize="16sp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/update_photos_button"
+            android:layout_alignTop="@+id/change_email_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/buttonwitharrow"
+            android:text="      Update photos"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            android:textAllCaps="false"
+            android:textSize="16sp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/change_name_button"
+            android:layout_alignTop="@+id/update_photos_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/buttonwitharrow"
+            android:text="      Change name"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            android:textAllCaps="false"
+            android:textSize="16sp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/change_bio_button"
+            android:layout_alignTop="@+id/change_name_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/buttonwitharrow"
+            android:text="      Change bio"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            android:textAllCaps="false"
+            android:textSize="16sp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/change_interests_button"
+            android:layout_alignTop="@+id/change_bio_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/buttonwitharrow"
+            android:text="      Change interests"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            android:textAllCaps="false"
+            android:textSize="16sp"/>
+
+        <RelativeLayout
+            android:id="@+id/age_range_layout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignTop="@+id/change_interests_button"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/button_background_gray">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/main"
+                android:textStyle="bold"
+                android:text="Слайдера пока нет"
+                android:textSize="18sp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/vip_functions_layout"
+            android:layout_alignTop="@+id/age_range_layout"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="80dp">
+            <TextView
+                android:id="@+id/vip_functions_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/main"
+                android:textStyle="bold"
+                android:text="Vip functions"
+                android:textSize="18sp"/>
+
+            <RelativeLayout
+                android:layout_alignTop="@+id/vip_functions_text"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/global_search_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/buttonwitharrow"
+            android:text="      Global search"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            android:textAllCaps="false"
+            android:textSize="16sp"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/premium_functions_layout"
+            android:layout_alignTop="@+id/vip_functions_layout"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="85dp">
+            <TextView
+                android:id="@+id/premium_functions_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/main"
+                android:textStyle="bold"
+                android:text="Premium functions"
+                android:textSize="18sp"/>
+            <RelativeLayout
+                android:layout_alignTop="@+id/premium_functions_text"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/profile_color_button"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/buttonwitharrow"
+                android:text="      Profile color"
+                android:textColor="@color/white"
+                android:gravity="center_vertical"
+                android:textAllCaps="false"
+                android:textSize="16sp"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/luxe_functions_layout"
+            android:layout_alignTop="@+id/premium_functions_layout"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="85dp">
+            <TextView
+                android:id="@+id/luxe_functions_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/main"
+                android:textStyle="bold"
+                android:text="Luxe functions"
+                android:textSize="18sp"/>
+            <RelativeLayout
+                android:layout_alignTop="@+id/luxe_functions_text"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true">
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/avoid_list_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/buttonwitharrow"
+                    android:text="      Avoid list"
+                    android:textColor="@color/white"
+                    android:gravity="center_vertical"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/other_functions_layout"
+            android:layout_alignTop="@+id/luxe_functions_layout"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="85dp">
+            <TextView
+                android:id="@+id/other_functions_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/main"
+                android:textStyle="bold"
+                android:text="Other"
+                android:textSize="18sp"/>
+            <RelativeLayout
+                android:layout_alignTop="@+id/other_functions_text"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true">
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/FAQ_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/buttonwitharrow"
+                    android:text="      FAQ/Support"
+                    android:textColor="@color/white"
+                    android:gravity="center_vertical"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"/>
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/main_header"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:orientation="horizontal"
+        android:elevation="15dp"
+        android:background="@android:color/white">
+        <TextView
+            android:id="@+id/meet"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="25dp"
+            android:gravity="center_vertical"
+            android:layout_alignParentLeft="true"
+            android:text="meet"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#2C59CC"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="40dp"
+            android:gravity="center_vertical"
+            android:layout_alignLeft="@+id/meet"
+            android:text="you"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:paddingLeft="5dp"
+            android:paddingRight="16dp"/>
+        <FrameLayout
+            android:layout_width="28dp"
+            android:layout_height="42dp"
+            android:layout_alignRight="@+id/profile_layout"
+            android:layout_marginRight="45dp"
+            android:layout_marginLeft="5dp">
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/messagerbutton" />
+            <Button
+                android:id="@+id/message_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent" />
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/profile_layout"
+            android:layout_width="28dp"
+            android:layout_height="42dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="15dp">
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/profilebutton" />
+            <Button
+                android:id="@+id/profile_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                />
+        </FrameLayout>
+    </RelativeLayout>
+</RelativeLayout>
