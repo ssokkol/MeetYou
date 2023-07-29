@@ -19,8 +19,8 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 
+import com.example.meetyou.MYFiles.NotificationHelper;
 import com.example.meetyou.databinding.ActivityOwnProfileBinding;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -58,6 +58,15 @@ public class OwnProfileActivity extends AppCompatActivity {
             }
         });
 
+        binding.findButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(OwnProfileActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
@@ -75,6 +84,10 @@ public class OwnProfileActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        if(getChanges()){
+            setSomethingWasChanged(false);
+            recreate();
+        }
         if (locationManager != null) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 10, locationListener);
@@ -125,6 +138,11 @@ public class OwnProfileActivity extends AppCompatActivity {
         return sharedPreferences.getString("name", "");
     }
 
+    private boolean getChanges(){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getBoolean("isSomethingWasChanged", false);
+    }
+
     private Bitmap getImageBitmapFromSharedPreferences(String key) {
         byte[] imageByteArray = getImageFromSharedPreferences(key);
         if (imageByteArray != null) {
@@ -140,5 +158,12 @@ public class OwnProfileActivity extends AppCompatActivity {
             return Base64.decode(base64Image, Base64.DEFAULT);
         }
         return null;
+    }
+
+    private void setSomethingWasChanged(boolean parameter){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isSomethingWasChanged", parameter);
+        editor.apply();
     }
 }
