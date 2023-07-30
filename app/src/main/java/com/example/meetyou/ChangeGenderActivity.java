@@ -10,7 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
+import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.Database.DatabaseHelper;
 import com.example.meetyou.MYFiles.NotificationHelper;
 import com.example.meetyou.databinding.ActivityChangeGenderBinding;
@@ -95,9 +95,11 @@ public class ChangeGenderActivity extends AppCompatActivity {
                 if (!isMale && !isFemale) {
                     NotificationHelper.showCustomNotification(ChangeGenderActivity.this, null, getString(R.string.change_your_gender), getString(R.string.close), 0, 0, 0,0);
                 } else if (isFemale) {
+                    Users.updateUserGender(getUID(), "female");
                     Intent intent = new Intent(ChangeGenderActivity.this, CreateBioActivity.class);
                     startActivity(intent);
                 } else if (isMale) {
+                    Users.updateUserGender(getUID(), "male");
                     Intent intent = new Intent(ChangeGenderActivity.this, CreateBioActivity.class);
                     startActivity(intent);
                 }
@@ -182,5 +184,10 @@ public class ChangeGenderActivity extends AppCompatActivity {
                         Toast.makeText(ChangeGenderActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private String getUID(){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getString("UID", "");
     }
 }

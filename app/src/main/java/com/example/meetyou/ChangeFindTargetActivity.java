@@ -1,6 +1,7 @@
 package com.example.meetyou;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.meetyou.MYFiles.NotificationHelper;
+import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityChangeFindTargetBinding;
 
 public class ChangeFindTargetActivity extends AppCompatActivity {
@@ -161,9 +163,43 @@ public class ChangeFindTargetActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(isFriendsChanged || isShortChanged || isFunChanged || isLongChanged || isSexChanged || isSureChanged){
-                    Intent intent = new Intent(ChangeFindTargetActivity.this, OwnProfileActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+                    if(isFriendsChanged)
+                    {
+                        Users.updateUserTarget(getUID(), "friends");
+                        Intent intent = new Intent(ChangeFindTargetActivity.this, OwnProfileActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    } else if (isShortChanged)
+                    {
+                        Users.updateUserTarget(getUID(), "short-term");
+                        Intent intent = new Intent(ChangeFindTargetActivity.this, OwnProfileActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    } else if (isLongChanged)
+                    {
+                        Users.updateUserTarget(getUID(), "long-term");
+                        Intent intent = new Intent(ChangeFindTargetActivity.this, OwnProfileActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    } else if (isFunChanged)
+                    {
+                        Users.updateUserTarget(getUID(), "fun");
+                        Intent intent = new Intent(ChangeFindTargetActivity.this, OwnProfileActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    } else if (isSexChanged)
+                    {
+                        Users.updateUserTarget(getUID(), "sex");
+                        Intent intent = new Intent(ChangeFindTargetActivity.this, OwnProfileActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    } else if (isSureChanged)
+                    {
+                        Users.updateUserTarget(getUID(), "not-sure");
+                        Intent intent = new Intent(ChangeFindTargetActivity.this, OwnProfileActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
                 }else{
                     NotificationHelper.showCustomNotification(ChangeFindTargetActivity.this, null, getString(R.string.pick_a_few_targets_message), getString(R.string.close), 0, 0, 0,0);
                 }
@@ -192,5 +228,10 @@ public class ChangeFindTargetActivity extends AppCompatActivity {
             binding.goNextButton.setTextColor(getColor(R.color.neutral_dark_gray));
             binding.goNextButton.setBackgroundResource(R.drawable.button_background_gray);
         }
+    }
+
+    private String getUID(){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getString("UID", "");
     }
 }

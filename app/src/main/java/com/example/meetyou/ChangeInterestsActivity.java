@@ -4,14 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import com.example.meetyou.Database.DatabaseHelper;
 import com.example.meetyou.MYFiles.NotificationHelper;
 import com.example.meetyou.databinding.ActivityChangeInterestsBinding;
+import com.example.meetyou.MYFiles.Users;
 
 public class ChangeInterestsActivity extends AppCompatActivity {
+
+    private int Counter = 0;
+
 
     private static boolean isClubsChanged = false;
     private static boolean isCodingChanged = false;
@@ -65,9 +70,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isClubsChanged){
                     binding.clubsImage.setImageResource(R.drawable.clubs_selected);
                     isClubsChanged = true;
+                    Counter++;
                 } else if (isClubsChanged) {
                     binding.clubsImage.setImageResource(R.drawable.clubs);
                     isClubsChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -79,9 +86,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isCodingChanged){
                     binding.codingImage.setImageResource(R.drawable.coding_selected);
                     isCodingChanged = true;
+                    Counter++;
                 } else if (isCodingChanged) {
                     binding.codingImage.setImageResource(R.drawable.coding);
                     isCodingChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -93,9 +102,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isSportChanged){
                     binding.sportImage.setImageResource(R.drawable.sport_selected);
                     isSportChanged = true;
+                    Counter++;
                 } else if (isSportChanged) {
                     binding.sportImage.setImageResource(R.drawable.sport);
                     isSportChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -107,9 +118,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isVGamesChanged){
                     binding.vgamesImage.setImageResource(R.drawable.vgames_selected);
                     isVGamesChanged = true;
+                    Counter++;
                 } else if (isVGamesChanged) {
                     binding.vgamesImage.setImageResource(R.drawable.vgames);
-                    isVGamesChanged = true;
+                    isVGamesChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -121,9 +134,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isYogaChanged){
                     binding.yogaImage.setImageResource(R.drawable.yoga_selected);
                     isYogaChanged = true;
+                    Counter++;
                 } else if (isYogaChanged) {
                     binding.yogaImage.setImageResource(R.drawable.yoga);
                     isYogaChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -135,9 +150,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isBooksChanged){
                     binding.booksImage.setImageResource(R.drawable.books_selected);
                     isBooksChanged = true;
+                    Counter++;
                 } else if (isBooksChanged) {
                     binding.booksImage.setImageResource(R.drawable.books);
                     isBooksChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -149,9 +166,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isArtChanged){
                     binding.artImage.setImageResource(R.drawable.art_selected);
                     isArtChanged = true;
+                    Counter++;
                 } else if (isArtChanged) {
                     binding.artImage.setImageResource(R.drawable.art);
                     isArtChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -163,9 +182,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isMusicChanged){
                     binding.musicImage.setImageResource(R.drawable.music_selected);
                     isMusicChanged = true;
+                    Counter++;
                 } else if (isMusicChanged) {
                     binding.musicImage.setImageResource(R.drawable.music);
                     isMusicChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -177,9 +198,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isTTChanged){
                     binding.ttImage.setImageResource(R.drawable.tt_selected);
                     isTTChanged = true;
+                    Counter++;
                 } else if (isTTChanged) {
                     binding.ttImage.setImageResource(R.drawable.tt);
                     isTTChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -191,9 +214,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isYTChanged){
                     binding.ytImage.setImageResource(R.drawable.yt_selected);
                     isYTChanged = true;
+                    Counter++;
                 } else if (isYTChanged) {
                     binding.ytImage.setImageResource(R.drawable.yt);
                     isYTChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -205,9 +230,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isCarChanged){
                     binding.carImage.setImageResource(R.drawable.car_selected);
                     isCarChanged = true;
+                    Counter++;
                 } else if (isCarChanged) {
                     binding.carImage.setImageResource(R.drawable.car);
                     isCarChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -219,9 +246,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isCGamesChanged){
                     binding.cgamesImage.setImageResource(R.drawable.cgames);
                     isCGamesChanged = true;
+                    Counter++;
                 } else if (isCGamesChanged) {
                     binding.cgamesImage.setImageResource(R.drawable.cgames_selected);
                     isCGamesChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -233,9 +262,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isTGamesChanged){
                     binding.tgamesImage.setImageResource(R.drawable.tgames_selected);
                     isTGamesChanged = true;
+                    Counter++;
                 } else if (isTGamesChanged) {
                     binding.tgamesImage.setImageResource(R.drawable.tgames);
                     isTGamesChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -247,9 +278,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isChessChanged){
                     binding.chessImage.setImageResource(R.drawable.chess_selected);
                     isChessChanged = true;
+                    Counter++;
                 } else if (isChessChanged) {
                     binding.chessImage.setImageResource(R.drawable.chess);
                     isChessChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -261,9 +294,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isCookChanged){
                     binding.cookImage.setImageResource(R.drawable.cook_selected);
                     isCookChanged = true;
+                    Counter++;
                 } else if (isCookChanged) {
                     binding.cookImage.setImageResource(R.drawable.cook);
                     isCookChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -275,9 +310,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isFishChanged){
                     binding.fishImage.setImageResource(R.drawable.fish_selected);
                     isFishChanged = true;
+                    Counter++;
                 } else if (isFishChanged) {
                     binding.fishImage.setImageResource(R.drawable.fish);
                     isFishChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -289,9 +326,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isTravChanged){
                     binding.travImage.setImageResource(R.drawable.trav_selected);
                     isTravChanged = true;
+                    Counter++;
                 } else if (isTravChanged) {
                     binding.travImage.setImageResource(R.drawable.trav);
                     isTravChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -303,9 +342,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isDanceChanged){
                     binding.danceImage.setImageResource(R.drawable.dance_selected);
                     isDanceChanged = true;
+                    Counter++;
                 } else if (isDanceChanged) {
                     binding.danceImage.setImageResource(R.drawable.dance);
                     isDanceChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -317,9 +358,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isSexChanged){
                     binding.sexImage.setImageResource(R.drawable.sex_selected);
                     isSexChanged = true;
+                    Counter++;
                 } else if (isSexChanged) {
                     binding.sexImage.setImageResource(R.drawable.sex);
                     isSexChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -331,9 +374,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isRockChanged){
                     binding.rockImage.setImageResource(R.drawable.rock_selected);
                     isRockChanged = true;
+                    Counter++;
                 } else if (isRockChanged) {
                     binding.rockImage.setImageResource(R.drawable.rock);
                     isRockChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -345,9 +390,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isRRapChanged){
                     binding.rrapImage.setImageResource(R.drawable.rrap_selected);
                     isRRapChanged = true;
+                    Counter++;
                 } else if (isRRapChanged) {
                     binding.rrapImage.setImageResource(R.drawable.rrap);
                     isRRapChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -359,9 +406,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isHuntChanged){
                     binding.huntImage.setImageResource(R.drawable.hunt_selected_);
                     isHuntChanged = true;
+                    Counter++;
                 } else if (isHuntChanged) {
                     binding.huntImage.setImageResource(R.drawable.hunt);
                     isHuntChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -373,9 +422,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isFashChanged){
                     binding.fashImage.setImageResource(R.drawable.fash_selected);
                     isFashChanged = true;
+                    Counter++;
                 } else if (isFashChanged) {
                     binding.fashImage.setImageResource(R.drawable.fash);
                     isFashChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -387,9 +438,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isGuitarChanged){
                     binding.guitarImage.setImageResource(R.drawable.guitar_selected);
                     isGuitarChanged = true;
+                    Counter++;
                 } else if (isGuitarChanged) {
                     binding.guitarImage.setImageResource(R.drawable.guitar);
                     isGuitarChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -401,9 +454,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isPianoChanged){
                     binding.pianoImage.setImageResource(R.drawable.piano_selected);
                     isPianoChanged = true;
+                    Counter++;
                 } else if (isPianoChanged) {
                     binding.pianoImage.setImageResource(R.drawable.piano);
                     isPianoChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -415,9 +470,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isPhotoChanged){
                     binding.photoImage.setImageResource(R.drawable.photo_selected);
                     isPhotoChanged = true;
+                    Counter++;
                 } else if (isPhotoChanged) {
                     binding.photoImage.setImageResource(R.drawable.photo);
                     isPhotoChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -429,9 +486,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isPoliticsChanged){
                     binding.politicsImage.setImageResource(R.drawable.politics_selected);
                     isPoliticsChanged = true;
+                    Counter++;
                 } else if (isPoliticsChanged) {
                     binding.politicsImage.setImageResource(R.drawable.politics);
                     isPoliticsChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -443,9 +502,11 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 if(!isPhilChanged){
                     binding.philImage.setImageResource(R.drawable.phil_selected);
                     isPhilChanged = true;
+                    Counter++;
                 } else if (isPhilChanged) {
                     binding.philImage.setImageResource(R.drawable.phil);
                     isPhilChanged = false;
+                    Counter--;
                 }
                 activateGoNextButton();
             }
@@ -454,14 +515,20 @@ public class ChangeInterestsActivity extends AppCompatActivity {
         binding.goNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                StringBuilder interestsStringBuilder = new StringBuilder();
+                String interestsString = interestsStringBuilder.toString();
+                binding.goNextButton.setText(interestsString);
                 if(!isGoNextActive)
                 {
                     NotificationHelper.showCustomNotification(ChangeInterestsActivity.this, null, getString(R.string.choose_a_few_interests_message), getString(R.string.close), 0, 0, 0,0);
-                } else
+                } else if(Counter <= 5 )
                 {
+                    Users.updateUserHobbies(getUID(), interestsString);
                     Intent intent = new Intent(ChangeInterestsActivity.this, ChooseFindGenderActivity.class);
                     startActivity(intent);
                     //NotificationHelper.showCustomNotification(StartActivity, getString(R.string.welcome), getString(R.string.you_ve_been_successfully_registered_please_sign_in), getString(R.string.okay), 0, 0, 0,0);
+                } else if (Counter > 5 ){
+                    NotificationHelper.showCustomNotification(ChangeInterestsActivity.this, null, getString(R.string.select_nm_5_interests_message), getString(R.string.close), 0, 0, 0,0);
                 }
             }
         });
@@ -489,5 +556,10 @@ public class ChangeInterestsActivity extends AppCompatActivity {
             binding.goNextButton.setBackgroundResource(R.drawable.button_background_gray);
             isGoNextActive = false;
         }
+    }
+
+    private String getUID(){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getString("UID", "");
     }
 }
