@@ -1,0 +1,228 @@
+Index: app/src/main/java/com/example/meetyou/SignUpActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.meetyou;\r\n\r\nimport static android.content.ContentValues.TAG;\r\n\r\nimport android.content.Intent;\r\nimport android.content.SharedPreferences;\r\nimport android.content.pm.ActivityInfo;\r\nimport android.os.Bundle;\r\nimport android.util.Log;\r\nimport android.util.Patterns;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.appcompat.widget.AppCompatButton;\r\nimport androidx.core.content.ContextCompat;\r\n\r\nimport com.example.meetyou.Database.DatabaseHelper;\r\nimport com.example.meetyou.Database.Users;\r\nimport com.example.meetyou.MYFiles.NotificationHelper;\r\nimport com.example.meetyou.databinding.ActivityRegisterationBinding;\r\nimport com.google.android.gms.tasks.OnCompleteListener;\r\nimport com.google.android.gms.tasks.Task;\r\nimport com.google.firebase.auth.AuthResult;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\nimport com.google.firebase.auth.FirebaseUser;\r\nimport com.google.firebase.auth.SignInMethodQueryResult;\r\nimport com.google.firebase.database.DatabaseReference;\r\nimport com.google.firebase.database.FirebaseDatabase;\r\n\r\npublic class SignUpActivity extends AppCompatActivity {\r\n\r\n    ActivityRegisterationBinding binding;\r\n    DatabaseHelper databaseHelper;\r\n    private FirebaseAuth mAuth;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        binding = ActivityRegisterationBinding.inflate(getLayoutInflater());\r\n        setContentView(binding.getRoot());\r\n        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);\r\n\r\n        databaseHelper = new DatabaseHelper(this);\r\n\r\n        getWindow().setStatusBarColor(ContextCompat.getColor(SignUpActivity.this, R.color.main));\r\n\r\n        AppCompatButton backButton = findViewById(R.id.go_back_button);\r\n        backButton.setOnClickListener(v -> finish());\r\n\r\n        mAuth = FirebaseAuth.getInstance();\r\n\r\n        binding.signUpButton.setOnClickListener(v -> {\r\n            String email = binding.mailText.getText().toString().trim();\r\n            String password = binding.password.getText().toString();\r\n            String confirmPassword = binding.confirmPassword.getText().toString();\r\n\r\n            if (isValidEmail(email)) {\r\n                if (password.length() < 8) {\r\n                    NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.wrong_password_lenght_message), getString(R.string.close), 0, 0, 0,0);\r\n                    //Toast.makeText(SignUpActivity.this, R.string.wrong_password_lenght_message, Toast.LENGTH_SHORT).show();\r\n                } else if (!password.matches(\".*[A-Z].*\")) {\r\n                    NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.wrong_password_chars_format_message), getString(R.string.close), 0, 0, 0,0);\r\n                    //Toast.makeText(SignUpActivity.this, R.string.wrong_password_chars_format_message, Toast.LENGTH_SHORT).show();\r\n                } else if (password.contains(\" \")) {\r\n                    NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.password_has_spaces_message), getString(R.string.close), 0, 0, 0,0);\r\n                    //Toast.makeText(SignUpActivity.this, R.string.password_has_spaces_message, Toast.LENGTH_SHORT).show();\r\n                } else if (!confirmPassword.equals(password)) {\r\n                    NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.wrong_confirm_password_message), getString(R.string.close), 0, 0, 0,0);\r\n                    //Toast.makeText(SignUpActivity.this, R.string.wrong_confirm_password_message, Toast.LENGTH_SHORT).show();\r\n                } else {\r\n                    //if (!databaseHelper.checkEmail(email)) {\r\n//                        registerUser(email, password);\r\n//                        saveUserEmail(email);\r\n//                        long userID = databaseHelper.insertData(email, password);\r\n                    checkIfEmailIsUsed(email, password);\r\n//                        if (userID != -1) {\r\n//                            saveUserID(userID);\r\n//                            Toast.makeText(SignUpActivity.this, R.string.success_registration_message, Toast.LENGTH_SHORT).show();\r\n//                        } else {\r\n//                            NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.registration_error_message), getString(R.string.close), 0, 0, 0,R.color.main);\r\n//                            Toast.makeText(SignUpActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();\r\n//                        }\r\n                    //} else {\r\n                        //NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.email_was_used_message), getString(R.string.close), 0, 0, 0,R.color.main);\r\n                        //Toast.makeText(SignUpActivity.this, R.string.email_was_used_message, Toast.LENGTH_SHORT).show();\r\n                    //}\r\n                }\r\n            } else {\r\n                NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.wrong_mail_format_message), getString(R.string.close), 0, 0, 0,R.color.main);\r\n                //Toast.makeText(SignUpActivity.this, R.string.wrong_mail_format_message, Toast.LENGTH_SHORT).show();\r\n            }\r\n        });\r\n    }\r\n\r\n    @Override\r\n    public void onStart() {\r\n        FirebaseAuth.getInstance().signOut();\r\n        super.onStart();\r\n        FirebaseUser currentUser = mAuth.getCurrentUser();\r\n        if(currentUser != null){\r\n            currentUser.reload();\r\n        }\r\n    }\r\n\r\n    private void registerUser(String email, String password) {\r\n        mAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener(this, new OnCompleteListener<SignInMethodQueryResult>() {\r\n            @Override\r\n            public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {\r\n                if (task.isSuccessful()) {\r\n                    SignInMethodQueryResult result = task.getResult();\r\n                    if (result != null && result.getSignInMethods() != null && result.getSignInMethods().size() > 0) {\r\n                        NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.email_was_used_message), getString(R.string.close), 0, 0, 0, R.color.main);\r\n                    } else {\r\n                        mAuth.createUserWithEmailAndPassword(email, password)\r\n                                .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {\r\n                                    @Override\r\n                                    public void onComplete(@NonNull Task<AuthResult> task) {\r\n                                        if (task.isSuccessful()) {\r\n                                            Toast.makeText(SignUpActivity.this, R.string.success_registration_message, Toast.LENGTH_SHORT).show();\r\n                                        } else {\r\n                                            NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.registration_error_message), getString(R.string.close), 0, 0, 0, R.color.main);\r\n                                        }\r\n                                    }\r\n                                });\r\n                    }\r\n                } else {\r\n                    Log.e(TAG, \"Error checking email existence: \" + task.getException());\r\n                    Toast.makeText(SignUpActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();\r\n                }\r\n            }\r\n        });\r\n    }\r\n\r\n    private void checkIfEmailIsUsed(String email, String password) {\r\n        mAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener(this, new OnCompleteListener<SignInMethodQueryResult>() {\r\n            @Override\r\n            public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {\r\n                if (task.isSuccessful()) {\r\n                    SignInMethodQueryResult result = task.getResult();\r\n                    if (result != null && result.getSignInMethods() != null && result.getSignInMethods().size() > 0) {\r\n                        NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.email_was_used_message), getString(R.string.close), 0, 0, 0, R.color.main);\r\n                    } else {\r\n                        registerUser(email, password);\r\n                        saveUserEmail(email);\r\n                        Intent intent = new Intent(SignUpActivity.this, ChangeGenderActivity.class);\r\n                        startActivity(intent);\r\n                        finish();\r\n                    }\r\n                } else {\r\n                    Log.e(TAG, \"Error checking email status: \" + task.getException());\r\n                    NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.registration_error_message), getString(R.string.close), 0, 0, 0, R.color.main);\r\n                }\r\n            }\r\n        });\r\n    }\r\n\r\n\r\n    private boolean isValidEmail(String email) {\r\n        return Patterns.EMAIL_ADDRESS.matcher(email).matches();\r\n    }\r\n\r\n    private void saveUserInfo(String email, String password) {\r\n        SharedPreferences preferences = getSharedPreferences(\"UserPrefs\", MODE_PRIVATE);\r\n        SharedPreferences.Editor editor = preferences.edit();\r\n        editor.putString(\"email\", email);\r\n        editor.putString(\"password\", password);\r\n        editor.apply();\r\n    }\r\n\r\n    private void saveUserID(long userID) {\r\n        SharedPreferences preferences = getSharedPreferences(\"UserPrefs\", MODE_PRIVATE);\r\n        SharedPreferences.Editor editor = preferences.edit();\r\n        editor.putLong(\"userID\", userID);\r\n        editor.apply();\r\n    }\r\n\r\n    private void saveUserEmail(String email){\r\n        SharedPreferences sharedPreferences = getSharedPreferences(\"UserPrefs\", MODE_PRIVATE);\r\n        SharedPreferences.Editor editor = sharedPreferences.edit();\r\n        editor.putString(\"userEmail\", email);\r\n        editor.apply();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/meetyou/SignUpActivity.java b/app/src/main/java/com/example/meetyou/SignUpActivity.java
+--- a/app/src/main/java/com/example/meetyou/SignUpActivity.java	(revision 5e9b85277aa22ae5597e4f2d5e882cb0cc29978b)
++++ b/app/src/main/java/com/example/meetyou/SignUpActivity.java	(date 1690498344708)
+@@ -28,7 +28,10 @@
+ import com.google.firebase.database.DatabaseReference;
+ import com.google.firebase.database.FirebaseDatabase;
+ 
++import java.util.HashMap;
++
+ public class SignUpActivity extends AppCompatActivity {
++    public String email;
+ 
+     ActivityRegisterationBinding binding;
+     DatabaseHelper databaseHelper;
+@@ -51,7 +54,7 @@
+         mAuth = FirebaseAuth.getInstance();
+ 
+         binding.signUpButton.setOnClickListener(v -> {
+-            String email = binding.mailText.getText().toString().trim();
++            email = binding.mailText.getText().toString().trim();
+             String password = binding.password.getText().toString();
+             String confirmPassword = binding.confirmPassword.getText().toString();
+ 
+@@ -123,7 +126,9 @@
+                                         }
+                                     }
+                                 });
++                        usertoDataBase(email,1);
+                     }
++
+                 } else {
+                     Log.e(TAG, "Error checking email existence: " + task.getException());
+                     Toast.makeText(SignUpActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
+@@ -131,7 +136,23 @@
+             }
+         });
+     }
++    private void usertoDataBase(String email, int age) {
++        HashMap<String, Object> user = new HashMap<>();
++//        user.put("email", email);
++        user.put("age", age);
+ 
++        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
++        databaseReference.child(email).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
++            @Override
++            public void onComplete(@NonNull Task<Void> task) {
++                if (task.isSuccessful()) {
++
++                } else {
++                    Toast.makeText(SignUpActivity.this, "Failed to save data", Toast.LENGTH_SHORT).show();
++                }
++            }
++        });
++    }
+     private void checkIfEmailIsUsed(String email, String password) {
+         mAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener(this, new OnCompleteListener<SignInMethodQueryResult>() {
+             @Override
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+deleted file mode 100644
+--- a/.idea/misc.xml	(revision 5e9b85277aa22ae5597e4f2d5e882cb0cc29978b)
++++ /dev/null	(revision 5e9b85277aa22ae5597e4f2d5e882cb0cc29978b)
+@@ -1,16 +0,0 @@
+-<project version="4">
+-  <component name="ExternalStorageConfigurationManager" enabled="true" />
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
+-    <output url="file://$PROJECT_DIR$/build/classes" />
+-  </component>
+-  <component name="ProjectType">
+-    <option name="id" value="Android" />
+-  </component>
+-  <component name="VisualizationToolProject">
+-    <option name="state">
+-      <ProjectState>
+-        <option name="scale" value="0.5" />
+-      </ProjectState>
+-    </option>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/.gitignore
+===================================================================
+diff --git a/.idea/.gitignore b/.idea/.gitignore
+deleted file mode 100644
+--- a/.idea/.gitignore	(revision 5e9b85277aa22ae5597e4f2d5e882cb0cc29978b)
++++ /dev/null	(revision 5e9b85277aa22ae5597e4f2d5e882cb0cc29978b)
+@@ -1,3 +0,0 @@
+-# Default ignored files
+-/shelf/
+-/workspace.xml
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+deleted file mode 100644
+--- a/.idea/compiler.xml	(revision 5e9b85277aa22ae5597e4f2d5e882cb0cc29978b)
++++ /dev/null	(revision 5e9b85277aa22ae5597e4f2d5e882cb0cc29978b)
+@@ -1,6 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="CompilerConfiguration">
+-    <bytecodeTargetLevel target="17" />
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+deleted file mode 100644
+--- a/.idea/gradle.xml	(revision 5e9b85277aa22ae5597e4f2d5e882cb0cc29978b)
++++ /dev/null	(revision 5e9b85277aa22ae5597e4f2d5e882cb0cc29978b)
+@@ -1,20 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="GradleMigrationSettings" migrationVersion="1" />
+-  <component name="GradleSettings">
+-    <option name="linkedExternalProjectsSettings">
+-      <GradleProjectSettings>
+-        <option name="testRunner" value="GRADLE" />
+-        <option name="distributionType" value="DEFAULT_WRAPPED" />
+-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+-        <option name="gradleJvm" value="jbr-17" />
+-        <option name="modules">
+-          <set>
+-            <option value="$PROJECT_DIR$" />
+-            <option value="$PROJECT_DIR$/app" />
+-          </set>
+-        </option>
+-      </GradleProjectSettings>
+-    </option>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/git_toolbox_prj.xml
+===================================================================
+diff --git a/.idea/git_toolbox_prj.xml b/.idea/git_toolbox_prj.xml
+deleted file mode 100644
+--- a/.idea/git_toolbox_prj.xml	(revision 5e9b85277aa22ae5597e4f2d5e882cb0cc29978b)
++++ /dev/null	(revision 5e9b85277aa22ae5597e4f2d5e882cb0cc29978b)
+@@ -1,15 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="GitToolBoxProjectSettings">
+-    <option name="commitMessageIssueKeyValidationOverride">
+-      <BoolValueOverride>
+-        <option name="enabled" value="true" />
+-      </BoolValueOverride>
+-    </option>
+-    <option name="commitMessageValidationEnabledOverride">
+-      <BoolValueOverride>
+-        <option name="enabled" value="true" />
+-      </BoolValueOverride>
+-    </option>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>buildscript {\r\n    dependencies {\r\n        classpath 'com.google.gms:google-services:4.3.15'\r\n        classpath \"com.android.tools.build:gradle:4.1.3\"\r\n    }\r\n}// Top-level build file where you can add configuration options common to all sub-projects/modules.\r\nplugins {\r\n    id 'com.google.gms.google-services' version '4.3.15' apply false\r\n    id 'com.android.application' version '8.1.0' apply false\r\n    id 'com.android.library' version '8.1.0' apply false\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build.gradle b/build.gradle
+--- a/build.gradle	(revision 5e9b85277aa22ae5597e4f2d5e882cb0cc29978b)
++++ b/build.gradle	(date 1690496805873)
+@@ -1,6 +1,5 @@
+ buildscript {
+     dependencies {
+-        classpath 'com.google.gms:google-services:4.3.15'
+         classpath "com.android.tools.build:gradle:4.1.3"
+     }
+ }// Top-level build file where you can add configuration options common to all sub-projects/modules.
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".MainActivity\">\r\n\r\n    <RelativeLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:layout_marginTop=\"42dp\"\r\n        android:layout_marginBottom=\"90dp\">\r\n        <androidx.viewpager2.widget.ViewPager2\r\n            android:id=\"@+id/viewPager\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\" />\r\n\r\n        <RelativeLayout\r\n            xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"200dp\"\r\n            android:layout_alignParentBottom=\"true\"\r\n            android:background=\"@drawable/description_header_background\"\r\n            android:padding=\"16dp\">\r\n\r\n            <!-- Name Space -->\r\n            <RelativeLayout\r\n                android:id=\"@+id/nameSpaceLayout\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_alignParentBottom=\"true\"\r\n                android:layout_marginBottom=\"100dp\">\r\n\r\n                <View\r\n                    android:id=\"@+id/genderColor2View\"\r\n                    android:layout_width=\"2.2dp\"\r\n                    android:layout_height=\"50dp\"\r\n                    android:background=\"#e337ff\"\r\n                    android:layout_marginLeft=\"10dp\"/>\r\n\r\n                <TextView\r\n                    android:id=\"@+id/name_text_view\"\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:layout_marginLeft=\"20dp\"\r\n                    android:layout_marginTop=\"5dp\"\r\n                    android:layout_marginBottom=\"5dp\"\r\n                    android:text=\"Nick_Name\"\r\n                    android:textColor=\"#ffffff\"\r\n                    android:textSize=\"18sp\"/>\r\n                <TextView\r\n                    android:id=\"@+id/location_text_view\"\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:layout_marginLeft=\"20dp\"\r\n                    android:layout_marginTop=\"25dp\"\r\n                    android:layout_marginBottom=\"5dp\"\r\n                    android:text=\"Russia, Moscow\"\r\n                    android:textColor=\"#9fffffff\"\r\n                    android:textSize=\"14sp\"/>\r\n            </RelativeLayout>\r\n\r\n            <!-- Additional Space -->\r\n            <RelativeLayout\r\n                android:id=\"@+id/additionalSpaceLayout\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"75dp\"\r\n                android:layout_alignParentBottom=\"true\"\r\n                android:layout_marginBottom=\"15dp\"\r\n                android:layout_above=\"@+id/nameSpaceLayout\">\r\n\r\n                <View\r\n                    android:id=\"@+id/genderColorView\"\r\n                    android:layout_width=\"2.2dp\"\r\n                    android:layout_height=\"75dp\"\r\n                    android:layout_alignParentBottom=\"true\"\r\n                    android:background=\"#e337ff\"\r\n                    android:layout_marginLeft=\"10dp\"/>\r\n\r\n                <TextView\r\n                    android:id=\"@+id/informationTextView\"\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:layout_marginBottom=\"0dp\"\r\n                    android:layout_marginTop=\"5dp\"\r\n                    android:layout_marginLeft=\"20dp\"\r\n                    android:layout_marginRight=\"10dp\"\r\n                    android:gravity=\"left\"\r\n                    android:text=\"Information, hobbies, city, what do i like and many others.\\nI love chocolate cookies and National Geographic, if u understood what i’ve said rn write me in DM\"\r\n                    android:textColor=\"#ffffff\"\r\n                    android:textSize=\"14sp\"/>\r\n            </RelativeLayout>\r\n\r\n        </RelativeLayout>\r\n    </RelativeLayout>\r\n\r\n\r\n    <LinearLayout\r\n        android:id=\"@+id/bottom_layout\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"90dp\"\r\n        android:layout_alignParentBottom=\"true\"\r\n        android:layout_gravity=\"bottom\"\r\n        android:layout_marginBottom=\"0dp\"\r\n        android:background=\"#000000\"\r\n        android:gravity=\"bottom\">\r\n\r\n\r\n\r\n        <FrameLayout\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\">\r\n\r\n            <View\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"@dimen/bottomline\"\r\n                android:background=\"#FFFFFF\" />\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageView5\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:layout_margin=\"20dp\"\r\n                android:layout_gravity=\"center\"\r\n                android:scaleType=\"centerInside\"\r\n                app:srcCompat=\"@drawable/gobackbutton\" />\r\n\r\n            <Button\r\n                android:id=\"@+id/gobackbutton\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:background=\"@android:color/transparent\" />\r\n\r\n        </FrameLayout>\r\n\r\n        <FrameLayout\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\">\r\n\r\n            <View\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"@dimen/bottomline\"\r\n                android:background=\"#FFFFFF\" />\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageView6\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:layout_margin=\"20dp\"\r\n                android:layout_gravity=\"center\"\r\n                android:scaleType=\"centerInside\"\r\n                app:srcCompat=\"@drawable/dislikebutton\" />\r\n\r\n            <Button\r\n                android:id=\"@+id/dislikebutton\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:background=\"@android:color/transparent\" />\r\n\r\n        </FrameLayout>\r\n\r\n        <FrameLayout\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\">\r\n\r\n            <View\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"@dimen/bottomline\"\r\n                android:background=\"#FFFFFF\" />\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageView7\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:layout_margin=\"10dp\"\r\n                android:layout_gravity=\"center\"\r\n                android:scaleType=\"centerInside\"\r\n                app:srcCompat=\"@drawable/megasbutton\" />\r\n\r\n            <Button\r\n                android:id=\"@+id/megasbutton\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:background=\"@android:color/transparent\" />\r\n\r\n        </FrameLayout>\r\n\r\n        <FrameLayout\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\">\r\n\r\n            <View\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"@dimen/bottomline\"\r\n                android:background=\"#FFFFFF\" />\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageView8\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:layout_margin=\"20dp\"\r\n                android:layout_gravity=\"center\"\r\n                android:scaleType=\"centerInside\"\r\n                app:srcCompat=\"@drawable/likebutton\" />\r\n\r\n            <Button\r\n                android:id=\"@+id/likebutton\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:background=\"@android:color/transparent\" />\r\n\r\n        </FrameLayout>\r\n\r\n        <FrameLayout\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\">\r\n\r\n            <View\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"@dimen/bottomline\"\r\n                android:background=\"#FFFFFF\" />\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageView9\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:layout_margin=\"20dp\"\r\n                android:layout_gravity=\"center\"\r\n                android:scaleType=\"centerInside\"\r\n                app:srcCompat=\"@drawable/powerupbutton\" />\r\n\r\n            <Button\r\n                android:id=\"@+id/boostbutton\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:background=\"@android:color/transparent\" />\r\n\r\n        </FrameLayout>\r\n    </LinearLayout>\r\n\r\n    <RelativeLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"25dp\"\r\n        android:layout_alignTop=\"@+id/main_header\"\r\n        android:layout_marginTop=\"42dp\"\r\n        android:gravity=\"center_horizontal\"\r\n        android:background=\"@drawable/gradient_shadow\">\r\n        <ImageView\r\n            android:id=\"@+id/choose_image\"\r\n            android:layout_marginRight=\"120dp\"\r\n            android:layout_marginLeft=\"120dp\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:src=\"@drawable/nochoosed\"/>\r\n    </RelativeLayout>\r\n\r\n\r\n    <RelativeLayout\r\n        android:id=\"@+id/main_header\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"42dp\"\r\n        android:orientation=\"horizontal\"\r\n        android:elevation=\"15dp\"\r\n        android:background=\"@android:color/white\">\r\n        <TextView\r\n            android:id=\"@+id/meet\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_marginLeft=\"25dp\"\r\n            android:gravity=\"center_vertical\"\r\n            android:layout_alignParentLeft=\"true\"\r\n            android:text=\"meet\"\r\n            android:textSize=\"16sp\"\r\n            android:textStyle=\"bold\"\r\n            android:textColor=\"#2C59CC\"/>\r\n        <TextView\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_marginLeft=\"40dp\"\r\n            android:gravity=\"center_vertical\"\r\n            android:layout_alignLeft=\"@+id/meet\"\r\n            android:text=\"you\"\r\n            android:textSize=\"16sp\"\r\n            android:textColor=\"#000000\"\r\n            android:paddingLeft=\"5dp\"\r\n            android:paddingRight=\"16dp\"/>\r\n        <FrameLayout\r\n            android:layout_width=\"28dp\"\r\n            android:layout_height=\"42dp\"\r\n            android:layout_alignRight=\"@+id/profile_layout\"\r\n            android:layout_marginRight=\"45dp\"\r\n            android:layout_marginLeft=\"5dp\">\r\n            <ImageView\r\n                android:id=\"@+id/imageView2\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:scaleType=\"fitCenter\"\r\n                app:srcCompat=\"@drawable/messagerbutton\" />\r\n            <Button\r\n                android:id=\"@+id/message_button\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:background=\"@android:color/transparent\" />\r\n        </FrameLayout>\r\n        <FrameLayout\r\n            android:id=\"@+id/profile_layout\"\r\n            android:layout_width=\"28dp\"\r\n            android:layout_height=\"42dp\"\r\n            android:layout_alignParentRight=\"true\"\r\n            android:layout_marginLeft=\"5dp\"\r\n            android:layout_marginRight=\"15dp\">\r\n            <ImageView\r\n                android:id=\"@+id/imageView4\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:scaleType=\"fitCenter\"\r\n                app:srcCompat=\"@drawable/profilebutton\" />\r\n            <Button\r\n                android:id=\"@+id/profile_button\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:background=\"@android:color/transparent\"\r\n                />\r\n        </FrameLayout>\r\n    </RelativeLayout>\r\n</RelativeLayout>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_main.xml b/app/src/main/res/layout/activity_main.xml
+--- a/app/src/main/res/layout/activity_main.xml	(revision 5e9b85277aa22ae5597e4f2d5e882cb0cc29978b)
++++ b/app/src/main/res/layout/activity_main.xml	(date 1690496325241)
+@@ -9,8 +9,8 @@
+     <RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+-        android:layout_marginTop="42dp"
+-        android:layout_marginBottom="90dp">
++        android:layout_marginBottom="90dp"
++        android:layout_marginTop="42dp">
+         <androidx.viewpager2.widget.ViewPager2
+             android:id="@+id/viewPager"
+             android:layout_width="match_parent"
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n    id 'com.android.application'\r\n    id 'com.google.gms.google-services'\r\n}\r\n\r\nandroid {\r\n    namespace 'com.example.meetyou'\r\n    compileSdk 33\r\n\r\n    defaultConfig {\r\n        applicationId \"com.example.meetyou\"\r\n        minSdk 24\r\n        targetSdk 33\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n    buildFeatures{\r\n        viewBinding true\r\n    }\r\n    compileOptions {\r\n        sourceCompatibility JavaVersion.VERSION_1_8\r\n        targetCompatibility JavaVersion.VERSION_1_8\r\n    }\r\n}\r\n\r\ndependencies {\r\n\r\n    implementation 'androidx.appcompat:appcompat:1.6.1'\r\n    implementation 'com.google.android.material:material:1.5.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'\r\n    implementation 'net.sourceforge.jtds:jtds:1.3.1'\r\n    implementation platform('com.google.firebase:firebase-bom:32.2.0')\r\n    implementation 'com.google.firebase:firebase-analytics'\r\n    implementation 'com.google.firebase:firebase-database:20.2.2'\r\n    implementation 'com.google.firebase:firebase-auth:22.1.0'\r\n    implementation 'androidx.viewpager2:viewpager2:1.0.0'\r\n    implementation 'com.makeramen:roundedimageview:2.3.0'\r\n    testImplementation 'junit:junit:4.13.2'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.5'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/build.gradle b/app/build.gradle
+--- a/app/build.gradle	(revision 5e9b85277aa22ae5597e4f2d5e882cb0cc29978b)
++++ b/app/build.gradle	(date 1690496325214)
+@@ -47,4 +47,6 @@
+     testImplementation 'junit:junit:4.13.2'
+     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
++
++
+ }
+\ No newline at end of file

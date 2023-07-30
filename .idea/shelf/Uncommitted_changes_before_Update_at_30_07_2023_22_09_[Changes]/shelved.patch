@@ -1,0 +1,19 @@
+Index: app/src/main/java/com/example/meetyou/MYFiles/Users.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.meetyou.MYFiles;\r\n\r\npublic class Users {\r\n    String email, name;\r\n    int age;\r\n\r\n    public Users() {\r\n    }\r\n\r\n    public Users(String email, String name, int age) {\r\n        this.email = email;\r\n        this.name = name;\r\n        this.age = age;\r\n    }\r\n\r\n    public String getEmail() {\r\n        return email;\r\n    }\r\n\r\n    public void setEmail(String email) {\r\n        this.email = email;\r\n    }\r\n\r\n    public String getName() {\r\n        return name;\r\n    }\r\n\r\n    public void setName(String name) {\r\n        this.name = name;\r\n    }\r\n\r\n    public int getAge() {\r\n        return age;\r\n    }\r\n\r\n    public void setAge(int age) {\r\n        this.age = age;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/meetyou/MYFiles/Users.java b/app/src/main/java/com/example/meetyou/MYFiles/Users.java
+--- a/app/src/main/java/com/example/meetyou/MYFiles/Users.java	(revision b2a6fc89e6dae1027f3f2718a9fbc4dc864646c4)
++++ b/app/src/main/java/com/example/meetyou/MYFiles/Users.java	(date 1690676249376)
+@@ -1,7 +1,7 @@
+ package com.example.meetyou.MYFiles;
+ 
+ public class Users {
+-    String email, name;
++    String email, name, bio, height, weight, hobbies, sex, findsex;
+     int age;
+ 
+     public Users() {
