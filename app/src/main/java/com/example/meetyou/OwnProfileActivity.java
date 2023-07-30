@@ -128,9 +128,9 @@ public class OwnProfileActivity extends AppCompatActivity {
         return sharedPreferences.getString("bio", "");
     }
 
-    private String getUserAge(){
+    private int getUserAge(){
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return sharedPreferences.getString("age", "");
+        return sharedPreferences.getInt("age", 0);
     }
 
     private String getUserName(){

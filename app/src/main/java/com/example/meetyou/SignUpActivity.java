@@ -9,14 +9,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
-
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.example.meetyou.Database.DatabaseHelper;
-import com.example.meetyou.Database.Users;
+import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.MYFiles.NotificationHelper;
 import com.example.meetyou.databinding.ActivityRegisterationBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,6 +35,7 @@ public class SignUpActivity extends AppCompatActivity {
     ActivityRegisterationBinding binding;
     DatabaseHelper databaseHelper;
     private FirebaseAuth mAuth;
+    private StorageReference storageReference;
 
     FirebaseDatabase db;
     DatabaseReference reference;
@@ -45,7 +46,7 @@ public class SignUpActivity extends AppCompatActivity {
         binding = ActivityRegisterationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+        storageReference = FirebaseStorage.getInstance().getReference();
         databaseHelper = new DatabaseHelper(this);
 
         getWindow().setStatusBarColor(ContextCompat.getColor(SignUpActivity.this, R.color.main));
@@ -59,8 +60,6 @@ public class SignUpActivity extends AppCompatActivity {
             String email = binding.mailText.getText().toString().trim();
             String password = binding.password.getText().toString();
             String confirmPassword = binding.confirmPassword.getText().toString();
-            String name = "None";
-            int age = 0;
 
             if (isValidEmail(email)) {
                 if (password.length() < 8) {
@@ -78,15 +77,11 @@ public class SignUpActivity extends AppCompatActivity {
                 } else {
                     String sanitizedEmail = sanitizeEmail(email);
                     checkIfEmailIsUsed(email, password);
-                    Users users = new Users(sanitizedEmail,name,age);
+                    Users users = new Users(sanitizedEmail,"none", "none", "none", "none", "none", "none", "none", "none", 0);
+                    saveUID(sanitizedEmail);
                     db = FirebaseDatabase.getInstance();
                     reference = db.getReference("Users");
-                    reference.child(sanitizedEmail).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            NotificationHelper.showCustomNotification(SignUpActivity.this, null, "User was added in database", getString(R.string.close), 0, 0, 0,0);
-                        }
-                    });
+                    reference.child(sanitizedEmail).setValue(users);
                 }
             } else {
                 NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.wrong_mail_format_message), getString(R.string.close), 0, 0, 0,R.color.main);
@@ -121,6 +116,8 @@ public class SignUpActivity extends AppCompatActivity {
                                         if (task.isSuccessful()) {
                                             Toast.makeText(SignUpActivity.this, R.string.success_registration_message, Toast.LENGTH_SHORT).show();
                                             usertoDataBase(email, 999);
+                                            String sanitizedEmail = sanitizeEmail(email);
+                                            createFirebaseStorageFolder(sanitizedEmail);
                                         } else {
                                             NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.registration_error_message), getString(R.string.close), 0, 0, 0, R.color.main);
                                         }
@@ -133,6 +130,10 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void createFirebaseStorageFolder(String folderName) {
+        StorageReference folderRef = storageReference.child(folderName);
     }
 
     private void checkIfEmailIsUsed(String email, String password) {
@@ -197,6 +198,13 @@ public class SignUpActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("userEmail", email);
+        editor.apply();
+    }
+
+    private void saveUID(String UID){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("UID", UID);
         editor.apply();
     }
 

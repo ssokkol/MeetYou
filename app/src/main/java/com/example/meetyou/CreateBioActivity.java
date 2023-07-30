@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 import com.example.meetyou.Database.DatabaseHelper;
 import com.example.meetyou.MYFiles.NotificationHelper;
+import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityCreateBioBinding;
 import java.util.Calendar;
 
@@ -258,6 +259,7 @@ public class CreateBioActivity extends AppCompatActivity {
     }
 
     private void saveUserBio(String bio){
+        Users.updateUserBio(getUID(), bio);
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("bio", bio);
@@ -265,6 +267,7 @@ public class CreateBioActivity extends AppCompatActivity {
     }
 
     private void saveUserName(String name){
+        Users.updateUserName(getUID(), name);
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("name", name);
@@ -272,10 +275,15 @@ public class CreateBioActivity extends AppCompatActivity {
     }
 
     private void saveUserAge(int age){
+        Users.updateUserAge(getUID(), age);
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("age", String.valueOf(age));
         editor.apply();
     }
 
+    private String getUID(){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getString("UID", "");
+    }
 }

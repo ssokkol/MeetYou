@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.meetyou.Database.DatabaseHelper;
 import com.example.meetyou.MYFiles.NotificationHelper;
+import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivitySignInBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -89,15 +90,20 @@ public class SignInActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(SignInActivity.this, R.string.success_sign_in_message, Toast.LENGTH_SHORT).show();
+                            String userUID = sanitizeEmail(email);
 
-                            if (rememberMeCheckbox.isChecked()) {
-                                saveUserCredentials(email, password);
-                            } else {
-                                clearUserCredentials();
-                            }
+                            Users.getUserDataFromFirebase(userUID, new Users.OnUserDataListener() {
+                                @Override
+                                public void onDataLoaded(Users user) {
+                                    saveUserCredentials(user);
+                                    startMainActivity();
+                                }
 
-                            startMainActivity();
+                                @Override
+                                public void onDataNotAvailable() {
+                                    Toast.makeText(SignInActivity.this, R.string.data_not_available_message, Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         } else {
                             NotificationHelper.showCustomNotification(SignInActivity.this, null, getString(R.string.wrong_password_or_mail_message), getString(R.string.close), 0, 0, 0, 0);
                         }
@@ -105,13 +111,23 @@ public class SignInActivity extends AppCompatActivity {
                 });
     }
 
-    private void clearUserCredentials() {
+
+    private void saveUserCredentials(Users user) {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove("email");
-        editor.remove("password");
+        editor.putString("email", user.getEmail());
+        editor.putString("name", user.getName());
+        editor.putString("bio", user.getBio());
+        editor.putString("height", user.getHeight());
+        editor.putString("width", user.getWidth());
+        editor.putString("gender", user.getGender());
+        editor.putString("findGender", user.getFindGender());
+        editor.putString("hobbies", user.getHobbies());
+        editor.putString("target", user.getTarget());
+        editor.putInt("age", user.getAge());
         editor.apply();
     }
+
 
     private void startMainActivity() {
         Intent intent = new Intent(SignInActivity.this, OwnProfileActivity.class);
@@ -141,11 +157,17 @@ public class SignInActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("password", "");
     }
-    private void saveUserCredentials(String email, String password) {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("email", email);
-        editor.putString("password", password);
-        editor.apply();
+//    private void saveUserCredentials(String email, String password) {
+//        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putString("email", email);
+//        editor.putString("password", password);
+//        editor.apply();
+//    }
+
+
+    public String sanitizeEmail(String email) {
+        String sanitizedEmail = email.replaceAll("[.@#$\\[\\]]", "");
+        return sanitizedEmail;
     }
 }
