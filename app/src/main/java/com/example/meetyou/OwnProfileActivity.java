@@ -122,7 +122,6 @@ public class OwnProfileActivity extends AppCompatActivity {
             }
         }
     }
-
     private String getUserBio(){
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("bio", "");
