@@ -1,17 +1,23 @@
 package com.example.meetyou.MYFiles;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Users {
-    String email, name, bio, height, width, gender, findGender, hobbies, target;
+    String UID, email, name, bio, height, width, gender, findGender, hobbies, target;
     int age;
 
     public Users() {
     }
 
-    public Users(String name, String bio, String height, String width, String gender, String findGender, String hobbies, String target, int age) {
+    public Users(String UID,String name, String bio, String height, String width, String gender, String findGender, String hobbies, String target, int age) {
+        this.UID = UID;
         this.name = name;
         this.bio = bio;
         this.height = height;
@@ -23,6 +29,13 @@ public class Users {
         this.age = age;
     }
 
+    public String getUID() {
+        return UID;
+    }
+
+    public void setUID(String UID) {
+        this.UID = UID;
+    }
 
     public String getEmail() {
         return email;
@@ -148,4 +161,62 @@ public class Users {
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(UID).child("age");
         userRef.setValue(newAge);
     }
+
+    public static void getUserDataFromFirebase(String UID, final OnUserDataListener listener) {
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(UID);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Users user = dataSnapshot.getValue(Users.class);
+                if (user != null) {
+                    listener.onDataLoaded(user);
+                } else {
+                    listener.onDataNotAvailable();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.onDataNotAvailable();
+            }
+        });
+    }
+
+    public interface OnUserDataListener {
+        void onDataLoaded(Users user);
+        void onDataNotAvailable();
+    }
+
+    public void saveUserDataToSharedPreferences(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("UID", this.UID);
+        editor.putString("name", this.name);
+        editor.putString("bio", this.bio);
+        editor.putString("height", this.height);
+        editor.putString("width", this.width);
+        editor.putString("gender", this.gender);
+        editor.putString("findGender", this.findGender);
+        editor.putString("hobbies", this.hobbies);
+        editor.putString("target", this.target);
+        editor.putInt("age", this.age);
+        editor.apply();
+    }
+
+    public static Users getUserDataFromSharedPreferences(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        String UID = sharedPreferences.getString("UID", "");
+        String name = sharedPreferences.getString("name", "");
+        String bio = sharedPreferences.getString("bio", "");
+        String height = sharedPreferences.getString("height", "");
+        String width = sharedPreferences.getString("width", "");
+        String gender = sharedPreferences.getString("gender", "");
+        String findGender = sharedPreferences.getString("findGender", "");
+        String hobbies = sharedPreferences.getString("hobbies", "");
+        String target = sharedPreferences.getString("target", "");
+        int age = sharedPreferences.getInt("age", 0);
+
+        return new Users(UID, name, bio, height, width, gender, findGender, hobbies, target, age);
+    }
+
 }

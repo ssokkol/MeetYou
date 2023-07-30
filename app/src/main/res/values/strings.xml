@@ -45,4 +45,5 @@
     <string name="you_ve_been_successfully_registered_please_sign_in"><![CDATA[You\'ve been successfully registered! <\n>Please Sign In!.]]></string>
     <string name="pick_a_few_targets_message">Pick a few targets</string>
     <string name="select_nm_5_interests_message">Select no more than 5 interests!</string>
+    <string name="data_not_available_message">Data is not available!</string>
 </resources>

@@ -77,7 +77,7 @@ public class SignUpActivity extends AppCompatActivity {
                 } else {
                     String sanitizedEmail = sanitizeEmail(email);
                     checkIfEmailIsUsed(email, password);
-                    Users users = new Users("none", "none", "none", "none", "none", "none", "none", "none", 0);
+                    Users users = new Users(sanitizedEmail,"none", "none", "none", "none", "none", "none", "none", "none", 0);
                     saveUID(sanitizedEmail);
                     db = FirebaseDatabase.getInstance();
                     reference = db.getReference("Users");

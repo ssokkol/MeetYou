@@ -523,7 +523,7 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                     NotificationHelper.showCustomNotification(ChangeInterestsActivity.this, null, getString(R.string.choose_a_few_interests_message), getString(R.string.close), 0, 0, 0,0);
                 } else if(Counter <= 5 )
                 {
-                    Users.updateUserHobbies(getUID(), interestsString);
+                    Users.updateUserHobbies(getUID(), getSelectedInterestsString());
                     Intent intent = new Intent(ChangeInterestsActivity.this, ChooseFindGenderActivity.class);
                     startActivity(intent);
                     //NotificationHelper.showCustomNotification(StartActivity, getString(R.string.welcome), getString(R.string.you_ve_been_successfully_registered_please_sign_in), getString(R.string.okay), 0, 0, 0,0);
@@ -562,4 +562,152 @@ public class ChangeInterestsActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("UID", "");
     }
+
+    private String getSelectedInterestsString() {
+        StringBuilder selectedInterests = new StringBuilder();
+        int selectedCount = 0;
+
+        if (isClubsChanged) {
+            selectedInterests.append("Clubs");
+            selectedCount++;
+        }
+        if (isCodingChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Coding");
+            selectedCount++;
+        }
+        if (isSportChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Sport");
+            selectedCount++;
+        }
+        if (isVGamesChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Video Games");
+            selectedCount++;
+        }
+        if (isYogaChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Yoga");
+            selectedCount++;
+        }
+        if (isBooksChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Books");
+            selectedCount++;
+        }
+        if (isArtChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Art");
+            selectedCount++;
+        }
+        if (isMusicChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Music");
+            selectedCount++;
+        }
+        if (isTTChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Tik-Tok");
+            selectedCount++;
+        }
+        if (isYTChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("YouTube");
+            selectedCount++;
+        }
+        if (isCarChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Cars");
+            selectedCount++;
+        }
+        if (isCGamesChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Console Games");
+            selectedCount++;
+        }
+        if (isTGamesChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Table Games");
+            selectedCount++;
+        }
+        if (isChessChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Chess");
+            selectedCount++;
+        }
+        if (isCookChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Cooking");
+            selectedCount++;
+        }
+        if (isFishChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Fishing");
+            selectedCount++;
+        }
+        if (isTravChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Traveling");
+            selectedCount++;
+        }
+        if (isDanceChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Dance");
+            selectedCount++;
+        }
+        if (isSexChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Sex");
+            selectedCount++;
+        }
+        if (isRockChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Rock");
+            selectedCount++;
+        }
+        if (isRRapChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Russian Rap");
+            selectedCount++;
+        }
+        if (isHuntChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Hunting");
+            selectedCount++;
+        }
+        if (isFashChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Fashion");
+            selectedCount++;
+        }
+        if (isGuitarChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Guitar");
+            selectedCount++;
+        }
+        if (isPianoChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Piano");
+            selectedCount++;
+        }
+        if (isPhotoChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Photography");
+            selectedCount++;
+        }
+        if (isPoliticsChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Politics");
+            selectedCount++;
+        }
+        if (isPhilChanged) {
+            if (selectedCount > 0) selectedInterests.append(", ");
+            selectedInterests.append("Philosophy");
+            selectedCount++;
+        }
+
+        return selectedInterests.toString();
+    }
+
 }
