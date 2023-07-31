@@ -39,7 +39,7 @@ public class OwnProfileActivity extends AppCompatActivity {
 
         getWindow().setStatusBarColor(ContextCompat.getColor(OwnProfileActivity.this, R.color.main));
 
-        binding.nameTextView.setText(getUserName() + ", " + getUserAge());
+        binding.nameTextView.setText(getUserName() + ", " + String.valueOf(getUserAge()));
 
         binding.additionalTextView.setText(getUserBio());
 

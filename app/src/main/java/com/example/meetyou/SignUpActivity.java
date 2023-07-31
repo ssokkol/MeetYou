@@ -32,6 +32,8 @@ import java.util.HashMap;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    public String email;
+
     ActivityRegisterationBinding binding;
     DatabaseHelper databaseHelper;
     private FirebaseAuth mAuth;
@@ -57,7 +59,7 @@ public class SignUpActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         binding.signUpButton.setOnClickListener(v -> {
-            String email = binding.mailText.getText().toString().trim();
+            email = binding.mailText.getText().toString().trim();
             String password = binding.password.getText().toString();
             String confirmPassword = binding.confirmPassword.getText().toString();
 
@@ -134,6 +136,14 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void createFirebaseStorageFolder(String folderName) {
         StorageReference folderRef = storageReference.child(folderName);
+        folderRef.putBytes(new byte[0])
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.e(TAG, "Папка " + sanitizeEmail(email) + " успешно создана");
+                    } else {
+                        Log.e(TAG, "Ошибка при создании папки в Firebase Storage: " + task.getException());
+                    }
+                });
     }
 
     private void checkIfEmailIsUsed(String email, String password) {
@@ -212,4 +222,5 @@ public class SignUpActivity extends AppCompatActivity {
         String sanitizedEmail = email.replaceAll("[.@#$\\[\\]]", "");
         return sanitizedEmail;
     }
+
 }
