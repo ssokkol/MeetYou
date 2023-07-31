@@ -1,6 +1,7 @@
 package com.example.meetyou;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -27,22 +28,30 @@ import java.util.Locale;
 
 public class OwnProfileActivity extends AppCompatActivity {
 
+    // Переменные для работы с местоположением
     private LocationManager locationManager;
     private LocationListener locationListener;
+
+    // Объект для привязки макета активности
     ActivityOwnProfileBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Привязка макета активности
         binding = ActivityOwnProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Установка цвета статус-бара
         getWindow().setStatusBarColor(ContextCompat.getColor(OwnProfileActivity.this, R.color.main));
 
-        binding.nameTextView.setText(getUserName() + ", " + String.valueOf(getUserAge()));
-
+        // Получение данных пользователя и отображение их в представлении
+        String nameText = getUserName() + ", " + Integer.toString(getUserAge());
+        binding.nameTextView.setText(nameText);
         binding.additionalTextView.setText(getUserBio());
 
+        // Загрузка изображений из SharedPreferences и отображение их в ImageView
         binding.profilePhoto.setImageBitmap(getImageBitmapFromSharedPreferences("photo1"));
         binding.image1.setImageBitmap(getImageBitmapFromSharedPreferences("photo1"));
         binding.image2.setImageBitmap(getImageBitmapFromSharedPreferences("photo2"));
@@ -50,6 +59,7 @@ public class OwnProfileActivity extends AppCompatActivity {
         binding.image4.setImageBitmap(getImageBitmapFromSharedPreferences("photo4"));
         binding.image5.setImageBitmap(getImageBitmapFromSharedPreferences("photo5"));
 
+        // Обработчик кнопки "Настройки", переход к активности OptionsActivity
         binding.settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,6 +68,7 @@ public class OwnProfileActivity extends AppCompatActivity {
             }
         });
 
+        // Обработчик кнопки "Найти", переход к активности MainActivity и завершение текущей активности
         binding.findButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,6 +78,7 @@ public class OwnProfileActivity extends AppCompatActivity {
             }
         });
 
+        // Получение LocationManager и установка слушателя для обновления местоположения
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
@@ -90,6 +102,7 @@ public class OwnProfileActivity extends AppCompatActivity {
             }
         };
 
+        // Проверка наличия разрешения на доступ к местоположению, и запрос разрешения, если требуется
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
@@ -98,10 +111,13 @@ public class OwnProfileActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        // Проверка, были ли внесены изменения, и пересоздание активности для их отображения
         if (getChanges()) {
             setSomethingWasChanged(false);
             recreate();
         }
+
+        // Проверка наличия разрешения на доступ к местоположению и запрос обновлений местоположения
         if (locationManager != null) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 10, locationListener);
@@ -112,11 +128,13 @@ public class OwnProfileActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        // Остановка обновлений местоположения при остановке активности
         if (locationManager != null) {
             locationManager.removeUpdates(locationListener);
         }
     }
 
+    // Обновление текстового представления с местоположением
     private void updateLocationTextView(Location location) {
         if (location != null) {
             double latitude = location.getLatitude();
@@ -137,13 +155,14 @@ public class OwnProfileActivity extends AppCompatActivity {
         }
     }
 
+    // Методы для получения данных пользователя из SharedPreferences
     private String getUserBio() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("bio", "");
     }
 
     private int getUserAge() {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         return sharedPreferences.getInt("age", 0);
     }
 
@@ -157,6 +176,7 @@ public class OwnProfileActivity extends AppCompatActivity {
         return sharedPreferences.getBoolean("isSomethingWasChanged", false);
     }
 
+    // Преобразование закодированного изображения в Bitmap
     private Bitmap getImageBitmapFromSharedPreferences(String key) {
         byte[] imageByteArray = getImageFromSharedPreferences(key);
         if (imageByteArray != null) {
@@ -165,6 +185,7 @@ public class OwnProfileActivity extends AppCompatActivity {
         return null;
     }
 
+    // Получение закодированного изображения из SharedPreferences
     private byte[] getImageFromSharedPreferences(String key) {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String base64Image = sharedPreferences.getString(key, null);
@@ -174,6 +195,7 @@ public class OwnProfileActivity extends AppCompatActivity {
         return null;
     }
 
+    // Установка флага, указывающего на наличие изменений
     private void setSomethingWasChanged(boolean parameter) {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

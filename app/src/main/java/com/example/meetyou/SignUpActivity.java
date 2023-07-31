@@ -1,7 +1,7 @@
 package com.example.meetyou;
 
+// Импортируем необходимые библиотеки
 import static android.content.ContentValues.TAG;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -27,13 +27,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.HashMap;
 
 public class SignUpActivity extends AppCompatActivity {
 
     public String email;
 
+    // Объявляем переменные и объекты
     ActivityRegisterationBinding binding;
     DatabaseHelper databaseHelper;
     private FirebaseAuth mAuth;
@@ -58,27 +58,28 @@ public class SignUpActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        // Обрабатываем нажатие кнопки "Зарегистрироваться"
         binding.signUpButton.setOnClickListener(v -> {
             email = binding.mailText.getText().toString().trim();
             String password = binding.password.getText().toString();
             String confirmPassword = binding.confirmPassword.getText().toString();
 
+            // Проверяем корректность введенного email
             if (isValidEmail(email)) {
+                // Проверяем длину пароля
                 if (password.length() < 8) {
                     NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.wrong_password_lenght_message), getString(R.string.close), 0, 0, 0,0);
-                    //Toast.makeText(SignUpActivity.this, R.string.wrong_password_lenght_message, Toast.LENGTH_SHORT).show();
                 } else if (!password.matches(".*[A-Z].*")) {
                     NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.wrong_password_chars_format_message), getString(R.string.close), 0, 0, 0,0);
-                    //Toast.makeText(SignUpActivity.this, R.string.wrong_password_chars_format_message, Toast.LENGTH_SHORT).show();
                 } else if (password.contains(" ")) {
                     NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.password_has_spaces_message), getString(R.string.close), 0, 0, 0,0);
-                    //Toast.makeText(SignUpActivity.this, R.string.password_has_spaces_message, Toast.LENGTH_SHORT).show();
                 } else if (!confirmPassword.equals(password)) {
                     NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.wrong_confirm_password_message), getString(R.string.close), 0, 0, 0,0);
-                    //Toast.makeText(SignUpActivity.this, R.string.wrong_confirm_password_message, Toast.LENGTH_SHORT).show();
                 } else {
                     String sanitizedEmail = sanitizeEmail(email);
+                    // Проверяем, зарегистрирован ли уже такой email
                     checkIfEmailIsUsed(email, password);
+                    // Создаем нового пользователя и сохраняем его в базу данных
                     Users users = new Users(sanitizedEmail,"none", "none", "none", "none", "none", "none", "none", "none", 0);
                     saveUID(sanitizedEmail);
                     db = FirebaseDatabase.getInstance();
@@ -87,7 +88,6 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             } else {
                 NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.wrong_mail_format_message), getString(R.string.close), 0, 0, 0,R.color.main);
-                //Toast.makeText(SignUpActivity.this, R.string.wrong_mail_format_message, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -102,6 +102,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
+    // Метод для регистрации нового пользователя
     private void registerUser(String email, String password) {
         mAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener(this, new OnCompleteListener<SignInMethodQueryResult>() {
             @Override
@@ -134,6 +135,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    // Метод для создания папки пользователя в Firebase Storage
     private void createFirebaseStorageFolder(String folderName) {
         StorageReference folderRef = storageReference.child(folderName);
         folderRef.putBytes(new byte[0])
@@ -146,6 +148,7 @@ public class SignUpActivity extends AppCompatActivity {
                 });
     }
 
+    // Метод для проверки, зарегистрирован ли уже такой email
     private void checkIfEmailIsUsed(String email, String password) {
         mAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener(this, new OnCompleteListener<SignInMethodQueryResult>() {
             @Override
@@ -155,6 +158,7 @@ public class SignUpActivity extends AppCompatActivity {
                     if (result != null && result.getSignInMethods() != null && result.getSignInMethods().size() > 0) {
                         NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.email_was_used_message), getString(R.string.close), 0, 0, 0, R.color.main);
                     } else {
+                        // Если email не зарегистрирован, регистрируем нового пользователя
                         registerUser(email, password);
                         saveUserEmail(email);
                         Intent intent = new Intent(SignUpActivity.this, ChangeGenderActivity.class);
@@ -169,6 +173,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    // Метод для сохранения данных пользователя в базу данных
     private void usertoDataBase(String email, int age) {
         HashMap<String, Object> user = new HashMap<>();
         user.put("age", 1);
@@ -185,10 +190,12 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    // Метод для проверки корректности введенного email
     private boolean isValidEmail(String email) {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
+    // Методы для сохранения информации о пользователе в SharedPreferences
     private void saveUserInfo(String email, String password) {
         SharedPreferences preferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -218,6 +225,7 @@ public class SignUpActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    // Метод для удаления из email специальных символов, которые не поддерживаются в Firebase
     public String sanitizeEmail(String email) {
         String sanitizedEmail = email.replaceAll("[.@#$\\[\\]]", "");
         return sanitizedEmail;
