@@ -10,9 +10,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import com.example.meetyou.MYFiles.Users;
+
 import com.example.meetyou.Database.DatabaseHelper;
 import com.example.meetyou.MYFiles.NotificationHelper;
+import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityChangeGenderBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,6 +34,9 @@ public class ChangeGenderActivity extends AppCompatActivity {
     private boolean isFemale = false;
     private boolean isMale = false;
 
+    FirebaseDatabase db;
+    DatabaseReference reference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +45,10 @@ public class ChangeGenderActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.main));
-
+        Users users = new Users(getUID(), false,"none", "none", "none", "none", "none", "none", "none", "none", "#2C59CC", "basic",0);
+        db = FirebaseDatabase.getInstance();
+        reference = db.getReference("Users");
+        reference.child(getUID()).setValue(users);
         databaseHelper = new DatabaseHelper(this);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
@@ -96,10 +103,12 @@ public class ChangeGenderActivity extends AppCompatActivity {
                     NotificationHelper.showCustomNotification(ChangeGenderActivity.this, null, getString(R.string.change_your_gender), getString(R.string.close), 0, 0, 0,0);
                 } else if (isFemale) {
                     Users.updateUserGender(getUID(), "female");
+                    Users.updateUserColor(getUID(), "#E337FF");
                     Intent intent = new Intent(ChangeGenderActivity.this, CreateBioActivity.class);
                     startActivity(intent);
                 } else if (isMale) {
                     Users.updateUserGender(getUID(), "male");
+                    Users.updateUserColor(getUID(), "#374BFF");
                     Intent intent = new Intent(ChangeGenderActivity.this, CreateBioActivity.class);
                     startActivity(intent);
                 }
@@ -134,11 +143,6 @@ public class ChangeGenderActivity extends AppCompatActivity {
         binding.goNextButton.setTextColor(ContextCompat.getColor(ChangeGenderActivity.this, R.color.neutral_dark_gray));
         isFemale = false;
         isMale = false;
-    }
-
-    private long getUserID() {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return sharedPreferences.getLong("userID", -1);
     }
 
     @IgnoreExtraProperties

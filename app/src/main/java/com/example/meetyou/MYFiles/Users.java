@@ -10,14 +10,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class Users {
-    String UID, email, name, bio, height, width, gender, findGender, hobbies, target;
+    String UID, email, name, bio, height, width, gender, findGender, hobbies, target, color, status;
     int age;
+
+    boolean verified;
 
     public Users() {
     }
 
-    public Users(String UID,String name, String bio, String height, String width, String gender, String findGender, String hobbies, String target, int age) {
+    public Users(String UID, boolean verified, String email, String name, String bio, String height, String width, String gender, String findGender, String hobbies, String target, String color, int age) {
+        this.verified = verified;
         this.UID = UID;
+        this.email = email;
         this.name = name;
         this.bio = bio;
         this.height = height;
@@ -26,7 +30,25 @@ public class Users {
         this.findGender = findGender;
         this.hobbies = hobbies;
         this.target = target;
+        this.color = color;
+        this.status = status;
         this.age = age;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getUID() {
@@ -157,9 +179,24 @@ public class Users {
         userRef.setValue(newTarget);
     }
 
+    public static void updateUserColor(String UID, String newColor) {
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(UID).child("color");
+        userRef.setValue(newColor);
+    }
+
+    public static void updateUserStatus(String UID, String newStatus) {
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(UID).child("status");
+        userRef.setValue(newStatus);
+    }
+
     public static void updateUserAge(String UID, int newAge) {
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(UID).child("age");
         userRef.setValue(newAge);
+    }
+
+    public static void updateVerification(String UID, boolean newVerification){
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(UID).child("verified");
+        userRef.setValue(newVerification);
     }
 
     public static void getUserDataFromFirebase(String UID, final OnUserDataListener listener) {
@@ -199,7 +236,10 @@ public class Users {
         editor.putString("findGender", this.findGender);
         editor.putString("hobbies", this.hobbies);
         editor.putString("target", this.target);
+        editor.putString("color", this.color);
+        editor.putString("status", this.status);
         editor.putInt("age", this.age);
+        editor.putBoolean("verified", this.verified);
         editor.apply();
     }
 
@@ -214,9 +254,12 @@ public class Users {
         String findGender = sharedPreferences.getString("findGender", "");
         String hobbies = sharedPreferences.getString("hobbies", "");
         String target = sharedPreferences.getString("target", "");
+        String color = sharedPreferences.getString("color", "");
+        String status = sharedPreferences.getString("status", "");
         int age = sharedPreferences.getInt("age", 0);
+        boolean verified = sharedPreferences.getBoolean("verified", false);
 
-        return new Users(UID, name, bio, height, width, gender, findGender, hobbies, target, age);
+        return new Users(UID, verified, name, bio, height, width, gender, findGender, hobbies, target, color, status, age);
     }
 
 }

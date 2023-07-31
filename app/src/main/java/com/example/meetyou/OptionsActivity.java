@@ -1,11 +1,11 @@
 package com.example.meetyou;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.meetyou.databinding.ActivityOptionsBinding;
 
@@ -49,6 +49,14 @@ public class OptionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(OptionsActivity.this, ChangeEmailActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.profileColorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(OptionsActivity.this, ChangeUserColorActivity.class);
                 startActivity(intent);
             }
         });

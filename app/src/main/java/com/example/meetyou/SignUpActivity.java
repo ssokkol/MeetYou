@@ -1,7 +1,9 @@
 package com.example.meetyou;
 
 // Импортируем необходимые библиотеки
+
 import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -9,15 +11,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.example.meetyou.Database.DatabaseHelper;
-import com.example.meetyou.MYFiles.Users;
+
 import com.example.meetyou.MYFiles.NotificationHelper;
+import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityRegisterationBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,6 +28,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.HashMap;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -35,7 +39,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     // Объявляем переменные и объекты
     ActivityRegisterationBinding binding;
-    DatabaseHelper databaseHelper;
     private FirebaseAuth mAuth;
     private StorageReference storageReference;
 
@@ -49,7 +52,6 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         storageReference = FirebaseStorage.getInstance().getReference();
-        databaseHelper = new DatabaseHelper(this);
 
         getWindow().setStatusBarColor(ContextCompat.getColor(SignUpActivity.this, R.color.main));
 
@@ -80,7 +82,7 @@ public class SignUpActivity extends AppCompatActivity {
                     // Проверяем, зарегистрирован ли уже такой email
                     checkIfEmailIsUsed(email, password);
                     // Создаем нового пользователя и сохраняем его в базу данных
-                    Users users = new Users(sanitizedEmail,"none", "none", "none", "none", "none", "none", "none", "none", 0);
+                    Users users = new Users(sanitizedEmail, false,"none", "none", "none", "none", "none", "none", "none", "none", "#2C59CC", "basic",0);
                     saveUID(sanitizedEmail);
                     db = FirebaseDatabase.getInstance();
                     reference = db.getReference("Users");

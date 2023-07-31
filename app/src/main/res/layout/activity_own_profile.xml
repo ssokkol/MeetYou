@@ -13,6 +13,7 @@
         android:layout_height="300dp"
         android:layout_marginTop="42dp">
         <com.google.android.material.imageview.ShapeableImageView
+
             android:id="@+id/profile_photo"
             android:layout_width="125dp"
             android:layout_height="125dp"
@@ -220,7 +221,7 @@
             android:id="@+id/likes_button_layout"
             android:layout_centerInParent="true"
             android:layout_alignRight="@+id/find_button_layout"
-            android:layout_marginRight="80dp"
+            android:layout_marginRight="120dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
@@ -254,7 +255,7 @@
             android:id="@+id/shop_button_layout"
             android:layout_centerInParent="true"
             android:layout_alignLeft="@+id/find_button_layout"
-            android:layout_marginLeft="80dp"
+            android:layout_marginLeft="120dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
