@@ -1,9 +1,5 @@
 package com.example.meetyou;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,8 +15,12 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 
-import com.example.meetyou.MYFiles.NotificationHelper;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.example.meetyou.databinding.ActivityOwnProfileBinding;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -74,6 +74,20 @@ public class OwnProfileActivity extends AppCompatActivity {
                 updateLocationTextView(location);
             }
 
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+                // Метод вызывается при изменении статуса провайдера (GPS или сеть)
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+                // Метод вызывается, когда пользователь включает провайдер (GPS или сеть)
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+                // Метод вызывается, когда пользователь отключает провайдер (GPS или сеть)
+            }
         };
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -84,7 +98,7 @@ public class OwnProfileActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(getChanges()){
+        if (getChanges()) {
             setSomethingWasChanged(false);
             recreate();
         }
@@ -112,8 +126,8 @@ public class OwnProfileActivity extends AppCompatActivity {
             try {
                 List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
                 if (!addresses.isEmpty()) {
-                    String country = addresses.get(0).getCountryName().toString();
-                    String city = addresses.get(0).getLocality().toString();
+                    String country = addresses.get(0).getCountryName();
+                    String city = addresses.get(0).getLocality();
                     String locationString = country + ", " + city;
                     binding.locationTextView.setText(locationString);
                 }
@@ -122,22 +136,23 @@ public class OwnProfileActivity extends AppCompatActivity {
             }
         }
     }
-    private String getUserBio(){
+
+    private String getUserBio() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("bio", "");
     }
 
-    private int getUserAge(){
+    private int getUserAge() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getInt("age", 0);
     }
 
-    private String getUserName(){
+    private String getUserName() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("name", "");
     }
 
-    private boolean getChanges(){
+    private boolean getChanges() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getBoolean("isSomethingWasChanged", false);
     }
@@ -159,7 +174,7 @@ public class OwnProfileActivity extends AppCompatActivity {
         return null;
     }
 
-    private void setSomethingWasChanged(boolean parameter){
+    private void setSomethingWasChanged(boolean parameter) {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("isSomethingWasChanged", parameter);

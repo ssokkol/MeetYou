@@ -1,24 +1,29 @@
 package com.example.meetyou;
 
+import static android.content.ContentValues.TAG;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
 import com.example.meetyou.Database.DatabaseHelper;
 import com.example.meetyou.databinding.ActivityUploadPhotoBinding;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 
@@ -26,6 +31,7 @@ public class UploadPhotoActivity extends AppCompatActivity {
 
     private ImageView selectedImageView;
 
+    private StorageReference storageReference;
 
     ActivityUploadPhotoBinding binding;
     DatabaseHelper databaseHelper;
@@ -56,6 +62,7 @@ public class UploadPhotoActivity extends AppCompatActivity {
         binding = ActivityUploadPhotoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         getWindow().setStatusBarColor(ContextCompat.getColor(UploadPhotoActivity.this, R.color.main));
 
@@ -163,22 +170,27 @@ public class UploadPhotoActivity extends AppCompatActivity {
                     if (selectedImageView == imageView1) {
                         photo1 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
                         saveImageToSharedPreferences("photo1", photo1);
+                        uploadPhotoToFirebaseStorage(data.getData(), 1);
                         firstUploaded = true;
                     } else if (selectedImageView == imageView2) {
                         photo2 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
                         saveImageToSharedPreferences("photo2", photo2);
+                        uploadPhotoToFirebaseStorage(data.getData(), 2);
                         secondUploaded = true;
                     } else if (selectedImageView == imageView3) {
                         photo3 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
                         saveImageToSharedPreferences("photo3", photo3);
+                        uploadPhotoToFirebaseStorage(data.getData(), 3);
                         thirdUploaded = true;
                     } else if (selectedImageView == imageView4) {
                         photo4 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
                         saveImageToSharedPreferences("photo4", photo4);
+                        uploadPhotoToFirebaseStorage(data.getData(), 4);
                         fourthUploaded = true;
                     } else if (selectedImageView == imageView5) {
                         photo5 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
                         saveImageToSharedPreferences("photo5", photo5);
+                        uploadPhotoToFirebaseStorage(data.getData(), 5);
                         fifthUploaded = true;
                     }
                     applyRoundedCorners(selectedImageView);
@@ -237,9 +249,9 @@ public class UploadPhotoActivity extends AppCompatActivity {
         return stream.toByteArray();
     }
 
-    private long getUserID() {
+    private String getUID() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return sharedPreferences.getLong("userID", -1);
+        return sharedPreferences.getString("UID", "");
     }
 
     private void saveImageToSharedPreferences(String key, byte[] imageData) {
@@ -250,4 +262,36 @@ public class UploadPhotoActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    private void uploadPhotoToFirebaseStorage(Uri photoUri, int number) {
+        String UID = getUID();
+
+        if (UID == null) {
+            Log.e(TAG, "UID is 0, cannot upload photo to Firebase Storage.");
+            return;
+        }
+
+        String folderName = UID;
+        StorageReference folderRef = storageReference.child(folderName);
+
+        String fileExtension = getFileExtension(photoUri);
+        String uniqueFileName = "photo" + number + "." + fileExtension;
+
+        StorageReference photoRef = folderRef.child(uniqueFileName);
+
+        photoRef.putFile(photoUri)
+                .addOnSuccessListener(taskSnapshot -> {
+                    // Photo upload success, do something if needed
+                })
+                .addOnFailureListener(exception -> {
+                    // Error occurred while uploading the photo
+                    Log.e(TAG, "Error uploading photo to Firebase Storage: " + exception.getMessage());
+                });
+    }
+
+
+    private String getFileExtension(Uri uri) {
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
 }
