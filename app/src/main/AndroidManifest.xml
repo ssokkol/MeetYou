@@ -17,6 +17,9 @@
         android:theme="@style/Theme.MeetYou"
         tools:targetApi="31">
         <activity
+            android:name=".ChangeUsersPhotosActivity"
+            android:exported="false" />
+        <activity
             android:name=".ChangeUserColorActivity"
             android:exported="false" />
         <activity

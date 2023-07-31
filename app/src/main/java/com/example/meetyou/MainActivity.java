@@ -1,15 +1,15 @@
 package com.example.meetyou;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.viewpager2.widget.ViewPager2;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.meetyou.Database.DatabaseHelper;
 import com.example.meetyou.MYFiles.NotificationHelper;
@@ -89,5 +89,10 @@ public class MainActivity extends AppCompatActivity {
     private String getUserPassword() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("password", "");
+    }
+
+    private String getUID(){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getString("UID", "");
     }
 }

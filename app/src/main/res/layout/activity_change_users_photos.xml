@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChangeUsersPhotosActivity"
+    android:background="@color/white">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/main_text"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="25dp"
+        android:text="Upload your new photos"
+        android:textColor="@color/main"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textSize="24sp"
+        />
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="420dp"
+        android:layout_centerInParent="true">
+        <RelativeLayout
+            android:layout_width="110dp"
+            android:layout_height="160dp"
+            android:layout_marginStart="25dp">
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image1"
+                android:layout_width="110dp"
+                android:layout_height="160dp"
+                android:background="@drawable/rounded_image"
+                android:src="@drawable/ic_plus"
+                android:scaleType="centerCrop"
+                android:padding="2dp"
+                app:shapeAppearanceOverlay="@style/rounded"
+                android:adjustViewBounds="true"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonUpload1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="110dp"
+            android:layout_height="160dp"
+            android:layout_marginStart="145dp">
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image2"
+                android:layout_width="110dp"
+                android:layout_height="160dp"
+                android:background="@drawable/rounded_image"
+                android:src="@drawable/ic_plus"
+                android:scaleType="centerCrop"
+                android:padding="2dp"
+                app:shapeAppearanceOverlay="@style/rounded"
+                android:adjustViewBounds="true"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonUpload2"
+                android:layout_width="110dp"
+                android:layout_height="160dp"
+                android:background="@android:color/transparent" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="110dp"
+            android:layout_height="160dp"
+            android:layout_marginStart="265dp">
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image3"
+                android:layout_width="110dp"
+                android:layout_height="160dp"
+                android:background="@drawable/rounded_image"
+                android:src="@drawable/ic_plus"
+                android:scaleType="centerCrop"
+                android:padding="2dp"
+                app:shapeAppearanceOverlay="@style/rounded"
+                android:adjustViewBounds="true"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonUpload3"
+                android:layout_width="110dp"
+                android:layout_height="160dp"
+                android:background="@android:color/transparent" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="110dp"
+            android:layout_height="160dp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="175dp">
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image4"
+                android:layout_width="110dp"
+                android:layout_height="160dp"
+                android:background="@drawable/rounded_image"
+                android:src="@drawable/ic_plus"
+                android:scaleType="centerCrop"
+                android:padding="2dp"
+                app:shapeAppearanceOverlay="@style/rounded"
+                android:adjustViewBounds="true"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonUpload4"
+                android:layout_width="110dp"
+                android:layout_height="160dp"
+                android:background="@android:color/transparent" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="110dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="175dp"
+            android:layout_marginLeft="210dp">
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image5"
+                android:layout_width="110dp"
+                android:layout_height="160dp"
+                android:background="@drawable/rounded_image"
+                android:src="@drawable/ic_plus"
+                android:scaleType="centerCrop"
+                android:padding="2dp"
+                app:shapeAppearanceOverlay="@style/rounded"
+                android:adjustViewBounds="true"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonUpload5"
+                android:layout_width="110dp"
+                android:layout_height="160dp"
+                android:background="@android:color/transparent" />
+        </RelativeLayout>
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/confirm_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/go_back_button"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/button_background_gray"
+            android:text="@string/confirm"
+            android:textColor="@color/neutral_dark_gray" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/go_back_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/button_outline_background_blue"
+            android:text="@string/back_button"
+            android:textColor="@color/main" />
+    </RelativeLayout>
+</RelativeLayout>
+</RelativeLayout>
