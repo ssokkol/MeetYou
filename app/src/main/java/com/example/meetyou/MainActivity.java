@@ -11,13 +11,20 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.meetyou.MYFiles.Users;
+import com.google.firebase.database.*;
+
 import com.example.meetyou.Database.DatabaseHelper;
 import com.example.meetyou.MYFiles.NotificationHelper;
 import com.example.meetyou.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.jetbrains.annotations.Contract;
 
 public class MainActivity extends AppCompatActivity {
-
+    public int minAge, maxAge;
     FirebaseAuth mAuth;
     @NonNull ActivityMainBinding binding;
     DatabaseHelper databaseHelper;
@@ -35,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+        minAge = 18;
+        maxAge = 72;
         PhotoAdapter photoAdapter = new PhotoAdapter(photoIds);
         binding.viewPager.setAdapter(photoAdapter);
 
@@ -78,12 +86,38 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        binding.dislikebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RandomUserGenerator();
+            }
+        });
     }
 
     private String getUserEmail() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("email", "");
+    }
+
+    private int getMinAge() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getInt("minAge", 0);
+    }
+    private int getMaxAge() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getInt("maxAge", 0);
+    }
+    private void setMinAge(int minAge){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("minAge", minAge);
+        editor.apply();
+    }
+    private void setMaxAge(int maxAge){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("maxAge", maxAge);
+        editor.apply();
     }
 
     private String getUserPassword() {
