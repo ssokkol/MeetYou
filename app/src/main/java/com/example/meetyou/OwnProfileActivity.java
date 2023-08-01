@@ -61,7 +61,7 @@ public class OwnProfileActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(ContextCompat.getColor(OwnProfileActivity.this, R.color.main));
 
         // Получение данных пользователя и отображение их в представлении
-        String nameText = getUserName() + ", " + Integer.toString(getUserAge());
+        String nameText = getUserName();
         binding.nameTextView.setText(nameText);
         binding.additionalTextView.setText(getUserBio());
 
@@ -202,10 +202,10 @@ public class OwnProfileActivity extends AppCompatActivity {
         return sharedPreferences.getString("bio", "");
     }
 
-    private int getUserAge() {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        return sharedPreferences.getInt("age", 0);
-    }
+//    private int getUserAge() {
+//        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+//        return sharedPreferences.getInt("age", 0);
+//    }
 
     private String getUserName() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
