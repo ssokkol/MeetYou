@@ -10,16 +10,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class Users {
-    String UID, email, name, bio, height, width, gender, findGender, hobbies, target, color, status;
-    int age;
+    String UID, email, name, bio, height, width, gender, findGender, hobbies, target, color, status, photo1, photo2, photo3, photo4, photo5;
+    int age, boosts, likes, megasymps;
 
     boolean verified;
 
     public Users() {
     }
 
-    public Users(String UID, boolean verified, String email, String name, String bio, String height, String width, String gender, String findGender, String hobbies, String target, String color, int age) {
-        this.verified = verified;
+    public Users(String UID, String email, String name, String bio, String height, String width, String gender, String findGender, String hobbies, String target,
+                 String color, String status,
+                 String photo1, String photo2, String photo3, String photo4, int age, int boosts, int likes, int megasymps, boolean verified)
+    {
         this.UID = UID;
         this.email = email;
         this.name = name;
@@ -32,7 +34,88 @@ public class Users {
         this.target = target;
         this.color = color;
         this.status = status;
+        this.photo1 = photo1;
+        this.photo2 = photo2;
+        this.photo3 = photo3;
+        this.photo4 = photo4;
+        this.photo5 = photo5;
         this.age = age;
+        this.boosts = boosts;
+        this.likes = likes;
+        this.megasymps = megasymps;
+        this.verified = verified;
+    }
+
+    public String getPhoto1() {
+        return photo1;
+    }
+
+    public void setPhoto1(String photo1) {
+        this.photo1 = photo1;
+    }
+
+    public String getPhoto2() {
+        return photo2;
+    }
+
+    public void setPhoto2(String photo2) {
+        this.photo2 = photo2;
+    }
+
+    public String getPhoto3() {
+        return photo3;
+    }
+
+    public void setPhoto3(String photo3) {
+        this.photo3 = photo3;
+    }
+
+    public String getPhoto4() {
+        return photo4;
+    }
+
+    public void setPhoto4(String photo4) {
+        this.photo4 = photo4;
+    }
+
+    public String getPhoto5() {
+        return photo5;
+    }
+
+    public void setPhoto5(String photo5) {
+        this.photo5 = photo5;
+    }
+
+    public int getBoosts() {
+        return boosts;
+    }
+
+    public void setBoosts(int boosts) {
+        this.boosts = boosts;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public int getMegasymps() {
+        return megasymps;
+    }
+
+    public void setMegasymps(int megasymps) {
+        this.megasymps = megasymps;
+    }
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
     }
 
     public String getColor() {
@@ -199,6 +282,12 @@ public class Users {
         userRef.setValue(newVerification);
     }
 
+
+    public static void updateUserPhoto(String UID, String photoName,String photoURL){
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(UID).child(photoName);
+        userRef.setValue(photoURL);
+    }
+
     public static void getUserDataFromFirebase(String UID, final OnUserDataListener listener) {
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(UID);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -238,7 +327,15 @@ public class Users {
         editor.putString("target", this.target);
         editor.putString("color", this.color);
         editor.putString("status", this.status);
+        editor.putString("photo1", this.photo1);
+        editor.putString("photo2", this.photo2);
+        editor.putString("photo3", this.photo3);
+        editor.putString("photo4", this.photo4);
+        editor.putString("photo5", this.photo5);
         editor.putInt("age", this.age);
+        editor.putInt("boosts", this.boosts);
+        editor.putInt("likes", this.likes);
+        editor.putInt("megasymps", this.megasymps);
         editor.putBoolean("verified", this.verified);
         editor.apply();
     }
@@ -256,10 +353,18 @@ public class Users {
         String target = sharedPreferences.getString("target", "");
         String color = sharedPreferences.getString("color", "");
         String status = sharedPreferences.getString("status", "");
+        String photo1 = sharedPreferences.getString("photo1", "");
+        String photo2 = sharedPreferences.getString("photo2", "");
+        String photo3 = sharedPreferences.getString("photo3", "");
+        String photo4 = sharedPreferences.getString("photo4", "");
+        String photo5 = sharedPreferences.getString("photo5", "");
         int age = sharedPreferences.getInt("age", 0);
+        int boosts = sharedPreferences.getInt("boosts", 0);
+        int likes = sharedPreferences.getInt("likes", 0);
+        int megasymps = sharedPreferences.getInt("megasymps", 0);
         boolean verified = sharedPreferences.getBoolean("verified", false);
 
-        return new Users(UID, verified, name, bio, height, width, gender, findGender, hobbies, target, color, status, age);
+        return new Users(UID, name, bio, height, width, gender, findGender, hobbies, target, color, status, photo1, photo2, photo3, photo4, photo5, age, boosts, likes, megasymps, verified);
     }
 
 }

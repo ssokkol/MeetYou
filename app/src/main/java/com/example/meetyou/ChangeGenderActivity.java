@@ -45,7 +45,7 @@ public class ChangeGenderActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.main));
-        Users users = new Users(getUID(), false,"none", "none", "none", "none", "none", "none", "none", "none", "#2C59CC", "basic",0);
+        Users users = new Users(getUID(), "none","none", "none", "none", "none", "none", "none", "none", "none", "#2C59CC", "basic", "none", "none", "none", "none", 0, 0, 0, 0, false);
         db = FirebaseDatabase.getInstance();
         reference = db.getReference("Users");
         reference.child(getUID()).setValue(users);

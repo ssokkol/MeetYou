@@ -1,6 +1,7 @@
 package com.example.meetyou;
 
 import static android.content.ContentValues.TAG;
+
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,10 +18,13 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
 import com.example.meetyou.Database.DatabaseHelper;
+import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityUploadPhotoBinding;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -41,6 +45,12 @@ public class UploadPhotoActivity extends AppCompatActivity {
     public Boolean thirdUploaded = false;
     public Boolean fourthUploaded = false;
     public Boolean fifthUploaded = false;
+
+    private String sPhoto1;
+    private String sPhoto2;
+    private String sPhoto3;
+    private String sPhoto4;
+    private String sPhoto5;
 
     ImageView imageView1;
     ImageView imageView2;
@@ -135,15 +145,13 @@ public class UploadPhotoActivity extends AppCompatActivity {
                 if (firstUploaded && secondUploaded && thirdUploaded && fourthUploaded && fifthUploaded) {
                     binding.goNextButton.setBackgroundResource(R.drawable.button_background_blue);
                     binding.goNextButton.setTextColor(ContextCompat.getColor(UploadPhotoActivity.this, android.R.color.white));
-//                    long result = databaseHelper.insertPhotos(getUserID(), photo1, photo2, photo3, photo4, photo5);
-//                    if(result != -1) {
-                        Intent intent = new Intent(UploadPhotoActivity.this, ChangeInterestsActivity.class);
-                        startActivity(intent);
-//                    }
-//                    else
-//                    {
-//                        Toast.makeText(UploadPhotoActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
-//                    }
+                    Users.updateUserPhoto(getUID(), "photo5", sPhoto5);
+                    Users.updateUserPhoto(getUID(), "photo1", sPhoto1);
+                    Users.updateUserPhoto(getUID(), "photo2", sPhoto2);
+                    Users.updateUserPhoto(getUID(), "photo3", sPhoto3);
+                    Users.updateUserPhoto(getUID(), "photo4", sPhoto4);
+                    Intent intent = new Intent(UploadPhotoActivity.this, ChangeInterestsActivity.class);
+                    startActivity(intent);
                 } else {
                     Toast.makeText(UploadPhotoActivity.this, R.string.upload_all_photos_message, Toast.LENGTH_SHORT).show();
                 }
@@ -249,11 +257,6 @@ public class UploadPhotoActivity extends AppCompatActivity {
         return stream.toByteArray();
     }
 
-    private String getUID() {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return sharedPreferences.getString("UID", "");
-    }
-
     private void saveImageToSharedPreferences(String key, byte[] imageData) {
         String base64Image = Base64.encodeToString(imageData, Base64.DEFAULT);
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
@@ -280,7 +283,30 @@ public class UploadPhotoActivity extends AppCompatActivity {
 
         photoRef.putFile(photoUri)
                 .addOnSuccessListener(taskSnapshot -> {
-                    // Photo upload success, do something if needed
+                    // Photo upload success
+                    photoRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        String photoUrl = uri.toString();
+                        // Сохраняем URL (Access token) изображения в соответствующую переменную
+                        switch (number) {
+                            case 1:
+                                sPhoto1 = photoUrl;
+                                break;
+                            case 2:
+                                sPhoto2 = photoUrl;
+                                break;
+                            case 3:
+                                sPhoto3 = photoUrl;
+                                break;
+                            case 4:
+                                sPhoto4 = photoUrl;
+                                break;
+                            case 5:
+                                sPhoto5 = photoUrl;
+                                break;
+                        }
+                        // Также можно сохранить URL (Access token) изображения в SharedPreferences, если это требуется
+                        savePhotoUrlToSharedPreferences("photoUrl" + number, photoUrl);
+                    });
                 })
                 .addOnFailureListener(exception -> {
                     // Error occurred while uploading the photo
@@ -288,10 +314,21 @@ public class UploadPhotoActivity extends AppCompatActivity {
                 });
     }
 
+    private void savePhotoUrlToSharedPreferences(String key, String photoUrl) {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, photoUrl);
+        editor.apply();
+    }
 
     private String getFileExtension(Uri uri) {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    private String getUID() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getString("UID", "");
     }
 }

@@ -1,18 +1,14 @@
 package com.example.meetyou;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 
-import com.example.meetyou.MYFiles.NotificationHelper;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
 
 public class StartActivity extends AppCompatActivity {
     @Override
@@ -28,7 +24,7 @@ public class StartActivity extends AppCompatActivity {
         AppCompatButton FAQButton = findViewById(R.id.forgot_password_button);
 
         if (isUserLoggedIn()) {
-            startActivity(new Intent(StartActivity.this, OwnProfileActivity.class));
+            startActivity(new Intent(StartActivity.this, SignInActivity.class));
         } else {
             signUpButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -60,8 +56,9 @@ public class StartActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String userEmail = sharedPreferences.getString("email", "");
         String userPassword = sharedPreferences.getString("password", "");
+        boolean rememberMeChecked = sharedPreferences.getBoolean("remember_me", false);
 
-        return !userEmail.isEmpty() && !userPassword.isEmpty();
+        return rememberMeChecked && !userEmail.isEmpty() && !userPassword.isEmpty();
     }
 
 

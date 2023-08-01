@@ -60,5 +60,13 @@ public class OptionsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        binding.updatePhotosButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(OptionsActivity.this, ChangeUsersPhotosActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

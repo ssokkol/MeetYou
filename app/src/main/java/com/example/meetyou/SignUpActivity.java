@@ -18,7 +18,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 
 import com.example.meetyou.MYFiles.NotificationHelper;
-import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityRegisterationBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -82,11 +81,11 @@ public class SignUpActivity extends AppCompatActivity {
                     // Проверяем, зарегистрирован ли уже такой email
                     checkIfEmailIsUsed(email, password);
                     // Создаем нового пользователя и сохраняем его в базу данных
-                    Users users = new Users(sanitizedEmail, false,"none", "none", "none", "none", "none", "none", "none", "none", "#2C59CC", "basic",0);
+//                    Users users = new Users(sanitizedEmail, false,"none", "none", "none", "none", "none", "none", "none", "none", "#2C59CC", "basic",0);
                     saveUID(sanitizedEmail);
                     db = FirebaseDatabase.getInstance();
                     reference = db.getReference("Users");
-                    reference.child(sanitizedEmail).setValue(users);
+//                    reference.child(sanitizedEmail).setValue(users);
                 }
             } else {
                 NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.wrong_mail_format_message), getString(R.string.close), 0, 0, 0,R.color.main);

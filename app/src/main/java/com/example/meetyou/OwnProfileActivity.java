@@ -15,25 +15,39 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
+import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityOwnProfileBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
 public class OwnProfileActivity extends AppCompatActivity {
-
-    // Переменные для работы с местоположением
+    public String photo1URL;
+    public String photo2URL;
+    public String photo3URL;
+    public String photo4URL;
+    public String photo5URL;
     private LocationManager locationManager;
     private LocationListener locationListener;
 
     // Объект для привязки макета активности
     ActivityOwnProfileBinding binding;
+
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +65,38 @@ public class OwnProfileActivity extends AppCompatActivity {
         binding.nameTextView.setText(nameText);
         binding.additionalTextView.setText(getUserBio());
 
-        // Загрузка изображений из SharedPreferences и отображение их в ImageView
-        binding.profilePhoto.setImageBitmap(getImageBitmapFromSharedPreferences("photo1"));
-        binding.image1.setImageBitmap(getImageBitmapFromSharedPreferences("photo1"));
-        binding.image2.setImageBitmap(getImageBitmapFromSharedPreferences("photo2"));
-        binding.image3.setImageBitmap(getImageBitmapFromSharedPreferences("photo3"));
-        binding.image4.setImageBitmap(getImageBitmapFromSharedPreferences("photo4"));
-        binding.image5.setImageBitmap(getImageBitmapFromSharedPreferences("photo5"));
+        // Чтение данных из Firebase Database и передача в локальные переменные
+        Users.getUserDataFromFirebase(getUID(), new Users.OnUserDataListener() {
+            @Override
+            public void onDataLoaded(Users user) {
+                // Здесь можно использовать значения photo1, photo2, photo3, photo4, photo5
+                photo1URL = user.getPhoto1();
+                photo2URL = user.getPhoto2();
+                photo3URL = user.getPhoto3();
+                photo4URL = user.getPhoto4();
+                photo5URL = user.getPhoto5();
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                // Обработка случая, если данные не удалось загрузить
+            }
+        });
+
+        customPhotoLoadingToClient("photo1", binding.profilePhoto);
+        customPhotoLoadingToClient("photo1", binding.image1);
+        customPhotoLoadingToClient("photo2", binding.image2);
+        customPhotoLoadingToClient("photo3", binding.image3);
+        customPhotoLoadingToClient("photo4", binding.image4);
+        customPhotoLoadingToClient("photo5", binding.image5);
+
+//        Glide.with(getApplicationContext()).load(photo1URL).into(binding.profilePhoto);
+//        Glide.with(getApplicationContext()).load(photo1URL).into(binding.image1);
+//        Glide.with(getApplicationContext()).load(photo2URL).into(binding.image2);
+//        Glide.with(getApplicationContext()).load(photo3URL).into(binding.image3);
+//        Glide.with(getApplicationContext()).load(photo4URL).into(binding.image4);
+//        Glide.with(getApplicationContext()).load(photo5URL).into(binding.image5);
+
 
         // Обработчик кнопки "Настройки", переход к активности OptionsActivity
         binding.settingButton.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +150,7 @@ public class OwnProfileActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
         // Проверка, были ли внесены изменения, и пересоздание активности для их отображения
         if (getChanges()) {
             setSomethingWasChanged(false);
@@ -124,6 +164,7 @@ public class OwnProfileActivity extends AppCompatActivity {
             }
         }
     }
+
 
     @Override
     protected void onStop() {
@@ -201,5 +242,26 @@ public class OwnProfileActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("isSomethingWasChanged", parameter);
         editor.apply();
+    }
+
+    private void customPhotoLoadingToClient(String photoName, ImageView imageView){
+        DatabaseReference Images = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child(photoName);
+        Images.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String value = snapshot.getValue(String.class);
+                Picasso.get().load(value).into(imageView);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private String getUID() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getString("UID", "");
     }
 }
