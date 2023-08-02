@@ -18,15 +18,29 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityChangeUsersPhotosBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 
 public class ChangeUsersPhotosActivity extends AppCompatActivity {
+
+    private String sPhoto1;
+    private String sPhoto2;
+    private String sPhoto3;
+    private String sPhoto4;
+    private String sPhoto5;
 
     private boolean isSomethingChanged = false;
     private boolean isNextActivated = false;
@@ -56,11 +70,11 @@ public class ChangeUsersPhotosActivity extends AppCompatActivity {
 
         getWindow().setStatusBarColor(getColor(R.color.main));
 
-        binding.image1.setImageBitmap(getImageBitmapFromSharedPreferences("photo1"));
-        binding.image2.setImageBitmap(getImageBitmapFromSharedPreferences("photo2"));
-        binding.image3.setImageBitmap(getImageBitmapFromSharedPreferences("photo3"));
-        binding.image4.setImageBitmap(getImageBitmapFromSharedPreferences("photo4"));
-        binding.image5.setImageBitmap(getImageBitmapFromSharedPreferences("photo5"));
+        customPhotoLoadingToClient("photo1", binding.image1);
+        customPhotoLoadingToClient("photo2", binding.image2);
+        customPhotoLoadingToClient("photo3", binding.image3);
+        customPhotoLoadingToClient("photo4", binding.image4);
+        customPhotoLoadingToClient("photo5", binding.image5);
 
         binding.buttonUpload1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +135,11 @@ public class ChangeUsersPhotosActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(isNextActivated){
+                    Users.updateUserPhoto(getUID(), "photo5", sPhoto5);
+                    Users.updateUserPhoto(getUID(), "photo1", sPhoto1);
+                    Users.updateUserPhoto(getUID(), "photo2", sPhoto2);
+                    Users.updateUserPhoto(getUID(), "photo3", sPhoto3);
+                    Users.updateUserPhoto(getUID(), "photo4", sPhoto4);
                     finish();
                 }
             }
@@ -238,33 +257,6 @@ public class ChangeUsersPhotosActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    private void uploadPhotoToFirebaseStorage(Uri photoUri, int number) {
-        String UID = getUID();
-
-        if (UID == null) {
-            Log.e(TAG, "UID is 0, cannot upload photo to Firebase Storage.");
-            return;
-        }
-
-        String folderName = UID;
-        StorageReference folderRef = storageReference.child(folderName);
-
-        String fileExtension = getFileExtension(photoUri);
-        String uniqueFileName = "photo" + number + "." + fileExtension;
-
-        StorageReference photoRef = folderRef.child(uniqueFileName);
-
-        photoRef.putFile(photoUri)
-                .addOnSuccessListener(taskSnapshot -> {
-                    // Photo upload success, do something if needed
-                })
-                .addOnFailureListener(exception -> {
-                    // Error occurred while uploading the photo
-                    Log.e(TAG, "Error uploading photo to Firebase Storage: " + exception.getMessage());
-                });
-    }
-
-
     private String getFileExtension(Uri uri) {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
@@ -292,6 +284,78 @@ public class ChangeUsersPhotosActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("isSomethingWasChanged", parameter);
+        editor.apply();
+    }
+
+    private void customPhotoLoadingToClient(String photoName, ImageView imageView){
+        DatabaseReference Images = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child(photoName);
+        Images.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String value = snapshot.getValue(String.class);
+                Picasso.get().load(value).into(imageView);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void uploadPhotoToFirebaseStorage(Uri photoUri, int number) {
+        String UID = getUID();
+
+        if (UID == null) {
+            Log.e(TAG, "UID is 0, cannot upload photo to Firebase Storage.");
+            return;
+        }
+
+        String folderName = UID;
+        StorageReference folderRef = storageReference.child(folderName);
+
+        String fileExtension = getFileExtension(photoUri);
+        String uniqueFileName = "photo" + number + "." + fileExtension;
+
+        StorageReference photoRef = folderRef.child(uniqueFileName);
+
+        photoRef.putFile(photoUri)
+                .addOnSuccessListener(taskSnapshot -> {
+                    // Photo upload success
+                    photoRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        String photoUrl = uri.toString();
+                        // Сохраняем URL (Access token) изображения в соответствующую переменную
+                        switch (number) {
+                            case 1:
+                                sPhoto1 = photoUrl;
+                                break;
+                            case 2:
+                                sPhoto2 = photoUrl;
+                                break;
+                            case 3:
+                                sPhoto3 = photoUrl;
+                                break;
+                            case 4:
+                                sPhoto4 = photoUrl;
+                                break;
+                            case 5:
+                                sPhoto5 = photoUrl;
+                                break;
+                        }
+                        // Также можно сохранить URL (Access token) изображения в SharedPreferences, если это требуется
+                        savePhotoUrlToSharedPreferences("photoUrl" + number, photoUrl);
+                    });
+                })
+                .addOnFailureListener(exception -> {
+                    // Error occurred while uploading the photo
+                    Log.e(TAG, "Error uploading photo to Firebase Storage: " + exception.getMessage());
+                });
+    }
+
+    private void savePhotoUrlToSharedPreferences(String key, String photoUrl) {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, photoUrl);
         editor.apply();
     }
 }

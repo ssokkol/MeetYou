@@ -1,7 +1,6 @@
 package com.example.meetyou;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -16,6 +15,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,11 +60,6 @@ public class OwnProfileActivity extends AppCompatActivity {
         // Установка цвета статус-бара
         getWindow().setStatusBarColor(ContextCompat.getColor(OwnProfileActivity.this, R.color.main));
 
-        // Получение данных пользователя и отображение их в представлении
-        String nameText = getUserName();
-        binding.nameTextView.setText(nameText);
-        binding.additionalTextView.setText(getUserBio());
-
         // Чтение данных из Firebase Database и передача в локальные переменные
         Users.getUserDataFromFirebase(getUID(), new Users.OnUserDataListener() {
             @Override
@@ -90,12 +85,13 @@ public class OwnProfileActivity extends AppCompatActivity {
         customPhotoLoadingToClient("photo4", binding.image4);
         customPhotoLoadingToClient("photo5", binding.image5);
 
-//        Glide.with(getApplicationContext()).load(photo1URL).into(binding.profilePhoto);
-//        Glide.with(getApplicationContext()).load(photo1URL).into(binding.image1);
-//        Glide.with(getApplicationContext()).load(photo2URL).into(binding.image2);
-//        Glide.with(getApplicationContext()).load(photo3URL).into(binding.image3);
-//        Glide.with(getApplicationContext()).load(photo4URL).into(binding.image4);
-//        Glide.with(getApplicationContext()).load(photo5URL).into(binding.image5);
+        // Получение данных пользователя и отображение их в представлении
+        String nameText = getUserName();
+        binding.nameTextView.setText(nameText);
+        binding.additionalTextView.setText(getUserBio());
+
+        RelativeLayout imageOverlay = findViewById(R.id.image_overlay);
+        ImageView expandedImage = findViewById(R.id.expanded_image);
 
 
         // Обработчик кнопки "Настройки", переход к активности OptionsActivity
@@ -145,6 +141,54 @@ public class OwnProfileActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
+
+
+        binding.profilePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImageOverlay(binding.profilePhoto, imageOverlay, expandedImage);
+            }
+        });
+
+
+        binding.image1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImageOverlay(binding.image1, imageOverlay, expandedImage);
+            }
+        });
+
+
+        binding.image2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImageOverlay(binding.image2, imageOverlay, expandedImage);
+            }
+        });
+
+
+        binding.image3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImageOverlay(binding.image3, imageOverlay, expandedImage);
+            }
+        });
+
+
+        binding.image4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImageOverlay(binding.image4, imageOverlay, expandedImage);
+            }
+        });
+
+
+        binding.image5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImageOverlay(binding.image5, imageOverlay, expandedImage);
+            }
+        });
     }
 
     @Override
@@ -260,6 +304,20 @@ public class OwnProfileActivity extends AppCompatActivity {
         });
     }
 
+
+    private void showImageOverlay(ImageView imageView, RelativeLayout imageOverlay, ImageView expandedImage) {
+        expandedImage.setImageDrawable(imageView.getDrawable());
+        imageOverlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageOverlay.setVisibility(View.GONE);
+            }
+        });
+
+        imageOverlay.setVisibility(View.VISIBLE);
+        imageOverlay.setAlpha(0f);
+        imageOverlay.animate().alpha(1f).setDuration(300).start();
+    }
     private String getUID() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("UID", "");

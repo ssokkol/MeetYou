@@ -143,8 +143,6 @@ public class UploadPhotoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (firstUploaded && secondUploaded && thirdUploaded && fourthUploaded && fifthUploaded) {
-                    binding.goNextButton.setBackgroundResource(R.drawable.button_background_blue);
-                    binding.goNextButton.setTextColor(ContextCompat.getColor(UploadPhotoActivity.this, android.R.color.white));
                     Users.updateUserPhoto(getUID(), "photo5", sPhoto5);
                     Users.updateUserPhoto(getUID(), "photo1", sPhoto1);
                     Users.updateUserPhoto(getUID(), "photo2", sPhoto2);

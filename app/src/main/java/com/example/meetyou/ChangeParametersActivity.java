@@ -5,16 +5,14 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.meetyou.Database.DatabaseHelper;
-import com.example.meetyou.MYFiles.NotificationHelper;
+import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityChangeParametersBinding;
 
 public class ChangeParametersActivity extends AppCompatActivity {
@@ -64,6 +62,8 @@ public class ChangeParametersActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String selectedHeight = heightSpinner.getSelectedItem().toString();
                 String selectedWeight = weightSpinner.getSelectedItem().toString();
+                Users.updateUserHeight(getUID(), selectedHeight);
+                Users.updateUserWeight(getUID(), selectedWeight);
 
 //                long result = databaseHelper.insertParameters(getUserID(), selectedHeight, selectedWeight);
 //                if(result != -1){
@@ -84,9 +84,9 @@ public class ChangeParametersActivity extends AppCompatActivity {
         });
     }
 
-    private long getUserID() {
+    private String getUID() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return sharedPreferences.getLong("userID", -1);
+        return sharedPreferences.getString("UID", "");
     }
 
 }

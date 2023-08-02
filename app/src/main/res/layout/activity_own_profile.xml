@@ -22,7 +22,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/photo_2023_07_17_20_31_45"
+            android:src="@drawable/ic_plus"
             app:shapeAppearanceOverlay="@style/circular"/>
         <TextView
             android:id="@+id/name_text_view"
@@ -54,10 +54,12 @@
             android:layout_alignTop="@+id/location_text_view"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16sp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:textSize="13sp"
             android:textColor="@color/black"
             android:gravity="center"
-            android:text="Designer from St.Petersburg. \n I want to live in New York and drink Pina \nColada every morgning"/>
+            android:text="About me"/>
         <RelativeLayout
             android:id="@+id/stats_layout"
             android:layout_width="match_parent"
@@ -153,7 +155,7 @@
             android:layout_marginTop="20dp"
             android:layout_alignRight="@+id/image2"
             android:layout_marginRight="120dp"
-            android:src="@drawable/photo_2023_07_17_20_31_45"
+            android:src="@drawable/ic_plus"
             android:scaleType="centerCrop"
             android:padding="2dp"
             app:shapeAppearanceOverlay="@style/rounded"
@@ -164,7 +166,7 @@
             android:layout_height="160dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:src="@drawable/photo_2023_07_17_20_31_45"
+            android:src="@drawable/ic_plus"
             android:scaleType="centerCrop"
             android:padding="2dp"
             app:shapeAppearanceOverlay="@style/rounded"
@@ -176,7 +178,7 @@
             android:layout_marginTop="20dp"
             android:layout_alignLeft="@+id/image2"
             android:layout_marginLeft="120dp"
-            android:src="@drawable/photo_2023_07_17_20_31_45"
+            android:src="@drawable/ic_plus"
             android:scaleType="centerCrop"
             android:padding="2dp"
             app:shapeAppearanceOverlay="@style/rounded"
@@ -189,7 +191,7 @@
             android:layout_marginLeft="55dp"
             android:layout_alignTop="@+id/image1"
             android:layout_marginTop="170dp"
-            android:src="@drawable/photo_2023_07_17_20_31_45"
+            android:src="@drawable/ic_plus"
             android:scaleType="centerCrop"
             android:padding="2dp"
             app:shapeAppearanceOverlay="@style/rounded"
@@ -202,7 +204,7 @@
             android:layout_marginRight="55dp"
             android:layout_alignTop="@+id/image3"
             android:layout_marginTop="170dp"
-            android:src="@drawable/photo_2023_07_17_20_31_45"
+            android:src="@drawable/ic_plus"
             android:scaleType="centerCrop"
             android:padding="2dp"
             app:shapeAppearanceOverlay="@style/rounded"
@@ -337,4 +339,21 @@
                 />
         </FrameLayout>
     </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/image_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99000000"
+        android:visibility="gone"
+        android:clickable="true"
+        android:layout_centerInParent="true">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/expanded_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:padding="2dp"
+        android:adjustViewBounds="true"/>
+</RelativeLayout>
 </RelativeLayout>

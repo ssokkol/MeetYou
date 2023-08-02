@@ -180,7 +180,7 @@ public class SignInActivity extends AppCompatActivity {
         editor.putString("name", user.getName());
         editor.putString("bio", user.getBio());
         editor.putString("height", user.getHeight());
-        editor.putString("width", user.getWidth());
+        editor.putString("width", user.getWeight());
         editor.putString("gender", user.getGender());
         editor.putString("findGender", user.getFindGender());
         editor.putString("hobbies", user.getHobbies());

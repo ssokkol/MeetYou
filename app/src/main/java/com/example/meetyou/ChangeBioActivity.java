@@ -1,14 +1,15 @@
 package com.example.meetyou;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityChangeBioBinding;
-import com.example.meetyou.databinding.ActivityCreateBioBinding;
 
 public class ChangeBioActivity extends AppCompatActivity {
 
@@ -52,6 +53,13 @@ public class ChangeBioActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        binding.confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Users.updateUserBio(getUID(), binding.bio.getText().toString());
+            }
+        });
     }
 
     private void checkBioText(){
@@ -62,5 +70,10 @@ public class ChangeBioActivity extends AppCompatActivity {
             binding.confirmButton.setBackgroundResource(R.drawable.button_background_gray);
             binding.confirmButton.setTextColor(getColor(R.color.neutral_dark_gray));
         }
+    }
+
+    private String getUID() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getString("UID", "");
     }
 }

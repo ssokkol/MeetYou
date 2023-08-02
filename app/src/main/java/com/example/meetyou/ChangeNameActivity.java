@@ -1,14 +1,15 @@
 package com.example.meetyou;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.meetyou.MYFiles.NotificationHelper;
+import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityChangeNameBinding;
 
 public class ChangeNameActivity extends AppCompatActivity {
@@ -69,6 +70,7 @@ public class ChangeNameActivity extends AppCompatActivity {
                     NotificationHelper.showCustomNotification(ChangeNameActivity.this, null, "Wrong name", getString(R.string.close), 0, 0, 0, 0);
                 } else {
                     setSomethingWasChanged(true);
+                    Users.updateUserName(getUID(), binding.newNameEditText.getText().toString());
                     saveUserName(binding.newNameEditText.getText().toString());
                     finish();
                 }
@@ -98,6 +100,7 @@ public class ChangeNameActivity extends AppCompatActivity {
     private void saveUserName(String name){
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        Users.updateUserName(getUID(), name);
         editor.putString("name", name);
         editor.apply();
     }
@@ -112,5 +115,10 @@ public class ChangeNameActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("isSomethingWasChanged", parameter);
         editor.apply();
+    }
+
+    private String getUID() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getString("UID", "");
     }
 }

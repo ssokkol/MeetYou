@@ -10,7 +10,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class Users {
-    String UID, email, name, bio, height, width, gender, findGender, hobbies, target, color, status, photo1, photo2, photo3, photo4, photo5;
+    String UID, email, name, bio, height, weight, gender, findGender, hobbies, target, color, status, photo1, photo2, photo3, photo4, photo5;
     int age, boosts, likes, megasymps;
 
     boolean verified;
@@ -18,7 +18,7 @@ public class Users {
     public Users() {
     }
 
-    public Users(String UID, String email, String name, String bio, String height, String width, String gender, String findGender, String hobbies, String target,
+    public Users(String UID, String email, String name, String bio, String height, String weight, String gender, String findGender, String hobbies, String target,
                  String color, String status,
                  String photo1, String photo2, String photo3, String photo4, int age, int boosts, int likes, int megasymps, boolean verified)
     {
@@ -27,7 +27,7 @@ public class Users {
         this.name = name;
         this.bio = bio;
         this.height = height;
-        this.width = width;
+        this.weight = weight;
         this.gender = gender;
         this.findGender = findGender;
         this.hobbies = hobbies;
@@ -174,12 +174,12 @@ public class Users {
         this.height = height;
     }
 
-    public String getWidth() {
-        return width;
+    public String getWeight() {
+        return weight;
     }
 
-    public void setWidth(String width) {
-        this.width = width;
+    public void setWeight(String weight) {
+        this.weight = weight;
     }
 
     public String getGender() {
@@ -232,14 +232,14 @@ public class Users {
         userRef.setValue(newBio);
     }
 
-    public void updateUserHeight(String UID, String newHeight) {
+    public static void updateUserHeight(String UID, String newHeight) {
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(UID).child("height");
         userRef.setValue(newHeight);
     }
 
-    public void updateUserWidth(String UID, String newWidth) {
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(UID).child("width");
-        userRef.setValue(newWidth);
+    public static void updateUserWeight(String UID, String newWeight) {
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(UID).child("weight");
+        userRef.setValue(newWeight);
     }
 
     public static void updateUserGender(String UID, String newGender) {
@@ -320,7 +320,7 @@ public class Users {
         editor.putString("name", this.name);
         editor.putString("bio", this.bio);
         editor.putString("height", this.height);
-        editor.putString("width", this.width);
+        editor.putString("weight", this.weight);
         editor.putString("gender", this.gender);
         editor.putString("findGender", this.findGender);
         editor.putString("hobbies", this.hobbies);
@@ -346,7 +346,7 @@ public class Users {
         String name = sharedPreferences.getString("name", "");
         String bio = sharedPreferences.getString("bio", "");
         String height = sharedPreferences.getString("height", "");
-        String width = sharedPreferences.getString("width", "");
+        String weight = sharedPreferences.getString("weight", "");
         String gender = sharedPreferences.getString("gender", "");
         String findGender = sharedPreferences.getString("findGender", "");
         String hobbies = sharedPreferences.getString("hobbies", "");
@@ -364,7 +364,7 @@ public class Users {
         int megasymps = sharedPreferences.getInt("megasymps", 0);
         boolean verified = sharedPreferences.getBoolean("verified", false);
 
-        return new Users(UID, name, bio, height, width, gender, findGender, hobbies, target, color, status, photo1, photo2, photo3, photo4, photo5, age, boosts, likes, megasymps, verified);
+        return new Users(UID, name, bio, height, weight, gender, findGender, hobbies, target, color, status, photo1, photo2, photo3, photo4, photo5, age, boosts, likes, megasymps, verified);
     }
 
 }
