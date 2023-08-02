@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -19,6 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MeetYou"
         tools:targetApi="31">
+        <activity
+            android:name=".ChangeInterestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChooseInterestsActivity"
+            android:exported="false" />
         <activity
             android:name=".ChangeUsersPhotosActivity"
             android:exported="false" />
@@ -44,19 +49,16 @@
             android:name=".OwnProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".ChangeFindTargetActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ChangeInterestsActivity"
+            android:name=".ChooseFindTargetActivity"
             android:exported="false" />
         <activity
             android:name=".UploadPhotoActivity"
             android:exported="false" />
         <activity
-            android:name=".ChangeParametersActivity"
+            android:name=".ChooseParametersActivity"
             android:exported="false" />
         <activity
-            android:name=".ChangeGenderActivity"
+            android:name=".ChooseGenderActivity"
             android:exported="false" />
         <activity
             android:name=".CreateBioActivity"

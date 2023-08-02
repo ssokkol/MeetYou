@@ -122,6 +122,17 @@ public class SignUpActivity extends AppCompatActivity {
                                             usertoDataBase(email, 999);
                                             String sanitizedEmail = sanitizeEmail(email);
                                             createFirebaseStorageFolder(sanitizedEmail);
+                                            mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if(task.isSuccessful()){
+                                                        NotificationHelper.showCustomNotification(SignUpActivity.this, "Verification", "We have sent a verification email to your inbox! Verify your email after completing registration!", getString(R.string.close), 0, 0, 0, R.color.main);
+                                                    }
+                                                    else {
+                                                        NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.registration_error_message), getString(R.string.close), 0, 0, 0, R.color.main);
+                                                    }
+                                                }
+                                            });
                                         } else {
                                             NotificationHelper.showCustomNotification(SignUpActivity.this, null, getString(R.string.registration_error_message), getString(R.string.close), 0, 0, 0, R.color.main);
                                         }
@@ -162,7 +173,7 @@ public class SignUpActivity extends AppCompatActivity {
                         // Если email не зарегистрирован, регистрируем нового пользователя
                         registerUser(email, password);
                         saveUserEmail(email);
-                        Intent intent = new Intent(SignUpActivity.this, ChangeGenderActivity.class);
+                        Intent intent = new Intent(SignUpActivity.this, ChooseGenderActivity.class);
                         startActivity(intent);
                         finish();
                     }

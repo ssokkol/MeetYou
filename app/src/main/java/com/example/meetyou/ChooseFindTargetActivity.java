@@ -11,11 +11,11 @@ import androidx.core.content.ContextCompat;
 
 import com.example.meetyou.MYFiles.NotificationHelper;
 import com.example.meetyou.MYFiles.Users;
-import com.example.meetyou.databinding.ActivityChangeFindTargetBinding;
+import com.example.meetyou.databinding.ActivityChooseFindTargetBinding;
 
-public class ChangeFindTargetActivity extends AppCompatActivity {
+public class ChooseFindTargetActivity extends AppCompatActivity {
 
-    ActivityChangeFindTargetBinding binding;
+    ActivityChooseFindTargetBinding binding;
 
     private boolean isShortChanged = false;
     private boolean isLongChanged = false;
@@ -27,7 +27,7 @@ public class ChangeFindTargetActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityChangeFindTargetBinding.inflate(getLayoutInflater());
+        binding = ActivityChooseFindTargetBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
@@ -166,42 +166,42 @@ public class ChangeFindTargetActivity extends AppCompatActivity {
                     if(isFriendsChanged)
                     {
                         Users.updateUserTarget(getUID(), "friends");
-                        Intent intent = new Intent(ChangeFindTargetActivity.this, StartActivity.class);
+                        Intent intent = new Intent(ChooseFindTargetActivity.this, StartActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     } else if (isShortChanged)
                     {
                         Users.updateUserTarget(getUID(), "short-term");
-                        Intent intent = new Intent(ChangeFindTargetActivity.this, StartActivity.class);
+                        Intent intent = new Intent(ChooseFindTargetActivity.this, StartActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     } else if (isLongChanged)
                     {
                         Users.updateUserTarget(getUID(), "long-term");
-                        Intent intent = new Intent(ChangeFindTargetActivity.this, StartActivity.class);
+                        Intent intent = new Intent(ChooseFindTargetActivity.this, StartActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     } else if (isFunChanged)
                     {
                         Users.updateUserTarget(getUID(), "fun");
-                        Intent intent = new Intent(ChangeFindTargetActivity.this, StartActivity.class);
+                        Intent intent = new Intent(ChooseFindTargetActivity.this, StartActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     } else if (isSexChanged)
                     {
                         Users.updateUserTarget(getUID(), "sex");
-                        Intent intent = new Intent(ChangeFindTargetActivity.this, StartActivity.class);
+                        Intent intent = new Intent(ChooseFindTargetActivity.this, StartActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     } else if (isSureChanged)
                     {
                         Users.updateUserTarget(getUID(), "not-sure");
-                        Intent intent = new Intent(ChangeFindTargetActivity.this, StartActivity.class);
+                        Intent intent = new Intent(ChooseFindTargetActivity.this, StartActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }
                 }else{
-                    NotificationHelper.showCustomNotification(ChangeFindTargetActivity.this, null, getString(R.string.pick_a_few_targets_message), getString(R.string.close), 0, 0, 0,0);
+                    NotificationHelper.showCustomNotification(ChooseFindTargetActivity.this, null, getString(R.string.pick_a_few_targets_message), getString(R.string.close), 0, 0, 0,0);
                 }
             }
         });

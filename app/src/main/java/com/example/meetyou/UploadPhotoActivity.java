@@ -148,7 +148,7 @@ public class UploadPhotoActivity extends AppCompatActivity {
                     Users.updateUserPhoto(getUID(), "photo2", sPhoto2);
                     Users.updateUserPhoto(getUID(), "photo3", sPhoto3);
                     Users.updateUserPhoto(getUID(), "photo4", sPhoto4);
-                    Intent intent = new Intent(UploadPhotoActivity.this, ChangeInterestsActivity.class);
+                    Intent intent = new Intent(UploadPhotoActivity.this, ChooseInterestsActivity.class);
                     startActivity(intent);
                 } else {
                     Toast.makeText(UploadPhotoActivity.this, R.string.upload_all_photos_message, Toast.LENGTH_SHORT).show();

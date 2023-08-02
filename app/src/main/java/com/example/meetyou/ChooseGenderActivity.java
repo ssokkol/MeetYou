@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat;
 import com.example.meetyou.Database.DatabaseHelper;
 import com.example.meetyou.MYFiles.NotificationHelper;
 import com.example.meetyou.MYFiles.Users;
-import com.example.meetyou.databinding.ActivityChangeGenderBinding;
+import com.example.meetyou.databinding.ActivityChooseGenderBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,9 +23,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
 
-public class ChangeGenderActivity extends AppCompatActivity {
+public class ChooseGenderActivity extends AppCompatActivity {
 
-    private ActivityChangeGenderBinding binding;
+    private ActivityChooseGenderBinding binding;
     private DatabaseHelper databaseHelper;
 
     private DatabaseReference mDatabase;
@@ -40,7 +40,7 @@ public class ChangeGenderActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityChangeGenderBinding.inflate(getLayoutInflater());
+        binding = ActivityChooseGenderBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
@@ -64,11 +64,11 @@ public class ChangeGenderActivity extends AppCompatActivity {
                     isMale = false;
 
                     binding.femaleButton.setBackgroundResource(R.drawable.btn_bg_blue);
-                    binding.femaleButton.setTextColor(ContextCompat.getColor(ChangeGenderActivity.this, android.R.color.white));
+                    binding.femaleButton.setTextColor(ContextCompat.getColor(ChooseGenderActivity.this, android.R.color.white));
                     binding.maleButton.setBackgroundResource(R.drawable.btn_bg_gray);
-                    binding.maleButton.setTextColor(ContextCompat.getColor(ChangeGenderActivity.this, android.R.color.black));
+                    binding.maleButton.setTextColor(ContextCompat.getColor(ChooseGenderActivity.this, android.R.color.black));
                     binding.goNextButton.setBackgroundResource(R.drawable.button_background_blue);
-                    binding.goNextButton.setTextColor(ContextCompat.getColor(ChangeGenderActivity.this, android.R.color.white));
+                    binding.goNextButton.setTextColor(ContextCompat.getColor(ChooseGenderActivity.this, android.R.color.white));
 
                 } else {
                     isFemale = false;
@@ -84,11 +84,11 @@ public class ChangeGenderActivity extends AppCompatActivity {
                     isMale = true;
                     isFemale = false;
                     binding.maleButton.setBackgroundResource(R.drawable.btn_bg_blue);
-                    binding.maleButton.setTextColor(ContextCompat.getColor(ChangeGenderActivity.this, android.R.color.white));
+                    binding.maleButton.setTextColor(ContextCompat.getColor(ChooseGenderActivity.this, android.R.color.white));
                     binding.femaleButton.setBackgroundResource(R.drawable.btn_bg_gray);
-                    binding.femaleButton.setTextColor(ContextCompat.getColor(ChangeGenderActivity.this, android.R.color.black));
+                    binding.femaleButton.setTextColor(ContextCompat.getColor(ChooseGenderActivity.this, android.R.color.black));
                     binding.goNextButton.setBackgroundResource(R.drawable.button_background_blue);
-                    binding.goNextButton.setTextColor(ContextCompat.getColor(ChangeGenderActivity.this, android.R.color.white));
+                    binding.goNextButton.setTextColor(ContextCompat.getColor(ChooseGenderActivity.this, android.R.color.white));
                 } else {
                     isMale = false;
                     resetGenderButtons();
@@ -100,16 +100,16 @@ public class ChangeGenderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!isMale && !isFemale) {
-                    NotificationHelper.showCustomNotification(ChangeGenderActivity.this, null, getString(R.string.change_your_gender), getString(R.string.close), 0, 0, 0,0);
+                    NotificationHelper.showCustomNotification(ChooseGenderActivity.this, null, getString(R.string.choose_your_gender), getString(R.string.close), 0, 0, 0,0);
                 } else if (isFemale) {
                     Users.updateUserGender(getUID(), "female");
                     Users.updateUserColor(getUID(), "#E337FF");
-                    Intent intent = new Intent(ChangeGenderActivity.this, CreateBioActivity.class);
+                    Intent intent = new Intent(ChooseGenderActivity.this, CreateBioActivity.class);
                     startActivity(intent);
                 } else if (isMale) {
                     Users.updateUserGender(getUID(), "male");
                     Users.updateUserColor(getUID(), "#374BFF");
-                    Intent intent = new Intent(ChangeGenderActivity.this, CreateBioActivity.class);
+                    Intent intent = new Intent(ChooseGenderActivity.this, CreateBioActivity.class);
                     startActivity(intent);
                 }
             }
@@ -136,11 +136,11 @@ public class ChangeGenderActivity extends AppCompatActivity {
 
     private void resetGenderButtons() {
         binding.femaleButton.setBackgroundResource(R.drawable.btn_bg_gray);
-        binding.femaleButton.setTextColor(ContextCompat.getColor(ChangeGenderActivity.this, android.R.color.black));
+        binding.femaleButton.setTextColor(ContextCompat.getColor(ChooseGenderActivity.this, android.R.color.black));
         binding.maleButton.setBackgroundResource(R.drawable.btn_bg_gray);
-        binding.maleButton.setTextColor(ContextCompat.getColor(ChangeGenderActivity.this, android.R.color.black));
+        binding.maleButton.setTextColor(ContextCompat.getColor(ChooseGenderActivity.this, android.R.color.black));
         binding.goNextButton.setBackgroundResource(R.drawable.button_background_gray);
-        binding.goNextButton.setTextColor(ContextCompat.getColor(ChangeGenderActivity.this, R.color.neutral_dark_gray));
+        binding.goNextButton.setTextColor(ContextCompat.getColor(ChooseGenderActivity.this, R.color.neutral_dark_gray));
         isFemale = false;
         isMale = false;
     }
@@ -177,15 +177,15 @@ public class ChangeGenderActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Intent intent = new Intent(ChangeGenderActivity.this, CreateBioActivity.class);
+                        Intent intent = new Intent(ChooseGenderActivity.this, CreateBioActivity.class);
                         startActivity(intent);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        NotificationHelper.showCustomNotification(ChangeGenderActivity.this, null, getString(R.string.registration_error_message), getString(R.string.close), 0, 0, 0, 0);
-                        Toast.makeText(ChangeGenderActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
+                        NotificationHelper.showCustomNotification(ChooseGenderActivity.this, null, getString(R.string.registration_error_message), getString(R.string.close), 0, 0, 0, 0);
+                        Toast.makeText(ChooseGenderActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
                     }
                 });
     }

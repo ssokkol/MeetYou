@@ -135,6 +135,11 @@ public class SignInActivity extends AppCompatActivity {
                             // Вызов метода для загрузки данных пользователя
                             Users.getUserDataFromFirebase(userUID, new Users.OnUserDataListener() {
                                 @Override
+                                public void onDataLoaded(String userName) {
+
+                                }
+
+                                @Override
                                 public void onDataLoaded(Users user) {
                                     // Сохранение данных пользователя в SharedPreferences и запуск основной активности
                                     saveUserCredentials(user);

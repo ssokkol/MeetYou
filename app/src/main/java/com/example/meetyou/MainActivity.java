@@ -13,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.meetyou.Database.DatabaseHelper;
 import com.example.meetyou.MYFiles.NotificationHelper;
+import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -75,7 +76,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, OwnProfileActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+                finish();
+            }
+        });
+
+        binding.dislikebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Users.getRandomUserFromPool("male", "female", new Users.OnUserDataListener() {
+                    @Override
+                    public void onDataLoaded(String userName) {
+                        binding.nameTextView.setText(userName);
+                    }
+
+                    @Override
+                    public void onDataLoaded(Users user) {
+
+                    }
+
+                    @Override
+                    public void onDataNotAvailable() {
+                    }
+                });
             }
         });
 

@@ -1,19 +1,20 @@
 package com.example.meetyou;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import com.example.meetyou.Database.DatabaseHelper;
 import com.example.meetyou.MYFiles.NotificationHelper;
-import com.example.meetyou.databinding.ActivityChangeInterestsBinding;
 import com.example.meetyou.MYFiles.Users;
+import com.example.meetyou.databinding.ActivityChooseInterestsBinding;
 
-public class ChangeInterestsActivity extends AppCompatActivity {
+public class ChooseInterestsActivity extends AppCompatActivity {
 
     private int Counter = 0;
 
@@ -49,14 +50,14 @@ public class ChangeInterestsActivity extends AppCompatActivity {
 
     public static boolean isGoNextActive = false;
 
-    ActivityChangeInterestsBinding binding;
+    ActivityChooseInterestsBinding binding;
 
     DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityChangeInterestsBinding.inflate(getLayoutInflater());
+        binding = ActivityChooseInterestsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
@@ -520,15 +521,15 @@ public class ChangeInterestsActivity extends AppCompatActivity {
                 binding.goNextButton.setText(interestsString);
                 if(!isGoNextActive)
                 {
-                    NotificationHelper.showCustomNotification(ChangeInterestsActivity.this, null, getString(R.string.choose_a_few_interests_message), getString(R.string.close), 0, 0, 0,0);
+                    NotificationHelper.showCustomNotification(ChooseInterestsActivity.this, null, getString(R.string.choose_a_few_interests_message), getString(R.string.close), 0, 0, 0,0);
                 } else if(Counter <= 5 )
                 {
                     Users.updateUserHobbies(getUID(), getSelectedInterestsString());
-                    Intent intent = new Intent(ChangeInterestsActivity.this, ChooseFindGenderActivity.class);
+                    Intent intent = new Intent(ChooseInterestsActivity.this, ChooseFindGenderActivity.class);
                     startActivity(intent);
                     //NotificationHelper.showCustomNotification(StartActivity, getString(R.string.welcome), getString(R.string.you_ve_been_successfully_registered_please_sign_in), getString(R.string.okay), 0, 0, 0,0);
                 } else if (Counter > 5 ){
-                    NotificationHelper.showCustomNotification(ChangeInterestsActivity.this, null, getString(R.string.select_nm_5_interests_message), getString(R.string.close), 0, 0, 0,0);
+                    NotificationHelper.showCustomNotification(ChooseInterestsActivity.this, null, getString(R.string.select_nm_5_interests_message), getString(R.string.close), 0, 0, 0,0);
                 }
             }
         });

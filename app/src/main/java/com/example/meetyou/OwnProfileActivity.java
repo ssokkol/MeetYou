@@ -1,6 +1,9 @@
 package com.example.meetyou;
 
 import android.Manifest;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -16,6 +19,7 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,16 +56,18 @@ public class OwnProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Привязка макета активности
         binding = ActivityOwnProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // Установка цвета статус-бара
         getWindow().setStatusBarColor(ContextCompat.getColor(OwnProfileActivity.this, R.color.main));
-
         // Чтение данных из Firebase Database и передача в локальные переменные
         Users.getUserDataFromFirebase(getUID(), new Users.OnUserDataListener() {
+            @Override
+            public void onDataLoaded(String userName) {
+
+            }
+
             @Override
             public void onDataLoaded(Users user) {
                 // Здесь можно использовать значения photo1, photo2, photo3, photo4, photo5
@@ -98,8 +104,8 @@ public class OwnProfileActivity extends AppCompatActivity {
         binding.settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(OwnProfileActivity.this, OptionsActivity.class);
-                startActivity(intent);
+            Intent intent = new Intent(OwnProfileActivity.this, OptionsActivity.class);
+            startActivity(intent);
             }
         });
 
@@ -108,6 +114,7 @@ public class OwnProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(OwnProfileActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
             }
@@ -187,6 +194,32 @@ public class OwnProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showImageOverlay(binding.image5, imageOverlay, expandedImage);
+            }
+        });
+
+        binding.nameTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String textToCopy = binding.nameTextView.getText().toString();
+
+                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText(binding.nameTextView.getText().toString(), textToCopy);
+                clipboardManager.setPrimaryClip(clipData);
+
+                Toast.makeText(OwnProfileActivity.this, "Name was copied in clipboard", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        binding.additionalTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String textToCopy = binding.additionalTextView.getText().toString();
+
+                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText(binding.additionalTextView.getText().toString(), textToCopy);
+                clipboardManager.setPrimaryClip(clipData);
+
+                Toast.makeText(OwnProfileActivity.this, "Name was copied in clipboard", Toast.LENGTH_SHORT).show();
             }
         });
     }

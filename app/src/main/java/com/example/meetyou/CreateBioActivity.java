@@ -193,7 +193,7 @@ public class CreateBioActivity extends AppCompatActivity {
                             saveUserName(name);
                             saveUserAge(calculateAge(Integer.parseInt(birthYearStr), Integer.parseInt(birthMonthStr), Integer.parseInt(birthDayStr)));
                             Toast.makeText(CreateBioActivity.this, R.string.data_saved_successfully_message, Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(CreateBioActivity.this, ChangeParametersActivity.class);
+                            Intent intent = new Intent(CreateBioActivity.this, ChooseParametersActivity.class);
                             startActivity(intent);
 //                            NotificationHelper.showCustomNotification(CreateBioActivity.this, null, getString(R.string.error_data_saving_message), getString(R.string.close), 0, 0, 0,0);
                             //Toast.makeText(CreateBioActivity.this, R.string.error_data_saving_message, Toast.LENGTH_SHORT).show();

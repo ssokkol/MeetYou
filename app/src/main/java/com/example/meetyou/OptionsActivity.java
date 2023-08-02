@@ -53,6 +53,14 @@ public class OptionsActivity extends AppCompatActivity {
             }
         });
 
+        binding.changeInterestsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(OptionsActivity.this, ChangeInterestActivity.class);
+                startActivity(intent);
+            }
+        });
+
         binding.profileColorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

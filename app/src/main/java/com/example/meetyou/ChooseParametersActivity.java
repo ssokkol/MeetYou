@@ -13,17 +13,17 @@ import androidx.core.content.ContextCompat;
 
 import com.example.meetyou.Database.DatabaseHelper;
 import com.example.meetyou.MYFiles.Users;
-import com.example.meetyou.databinding.ActivityChangeParametersBinding;
+import com.example.meetyou.databinding.ActivityChooseParametersBinding;
 
-public class ChangeParametersActivity extends AppCompatActivity {
+public class ChooseParametersActivity extends AppCompatActivity {
 
-    ActivityChangeParametersBinding binding;
+    ActivityChooseParametersBinding binding;
     DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityChangeParametersBinding.inflate(getLayoutInflater());
+        binding = ActivityChooseParametersBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -67,7 +67,7 @@ public class ChangeParametersActivity extends AppCompatActivity {
 
 //                long result = databaseHelper.insertParameters(getUserID(), selectedHeight, selectedWeight);
 //                if(result != -1){
-                Intent intent = new Intent(ChangeParametersActivity.this, UploadPhotoActivity.class);
+                Intent intent = new Intent(ChooseParametersActivity.this, UploadPhotoActivity.class);
                 startActivity(intent);
 //                }else{
 //                    NotificationHelper.showCustomNotification(ChangeParametersActivity.this, null, getString(R.string.registration_error_message), getString(R.string.close), 0, 0, 0,0);

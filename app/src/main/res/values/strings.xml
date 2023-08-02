@@ -37,7 +37,7 @@
     <string name="bio_chars_message">The bio should be no more than 150 characters</string>
     <string name="name_chars_message">The name must not contain numbers or symbols</string>
     <string name="name_chars_count_message">The name must be no more than 30 characters</string>
-    <string name="change_your_gender">Change your gender</string>
+    <string name="choose_your_gender">Choose your gender</string>
     <string name="close">Close</string>
     <string name="choose_a_few_interests_message">Choose a few interests</string>
     <string name="okay">Okay</string>
@@ -46,4 +46,16 @@
     <string name="pick_a_few_targets_message">Pick a few targets</string>
     <string name="select_nm_5_interests_message">Select no more than 5 interests!</string>
     <string name="data_not_available_message">Data is not available!</string>
+    <string name="faq_support">FAQ/Support</string>
+    <string name="avoid_list">Avoid list</string>
+    <string name="profile_color">Profile color</string>
+    <string name="global_search">Global search</string>
+    <string name="vip_functions">Vip functions</string>
+    <string name="premium_functions">Premium functions</string>
+    <string name="luxe_functions">Luxe functions</string>
+    <string name="other">Other</string>
+    <string name="change_interests">Change interests</string>
+    <string name="change_name">Change name</string>
+    <string name="update_photos">Update photos</string>
+    <string name="change_e_mail">Change E-mail</string>
 </resources>

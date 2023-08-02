@@ -17,11 +17,12 @@
             android:layout_height="40dp"
             android:layout_margin="15dp"
             android:background="@drawable/buttonwitharrow"
-            android:text="      Change E-mail"
+            android:text="@string/change_e_mail"
             android:textColor="@color/white"
             android:gravity="center_vertical"
             android:textAllCaps="false"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:paddingLeft="25dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/update_photos_button"
@@ -32,11 +33,12 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:background="@drawable/buttonwitharrow"
-            android:text="      Update photos"
+            android:text="@string/update_photos"
             android:textColor="@color/white"
             android:gravity="center_vertical"
             android:textAllCaps="false"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:paddingLeft="25dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/change_name_button"
@@ -47,11 +49,12 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:background="@drawable/buttonwitharrow"
-            android:text="      Change name"
+            android:text="@string/change_name"
             android:textColor="@color/white"
             android:gravity="center_vertical"
             android:textAllCaps="false"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:paddingLeft="25dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/change_bio_button"
@@ -62,11 +65,12 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:background="@drawable/buttonwitharrow"
-            android:text="      Change bio"
+            android:text="Change bio"
             android:textColor="@color/white"
             android:gravity="center_vertical"
             android:textAllCaps="false"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:paddingLeft="25dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/change_interests_button"
@@ -77,11 +81,12 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:background="@drawable/buttonwitharrow"
-            android:text="      Change interests"
+            android:text="@string/change_interests"
             android:textColor="@color/white"
             android:gravity="center_vertical"
             android:textAllCaps="false"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:paddingLeft="25dp"/>
 
         <RelativeLayout
             android:id="@+id/age_range_layout"
@@ -97,10 +102,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:textColor="@color/main"
-                android:textStyle="bold"
                 android:text="Слайдера пока нет"
-                android:textSize="18sp"/>
+                android:textColor="@color/main"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
@@ -118,7 +123,7 @@
                 android:layout_marginLeft="20dp"
                 android:textColor="@color/main"
                 android:textStyle="bold"
-                android:text="Vip functions"
+                android:text="@string/vip_functions"
                 android:textSize="18sp"/>
 
             <RelativeLayout
@@ -135,11 +140,12 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:background="@drawable/buttonwitharrow"
-            android:text="      Global search"
+            android:text="@string/global_search"
             android:textColor="@color/white"
             android:gravity="center_vertical"
             android:textAllCaps="false"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:paddingLeft="25dp"/>
             </RelativeLayout>
         </RelativeLayout>
 
@@ -157,7 +163,7 @@
                 android:layout_marginLeft="20dp"
                 android:textColor="@color/main"
                 android:textStyle="bold"
-                android:text="Premium functions"
+                android:text="@string/premium_functions"
                 android:textSize="18sp"/>
             <RelativeLayout
                 android:layout_alignTop="@+id/premium_functions_text"
@@ -173,11 +179,12 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/buttonwitharrow"
-                android:text="      Profile color"
+                android:text="@string/profile_color"
                 android:textColor="@color/white"
                 android:gravity="center_vertical"
                 android:textAllCaps="false"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                android:paddingLeft="25dp"/>
             </RelativeLayout>
         </RelativeLayout>
 
@@ -195,7 +202,7 @@
                 android:layout_marginLeft="20dp"
                 android:textColor="@color/main"
                 android:textStyle="bold"
-                android:text="Luxe functions"
+                android:text="@string/luxe_functions"
                 android:textSize="18sp"/>
             <RelativeLayout
                 android:layout_alignTop="@+id/luxe_functions_text"
@@ -211,11 +218,12 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:background="@drawable/buttonwitharrow"
-                    android:text="      Avoid list"
+                    android:text="@string/avoid_list"
                     android:textColor="@color/white"
                     android:gravity="center_vertical"
                     android:textAllCaps="false"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:paddingLeft="25dp"/>
             </RelativeLayout>
         </RelativeLayout>
 
@@ -233,7 +241,7 @@
                 android:layout_marginLeft="20dp"
                 android:textColor="@color/main"
                 android:textStyle="bold"
-                android:text="Other"
+                android:text="@string/other"
                 android:textSize="18sp"/>
             <RelativeLayout
                 android:layout_alignTop="@+id/other_functions_text"
@@ -249,11 +257,12 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:background="@drawable/buttonwitharrow"
-                    android:text="      FAQ/Support"
+                    android:text="@string/faq_support"
                     android:textColor="@color/white"
                     android:gravity="center_vertical"
                     android:textAllCaps="false"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:paddingLeft="25dp"/>
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>

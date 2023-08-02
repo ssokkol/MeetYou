@@ -7,7 +7,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Users {
     String UID, email, name, bio, height, weight, gender, findGender, hobbies, target, color, status, photo1, photo2, photo3, photo4, photo5;
@@ -309,6 +314,8 @@ public class Users {
     }
 
     public interface OnUserDataListener {
+        void onDataLoaded(String userName);
+
         void onDataLoaded(Users user);
         void onDataNotAvailable();
     }
@@ -367,4 +374,36 @@ public class Users {
         return new Users(UID, name, bio, height, weight, gender, findGender, hobbies, target, color, status, photo1, photo2, photo3, photo4, photo5, age, boosts, likes, megasymps, verified);
     }
 
+
+
+    public static void getRandomUserFromPool(String findGender, String gender, final OnUserDataListener listener) {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
+        Query query = usersRef.orderByChild("gender").equalTo(gender);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<Users> femaleUsers = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Users user = snapshot.getValue(Users.class);
+                    if (user != null && user.getFindGender().equals(findGender)) {
+                        femaleUsers.add(user);
+                    }
+                }
+
+                if (!femaleUsers.isEmpty()) {
+                    int randomIndex = new Random().nextInt(femaleUsers.size());
+                    Users randomFemaleUser = femaleUsers.get(randomIndex);
+                    listener.onDataLoaded(randomFemaleUser.getName());
+                } else {
+                    listener.onDataNotAvailable();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.onDataNotAvailable();
+            }
+        });
+    }
 }
