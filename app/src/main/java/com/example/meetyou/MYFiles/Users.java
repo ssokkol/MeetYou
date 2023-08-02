@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Users {
-    String UID, email, name, bio, height, weight, gender, findGender, hobbies, target, color, status, photo1, photo2, photo3, photo4, photo5;
+    String UID, email, name, bio, height, weight, gender, findGender, findHeight, findWeight, hobbies, target, color, status, photo1, photo2, photo3, photo4, photo5;
     int age, boosts, likes, megasymps;
 
     boolean verified;
@@ -23,7 +23,7 @@ public class Users {
     public Users() {
     }
 
-    public Users(String UID, String email, String name, String bio, String height, String weight, String gender, String findGender, String hobbies, String target,
+    public Users(String UID, String email, String name, String bio, String height, String weight, String gender, String findGender, String findHeight, String findWeight, String hobbies, String target,
                  String color, String status,
                  String photo1, String photo2, String photo3, String photo4, int age, int boosts, int likes, int megasymps, boolean verified)
     {
@@ -35,6 +35,8 @@ public class Users {
         this.weight = weight;
         this.gender = gender;
         this.findGender = findGender;
+        this.findHeight = findHeight;
+        this.findWeight = findWeight;
         this.hobbies = hobbies;
         this.target = target;
         this.color = color;
@@ -49,6 +51,22 @@ public class Users {
         this.likes = likes;
         this.megasymps = megasymps;
         this.verified = verified;
+    }
+
+    public String getFindHeight() {
+        return findHeight;
+    }
+
+    public void setFindHeight(String findHeight) {
+        this.findHeight = findHeight;
+    }
+
+    public String getFindWeight() {
+        return findWeight;
+    }
+
+    public void setFindWeight(String findWeight) {
+        this.findWeight = findWeight;
     }
 
     public String getPhoto1() {
@@ -293,6 +311,17 @@ public class Users {
         userRef.setValue(photoURL);
     }
 
+
+    public static void updateUserFindHeight(String UID, String newFindHeight) {
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(UID).child("findHeight");
+        userRef.setValue(newFindHeight);
+    }
+
+    public static void updateUserFindWeight(String UID, String newFindWeight) {
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(UID).child("findHeight");
+        userRef.setValue(newFindWeight);
+    }
+
     public static void getUserDataFromFirebase(String UID, final OnUserDataListener listener) {
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(UID);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -330,6 +359,8 @@ public class Users {
         editor.putString("weight", this.weight);
         editor.putString("gender", this.gender);
         editor.putString("findGender", this.findGender);
+        editor.putString("findHeight", this.findHeight);
+        editor.putString("findWeight", this.findWeight);
         editor.putString("hobbies", this.hobbies);
         editor.putString("target", this.target);
         editor.putString("color", this.color);
@@ -356,6 +387,8 @@ public class Users {
         String weight = sharedPreferences.getString("weight", "");
         String gender = sharedPreferences.getString("gender", "");
         String findGender = sharedPreferences.getString("findGender", "");
+        String findHeight = sharedPreferences.getString("findHeight", "");
+        String findWeight = sharedPreferences.getString("findWeight", "");
         String hobbies = sharedPreferences.getString("hobbies", "");
         String target = sharedPreferences.getString("target", "");
         String color = sharedPreferences.getString("color", "");
@@ -371,12 +404,12 @@ public class Users {
         int megasymps = sharedPreferences.getInt("megasymps", 0);
         boolean verified = sharedPreferences.getBoolean("verified", false);
 
-        return new Users(UID, name, bio, height, weight, gender, findGender, hobbies, target, color, status, photo1, photo2, photo3, photo4, photo5, age, boosts, likes, megasymps, verified);
+        return new Users(UID, name, bio, height, weight, gender, findGender, findHeight, findHeight, hobbies, target, color, status, photo1, photo2, photo3, photo4, photo5, age, boosts, likes, megasymps, verified);
     }
 
 
 
-    public static void getRandomUserFromPool(String findGender, String gender, final OnUserDataListener listener) {
+    public static void getRandomUserFromPool(String UID,String findGender, String gender, final OnUserDataListener listener) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
         Query query = usersRef.orderByChild("gender").equalTo(gender);
 

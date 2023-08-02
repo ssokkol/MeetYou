@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         binding.dislikebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Users.getRandomUserFromPool("male", "female", new Users.OnUserDataListener() {
+                Users.getRandomUserFromPool(getUID(),"male", "female", new Users.OnUserDataListener() {
                     @Override
                     public void onDataLoaded(String userName) {
                         binding.nameTextView.setText(userName);

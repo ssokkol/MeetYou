@@ -166,38 +166,32 @@ public class ChooseFindTargetActivity extends AppCompatActivity {
                     if(isFriendsChanged)
                     {
                         Users.updateUserTarget(getUID(), "friends");
-                        Intent intent = new Intent(ChooseFindTargetActivity.this, StartActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent intent = new Intent(ChooseFindTargetActivity.this, ChoosePartnerParametersActivity.class);
                         startActivity(intent);
                     } else if (isShortChanged)
                     {
                         Users.updateUserTarget(getUID(), "short-term");
-                        Intent intent = new Intent(ChooseFindTargetActivity.this, StartActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent intent = new Intent(ChooseFindTargetActivity.this, ChoosePartnerParametersActivity.class);
                         startActivity(intent);
                     } else if (isLongChanged)
                     {
                         Users.updateUserTarget(getUID(), "long-term");
-                        Intent intent = new Intent(ChooseFindTargetActivity.this, StartActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent intent = new Intent(ChooseFindTargetActivity.this, ChoosePartnerParametersActivity.class);
                         startActivity(intent);
                     } else if (isFunChanged)
                     {
                         Users.updateUserTarget(getUID(), "fun");
-                        Intent intent = new Intent(ChooseFindTargetActivity.this, StartActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent intent = new Intent(ChooseFindTargetActivity.this, ChoosePartnerParametersActivity.class);
                         startActivity(intent);
                     } else if (isSexChanged)
                     {
                         Users.updateUserTarget(getUID(), "sex");
-                        Intent intent = new Intent(ChooseFindTargetActivity.this, StartActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent intent = new Intent(ChooseFindTargetActivity.this, ChoosePartnerParametersActivity.class);
                         startActivity(intent);
                     } else if (isSureChanged)
                     {
                         Users.updateUserTarget(getUID(), "not-sure");
-                        Intent intent = new Intent(ChooseFindTargetActivity.this, StartActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent intent = new Intent(ChooseFindTargetActivity.this, ChoosePartnerParametersActivity.class);
                         startActivity(intent);
                     }
                 }else{
