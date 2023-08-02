@@ -7,7 +7,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -343,40 +342,58 @@ public class Users {
     }
 
     public interface OnUserDataListener {
+        void onDataLoaded(String userName, String userBio, String photo1, String photo2, String photo3, String photo4, String photo5);
+
         void onDataLoaded(String userName);
 
         void onDataLoaded(Users user);
         void onDataNotAvailable();
     }
 
-    public void saveUserDataToSharedPreferences(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("UID", this.UID);
-        editor.putString("name", this.name);
-        editor.putString("bio", this.bio);
-        editor.putString("height", this.height);
-        editor.putString("weight", this.weight);
-        editor.putString("gender", this.gender);
-        editor.putString("findGender", this.findGender);
-        editor.putString("findHeight", this.findHeight);
-        editor.putString("findWeight", this.findWeight);
-        editor.putString("hobbies", this.hobbies);
-        editor.putString("target", this.target);
-        editor.putString("color", this.color);
-        editor.putString("status", this.status);
-        editor.putString("photo1", this.photo1);
-        editor.putString("photo2", this.photo2);
-        editor.putString("photo3", this.photo3);
-        editor.putString("photo4", this.photo4);
-        editor.putString("photo5", this.photo5);
-        editor.putInt("age", this.age);
-        editor.putInt("boosts", this.boosts);
-        editor.putInt("likes", this.likes);
-        editor.putInt("megasymps", this.megasymps);
-        editor.putBoolean("verified", this.verified);
-        editor.apply();
+    public static void saveUserDataToSharedPreferences(Context context, String UID) {
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(UID);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Users user = dataSnapshot.getValue(Users.class);
+
+                if (user != null) {
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("UID", user.getUID());
+                    editor.putString("name", user.getName());
+                    editor.putString("bio", user.getBio());
+                    editor.putString("height", user.getHeight());
+                    editor.putString("weight", user.getWeight());
+                    editor.putString("gender", user.getGender());
+                    editor.putString("findGender", user.getFindGender());
+                    editor.putString("findHeight", user.getFindHeight());
+                    editor.putString("findWeight", user.getFindWeight());
+                    editor.putString("hobbies", user.getHobbies());
+                    editor.putString("target", user.getTarget());
+                    editor.putString("color", user.getColor());
+                    editor.putString("status", user.getStatus());
+                    editor.putString("photo1", user.getPhoto1());
+                    editor.putString("photo2", user.getPhoto2());
+                    editor.putString("photo3", user.getPhoto3());
+                    editor.putString("photo4", user.getPhoto4());
+                    editor.putString("photo5", user.getPhoto5());
+                    editor.putInt("age", user.getAge());
+                    editor.putInt("boosts", user.getBoosts());
+                    editor.putInt("likes", user.getLikes());
+                    editor.putInt("megasymps", user.getMegasymps());
+                    editor.putBoolean("verified", user.isVerified());
+                    editor.apply();
+                } else {
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
+
 
     public static Users getUserDataFromSharedPreferences(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
@@ -409,25 +426,28 @@ public class Users {
 
 
 
-    public static void getRandomUserFromPool(String UID,String findGender, String gender, final OnUserDataListener listener) {
+    public static void getRandomUserFromPool(final String currentUserUID, final OnUserDataListener listener) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
-        Query query = usersRef.orderByChild("gender").equalTo(gender);
 
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<Users> femaleUsers = new ArrayList<>();
+                List<Users> usersPool = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Users user = snapshot.getValue(Users.class);
-                    if (user != null && user.getFindGender().equals(findGender)) {
-                        femaleUsers.add(user);
+                    if (user != null && user.getUID() != null && !user.getUID().equals(currentUserUID) &&
+                            user.getGender().equals(user.getFindGender()) && user.getFindGender().equals(user.getGender())) {
+                        usersPool.add(user);
                     }
                 }
 
-                if (!femaleUsers.isEmpty()) {
-                    int randomIndex = new Random().nextInt(femaleUsers.size());
-                    Users randomFemaleUser = femaleUsers.get(randomIndex);
-                    listener.onDataLoaded(randomFemaleUser.getName());
+                if (!usersPool.isEmpty()) {
+                    int randomIndex = new Random().nextInt(usersPool.size());
+                    Users randomUser = usersPool.get(randomIndex);
+                    listener.onDataLoaded(randomUser.getName(), randomUser.getBio(),
+                            randomUser.getPhoto1(), randomUser.getPhoto2(),
+                            randomUser.getPhoto3(), randomUser.getPhoto4(),
+                            randomUser.getPhoto5());
                 } else {
                     listener.onDataNotAvailable();
                 }

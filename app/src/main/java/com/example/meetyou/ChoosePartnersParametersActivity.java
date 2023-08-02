@@ -15,7 +15,7 @@ import com.example.meetyou.Database.DatabaseHelper;
 import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityChoosePartnersParametersBinding;
 
-public class ChoosePartnerParametersActivity extends AppCompatActivity {
+public class ChoosePartnersParametersActivity extends AppCompatActivity {
 
     ActivityChoosePartnersParametersBinding binding;
     DatabaseHelper databaseHelper;
@@ -65,7 +65,7 @@ public class ChoosePartnerParametersActivity extends AppCompatActivity {
                 Users.updateUserFindHeight(getUID(), selectedHeight);
                 Users.updateUserFindWeight(getUID(), selectedWeight);
 
-                Intent intent = new Intent(ChoosePartnerParametersActivity.this, StartActivity.class);
+                Intent intent = new Intent(ChoosePartnersParametersActivity.this, StartActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();

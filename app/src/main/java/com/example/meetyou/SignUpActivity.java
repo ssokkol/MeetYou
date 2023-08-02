@@ -30,8 +30,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.HashMap;
-
 public class SignUpActivity extends AppCompatActivity {
 
     public String email;
@@ -119,7 +117,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
                                             Toast.makeText(SignUpActivity.this, R.string.success_registration_message, Toast.LENGTH_SHORT).show();
-                                            usertoDataBase(email, 999);
+//                                            usertoDataBase(email, 999);
                                             String sanitizedEmail = sanitizeEmail(email);
                                             createFirebaseStorageFolder(sanitizedEmail);
                                             mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -186,21 +184,21 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     // Метод для сохранения данных пользователя в базу данных
-    private void usertoDataBase(String email, int age) {
-        HashMap<String, Object> user = new HashMap<>();
-        user.put("age", 1);
-
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
-        databaseReference.child(email).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                } else {
-                    Toast.makeText(SignUpActivity.this, "Failed to save data", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
+//    private void usertoDataBase(String email, int age) {
+//        HashMap<String, Object> user = new HashMap<>();
+//        user.put("age", 1);
+//
+//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+//        databaseReference.child(email).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                if (task.isSuccessful()) {
+//                } else {
+//                    Toast.makeText(SignUpActivity.this, "Failed to save data", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+//    }
 
     // Метод для проверки корректности введенного email
     private boolean isValidEmail(String email) {

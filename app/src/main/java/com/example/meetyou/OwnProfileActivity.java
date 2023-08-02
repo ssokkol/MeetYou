@@ -64,6 +64,11 @@ public class OwnProfileActivity extends AppCompatActivity {
         // Чтение данных из Firebase Database и передача в локальные переменные
         Users.getUserDataFromFirebase(getUID(), new Users.OnUserDataListener() {
             @Override
+            public void onDataLoaded(String userName, String userBio, String photo1, String photo2, String photo3, String photo4, String photo5) {
+
+            }
+
+            @Override
             public void onDataLoaded(String userName) {
 
             }
