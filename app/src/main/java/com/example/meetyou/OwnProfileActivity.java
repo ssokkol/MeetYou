@@ -58,10 +58,7 @@ public class OwnProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityOwnProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        // Установка цвета статус-бара
         getWindow().setStatusBarColor(ContextCompat.getColor(OwnProfileActivity.this, R.color.main));
-        // Чтение данных из Firebase Database и передача в локальные переменные
         Users.getUserDataFromFirebase(getUID(), new Users.OnUserDataListener() {
             @Override
             public void onDataLoaded(String userName, String userBio, String photo1, String photo2, String photo3, String photo4, String photo5) {
@@ -75,7 +72,6 @@ public class OwnProfileActivity extends AppCompatActivity {
 
             @Override
             public void onDataLoaded(Users user) {
-                // Здесь можно использовать значения photo1, photo2, photo3, photo4, photo5
                 photo1URL = user.getPhoto1();
                 photo2URL = user.getPhoto2();
                 photo3URL = user.getPhoto3();
@@ -234,10 +230,10 @@ public class OwnProfileActivity extends AppCompatActivity {
         super.onStart();
 
         // Проверка, были ли внесены изменения, и пересоздание активности для их отображения
-        if (getChanges()) {
-            setSomethingWasChanged(false);
-            recreate();
-        }
+//        if (getChanges()) {
+//            setSomethingWasChanged(false);
+//            recreate();
+//        }
 
         // Проверка наличия разрешения на доступ к местоположению и запрос обновлений местоположения
         if (locationManager != null) {
@@ -326,7 +322,7 @@ public class OwnProfileActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    private void customPhotoLoadingToClient(String photoName, ImageView imageView){
+    private void customPhotoLoadingToClient(String photoName, ImageView imageView) {
         DatabaseReference Images = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child(photoName);
         Images.addValueEventListener(new ValueEventListener() {
             @Override
@@ -337,7 +333,6 @@ public class OwnProfileActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }
