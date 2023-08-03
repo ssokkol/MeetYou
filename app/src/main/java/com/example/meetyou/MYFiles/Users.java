@@ -426,7 +426,7 @@ public class Users {
 
 
 
-    public static void getRandomUserFromPool(String gender, String findGender, final OnUserDataListener listener) {
+    public static void getRandomUserFromPool(String gender, String findGender, String findHeight, final OnUserDataListener listener) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
         Query query = usersRef.orderByChild("gender").equalTo(gender);
 
@@ -436,7 +436,7 @@ public class Users {
                 List<Users> femaleUsers = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Users user = snapshot.getValue(Users.class);
-                    if (user != null && user.getFindGender().equals(findGender)) {
+                    if (user != null && user.getFindGender().equals(findGender) && user.getHeight().equals(findHeight)) {
                         femaleUsers.add(user);
                     }
                 }
