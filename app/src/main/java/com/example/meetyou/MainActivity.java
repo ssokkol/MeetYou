@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     @NonNull ActivityMainBinding binding;
     String gender;
     String findGender;
-    String height;
+    String findWeight;
     String findHeight;
 
     int[] photos = {
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         gender = getGender();
         findGender = getFindGender();
-        height = getHeight();
+        findWeight = getFindWeight();
         findHeight = getFindHeight();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         binding.dislikebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Users.getRandomUserFromPool(gender,findGender,findHeight, new Users.OnUserDataListener() {
+                Users.getRandomUserFromPool(gender,findGender,findHeight,findWeight, new Users.OnUserDataListener() {
                     @Override
                     public void onDataLoaded(String userName, String userBio) {
                         binding.informationTextView.setText(userBio);
@@ -129,9 +129,9 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("findGender", "");
     }
-    private String getHeight(){
+    private String getFindWeight(){
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return sharedPreferences.getString("height", "");
+        return sharedPreferences.getString("findWeight", "");
     }
     private String getFindHeight(){
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
