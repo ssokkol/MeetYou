@@ -20,12 +20,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityOwnProfileBinding;
 import com.google.firebase.database.DataSnapshot;
@@ -34,7 +32,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -61,17 +58,13 @@ public class OwnProfileActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(ContextCompat.getColor(OwnProfileActivity.this, R.color.main));
         Users.getUserDataFromFirebase(getUID(), new Users.OnUserDataListener() {
             @Override
-            public void onDataLoaded(String userName, String userBio, String photo1, String photo2, String photo3, String photo4, String photo5) {
-
-            }
-
-            @Override
-            public void onDataLoaded(String userName) {
+            public void onDataLoaded(String userName, String bio) {
 
             }
 
             @Override
             public void onDataLoaded(Users user) {
+                // Здесь можно использовать значения photo1, photo2, photo3, photo4, photo5
                 photo1URL = user.getPhoto1();
                 photo2URL = user.getPhoto2();
                 photo3URL = user.getPhoto3();
@@ -91,6 +84,7 @@ public class OwnProfileActivity extends AppCompatActivity {
         customPhotoLoadingToClient("photo3", binding.image3);
         customPhotoLoadingToClient("photo4", binding.image4);
         customPhotoLoadingToClient("photo5", binding.image5);
+
 
         // Получение данных пользователя и отображение их в представлении
         String nameText = getUserName();
@@ -322,7 +316,7 @@ public class OwnProfileActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    private void customPhotoLoadingToClient(String photoName, ImageView imageView) {
+    private void customPhotoLoadingToClient(String photoName, ImageView imageView){
         DatabaseReference Images = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child(photoName);
         Images.addValueEventListener(new ValueEventListener() {
             @Override
@@ -333,6 +327,7 @@ public class OwnProfileActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

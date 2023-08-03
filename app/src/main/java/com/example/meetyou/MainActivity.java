@@ -10,23 +10,23 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.meetyou.Database.DatabaseHelper;
 import com.example.meetyou.MYFiles.NotificationHelper;
 import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
-    public String photo1URL;
-    public String photo2URL;
-    public String photo3URL;
-    public String photo4URL;
-    public String photo5URL;
 
     FirebaseAuth mAuth;
     @NonNull ActivityMainBinding binding;
-    DatabaseHelper databaseHelper;
-    private String[] photoURLs; // Remove initialization here
+
+    int[] photos = {
+            R.drawable.photo_1,
+            R.drawable.photo_2,
+            R.drawable.photo_3,
+            R.drawable.photo_4,
+            R.drawable.photo_5
+    };
     private int currentPosition = 0;
 
     @Override
@@ -36,10 +36,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        databaseHelper = new DatabaseHelper(this);
-
-        String userEmail = getUserEmail();
-        String userPassword = getUserPassword();
+        PhotoAdapter photoAdapter = new PhotoAdapter(photos);
+        binding.viewPager.setAdapter(photoAdapter);
 
         binding.likebutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,25 +77,11 @@ public class MainActivity extends AppCompatActivity {
         binding.dislikebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Users.getRandomUserFromPool(getUID(), new Users.OnUserDataListener() {
+                Users.getRandomUserFromPool("female","male", new Users.OnUserDataListener() {
                     @Override
-                    public void onDataLoaded(String userName, String userBio, String photo1, String photo2, String photo3, String photo4, String photo5) {
-                        binding.nameTextView.setText(userName);
+                    public void onDataLoaded(String userName, String userBio) {
                         binding.informationTextView.setText(userBio);
-                        photo1URL = photo1;
-                        photo2URL = photo2;
-                        photo3URL = photo3;
-                        photo4URL = photo4;
-                        photo5URL = photo5;
-
-                        photoURLs = new String[]{photo1URL, photo2URL, photo3URL, photo4URL, photo5URL};
-
-                        PhotoAdapter photoAdapter = new PhotoAdapter(MainActivity.this, photoURLs);
-                        binding.viewPager.setAdapter(photoAdapter);
-                    }
-
-                    @Override
-                    public void onDataLoaded(String userName) {
+                        binding.nameTextView.setText(userName);
 
                     }
 
@@ -108,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onDataNotAvailable() {
-                        // Handle the case where no suitable user is found
                     }
                 });
             }

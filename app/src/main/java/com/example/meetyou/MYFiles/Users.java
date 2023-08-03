@@ -7,6 +7,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -342,9 +343,8 @@ public class Users {
     }
 
     public interface OnUserDataListener {
-        void onDataLoaded(String userName, String userBio, String photo1, String photo2, String photo3, String photo4, String photo5);
 
-        void onDataLoaded(String userName);
+        void onDataLoaded(String userName, String userBio);
 
         void onDataLoaded(Users user);
         void onDataNotAvailable();
@@ -426,28 +426,25 @@ public class Users {
 
 
 
-    public static void getRandomUserFromPool(final String currentUserUID, final OnUserDataListener listener) {
+    public static void getRandomUserFromPool(String gender, String findGender, final OnUserDataListener listener) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
+        Query query = usersRef.orderByChild("gender").equalTo(gender);
 
-        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<Users> usersPool = new ArrayList<>();
+                List<Users> femaleUsers = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Users user = snapshot.getValue(Users.class);
-                    if (user != null && user.getUID() != null && !user.getUID().equals(currentUserUID) &&
-                            user.getGender().equals(user.getFindGender()) && user.getFindGender().equals(user.getGender())) {
-                        usersPool.add(user);
+                    if (user != null && user.getFindGender().equals(findGender)) {
+                        femaleUsers.add(user);
                     }
                 }
 
-                if (!usersPool.isEmpty()) {
-                    int randomIndex = new Random().nextInt(usersPool.size());
-                    Users randomUser = usersPool.get(randomIndex);
-                    listener.onDataLoaded(randomUser.getName(), randomUser.getBio(),
-                            randomUser.getPhoto1(), randomUser.getPhoto2(),
-                            randomUser.getPhoto3(), randomUser.getPhoto4(),
-                            randomUser.getPhoto5());
+                if (!femaleUsers.isEmpty()) {
+                    int randomIndex = new Random().nextInt(femaleUsers.size());
+                    Users randomFemaleUser = femaleUsers.get(randomIndex);
+                    listener.onDataLoaded(randomFemaleUser.getName(), randomFemaleUser.getBio());
                 } else {
                     listener.onDataNotAvailable();
                 }
@@ -459,4 +456,5 @@ public class Users {
             }
         });
     }
+
 }

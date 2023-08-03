@@ -102,6 +102,7 @@ public class SignInActivity extends AppCompatActivity {
         // Получение состояния флага "Запомнить меня" из SharedPreferences
         rememberMeCheckbox = findViewById(R.id.remember_me_checkbox);
         if (isRememberMeChecked()) {
+
             // Если флаг установлен, отметить его на чекбоксе и выполнить вход с сохраненными данными
             rememberMeCheckbox.setChecked(true);
             loginUser(getSavedEmail(), getSavedPassword());
@@ -131,17 +132,11 @@ public class SignInActivity extends AppCompatActivity {
                             // Если вход успешен, получаем уникальный идентификатор пользователя (UID) и загружаем его данные
                             String userUID = sanitizeEmail(email);
                             saveUID(userUID);
-                            Users.saveUserDataToSharedPreferences(SignInActivity.this, userUID);
 
                             // Вызов метода для загрузки данных пользователя
                             Users.getUserDataFromFirebase(userUID, new Users.OnUserDataListener() {
                                 @Override
-                                public void onDataLoaded(String userName, String userBio, String photo1, String photo2, String photo3, String photo4, String photo5) {
-
-                                }
-
-                                @Override
-                                public void onDataLoaded(String userName) {
+                                public void onDataLoaded(String userName, String bio) {
 
                                 }
 
