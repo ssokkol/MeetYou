@@ -48,12 +48,15 @@ public class SignInActivity extends AppCompatActivity {
         binding = ActivitySignInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Получение экземпляра Firebase для аутентификации
+        mAuth = FirebaseAuth.getInstance();
+
         // Получение состояния флага "Запомнить меня" из SharedPreferences
         rememberMeCheckbox = findViewById(R.id.remember_me_checkbox);
-        isRememberMeChecked = isRememberMeChecked(); // Retrieve the value from SharedPreferences
-        rememberMeCheckbox.setChecked(isRememberMeChecked); // Set the state of the RememberMeCheckbox
+        isRememberMeChecked = isRememberMeChecked(); // Получаем значение из SharedPreferences
+        rememberMeCheckbox.setChecked(isRememberMeChecked); // Устанавливаем состояние RememberMeCheckbox
         if (isRememberMeChecked) {
-            // If the flag is set, attempt login with saved credentials
+            // Если флаг установлен, выполняем вход с сохраненными учетными данными
             loginUser(getSavedEmail(), getSavedPassword());
         }
 
@@ -62,9 +65,6 @@ public class SignInActivity extends AppCompatActivity {
 
         // Инициализация помощника для работы с базой данных
         databaseHelper = new DatabaseHelper(this);
-
-        // Получение экземпляра Firebase для аутентификации
-        mAuth = FirebaseAuth.getInstance();
 
         // Изменение цвета статус-бара
         getWindow().setStatusBarColor(ContextCompat.getColor(SignInActivity.this, R.color.main));
@@ -86,11 +86,14 @@ public class SignInActivity extends AppCompatActivity {
                 String email = binding.mailText.getText().toString().trim();
                 String password = binding.password.getText().toString();
 
+                // Сохранение состояния флага "Запомнить меня" в SharedPreferences
+                saveRememberMeState(binding.rememberMeCheckbox.isChecked());
+
                 // Проверка корректности формата электронной почты
                 if (!isValidEmail(email)) {
                     // Вывод уведомления об ошибке в формате почты
                     NotificationHelper.showCustomNotification(SignInActivity.this, null, getString(R.string.wrong_mail_format_message), getString(R.string.close), 0, 0, 0, 0);
-                } else if (email.equals("") || password.equals("")) {
+                } else if (email.isEmpty() || password.isEmpty()) {
                     // Вывод уведомления об ошибке ввода данных (пустые поля)
                     NotificationHelper.showCustomNotification(SignInActivity.this, null, getString(R.string.zero_input_message), getString(R.string.close), 0, 0, 0, 0);
                 } else {
@@ -99,16 +102,6 @@ public class SignInActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-        // Получение состояния флага "Запомнить меня" из SharedPreferences
-        rememberMeCheckbox = findViewById(R.id.remember_me_checkbox);
-        if (isRememberMeChecked()) {
-
-            // Если флаг установлен, отметить его на чекбоксе и выполнить вход с сохраненными данными
-            rememberMeCheckbox.setChecked(true);
-            loginUser(getSavedEmail(), getSavedPassword());
-        }
     }
 
     // Проверка корректности формата электронной почты
@@ -124,7 +117,7 @@ public class SignInActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            if (rememberMeCheckbox.isChecked()) {
+                            if (binding.rememberMeCheckbox.isChecked()) {
                                 saveUserCredentials(email, password);
                             } else {
                                 clearUserCredentials();
@@ -134,13 +127,14 @@ public class SignInActivity extends AppCompatActivity {
                             // Если вход успешен, получаем уникальный идентификатор пользователя (UID) и загружаем его данные
                             String userUID = sanitizeEmail(email);
                             saveUID(userUID);
-                            saveUserDataToSharedPreferences(SignInActivity.this,userUID);
+                            saveUserDataToSharedPreferences(SignInActivity.this, userUID);
 
                             // Вызов метода для загрузки данных пользователя
                             Users.getUserDataFromFirebase(userUID, new Users.OnUserDataListener() {
                                 @Override
                                 public void onDataLoaded(String userName, String bio) {
-
+                                    // Здесь вы можете обработать полученные данные, если это необходимо.
+                                    // Например, отобразить их на экране или выполнить другие действия с этими данными.
                                 }
 
                                 @Override
@@ -164,6 +158,7 @@ public class SignInActivity extends AppCompatActivity {
                 });
     }
 
+    // Метод для очистки учетных данных пользователя
     private void clearUserCredentials() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -172,6 +167,7 @@ public class SignInActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    // Метод для сохранения учетных данных пользователя в SharedPreferences
     private void saveUserCredentials(String email, String password) {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -180,8 +176,7 @@ public class SignInActivity extends AppCompatActivity {
         editor.apply();
     }
 
-
-    // Сохранение данных пользователя в SharedPreferences
+    // Метод для сохранения данных пользователя в SharedPreferences
     private void saveUserCredentials(Users user) {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -238,7 +233,8 @@ public class SignInActivity extends AppCompatActivity {
         return sanitizedEmail;
     }
 
-    private void saveUID(String UID){
+    // Метод для сохранения UID пользователя в SharedPreferences
+    private void saveUID(String UID) {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("UID", UID);

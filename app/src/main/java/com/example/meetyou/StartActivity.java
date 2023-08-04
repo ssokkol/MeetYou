@@ -19,6 +19,13 @@ public class StartActivity extends AppCompatActivity {
 
         getWindow().setStatusBarColor(ContextCompat.getColor(StartActivity.this, R.color.main));
 
+        if(getRememberMe()){
+            Intent intent = new Intent(StartActivity.this, SignInActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+
         AppCompatButton signUpButton = findViewById(R.id.sign_up_button);
         AppCompatButton signInButton = findViewById(R.id.sign_in_button);
         AppCompatButton FAQButton = findViewById(R.id.forgot_password_button);
@@ -51,6 +58,10 @@ public class StartActivity extends AppCompatActivity {
         }
     }
 
+    private boolean getRememberMe(){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getBoolean("rememberMe", false);
+    }
 
     private boolean isUserLoggedIn() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);

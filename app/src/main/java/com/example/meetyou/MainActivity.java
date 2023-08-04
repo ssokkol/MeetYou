@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.meetyou.MYFiles.NotificationHelper;
+import com.example.meetyou.MYFiles.PhotoAdapter;
 import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
