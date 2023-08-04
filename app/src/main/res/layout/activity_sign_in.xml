@@ -117,7 +117,7 @@
                 android:layout_alignTop="@+id/remember_me_checkbox"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="3dp"
-                android:text="Remember me"
+                android:text="@string/remember_me"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
         </RelativeLayout>

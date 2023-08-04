@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="own_height_options_array">
+        <item>Меньше 160</item>
+        <item>160-170</item>
+        <item>170-180</item>
+        <item>Больше 180</item>
+    </string-array>
+    <string-array name="own_weight_options_array">
+        <item>Меньше 50 kg</item>
+        <item>50-65 kg</item>
+        <item>65-80 kg</item>
+        <item>Больше 80 kg</item>
+    </string-array>
+    <string-array name="own_attitude_to_smoking_options_array">
+        <item>Нейтральное</item>
+        <item>Не курю</item>
+        <item>Иногда курю</item>
+        <item>Заядлый курильщик</item>
+    </string-array>
+    <string-array name="own_attitude_to_alcohol_options_array">
+        <item>Нейтральное</item>
+        <item>Не пью</item>
+        <item>Иногда выпиваю</item>
+        <item>Часто выпиваю</item>
+        <item>Постоянно пью</item>
+    </string-array>
+    <array name="rangeSlider">
+        <item>18</item>
+        <item>32</item>
+    </array>
+</resources>

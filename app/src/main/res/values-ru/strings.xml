@@ -59,4 +59,12 @@
     <string name="change_name">Изменить имя</string>
     <string name="update_photos">Обновить фотографии</string>
     <string name="change_e_mail">Изменить электронную почту</string>
+    <string name="choose_a_gender_message">Выберите пол!</string>
+    <string name="remember_me">Запомнить меня</string>
+    <string name="choose_your_parameters">Выберите ваши параметры</string>
+    <string name="choose_your_preferred_partner_parameters">Выберите параметры вашего партнера</string>
+    <string name="height">Рост:</string>
+    <string name="weight">Вес:</string>
+    <string name="attitude_to_smoking">Отношение к курению:</string>
+    <string name="attitude_to_alcohol">Отношение к алкоголю:</string>
 </resources>

@@ -60,10 +60,44 @@ public class ChoosePartnersParametersActivity extends AppCompatActivity {
         binding.goNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String selectedHeight = heightSpinner.getSelectedItem().toString();
-                String selectedWeight = weightSpinner.getSelectedItem().toString();
-                Users.updateUserFindHeight(getUID(), selectedHeight);
-                Users.updateUserFindWeight(getUID(), selectedWeight);
+                int selectedHeightIndex = binding.heightSpinner.getSelectedItemPosition();
+                int selectedWeightIndex = binding.weightSpinner.getSelectedItemPosition();
+                int selectedSmokingIndex = binding.attitudeToSmokingSpinner.getSelectedItemPosition();
+                int selectedAlcoholIndex = binding.attitudeToAlcoholSpinner.getSelectedItemPosition();
+                switch (selectedHeightIndex){
+                    case 0:
+                        Users.updateUserFindHeight(getUID(), "Under 160");
+                        break;
+                    case 1:
+                        Users.updateUserFindHeight(getUID(), "160-170");
+                        break;
+                    case 2:
+                        Users.updateUserFindHeight(getUID(), "170-180");
+                        break;
+                    case 3:
+                        Users.updateUserFindHeight(getUID(), "170-180");
+                        break;
+                    default:
+                        Users.updateUserFindHeight(getUID(), "Under 160");
+                        break;
+                }
+                switch (selectedWeightIndex){
+                    case 0:
+                        Users.updateUserFindWeight(getUID(), "Under 50 kg");
+                        break;
+                    case 1:
+                        Users.updateUserFindWeight(getUID(), "50-65 kg");
+                        break;
+                    case 2:
+                        Users.updateUserFindWeight(getUID(), "65-80 kg");
+                        break;
+                    case 3:
+                        Users.updateUserFindWeight(getUID(), "Over 80 kg");
+                        break;
+                    default:
+                        Users.updateUserFindWeight(getUID(), "Under 50 kg");
+                        break;
+                }
 
                 Intent intent = new Intent(ChoosePartnersParametersActivity.this, StartActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="own_height_options_array">
+        <item>Unter 160</item>
+        <item>160-170</item>
+        <item>170-180</item>
+        <item>Über 180</item>
+    </string-array>
+    <string-array name="own_weight_options_array">
+        <item>Unter 50 kg</item>
+        <item>50-65 kg</item>
+        <item>65-80 kg</item>
+        <item>Über 80 kg</item>
+    </string-array>
+    <string-array name="own_attitude_to_smoking_options_array">
+        <item>Beliebig</item>
+        <item>Nichtraucher</item>
+        <item>Gelegenheitsraucher</item>
+        <item>Regelmäßiger Raucher</item>
+    </string-array>
+    <string-array name="own_attitude_to_alcohol_options_array">
+        <item>Beliebig</item>
+        <item>Trinkt nicht</item>
+        <item>Gelegenheitstrinker</item>
+        <item>Mäßiger Trinker</item>
+        <item>Starker Trinker</item>
+    </string-array>
+    <array name="rangeSlider">
+        <item>18</item>
+        <item>32</item>
+    </array>
+</resources>

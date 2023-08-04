@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:text="Choose your preferred partner parameters"
+            android:text="@string/choose_your_preferred_partner_parameters"
             android:textColor="@color/main"
             android:textStyle="bold"
             android:gravity="center"
@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:text="Height:"
+                android:text="@string/height"
                 android:textColor="@color/main"
                 android:textSize="18sp" />
 
@@ -87,7 +87,7 @@
                 android:layout_below="@id/height_spinner"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="20dp"
-                android:text="Weight:"
+                android:text="@string/weight"
                 android:textColor="@color/main"
                 android:textSize="18sp" />
 
@@ -107,7 +107,7 @@
                 android:layout_below="@id/weight_spinner"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="20dp"
-                android:text="Attitude to Smoking:"
+                android:text="@string/attitude_to_smoking"
                 android:textColor="@color/main"
                 android:textSize="18sp" />
 
@@ -127,7 +127,7 @@
                 android:layout_below="@id/attitudeToSmokingSpinner"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="20dp"
-                android:text="Attitude to Alcohol:"
+                android:text="@string/attitude_to_alcohol"
                 android:textColor="@color/main"
                 android:textSize="18sp" />
 

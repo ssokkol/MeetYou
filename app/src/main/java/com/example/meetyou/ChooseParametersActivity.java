@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -16,6 +17,16 @@ import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityChooseParametersBinding;
 
 public class ChooseParametersActivity extends AppCompatActivity {
+
+    private int selectedHeightIndex = 0;
+    private int selectedWeightIndex = 0;
+    private int selectedSmokingIndex = 0;
+    private int selectedAlcoholIndex = 0;
+
+    private String[] heightOptions;
+    private String[] weightOptions;
+    private String[] smokingOptions;
+    private String[] alcoholOptions;
 
     ActivityChooseParametersBinding binding;
     DatabaseHelper databaseHelper;
@@ -36,10 +47,10 @@ public class ChooseParametersActivity extends AppCompatActivity {
         Spinner smokingSpinner = binding.attitudeToSmokingSpinner;
         Spinner alcoholSpinner = binding.attitudeToAlcoholSpinner;
 
-        String[] heightOptions = getResources().getStringArray(R.array.own_height_options_array);
-        String[] weightOptions = getResources().getStringArray(R.array.own_weight_options_array);
-        String[] smokingOptions = getResources().getStringArray(R.array.own_attitude_to_smoking_options_array);
-        String[] alcoholOptions = getResources().getStringArray(R.array.own_attitude_to_alcohol_options_array);
+        heightOptions = getResources().getStringArray(R.array.own_height_options_array);
+        weightOptions = getResources().getStringArray(R.array.own_weight_options_array);
+        smokingOptions = getResources().getStringArray(R.array.own_attitude_to_smoking_options_array);
+        alcoholOptions = getResources().getStringArray(R.array.own_attitude_to_alcohol_options_array);
 
         // Create adapters for each spinner and associate them with the string arrays
         ArrayAdapter<String> heightAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, heightOptions);
@@ -57,22 +68,93 @@ public class ChooseParametersActivity extends AppCompatActivity {
         smokingSpinner.setAdapter(smokingAdapter);
         alcoholSpinner.setAdapter(alcoholAdapter);
 
+        heightSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedHeightIndex = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        weightSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedWeightIndex = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        smokingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedSmokingIndex = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        alcoholSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedAlcoholIndex = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
         binding.goNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String selectedHeight = heightSpinner.getSelectedItem().toString();
-                String selectedWeight = weightSpinner.getSelectedItem().toString();
-                Users.updateUserHeight(getUID(), selectedHeight);
-                Users.updateUserWeight(getUID(), selectedWeight);
-
-//                long result = databaseHelper.insertParameters(getUserID(), selectedHeight, selectedWeight);
-//                if(result != -1){
+                int selectedHeightIndex = binding.heightSpinner.getSelectedItemPosition();
+                int selectedWeightIndex = binding.weightSpinner.getSelectedItemPosition();
+                int selectedSmokingIndex = binding.attitudeToSmokingSpinner.getSelectedItemPosition();
+                int selectedAlcoholIndex = binding.attitudeToAlcoholSpinner.getSelectedItemPosition();
+                switch (selectedHeightIndex){
+                    case 0:
+                        Users.updateUserHeight(getUID(), "Under 160");
+                        break;
+                    case 1:
+                        Users.updateUserHeight(getUID(), "160-170");
+                        break;
+                    case 2:
+                        Users.updateUserHeight(getUID(), "170-180");
+                        break;
+                    case 3:
+                        Users.updateUserHeight(getUID(), "170-180");
+                        break;
+                    default:
+                        Users.updateUserHeight(getUID(), "Under 160");
+                        break;
+                }
+                switch (selectedWeightIndex){
+                    case 0:
+                        Users.updateUserWeight(getUID(), "Under 50 kg");
+                        break;
+                    case 1:
+                        Users.updateUserWeight(getUID(), "50-65 kg");
+                        break;
+                    case 2:
+                        Users.updateUserWeight(getUID(), "65-80 kg");
+                        break;
+                    case 3:
+                        Users.updateUserWeight(getUID(), "Over 80 kg");
+                        break;
+                    default:
+                        Users.updateUserWeight(getUID(), "Under 50 kg");
+                        break;
+                }
                 Intent intent = new Intent(ChooseParametersActivity.this, UploadPhotoActivity.class);
                 startActivity(intent);
-//                }else{
-//                    NotificationHelper.showCustomNotification(ChangeParametersActivity.this, null, getString(R.string.registration_error_message), getString(R.string.close), 0, 0, 0,0);
-////                    Toast.makeText(ChangeParametersActivity.this, R.string.registration_error_message, Toast.LENGTH_SHORT).show();
-//                }
             }
         });
 
@@ -83,6 +165,7 @@ public class ChooseParametersActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private String getUID() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);

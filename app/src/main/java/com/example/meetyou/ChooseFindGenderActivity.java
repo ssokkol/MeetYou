@@ -105,7 +105,7 @@ public class ChooseFindGenderActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    NotificationHelper.showCustomNotification(ChooseFindGenderActivity.this, null, "Choose a gender!", null, 0, 0, 0, 0);
+                    NotificationHelper.showCustomNotification(ChooseFindGenderActivity.this, null, getString(R.string.choose_a_gender_message), null, 0, 0, 0, 0);
                 }
             }
         });

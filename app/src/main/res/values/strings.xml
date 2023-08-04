@@ -58,4 +58,12 @@
     <string name="change_name">Change name</string>
     <string name="update_photos">Update photos</string>
     <string name="change_e_mail">Change E-mail</string>
+    <string name="choose_a_gender_message">Choose a gender!</string>
+    <string name="remember_me">Remember me</string>
+    <string name="choose_your_parameters">Choose your parameters</string>
+    <string name="choose_your_preferred_partner_parameters">Choose your preferred partner parameters</string>
+    <string name="height">Height:</string>
+    <string name="weight">Weight:</string>
+    <string name="attitude_to_smoking">Attitude to Smoking:</string>
+    <string name="attitude_to_alcohol">Attitude to Alcohol:</string>
 </resources>
