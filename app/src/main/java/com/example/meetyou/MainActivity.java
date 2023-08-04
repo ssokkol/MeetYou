@@ -19,6 +19,10 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     @NonNull ActivityMainBinding binding;
+    String gender;
+    String findGender;
+    String findWeight;
+    String findHeight;
 
     int[] photos = {
             R.drawable.photo_1,
@@ -32,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        gender = getGender();
+        findGender = getFindGender();
+        findWeight = getFindWeight();
+        findHeight = getFindHeight();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -77,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         binding.dislikebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Users.getRandomUserFromPool("female","male", new Users.OnUserDataListener() {
+                Users.getRandomUserFromPool(gender,findGender,findHeight,findWeight, new Users.OnUserDataListener() {
                     @Override
                     public void onDataLoaded(String userName, String userBio) {
                         binding.informationTextView.setText(userBio);
@@ -112,5 +120,21 @@ public class MainActivity extends AppCompatActivity {
     private String getUID(){
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("UID", "");
+    }
+    private String getGender(){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getString("gender", "");
+    }
+    private String getFindGender(){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getString("findGender", "");
+    }
+    private String getFindWeight(){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getString("findWeight", "");
+    }
+    private String getFindHeight(){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getString("findHeight", "");
     }
 }

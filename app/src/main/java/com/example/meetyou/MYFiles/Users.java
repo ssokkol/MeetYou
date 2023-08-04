@@ -318,7 +318,7 @@ public class Users {
     }
 
     public static void updateUserFindWeight(String UID, String newFindWeight) {
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(UID).child("findHeight");
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(UID).child("findWeight");
         userRef.setValue(newFindWeight);
     }
 
@@ -426,7 +426,7 @@ public class Users {
 
 
 
-    public static void getRandomUserFromPool(String gender, String findGender, final OnUserDataListener listener) {
+    public static void getRandomUserFromPool(String gender, String findGender, String findHeight, String findWeight, final OnUserDataListener listener) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
         Query query = usersRef.orderByChild("gender").equalTo(gender);
 
@@ -436,8 +436,14 @@ public class Users {
                 List<Users> femaleUsers = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Users user = snapshot.getValue(Users.class);
-                    if (user != null && user.getFindGender().equals(findGender)) {
-                        femaleUsers.add(user);
+                    if (findGender.equals("any")) {
+                        if (user != null && user.getHeight().equals(findHeight) && user.getWeight().equals(findWeight) && user.getFindGender().equals(gender)) {
+                            femaleUsers.add(user);
+                        }
+                    }else {
+                        if (user != null && user.getGender().equals(findGender) && user.getHeight().equals(findHeight) && user.getWeight().equals(findWeight) && user.getFindGender().equals(gender)) {
+                            femaleUsers.add(user);
+                        }
                     }
                 }
 

@@ -1,5 +1,7 @@
 package com.example.meetyou;
 
+import static com.example.meetyou.MYFiles.Users.saveUserDataToSharedPreferences;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -132,6 +134,7 @@ public class SignInActivity extends AppCompatActivity {
                             // Если вход успешен, получаем уникальный идентификатор пользователя (UID) и загружаем его данные
                             String userUID = sanitizeEmail(email);
                             saveUID(userUID);
+                            saveUserDataToSharedPreferences(SignInActivity.this,userUID);
 
                             // Вызов метода для загрузки данных пользователя
                             Users.getUserDataFromFirebase(userUID, new Users.OnUserDataListener() {
