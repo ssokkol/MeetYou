@@ -2,6 +2,7 @@ package com.example.meetyou.MYFiles;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -360,7 +361,6 @@ public class Users {
                 if (user != null) {
                     SharedPreferences sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("UID", user.getUID());
                     editor.putString("name", user.getName());
                     editor.putString("bio", user.getBio());
                     editor.putString("height", user.getHeight());
@@ -436,13 +436,20 @@ public class Users {
                 List<Users> femaleUsers = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Users user = snapshot.getValue(Users.class);
+                    assert user != null;
                     if (findGender.equals("any")) {
                         if (user != null && user.getHeight().equals(findHeight) && user.getWeight().equals(findWeight) && user.getFindGender().equals(gender)) {
                             femaleUsers.add(user);
                         }
                     }else {
-                        if (user != null && user.getGender().equals(findGender) && user.getHeight().equals(findHeight) && user.getWeight().equals(findWeight) && user.getFindGender().equals(gender)) {
-                            femaleUsers.add(user);
+                        if (user != null && user.getGender().equals(findGender) && user.getHeight().equals(findHeight) && user.getWeight().equals(findWeight)) {
+                            if (user.getFindGender().equals("any")) {
+                                femaleUsers.add(user);
+                            } else if (user.getFindGender().equals(gender)) {
+                                femaleUsers.add(user);
+                            } else {
+                                return;
+                            }
                         }
                     }
                 }
