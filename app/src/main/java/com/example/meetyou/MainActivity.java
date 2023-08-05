@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.meetyou.MYFiles.NotificationHelper;
@@ -15,9 +17,9 @@ import com.example.meetyou.MYFiles.PhotoAdapter;
 import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
-
     FirebaseAuth mAuth;
     @NonNull ActivityMainBinding binding;
     String gender;
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.main));
         gender = getGender();
         findGender = getFindGender();
         findWeight = getFindWeight();
