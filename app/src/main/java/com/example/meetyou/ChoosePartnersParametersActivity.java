@@ -27,7 +27,7 @@ public class ChoosePartnersParametersActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.main));
+        getWindow().setStatusBarColor(ContextCompat.getColor(ChoosePartnersParametersActivity.this, R.color.main));
 
         databaseHelper = new DatabaseHelper(this);
 
@@ -99,7 +99,7 @@ public class ChoosePartnersParametersActivity extends AppCompatActivity {
                         break;
                 }
 
-                Intent intent = new Intent(ChoosePartnersParametersActivity.this, StartActivity.class);
+                Intent intent = new Intent(ChoosePartnersParametersActivity.this, OwnProfileActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();

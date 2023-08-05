@@ -1,7 +1,5 @@
 package com.example.meetyou;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -11,10 +9,15 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import com.example.meetyou.Database.DatabaseHelper;
 import com.example.meetyou.MYFiles.NotificationHelper;
 import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityCreateBioBinding;
+
 import java.util.Calendar;
 
 public class CreateBioActivity extends AppCompatActivity {
@@ -33,6 +36,7 @@ public class CreateBioActivity extends AppCompatActivity {
         binding.enterBirthYear.setTextColor(Color.BLACK);
         binding.enterBirthMonth.setTextColor(Color.BLACK);
         binding.enterBirthDay.setTextColor(Color.BLACK);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         getWindow().setStatusBarColor(ContextCompat.getColor(CreateBioActivity.this, R.color.main));
 

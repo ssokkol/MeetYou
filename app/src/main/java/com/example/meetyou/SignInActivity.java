@@ -47,6 +47,11 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySignInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        // Изменение цвета статус-бара
+        getWindow().setStatusBarColor(ContextCompat.getColor(SignInActivity.this, R.color.main));
+
 
         // Получение экземпляра Firebase для аутентификации
         mAuth = FirebaseAuth.getInstance();
@@ -56,18 +61,18 @@ public class SignInActivity extends AppCompatActivity {
         isRememberMeChecked = isRememberMeChecked(); // Получаем значение из SharedPreferences
         rememberMeCheckbox.setChecked(isRememberMeChecked); // Устанавливаем состояние RememberMeCheckbox
         if (isRememberMeChecked) {
-            // Если флаг установлен, выполняем вход с сохраненными учетными данными
-            loginUser(getSavedEmail(), getSavedPassword());
+            String savedEmail = getSavedEmail();
+            String savedPassword = getSavedPassword();
+            if (!savedEmail.isEmpty() && !savedPassword.isEmpty()) {
+                loginUser(savedEmail, savedPassword);
+            } else {
+                clearUserCredentials();
+                Toast.makeText(this, "Saved email or password is empty. Please log in again.", Toast.LENGTH_SHORT).show();
+            }
         }
-
-        // Установка портретной ориентации экрана
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         // Инициализация помощника для работы с базой данных
         databaseHelper = new DatabaseHelper(this);
-
-        // Изменение цвета статус-бара
-        getWindow().setStatusBarColor(ContextCompat.getColor(SignInActivity.this, R.color.main));
 
         // Обработчик кнопки "Назад" - закрывает активность
         AppCompatButton backButton = findViewById(R.id.go_back_button);
@@ -82,9 +87,8 @@ public class SignInActivity extends AppCompatActivity {
         binding.signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Получение введенной пользователем электронной почты и пароля
                 String email = binding.mailText.getText().toString().trim();
-                String password = binding.password.getText().toString();
+                String password = binding.password.getText().toString().trim();
 
                 // Сохранение состояния флага "Запомнить меня" в SharedPreferences
                 saveRememberMeState(binding.rememberMeCheckbox.isChecked());
@@ -98,7 +102,7 @@ public class SignInActivity extends AppCompatActivity {
                     NotificationHelper.showCustomNotification(SignInActivity.this, null, getString(R.string.zero_input_message), getString(R.string.close), 0, 0, 0, 0);
                 } else {
                     // Вызов метода для попытки входа пользователя
-                    loginUser(email, password);
+                    loginUser(binding.mailText.getText().toString(), binding.password.getText().toString().trim());
                 }
             }
         });

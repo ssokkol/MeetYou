@@ -9,23 +9,23 @@
 <RelativeLayout
     android:id="@+id/work_space_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="42dp">
+    android:layout_height="match_parent">
     <RelativeLayout
         android:id="@+id/header_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/change_name"
             android:textAllCaps="false"
-            android:textSize="24sp"
             android:textColor="@color/main"
-            android:text="Change Name"
-            android:textStyle="bold"/>
+            android:textSize="24sp"
+            android:textStyle="bold" />
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/main"
             android:textSize="16sp"
-            android:text="Current Name"
+            android:text="@string/current_name"
             android:textStyle="bold"
             android:layout_marginLeft="25dp"/>
         <EditText
@@ -48,7 +48,7 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:background="@drawable/button_outline_background_blue"
-            android:hint="Enter name"
+            android:hint="@string/enter_name"
             android:paddingLeft="15dp"
             android:textColor="@color/main"
             android:textColorHint="@color/main"
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/main"
             android:textSize="16sp"
-            android:text="New Name"
+            android:text="@string/new_name"
             android:textStyle="bold"
             android:layout_marginLeft="25dp"/>
         <EditText
@@ -71,81 +71,13 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:background="@drawable/button_outline_background_blue"
-            android:hint="Enter name"
+            android:hint="@string/enter_name"
             android:paddingLeft="15dp"
             android:textColor="@color/main"
             android:textColorHint="@color/main"
             android:textSize="14sp"/>
     </LinearLayout>
 </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/main_header"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:orientation="horizontal"
-        android:elevation="15dp"
-        android:background="@android:color/white">
-        <TextView
-            android:id="@+id/meet"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="25dp"
-            android:gravity="center_vertical"
-            android:layout_alignParentLeft="true"
-            android:text="meet"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#2C59CC"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="40dp"
-            android:gravity="center_vertical"
-            android:layout_alignLeft="@+id/meet"
-            android:text="you"
-            android:textSize="16sp"
-            android:textColor="#000000"
-            android:paddingLeft="5dp"
-            android:paddingRight="16dp"/>
-        <FrameLayout
-            android:layout_width="28dp"
-            android:layout_height="42dp"
-            android:layout_alignRight="@+id/profile_layout"
-            android:layout_marginRight="45dp"
-            android:layout_marginLeft="5dp">
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/messagerbutton" />
-            <Button
-                android:id="@+id/message_button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent" />
-        </FrameLayout>
-        <FrameLayout
-            android:id="@+id/profile_layout"
-            android:layout_width="28dp"
-            android:layout_height="42dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="15dp">
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/profilebutton" />
-            <Button
-                android:id="@+id/profile_button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
-                />
-        </FrameLayout>
-    </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="175dp"

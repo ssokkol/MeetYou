@@ -93,9 +93,10 @@ public class SignUpActivity extends AppCompatActivity {
 
     @Override
     public void onStart() {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        mAuth.signOut();
         FirebaseAuth.getInstance().signOut();
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             currentUser.reload();
         }

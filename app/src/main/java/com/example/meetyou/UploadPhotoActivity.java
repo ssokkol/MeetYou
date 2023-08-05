@@ -143,11 +143,11 @@ public class UploadPhotoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (firstUploaded && secondUploaded && thirdUploaded && fourthUploaded && fifthUploaded) {
-                    Users.updateUserPhoto(getUID(), "photo5", sPhoto5);
                     Users.updateUserPhoto(getUID(), "photo1", sPhoto1);
                     Users.updateUserPhoto(getUID(), "photo2", sPhoto2);
                     Users.updateUserPhoto(getUID(), "photo3", sPhoto3);
                     Users.updateUserPhoto(getUID(), "photo4", sPhoto4);
+                    Users.updateUserPhoto(getUID(), "photo5", sPhoto5);
                     Intent intent = new Intent(UploadPhotoActivity.this, ChooseInterestsActivity.class);
                     startActivity(intent);
                 } else {

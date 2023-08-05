@@ -15,16 +15,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="@string/change_bio"
                 android:textAllCaps="false"
-                android:textSize="24sp"
                 android:textColor="@color/main"
-                android:text="Change Bio"
-                android:textStyle="bold"/>
+                android:textSize="24sp"
+                android:textStyle="bold" />
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"

@@ -21,7 +21,7 @@
             android:textColor="@color/main"
             android:gravity="center"
             android:textSize="24sp"
-            android:text="Change your interests"
+            android:text="@string/change_your_interests"
             android:textStyle="bold"/>
     </RelativeLayout>
     <RelativeLayout

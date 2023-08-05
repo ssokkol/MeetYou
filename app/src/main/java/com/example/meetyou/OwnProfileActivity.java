@@ -6,6 +6,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -55,46 +56,12 @@ public class OwnProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityOwnProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         getWindow().setStatusBarColor(ContextCompat.getColor(OwnProfileActivity.this, R.color.main));
-        Users.getUserDataFromFirebase(getUID(), new Users.OnUserDataListener() {
-            @Override
-            public void onDataLoaded(String userName, String bio) {
-
-            }
-
-            @Override
-            public void onDataLoaded(Users user) {
-                // Здесь можно использовать значения photo1, photo2, photo3, photo4, photo5
-                photo1URL = user.getPhoto1();
-                photo2URL = user.getPhoto2();
-                photo3URL = user.getPhoto3();
-                photo4URL = user.getPhoto4();
-                photo5URL = user.getPhoto5();
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                // Обработка случая, если данные не удалось загрузить
-            }
-        });
-
-        customPhotoLoadingToClient("photo1", binding.profilePhoto);
-        customPhotoLoadingToClient("photo1", binding.image1);
-        customPhotoLoadingToClient("photo2", binding.image2);
-        customPhotoLoadingToClient("photo3", binding.image3);
-        customPhotoLoadingToClient("photo4", binding.image4);
-        customPhotoLoadingToClient("photo5", binding.image5);
-
-
-        // Получение данных пользователя и отображение их в представлении
-        String nameText = getUserName();
-        binding.nameTextView.setText(nameText);
-        binding.additionalTextView.setText(getUserBio());
 
         RelativeLayout imageOverlay = findViewById(R.id.image_overlay);
         ImageView expandedImage = findViewById(R.id.expanded_image);
-
-
         // Обработчик кнопки "Настройки", переход к активности OptionsActivity
         binding.settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,11 +190,38 @@ public class OwnProfileActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        // Проверка, были ли внесены изменения, и пересоздание активности для их отображения
-//        if (getChanges()) {
-//            setSomethingWasChanged(false);
-//            recreate();
-//        }
+        // Получение данных пользователя и отображение их в представлении
+        String nameText = getUserName();
+        binding.nameTextView.setText(nameText);
+        binding.additionalTextView.setText(getUserBio());
+        Users.getUserDataFromFirebase(getUID(), new Users.OnUserDataListener() {
+            @Override
+            public void onDataLoaded(String userName, String bio) {
+
+            }
+
+            @Override
+            public void onDataLoaded(Users user) {
+                // Здесь можно использовать значения photo1, photo2, photo3, photo4, photo5
+                photo1URL = user.getPhoto1();
+                photo2URL = user.getPhoto2();
+                photo3URL = user.getPhoto3();
+                photo4URL = user.getPhoto4();
+                photo5URL = user.getPhoto5();
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                // Обработка случая, если данные не удалось загрузить
+            }
+        });
+
+        customPhotoLoadingToClient("photo1", binding.profilePhoto);
+        customPhotoLoadingToClient("photo1", binding.image1);
+        customPhotoLoadingToClient("photo2", binding.image2);
+        customPhotoLoadingToClient("photo3", binding.image3);
+        customPhotoLoadingToClient("photo4", binding.image4);
+        customPhotoLoadingToClient("photo5", binding.image5);
 
         // Проверка наличия разрешения на доступ к местоположению и запрос обновлений местоположения
         if (locationManager != null) {
@@ -316,18 +310,19 @@ public class OwnProfileActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    private void customPhotoLoadingToClient(String photoName, ImageView imageView){
+    private void customPhotoLoadingToClient(String photoName, ImageView imageView) {
         DatabaseReference Images = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child(photoName);
         Images.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String value = snapshot.getValue(String.class);
+                // Загрузка изображения с помощью библиотеки Picasso
                 Picasso.get().load(value).into(imageView);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                // Обработка ошибки, если загрузка изображения не удалась
             }
         });
     }
@@ -346,6 +341,8 @@ public class OwnProfileActivity extends AppCompatActivity {
         imageOverlay.setAlpha(0f);
         imageOverlay.animate().alpha(1f).setDuration(300).start();
     }
+
+    // Метод для получения UID пользователя из SharedPreferences
     private String getUID() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("UID", "");

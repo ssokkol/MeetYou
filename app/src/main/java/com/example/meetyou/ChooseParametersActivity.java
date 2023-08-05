@@ -38,7 +38,7 @@ public class ChooseParametersActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.main));
+        getWindow().setStatusBarColor(ContextCompat.getColor(ChooseParametersActivity.this, R.color.main));
 
         databaseHelper = new DatabaseHelper(this);
 

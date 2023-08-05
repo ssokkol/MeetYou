@@ -1,6 +1,7 @@
 package com.example.meetyou;
 
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -27,6 +28,8 @@ public class ChangeUserColorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityChangeUserColorBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.main));
 

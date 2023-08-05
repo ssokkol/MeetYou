@@ -2,6 +2,7 @@ package com.example.meetyou;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 
@@ -25,6 +26,8 @@ public class ChooseFindGenderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityChooseFindGenderBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.main));
 

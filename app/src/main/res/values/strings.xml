@@ -55,7 +55,7 @@
     <string name="luxe_functions">Luxe functions</string>
     <string name="other">Other</string>
     <string name="change_interests">Change interests</string>
-    <string name="change_name">Change name</string>
+    <string name="change_name">Change Name</string>
     <string name="update_photos">Update photos</string>
     <string name="change_e_mail">Change E-mail</string>
     <string name="choose_a_gender_message">Choose a gender!</string>
@@ -66,4 +66,23 @@
     <string name="weight">Weight:</string>
     <string name="attitude_to_smoking">Attitude to Smoking:</string>
     <string name="attitude_to_alcohol">Attitude to Alcohol:</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="enter_password">Enter password</string>
+    <string name="new_password">New Password</string>
+    <string name="current_password">Current Password</string>
+    <string name="change_password">Change Password</string>
+    <string name="current_e_mail">Current E-mail</string>
+    <string name="enter_e_mail">Enter e-mail</string>
+    <string name="new_e_mail">New E-mail</string>
+    <string name="confirm_e_mail">Confirm E-mail</string>
+    <string name="confirm_e_mail_edit_text">Confirm e-mail</string>
+    <string name="change_your_color">Change your color</string>
+    <string name="current_name">Current Name</string>
+    <string name="new_name">New Name</string>
+    <string name="enter_name">Enter name</string>
+    <string name="change_your_interests">Change your interests</string>
+    <string name="change_bio">Change Bio</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="delete_account_warning">Caution! Deleting your account is <b>permanent</b>. All data, messages, and connections will be lost forever. Please think carefully before clicking "Confirm." Contact support for assistance if needed. Thank you for being part of <b>MeetYou</b>.</string>
+
 </resources>

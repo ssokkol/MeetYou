@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="@string/change_e_mail"
+                android:text="@string/delete_account"
                 android:textAllCaps="false"
                 android:textColor="@color/main"
                 android:textSize="24sp"
@@ -33,68 +33,28 @@
             android:orientation="vertical"
             android:layout_alignTop="@+id/header_title"
             android:layout_marginTop="80dp">
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/main"
-                android:textSize="16sp"
-                android:text="@string/current_e_mail"
-                android:textStyle="bold"
-                android:layout_marginLeft="25dp"/>
-            <EditText
-                android:id="@+id/current_mail_edit_text"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
-                android:background="@drawable/button_outline_background_blue"
-                android:hint="@string/enter_e_mail"
-                android:paddingLeft="15dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="7dp"
+                android:text="@string/delete_account_warning"
                 android:textColor="@color/main"
-                android:textColorHint="@color/main"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:textStyle="normal" />
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="10dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/main"
-                android:textSize="16sp"
-                android:text="@string/new_e_mail"
-                android:textStyle="bold"
-                android:layout_marginLeft="25dp"/>
             <EditText
-                android:id="@+id/new_mail_edit_text"
+                android:id="@+id/confirm_password_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:background="@drawable/button_outline_background_blue"
-                android:hint="@string/enter_e_mail"
-                android:paddingLeft="15dp"
-                android:textColor="@color/main"
-                android:textColorHint="@color/main"
-                android:textSize="14sp"/>
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="10dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/main"
-                android:textSize="16sp"
-                android:text="@string/confirm_e_mail"
-                android:textStyle="bold"
-                android:layout_marginLeft="25dp"/>
-            <EditText
-                android:id="@+id/confirm_mail_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
-                android:background="@drawable/button_outline_background_blue"
-                android:hint="@string/confirm_e_mail_edit_text"
+                android:hint="@string/enter_password"
                 android:paddingLeft="15dp"
                 android:textColor="@color/main"
                 android:textColorHint="@color/main"
@@ -104,7 +64,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="175dp"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        tools:ignore="MissingConstraints"
+        >
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/confirm_button"
             android:layout_width="match_parent"

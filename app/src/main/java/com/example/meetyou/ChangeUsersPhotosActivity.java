@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -67,6 +68,8 @@ public class ChangeUsersPhotosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityChangeUsersPhotosBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
 
         getWindow().setStatusBarColor(getColor(R.color.main));
 

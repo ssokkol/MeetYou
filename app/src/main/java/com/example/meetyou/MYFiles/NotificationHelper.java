@@ -70,6 +70,62 @@ public class NotificationHelper {
         animateScreenDim(overlayView);
     }
 
+    public static void showCustomNotificationWithTwoButtons(Context context, String title, String message, String buttonLabel, String secondButtonLabel,
+                                              int backgroundColor, int textColor, int buttonBackgroundColor, int buttonTextColor,
+                                                            ButtonClickListener okayButtonClickListener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View dialogView = inflater.inflate(R.layout.two_buttons_custom_notification_layout, null);
+        builder.setView(dialogView);
+
+        View overlayView = dialogView.findViewById(R.id.overlayView);
+        overlayView.setAlpha(0);
+
+        RelativeLayout mainLayout = dialogView.findViewById(R.id.main_layout);
+        mainLayout.setBackgroundResource(backgroundColor != 0 ? backgroundColor : defaultBackgroundColor);
+
+        TextView titleTextView = dialogView.findViewById(R.id.titleTextView);
+        titleTextView.setText(title != null ? title : defaultTitle);
+        titleTextView.setTextColor(textColor != 0 ? ContextCompat.getColor(context, textColor) : ContextCompat.getColor(context, defaultTextColor));
+
+        TextView messageTextView = dialogView.findViewById(R.id.messageTextView);
+        messageTextView.setText(message != null ? message : defaultText);
+        messageTextView.setTextColor(textColor != 0 ? ContextCompat.getColor(context, textColor) : ContextCompat.getColor(context, defaultTextColor));
+
+        AppCompatButton waitButton = dialogView.findViewById(R.id.waitButton);
+        waitButton.setText(buttonLabel != null ? buttonLabel : defaultButtonLabel);
+        waitButton.setTextColor(buttonTextColor != 0 ? ContextCompat.getColor(context, buttonTextColor) : ContextCompat.getColor(context, defaultButtonTextColor));
+        waitButton.setBackgroundResource(buttonBackgroundColor != 0 ? buttonBackgroundColor : defaultButtonBackgroundColor);
+
+        AppCompatButton okayButton = dialogView.findViewById(R.id.okay_Button);
+        okayButton.setText(secondButtonLabel != null ? secondButtonLabel : defaultButtonLabel);
+        okayButton.setTextColor(buttonTextColor != 0 ? ContextCompat.getColor(context, buttonTextColor) : ContextCompat.getColor(context, defaultButtonTextColor));
+        okayButton.setBackgroundResource(buttonBackgroundColor != 0 ? buttonBackgroundColor : defaultButtonBackgroundColor);
+
+        waitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeNotificationWithAnimation(dialogView);
+            }
+        });
+
+        okayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeNotificationWithAnimation(dialogView);
+                if (okayButtonClickListener != null) {
+                    okayButtonClickListener.onButtonClick();
+                }
+            }
+        });
+
+        dialog = builder.create();
+        dialog.show();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        animateScreenDim(overlayView);
+    }
+
     private static void closeNotificationWithAnimation(View dialogView) {
         if (dialogView == null) {
             return;
@@ -183,5 +239,9 @@ public class NotificationHelper {
         });
 
         animatorSet.start();
+    }
+
+    public interface ButtonClickListener {
+        void onButtonClick();
     }
 }
