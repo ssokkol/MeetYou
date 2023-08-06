@@ -84,5 +84,6 @@
     <string name="change_bio">Change Bio</string>
     <string name="delete_account">Delete Account</string>
     <string name="delete_account_warning">Caution! Deleting your account is <b>permanent</b>. All data, messages, and connections will be lost forever. Please think carefully before clicking "Confirm." Contact support for assistance if needed. Thank you for being part of <b>MeetYou</b>.</string>
+    <string name="you_are_not_signed_in_message">You are not signed in!</string>
 
 </resources>

@@ -184,6 +184,14 @@ public class OwnProfileActivity extends AppCompatActivity {
                 Toast.makeText(OwnProfileActivity.this, "Name was copied in clipboard", Toast.LENGTH_SHORT).show();
             }
         });
+
+        binding.messageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(OwnProfileActivity.this, ChatActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
