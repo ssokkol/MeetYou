@@ -204,7 +204,7 @@ public class OwnProfileActivity extends AppCompatActivity {
         binding.additionalTextView.setText(getUserBio());
         Users.getUserDataFromFirebase(getUID(), new Users.OnUserDataListener() {
             @Override
-            public void onDataLoaded(String userName, String bio) {
+            public void onDataLoaded(String userName, String bio, String photo1, String photo2, String photo3, String photo4,String photo5) {
 
             }
 

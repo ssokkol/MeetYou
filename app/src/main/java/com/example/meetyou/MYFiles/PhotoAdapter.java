@@ -9,13 +9,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meetyou.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder> {
+    private List<String> photoUrls;
+//    private int[] photoIds;
 
-    private int[] photoIds;
-
-    public PhotoAdapter(int[] photoIds) {
-        this.photoIds = photoIds;
+    public PhotoAdapter(List<String> photoUrls) {
+        this.photoUrls = photoUrls;
     }
 
     @NonNull
@@ -27,12 +35,14 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
     @Override
     public void onBindViewHolder(@NonNull PhotoViewHolder holder, int position) {
-        holder.imageView.setImageResource(photoIds[position]);
+        String imageUrl;
+        imageUrl = photoUrls.get(position);
+        Picasso.get().load(imageUrl).into(holder.imageView);
     }
 
     @Override
     public int getItemCount() {
-        return photoIds.length;
+        return 5;
     }
 
     static class PhotoViewHolder extends RecyclerView.ViewHolder {

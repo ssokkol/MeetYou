@@ -19,7 +19,12 @@ import com.example.meetyou.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
+    private List<String> currentUrls = new ArrayList<>();
     FirebaseAuth mAuth;
     @NonNull ActivityMainBinding binding;
     String gender;
@@ -48,8 +53,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        PhotoAdapter photoAdapter = new PhotoAdapter(photos);
-        binding.viewPager.setAdapter(photoAdapter);
+
 
         binding.likebutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,28 +93,17 @@ public class MainActivity extends AppCompatActivity {
         binding.dislikebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Users.getRandomUserFromPool(gender,findGender,findHeight,findWeight, new Users.OnUserDataListener() {
-                    @Override
-                    public void onDataLoaded(String userName, String userBio) {
-                        binding.informationTextView.setText(userBio);
-                        binding.nameTextView.setText(userName);
-
-                    }
-
-                    @Override
-                    public void onDataLoaded(Users user) {
-
-                    }
-
-                    @Override
-                    public void onDataNotAvailable() {
-                    }
-                });
+                findUser();
             }
         });
 
     }
+    @Override
+    public void onStart() {
 
+        super.onStart();
+        findUser();
+    }
     private String getUserEmail() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("email", "");
@@ -140,5 +133,30 @@ public class MainActivity extends AppCompatActivity {
     private String getFindHeight(){
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("findHeight", "");
+    }
+    private void findUser(){
+        Users.getRandomUserFromPool(gender,findGender,findHeight,findWeight, new Users.OnUserDataListener() {
+            @Override
+            public void onDataLoaded(String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5) {
+                binding.informationTextView.setText(userBio);
+                binding.nameTextView.setText(userName);
+                currentUrls.add(photo1);
+                currentUrls.add(photo2);
+                currentUrls.add(photo3);
+                currentUrls.add(photo4);
+                currentUrls.add(photo5);
+                PhotoAdapter photoAdapter = new PhotoAdapter(currentUrls);
+                binding.viewPager.setAdapter(photoAdapter);
+            }
+
+            @Override
+            public void onDataLoaded(Users user) {
+
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+            }
+        });
     }
 }
