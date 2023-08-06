@@ -2,8 +2,10 @@ package com.example.meetyou.MYFiles;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.example.meetyou.Messager.Chat;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,6 +18,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Users {
+    List<String> likedUsers;
     String UID, email, name, bio, height, weight, gender, findGender, findHeight, findWeight, hobbies, target, color, status, photo1, photo2, photo3, photo4, photo5;
     int age, boosts, likes, megasymps;
 
@@ -52,6 +55,15 @@ public class Users {
         this.likes = likes;
         this.megasymps = megasymps;
         this.verified = verified;
+        likedUsers = new ArrayList<>();
+    }
+
+    public void addLikedUser(String userUID) {
+        likedUsers.add(userUID);
+    }
+
+    public List<String> getLikedUsers() {
+        return likedUsers;
     }
 
     public String getFindHeight() {
@@ -246,6 +258,11 @@ public class Users {
         this.age = age;
     }
 
+    public static void addLikedUser(String currentUserUID, String likedUserUID) {
+        DatabaseReference likedRef = FirebaseDatabase.getInstance().getReference("Liked").child(currentUserUID);
+        likedRef.child(likedUserUID).setValue(true);
+    }
+
     public static void updateUserName(String UID, String newName) {
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(UID).child("name");
         userRef.setValue(newName);
@@ -421,7 +438,7 @@ public class Users {
         int megasymps = sharedPreferences.getInt("megasymps", 0);
         boolean verified = sharedPreferences.getBoolean("verified", false);
 
-        return new Users(UID, name, bio, height, weight, gender, findGender, findHeight, findHeight, hobbies, target, color, status, photo1, photo2, photo3, photo4, photo5, age, boosts, likes, megasymps, verified);
+        return new Users(UID, name, bio, height, weight, gender, findGender, findHeight, findWeight, hobbies, target, color, status, photo1, photo2, photo3, photo4, photo5, age, boosts, likes, megasymps, verified);
     }
 
 
@@ -466,6 +483,87 @@ public class Users {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 listener.onDataNotAvailable();
+            }
+        });
+    }
+
+
+    //CHATTING с коментариями для эмирки, хотя, я надеюсь, что он сюды суваться не будет
+
+    public static void updateUserLikes(String currentUserUID, String likedUserUID) {
+        DatabaseReference currentUserRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserUID);
+        currentUserRef.child("likedUsers").push().setValue(likedUserUID);
+
+        DatabaseReference likedUserRef = FirebaseDatabase.getInstance().getReference("Users").child(likedUserUID);
+        likedUserRef.child("likedUsers").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String userUID = snapshot.getValue(String.class);
+                    if (userUID != null && userUID.equals(currentUserUID)) {
+                        // Оба пользователей лайкнули друг друга, создаем объект Chat
+                        currentUserRef.child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot nameSnapshot) {
+                                String currentUserUserName = nameSnapshot.getValue(String.class);
+                                currentUserRef.child("photo1").addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot photoSnapshot) {
+                                        String currentUserProfilePhoto = photoSnapshot.getValue(String.class);
+                                        likedUserRef.child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot likedNameSnapshot) {
+                                                String likedUserUserName = likedNameSnapshot.getValue(String.class);
+                                                likedUserRef.child("photo1").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot likedPhotoSnapshot) {
+                                                        String likedUserProfilePhoto = likedPhotoSnapshot.getValue(String.class);
+
+                                                        DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("Chats").push();
+                                                        String chatUID = chatRef.getKey();
+
+                                                        Chat currentUserChat = new Chat(likedUserUserName, likedUserProfilePhoto, null);
+                                                        Chat likedUserChat = new Chat(currentUserUserName, currentUserProfilePhoto, null);
+
+                                                        chatRef.child(currentUserUID).setValue(currentUserChat);
+                                                        chatRef.child(likedUserUID).setValue(likedUserChat);
+
+                                                        // Дополнительные действия при создании чата, например, отправка уведомления
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+                                                        // Обработка ошибок, если не удалось получить фото понравившегося пользователя
+                                                    }
+                                                });
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                // Обработка ошибок, если не удалось получить имя понравившегося пользователя
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        // Обработка ошибок, если не удалось получить фото текущего пользователя
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                // Обработка ошибок, если не удалось получить имя текущего пользователя
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Обработка ошибок, если не удалось получить информацию о пользователях
             }
         });
     }
