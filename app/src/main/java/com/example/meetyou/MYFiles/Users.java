@@ -362,7 +362,7 @@ public class Users {
 
     public interface OnUserDataListener {
 
-        void onDataLoaded(String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5);
+        void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5);
 
         void onDataLoaded(Users user);
         void onDataNotAvailable();
@@ -474,7 +474,7 @@ public class Users {
                 if (!femaleUsers.isEmpty()) {
                     int randomIndex = new Random().nextInt(femaleUsers.size());
                     Users randomFemaleUser = femaleUsers.get(randomIndex);
-                    listener.onDataLoaded(randomFemaleUser.getName(), randomFemaleUser.getBio(),randomFemaleUser.getPhoto1(),randomFemaleUser.getPhoto2(),randomFemaleUser.getPhoto3(),randomFemaleUser.getPhoto4(),randomFemaleUser.getPhoto5());
+                    listener.onDataLoaded(randomFemaleUser.getColor(),randomFemaleUser.getName(), randomFemaleUser.getBio(),randomFemaleUser.getPhoto1(),randomFemaleUser.getPhoto2(),randomFemaleUser.getPhoto3(),randomFemaleUser.getPhoto4(),randomFemaleUser.getPhoto5());
                 } else {
                     listener.onDataNotAvailable();
                 }

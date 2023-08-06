@@ -3,6 +3,7 @@ package com.example.meetyou;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
@@ -134,9 +135,11 @@ public class MainActivity extends AppCompatActivity {
     private void findUser(){
         Users.getRandomUserFromPool(gender,findGender,findHeight,findWeight, new Users.OnUserDataListener() {
             @Override
-            public void onDataLoaded(String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5) {
+            public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5) {
                 binding.informationTextView.setText(userBio);
                 binding.nameTextView.setText(userName);
+                binding.genderColor2View.setBackgroundColor(Color.parseColor(color));
+                binding.genderColorView.setBackgroundColor(Color.parseColor(color));
                 currentUrls.clear();
                 currentUrls.add(photo1);
                 currentUrls.add(photo2);

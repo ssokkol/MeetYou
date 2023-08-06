@@ -73,7 +73,7 @@
                 <View
                     android:id="@+id/genderColorView"
                     android:layout_width="2.2dp"
-                    android:layout_height="75dp"
+                    android:layout_height="match_parent"
                     android:layout_alignParentBottom="true"
                     android:background="#e337ff"
                     android:layout_marginLeft="10dp"/>
