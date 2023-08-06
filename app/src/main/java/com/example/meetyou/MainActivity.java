@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -17,10 +16,8 @@ import com.example.meetyou.MYFiles.PhotoAdapter;
 import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -140,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataLoaded(String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5) {
                 binding.informationTextView.setText(userBio);
                 binding.nameTextView.setText(userName);
+                currentUrls.clear();
                 currentUrls.add(photo1);
                 currentUrls.add(photo2);
                 currentUrls.add(photo3);
@@ -147,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
                 currentUrls.add(photo5);
                 PhotoAdapter photoAdapter = new PhotoAdapter(currentUrls);
                 binding.viewPager.setAdapter(photoAdapter);
+                photoAdapter.notifyDataSetChanged();
             }
 
             @Override
