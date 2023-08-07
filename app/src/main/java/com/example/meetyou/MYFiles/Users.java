@@ -459,8 +459,15 @@ public class Users {
                     Users user = snapshot.getValue(Users.class);
                     assert user != null;
                     if (findGender.equals("any")) {
-                        if (user != null && user.getHeight().equals(findHeight) && user.getWeight().equals(findWeight) && user.getFindGender().equals(gender)) {
-                            femaleUsers.add(user);
+                        if (user.getFindGender().equals("any")){
+                            if (user != null && user.getHeight().equals(findHeight) && user.getWeight().equals(findWeight)){
+                                femaleUsers.add(user);
+                            }
+                        }
+                        else{
+                            if (user != null && user.getHeight().equals(findHeight) && user.getWeight().equals(findWeight) && user.getFindGender().equals(gender)) {
+                                femaleUsers.add(user);
+                            }
                         }
                     }else {
                         if (user != null && user.getGender().equals(findGender) && user.getHeight().equals(findHeight) && user.getWeight().equals(findWeight)) {
