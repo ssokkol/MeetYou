@@ -444,11 +444,20 @@ public class Users {
         return new Users(UID, name, bio, height, weight, gender, findGender, findHeight, findWeight, hobbies, target, color, status, photo1, photo2, photo3, photo4, photo5, age, boosts, likes, megasymps, verified);
     }
 
+    private static String getRandomGender() {
+        Random random = new Random();
+        int randomValue = random.nextInt(2);
 
+        if (randomValue == 0) {
+            return "male";
+        } else {
+            return "female";
+        }
+    }
 
     public static void getRandomUserFromPool(String gender, String findGender, String findHeight, String findWeight, final OnUserDataListener listener) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
-        Query query = usersRef.orderByChild("gender").equalTo(findGender.equals("any") ? gender : findGender);
+        Query query = usersRef.orderByChild("gender").equalTo(findGender.equals("any") ? getRandomGender() : findGender);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
