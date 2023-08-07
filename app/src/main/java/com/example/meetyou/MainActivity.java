@@ -18,6 +18,11 @@ import com.example.meetyou.MYFiles.PhotoAdapter;
 import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     String findGender;
     String findWeight;
     String findHeight;
-
+    Users user = new Users();
     String foundUID;
 
     int[] photos = {
@@ -53,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
 
 
         binding.likebutton.setOnClickListener(new View.OnClickListener() {
@@ -123,20 +127,57 @@ public class MainActivity extends AppCompatActivity {
     private String getGender(){
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("gender", "");
+//        return user.getGender();
     }
     private String getFindGender(){
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("findGender", "");
+//        return user.getFindGender();
     }
     private String getFindWeight(){
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("findWeight", "");
+//        return user.getFindWeight();
     }
     private String getFindHeight(){
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("findHeight", "");
+//        return user.getFindHeight();
     }
+
+    private void getName(final OnNameReceivedListener listener) {
+        DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("name");
+        nameRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String name = snapshot.getValue(String.class);
+                if (name != null) {
+                    listener.onNameReceived(name);
+                } else {
+                    listener.onNameReceived(" ");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onNameReceived(" ");
+            }
+        });
+    }
+    interface OnNameReceivedListener {
+        void onNameReceived(String name);
+    }
+
     private void findUser(){
+//        for(int i = 0; i < 10; i++){
+//            Log.e("Error", getFindHeight());
+//            getName(new OnNameReceivedListener() {
+//                @Override
+//                public void onNameReceived(String name) {
+//                    Log.e("Error", name);
+//                }
+//            });
+//        }
         Users.getRandomUserFromPool(gender,findGender,findHeight,findWeight, new Users.OnUserDataListener() {
             @Override
             public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5, String UID) {

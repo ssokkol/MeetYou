@@ -405,7 +405,6 @@ public class Users {
                     editor.putInt("megasymps", user.getMegasymps());
                     editor.putBoolean("verified", user.isVerified());
                     editor.apply();
-                } else {
                 }
             }
 
@@ -449,43 +448,24 @@ public class Users {
 
     public static void getRandomUserFromPool(String gender, String findGender, String findHeight, String findWeight, final OnUserDataListener listener) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
-        Query query = usersRef.orderByChild("gender").equalTo(gender);
+        Query query = usersRef.orderByChild("gender").equalTo(findGender.equals("any") ? gender : findGender);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<Users> femaleUsers = new ArrayList<>();
+                List<Users> matchingUsers = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Users user = snapshot.getValue(Users.class);
-                    assert user != null;
-                    if (findGender.equals("any")) {
-                        if (user.getFindGender().equals("any")){
-                            if (user != null && user.getHeight().equals(findHeight) && user.getWeight().equals(findWeight)){
-                                femaleUsers.add(user);
-                            }
-                        }
-                        else{
-                            if (user != null && user.getHeight().equals(findHeight) && user.getWeight().equals(findWeight) && user.getFindGender().equals(gender)) {
-                                femaleUsers.add(user);
-                            }
-                        }
-                    }else {
-                        if (user != null && user.getGender().equals(findGender) && user.getHeight().equals(findHeight) && user.getWeight().equals(findWeight)) {
-                            if (user.getFindGender().equals("any")) {
-                                femaleUsers.add(user);
-                            } else if (user.getFindGender().equals(gender)) {
-                                femaleUsers.add(user);
-                            } else {
-                                return;
-                            }
-                        }
+                    if (user != null && user.getHeight().equals(findHeight) && user.getWeight().equals(findWeight)) {
+                        matchingUsers.add(user);
                     }
                 }
 
-                if (!femaleUsers.isEmpty()) {
-                    int randomIndex = new Random().nextInt(femaleUsers.size());
-                    Users randomFemaleUser = femaleUsers.get(randomIndex);
-                    listener.onDataLoaded(randomFemaleUser.getColor(),randomFemaleUser.getName(), randomFemaleUser.getBio(),randomFemaleUser.getPhoto1(),randomFemaleUser.getPhoto2(),randomFemaleUser.getPhoto3(),randomFemaleUser.getPhoto4(),randomFemaleUser.getPhoto5(), randomFemaleUser.getUID());
+                if (!matchingUsers.isEmpty()) {
+                    int randomIndex = new Random().nextInt(matchingUsers.size());
+                    Users randomUser = matchingUsers.get(randomIndex);
+                    listener.onDataLoaded(randomUser.getColor(), randomUser.getName(), randomUser.getBio(),
+                            randomUser.getPhoto1(), randomUser.getPhoto2(), randomUser.getPhoto3(), randomUser.getPhoto4(), randomUser.getPhoto5(), randomUser.getUID());
                 } else {
                     listener.onDataNotAvailable();
                 }
@@ -540,6 +520,7 @@ public class Users {
                                                         chatRef.child(likedUserUID).setValue(likedUserChat);
 
                                                         // Дополнительные действия при создании чата, например, отправка уведомления
+                                                        return;
                                                     }
 
                                                     @Override
@@ -547,6 +528,7 @@ public class Users {
                                                         // Обработка ошибок, если не удалось получить фото понравившегося пользователя
                                                     }
                                                 });
+                                                return;
                                             }
 
                                             @Override
@@ -554,6 +536,7 @@ public class Users {
                                                 // Обработка ошибок, если не удалось получить имя понравившегося пользователя
                                             }
                                         });
+                                        return;
                                     }
 
                                     @Override
@@ -561,6 +544,7 @@ public class Users {
                                         // Обработка ошибок, если не удалось получить фото текущего пользователя
                                     }
                                 });
+                                return;
                             }
 
                             @Override
@@ -570,6 +554,7 @@ public class Users {
                         });
                     }
                 }
+                return;
             }
 
             @Override
