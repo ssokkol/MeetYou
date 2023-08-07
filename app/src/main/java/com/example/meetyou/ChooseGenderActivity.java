@@ -104,11 +104,13 @@ public class ChooseGenderActivity extends AppCompatActivity {
                 } else if (isFemale) {
                     Users.updateUserGender(getUID(), "female");
                     Users.updateUserColor(getUID(), "#E337FF");
+                    Users.updateUID(getUID());
                     Intent intent = new Intent(ChooseGenderActivity.this, CreateBioActivity.class);
                     startActivity(intent);
                 } else if (isMale) {
                     Users.updateUserGender(getUID(), "male");
                     Users.updateUserColor(getUID(), "#374BFF");
+                    Users.updateUID(getUID());
                     Intent intent = new Intent(ChooseGenderActivity.this, CreateBioActivity.class);
                     startActivity(intent);
                 }

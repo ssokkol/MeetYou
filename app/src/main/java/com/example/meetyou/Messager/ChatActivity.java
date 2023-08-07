@@ -1,4 +1,4 @@
-package com.example.meetyou;
+package com.example.meetyou.Messager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meetyou.MYFiles.NotificationHelper;
-import com.example.meetyou.Messager.Message;
-import com.example.meetyou.Messager.MessageAdapter;
+import com.example.meetyou.R;
+import com.example.meetyou.StartActivity;
 import com.example.meetyou.databinding.ActivityChatBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -50,7 +50,7 @@ public class ChatActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     String messageText = binding.messageText.getText().toString().trim();
                     if (messageText.equals("")) return;
-                    FirebaseDatabase.getInstance().getReference().push().setValue(new Message(getUID(), messageText));
+                    FirebaseDatabase.getInstance().getReference().child("Users").child(getUID()).child("Messages").child(getUID()+"_to_").push().setValue(new Message(getUID(), messageText));
                     binding.messageText.setText("");
                 }
             });
@@ -66,7 +66,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void displayAllMessages() {
-        FirebaseDatabase.getInstance().getReference().addChildEventListener(new ChildEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("Users").child(getUID()).child("Messages").child(getUID()+"_to_").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Message message = dataSnapshot.getValue(Message.class);

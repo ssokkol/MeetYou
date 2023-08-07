@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     String findGender;
     String findWeight;
     String findHeight;
+
+    String foundUID;
 
     int[] photos = {
             R.drawable.photo_1,
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         binding.likebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Users.updateUserLikes(getUID(), foundUID);
                 NotificationHelper.showHeart(MainActivity.this);
             }
         });
@@ -135,11 +139,15 @@ public class MainActivity extends AppCompatActivity {
     private void findUser(){
         Users.getRandomUserFromPool(gender,findGender,findHeight,findWeight, new Users.OnUserDataListener() {
             @Override
-            public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5) {
+            public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5, String UID) {
                 binding.informationTextView.setText(userBio);
                 binding.nameTextView.setText(userName);
                 binding.genderColor2View.setBackgroundColor(Color.parseColor(color));
                 binding.genderColorView.setBackgroundColor(Color.parseColor(color));
+                foundUID = UID;
+                for(int i = 0; i < 10; i++){
+                    Log.e("Error", foundUID+" Hello ");
+                }
                 currentUrls.clear();
                 currentUrls.add(photo1);
                 currentUrls.add(photo2);

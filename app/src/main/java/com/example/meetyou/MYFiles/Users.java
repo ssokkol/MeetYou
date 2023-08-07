@@ -27,12 +27,11 @@ public class Users {
     public Users() {
     }
 
-    public Users(String UID, String email, String name, String bio, String height, String weight, String gender, String findGender, String findHeight, String findWeight, String hobbies, String target,
+    public Users(String UID, String name, String bio, String height, String weight, String gender, String findGender, String findHeight, String findWeight, String hobbies, String target,
                  String color, String status,
-                 String photo1, String photo2, String photo3, String photo4, int age, int boosts, int likes, int megasymps, boolean verified)
+                 String photo1, String photo2, String photo3, String photo4, String photo5, int age, int boosts, int likes, int megasymps, boolean verified)
     {
         this.UID = UID;
-        this.email = email;
         this.name = name;
         this.bio = bio;
         this.height = height;
@@ -49,7 +48,7 @@ public class Users {
         this.photo2 = photo2;
         this.photo3 = photo3;
         this.photo4 = photo4;
-        this.photo5 = photo5;
+        this.photo5 = this.photo5;
         this.age = age;
         this.boosts = boosts;
         this.likes = likes;
@@ -263,6 +262,11 @@ public class Users {
         likedRef.child(likedUserUID).setValue(true);
     }
 
+    public static void updateUID(String UID){
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(UID).child("UID");
+        userRef.setValue(UID);
+    }
+
     public static void updateUserName(String UID, String newName) {
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(UID).child("name");
         userRef.setValue(newName);
@@ -362,7 +366,7 @@ public class Users {
 
     public interface OnUserDataListener {
 
-        void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5);
+        void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5, String UID);
 
         void onDataLoaded(Users user);
         void onDataNotAvailable();
@@ -474,7 +478,7 @@ public class Users {
                 if (!femaleUsers.isEmpty()) {
                     int randomIndex = new Random().nextInt(femaleUsers.size());
                     Users randomFemaleUser = femaleUsers.get(randomIndex);
-                    listener.onDataLoaded(randomFemaleUser.getColor(),randomFemaleUser.getName(), randomFemaleUser.getBio(),randomFemaleUser.getPhoto1(),randomFemaleUser.getPhoto2(),randomFemaleUser.getPhoto3(),randomFemaleUser.getPhoto4(),randomFemaleUser.getPhoto5());
+                    listener.onDataLoaded(randomFemaleUser.getColor(),randomFemaleUser.getName(), randomFemaleUser.getBio(),randomFemaleUser.getPhoto1(),randomFemaleUser.getPhoto2(),randomFemaleUser.getPhoto3(),randomFemaleUser.getPhoto4(),randomFemaleUser.getPhoto5(), randomFemaleUser.getUID());
                 } else {
                     listener.onDataNotAvailable();
                 }

@@ -5,6 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Messager.MessengerActivity">
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/main_header"
+        >
+
+    </ListView>
 
     <RelativeLayout
         android:id="@+id/main_header"

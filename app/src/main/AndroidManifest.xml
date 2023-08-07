@@ -19,7 +19,7 @@
         android:theme="@style/Theme.MeetYou"
         tools:targetApi="31">
         <activity
-            android:name=".ChatActivity"
+            android:name=".Messager.ChatActivity"
             android:exported="false" />
         <activity
             android:name=".Messager.MessengerActivity"

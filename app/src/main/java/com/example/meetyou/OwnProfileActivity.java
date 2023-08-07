@@ -26,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.example.meetyou.MYFiles.Users;
+import com.example.meetyou.Messager.ChatActivity;
 import com.example.meetyou.databinding.ActivityOwnProfileBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -204,7 +205,7 @@ public class OwnProfileActivity extends AppCompatActivity {
         binding.additionalTextView.setText(getUserBio());
         Users.getUserDataFromFirebase(getUID(), new Users.OnUserDataListener() {
             @Override
-            public void onDataLoaded(String color, String userName, String bio, String photo1, String photo2, String photo3, String photo4,String photo5) {
+            public void onDataLoaded(String color, String userName, String bio, String photo1, String photo2, String photo3, String photo4,String photo5, String UID) {
 
             }
 
