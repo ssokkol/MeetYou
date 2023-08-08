@@ -14,11 +14,13 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class Users {
-    List<String> likedUsers;
+    HashMap<String, Boolean> likedUsers;
     String UID, email, name, bio, height, weight, gender, findGender, findHeight, findWeight, hobbies, target, color, status, photo1, photo2, photo3, photo4, photo5;
     int age, boosts, likes, megasymps;
 
@@ -54,15 +56,15 @@ public class Users {
         this.likes = likes;
         this.megasymps = megasymps;
         this.verified = verified;
-        likedUsers = new ArrayList<>();
+        likedUsers = new HashMap<>();
     }
 
     public void addLikedUser(String userUID) {
-        likedUsers.add(userUID);
+        likedUsers.put(userUID, true);
     }
 
-    public List<String> getLikedUsers() {
-        return likedUsers;
+    public Set<String> getLikedUsers() {
+        return likedUsers.keySet();
     }
 
     public String getFindHeight() {
@@ -495,7 +497,7 @@ public class Users {
         DatabaseReference likedUserRef = FirebaseDatabase.getInstance().getReference("Users").child(likedUserUID);
 
         // Проверяем, был ли пользователь уже лайкнут
-        currentUserRef.child("likedUsers").orderByValue().equalTo(likedUserUID).addListenerForSingleValueEvent(new ValueEventListener() {
+        currentUserRef.child("likedUsers").child(likedUserUID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -504,77 +506,73 @@ public class Users {
                 }
 
                 // Если пользователь еще не лайкал этого человека, добавляем лайк
-                currentUserRef.child("likedUsers").push().setValue(likedUserUID);
+                currentUserRef.child("likedUsers").child(likedUserUID).setValue(true);
 
-                likedUserRef.child("likedUsers").addListenerForSingleValueEvent(new ValueEventListener() {
+                likedUserRef.child("likedUsers").child(currentUserUID).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            String userUID = snapshot.getValue(String.class);
-                            if (userUID != null && userUID.equals(currentUserUID)) {
-                                // Оба пользователей лайкнули друг друга, создаем объект Chat
-                                currentUserRef.child("name").addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot nameSnapshot) {
-                                        String currentUserUserName = nameSnapshot.getValue(String.class);
-                                        currentUserRef.child("photo1").addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot photoSnapshot) {
-                                                String currentUserProfilePhoto = photoSnapshot.getValue(String.class);
-                                                likedUserRef.child("name").addListenerForSingleValueEvent(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(@NonNull DataSnapshot likedNameSnapshot) {
-                                                        String likedUserUserName = likedNameSnapshot.getValue(String.class);
-                                                        likedUserRef.child("photo1").addListenerForSingleValueEvent(new ValueEventListener() {
-                                                            @Override
-                                                            public void onDataChange(@NonNull DataSnapshot likedPhotoSnapshot) {
-                                                                String likedUserProfilePhoto = likedPhotoSnapshot.getValue(String.class);
+                    public void onDataChange(@NonNull DataSnapshot likedUserSnapshot) {
+                        if (likedUserSnapshot.exists()) {
+                            // Оба пользователей лайкнули друг друга, создаем объект Chat
+                            currentUserRef.child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot nameSnapshot) {
+                                    String currentUserUserName = nameSnapshot.getValue(String.class);
+                                    currentUserRef.child("photo1").addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot photoSnapshot) {
+                                            String currentUserProfilePhoto = photoSnapshot.getValue(String.class);
+                                            likedUserRef.child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot likedNameSnapshot) {
+                                                    String likedUserUserName = likedNameSnapshot.getValue(String.class);
+                                                    likedUserRef.child("photo1").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot likedPhotoSnapshot) {
+                                                            String likedUserProfilePhoto = likedPhotoSnapshot.getValue(String.class);
 
-                                                                DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("Chats").push();
-                                                                String chatUID = chatRef.getKey();
+                                                            DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("Chats").push();
+                                                            String chatUID = chatRef.getKey();
 
-                                                                Chat currentUserChat = new Chat(likedUserUserName, likedUserProfilePhoto, null);
-                                                                Chat likedUserChat = new Chat(currentUserUserName, currentUserProfilePhoto, null);
+                                                            Chat currentUserChat = new Chat(likedUserUserName, likedUserProfilePhoto, null);
+                                                            Chat likedUserChat = new Chat(currentUserUserName, currentUserProfilePhoto, null);
 
-                                                                chatRef.child(currentUserUID).setValue(currentUserChat);
-                                                                chatRef.child(likedUserUID).setValue(likedUserChat);
+                                                            chatRef.child(currentUserUID).setValue(currentUserChat);
+                                                            chatRef.child(likedUserUID).setValue(likedUserChat);
 
-                                                                // Дополнительные действия при создании чата, например, отправка уведомления
-                                                                return;
-                                                            }
+                                                            // Дополнительные действия при создании чата, например, отправка уведомления
+                                                            return;
+                                                        }
 
-                                                            @Override
-                                                            public void onCancelled(@NonNull DatabaseError error) {
-                                                                // Обработка ошибок, если не удалось получить фото понравившегося пользователя
-                                                            }
-                                                        });
-                                                        return;
-                                                    }
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError error) {
+                                                            // Обработка ошибок, если не удалось получить фото понравившегося пользователя
+                                                        }
+                                                    });
+                                                    return;
+                                                }
 
-                                                    @Override
-                                                    public void onCancelled(@NonNull DatabaseError error) {
-                                                        // Обработка ошибок, если не удалось получить имя понравившегося пользователя
-                                                    }
-                                                });
-                                                return;
-                                            }
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+                                                    // Обработка ошибок, если не удалось получить имя понравившегося пользователя
+                                                }
+                                            });
+                                            return;
+                                        }
 
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-                                                // Обработка ошибок, если не удалось получить фото текущего пользователя
-                                            }
-                                        });
-                                        return;
-                                    }
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            // Обработка ошибок, если не удалось получить фото текущего пользователя
+                                        }
+                                    });
+                                    return;
+                                }
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-                                        // Обработка ошибок, если не удалось получить имя текущего пользователя
-                                    }
-                                });
-                            }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    // Обработка ошибок, если не удалось получить имя текущего пользователя
+                                }
+                            });
                         }
-                        return;
                     }
 
                     @Override
