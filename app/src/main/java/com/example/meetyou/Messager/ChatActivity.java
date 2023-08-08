@@ -54,6 +54,13 @@ public class ChatActivity extends AppCompatActivity {
                     binding.messageText.setText("");
                 }
             });
+
+            binding.goBackButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
         }
     }
 
