@@ -67,4 +67,26 @@
     <string name="weight">Вес:</string>
     <string name="attitude_to_smoking">Отношение к курению:</string>
     <string name="attitude_to_alcohol">Отношение к алкоголю:</string>
+    <string name="confirm_password">Подтвердите пароль</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="current_password">Текущий пароль</string>
+    <string name="change_password">Изменить пароль</string>
+    <string name="current_e_mail">Текущий адрес электронной почты</string>
+    <string name="enter_e_mail">Введите адрес электронной почты</string>
+    <string name="new_e_mail">Новый адрес электронной почты</string>
+    <string name="confirm_e_mail">Подтвердите адрес электронной почты</string>
+    <string name="confirm_e_mail_edit_text">Подтвердите адрес электронной почты</string>
+    <string name="change_your_color">Изменить ваш цвет</string>
+    <string name="current_name">Текущее имя</string>
+    <string name="new_name">Новое имя</string>
+    <string name="enter_name">Введите имя</string>
+    <string name="change_your_interests">Изменить ваши интересы</string>
+    <string name="change_bio">Изменить биографию</string>
+    <string name="delete_account">Удалить аккаунт</string>
+    <string name="delete_account_warning">Внимание! Удаление вашей учетной записи — это <b>навсегда</b>. Все данные, сообщения и связи будут утеряны навсегда. Пожалуйста, обдумайте свое решение перед нажатием кнопки \"Подтвердить\". В случае необходимости обращайтесь в службу поддержки. Спасибо, что были частью <b>MeetYou</b>.</string>
+    <string name="you_are_not_signed_in_message">Вы не вошли в систему!</string>
+    <string name="bio_was_copied_in_clipboard">Биография была скопирована в буфер обмена</string>
+    <string name="name_was_copied_in_clipboard">Имя было скопировано в буфер обмена</string>
+
 </resources>

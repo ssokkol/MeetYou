@@ -67,4 +67,26 @@
     <string name="weight">Gewicht:</string>
     <string name="attitude_to_smoking">Einstellung zum Rauchen:</string>
     <string name="attitude_to_alcohol">Einstellung zum Alkohol:</string>
+    <string name="confirm_password">Passwort bestätigen</string>
+    <string name="enter_password">Passwort eingeben</string>
+    <string name="new_password">Neues Passwort</string>
+    <string name="current_password">Aktuelles Passwort</string>
+    <string name="change_password">Passwort ändern</string>
+    <string name="current_e_mail">Aktuelle E-Mail</string>
+    <string name="enter_e_mail">E-Mail eingeben</string>
+    <string name="new_e_mail">Neue E-Mail</string>
+    <string name="confirm_e_mail">E-Mail bestätigen</string>
+    <string name="confirm_e_mail_edit_text">E-Mail bestätigen</string>
+    <string name="change_your_color">Farbe ändern</string>
+    <string name="current_name">Aktueller Name</string>
+    <string name="new_name">Neuer Name</string>
+    <string name="enter_name">Name eingeben</string>
+    <string name="change_your_interests">Interessen ändern</string>
+    <string name="change_bio">Bio ändern</string>
+    <string name="delete_account">Konto löschen</string>
+    <string name="delete_account_warning">Achtung! Das Löschen Ihres Kontos ist <b>permanent</b>. Alle Daten, Nachrichten und Verbindungen gehen für immer verloren. Bitte überlegen Sie sorgfältig, bevor Sie auf "Bestätigen" klicken. Kontaktieren Sie den Support, wenn Sie Hilfe benötigen. Vielen Dank, dass Sie Teil von <b>MeetYou</b> waren.</string>
+    <string name="you_are_not_signed_in_message">Sie sind nicht angemeldet!</string>
+    <string name="bio_was_copied_in_clipboard">Bio wurde in die Zwischenablage kopiert</string>
+    <string name="name_was_copied_in_clipboard">Name wurde in die Zwischenablage kopiert</string>
+
 </resources>

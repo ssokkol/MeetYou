@@ -169,7 +169,7 @@ public class OwnProfileActivity extends AppCompatActivity {
                 ClipData clipData = ClipData.newPlainText(binding.nameTextView.getText().toString(), textToCopy);
                 clipboardManager.setPrimaryClip(clipData);
 
-                Toast.makeText(OwnProfileActivity.this, "Name was copied in clipboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(OwnProfileActivity.this, R.string.name_was_copied_in_clipboard, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -182,7 +182,7 @@ public class OwnProfileActivity extends AppCompatActivity {
                 ClipData clipData = ClipData.newPlainText(binding.additionalTextView.getText().toString(), textToCopy);
                 clipboardManager.setPrimaryClip(clipData);
 
-                Toast.makeText(OwnProfileActivity.this, "Name was copied in clipboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(OwnProfileActivity.this, R.string.bio_was_copied_in_clipboard, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -211,7 +211,6 @@ public class OwnProfileActivity extends AppCompatActivity {
 
             @Override
             public void onDataLoaded(Users user) {
-                // Здесь можно использовать значения photo1, photo2, photo3, photo4, photo5
                 photo1URL = user.getPhoto1();
                 photo2URL = user.getPhoto2();
                 photo3URL = user.getPhoto3();

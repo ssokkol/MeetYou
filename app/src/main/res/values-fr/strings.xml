@@ -67,4 +67,26 @@
     <string name="weight">Poids :</string>
     <string name="attitude_to_smoking">Attitude face au tabac :</string>
     <string name="attitude_to_alcohol">Attitude face à l\'alcool :</string>
+    <string name="confirm_password">Confirmer le mot de passe</string>
+    <string name="enter_password">Entrer le mot de passe</string>
+    <string name="new_password">Nouveau mot de passe</string>
+    <string name="current_password">Mot de passe actuel</string>
+    <string name="change_password">Changer le mot de passe</string>
+    <string name="current_e_mail">E-mail actuelle</string>
+    <string name="enter_e_mail">Entrer l\'e-mail</string>
+    <string name="new_e_mail">Nouvel e-mail</string>
+    <string name="confirm_e_mail">Confirmer l\'e-mail</string>
+    <string name="confirm_e_mail_edit_text">Confirmer l\'e-mail</string>
+    <string name="change_your_color">Changer votre couleur</string>
+    <string name="current_name">Nom actuel</string>
+    <string name="new_name">Nouveau nom</string>
+    <string name="enter_name">Entrer le nom</string>
+    <string name="change_your_interests">Changer vos intérêts</string>
+    <string name="change_bio">Modifier la bio</string>
+    <string name="delete_account">Supprimer le compte</string>
+    <string name="delete_account_warning">Attention ! La suppression de votre compte est <b>permanente</b>. Toutes les données, les messages et les connexions seront perdus pour toujours. Veuillez réfléchir attentivement avant de cliquer sur \"Confirmer\". Contactez le support en cas de besoin. Merci d\'avoir fait partie de <b>MeetYou</b>.</string>
+    <string name="you_are_not_signed_in_message">Vous n\'êtes pas connecté \!</string>
+    <string name="bio_was_copied_in_clipboard">La bio a été copiée dans le presse-papiers</string>
+    <string name="name_was_copied_in_clipboard">Le nom a été copié dans le presse-papiers</string>
+
 </resources>
