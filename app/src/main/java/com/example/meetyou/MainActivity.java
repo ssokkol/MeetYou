@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         binding.likebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Users.updateUserLikes(getUID(), foundUID);
+                Users.updateUserLikes(getUID(), foundUID, MainActivity.this);
                 NotificationHelper.showHeart(MainActivity.this);
             }
         });

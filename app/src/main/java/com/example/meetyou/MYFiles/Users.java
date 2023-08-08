@@ -492,7 +492,7 @@ public class Users {
 
     //CHATTING с коментариями для эмирки, хотя, я надеюсь, что он сюды суваться не будет
 
-    public static void updateUserLikes(String currentUserUID, String likedUserUID) {
+    public static void updateUserLikes(String currentUserUID, String likedUserUID,  Context context) {
         DatabaseReference currentUserRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserUID);
         DatabaseReference likedUserRef = FirebaseDatabase.getInstance().getReference("Users").child(likedUserUID);
 
@@ -539,7 +539,7 @@ public class Users {
                                                             chatRef.child(currentUserUID).setValue(currentUserChat);
                                                             chatRef.child(likedUserUID).setValue(likedUserChat);
 
-                                                            // Дополнительные действия при создании чата, например, отправка уведомления
+                                                            NotificationHelper.showCustomNotification(context, "LOVE", "You find your two-sided like!", null, 0, 0, 0,0);
                                                             return;
                                                         }
 
