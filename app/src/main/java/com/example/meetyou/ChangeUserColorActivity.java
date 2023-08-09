@@ -8,12 +8,18 @@ import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.meetyou.MYFiles.NotificationHelper;
 import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityChangeUserColorBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,8 +36,14 @@ public class ChangeUserColorActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.main));
+
+        getUserColor(new OnColorReceivedListener() {
+            @Override
+            public void onColorReceived(String color) {
+                binding.colorView.setBackgroundColor(android.graphics.Color.parseColor(color));
+            }
+        });
 
         // Устанавливаем максимальное количество символов в EditText в 7
         binding.newColorEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(7)});
@@ -88,6 +100,13 @@ public class ChangeUserColorActivity extends AppCompatActivity {
                 }
             }
         });
+
+        binding.goBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private String removeForbiddenCharacters(String input) {
@@ -116,6 +135,29 @@ public class ChangeUserColorActivity extends AppCompatActivity {
             binding.confirmButton.setTextColor(getColor(R.color.neutral_dark_gray));
             isConfirmActivated = false;
         }
+    }
+
+    private void getUserColor(final OnColorReceivedListener listener) {
+        DatabaseReference colorRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("color");
+        colorRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String color = snapshot.getValue(String.class);
+                if (color != null) {
+                    listener.onColorReceived(color);
+                } else {
+                    listener.onColorReceived(" ");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onColorReceived(" ");
+            }
+        });
+    }
+    interface OnColorReceivedListener {
+        void onColorReceived(String color);
     }
 
     private void saveUserColor(String color){

@@ -88,5 +88,9 @@
     <string name="you_are_not_signed_in_message">Sie sind nicht angemeldet!</string>
     <string name="bio_was_copied_in_clipboard">Bio wurde in die Zwischenablage kopiert</string>
     <string name="name_was_copied_in_clipboard">Name wurde in die Zwischenablage kopiert</string>
+    <string name="please_enter_new_name_message">Bitte geben Sie einen neuen Namen ein</string>
+    <string name="vip_features">- Unbegrenzte Rückkehr\n\n\n- Globale Suche\n\n\n- Keine Werbung</string>
+    <string name="premium_features">- Alle VIP-Funktionen\n\n\n- Wer mochte dich\n\n\n- 10 Mega-Sympathien pro Woche\n\n\n- 5 Profil-Boosts pro Monat\n\n\n- Profilfarbe ändern</string>
+    <string name="luxe_features">- Alle Premium-Funktionen\n\n\n- Kommentare zu Mega-Sympathien hinzufügen\n\n\n- 30 Mega-Sympathien pro Woche\n\n\n- 20 Profil-Boosts pro Monat\n\n\n- Vermeidungsliste</string>
 
 </resources>

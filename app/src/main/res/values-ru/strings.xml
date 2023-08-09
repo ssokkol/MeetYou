@@ -88,5 +88,9 @@
     <string name="you_are_not_signed_in_message">Вы не вошли в систему!</string>
     <string name="bio_was_copied_in_clipboard">Биография была скопирована в буфер обмена</string>
     <string name="name_was_copied_in_clipboard">Имя было скопировано в буфер обмена</string>
+    <string name="please_enter_new_name_message">Пожалуйста, введите новое имя</string>
+    <string name="vip_features">- Безлимитный возврат\n\n\n- Глобальный поиск\n\n\n- Без рекламы</string>
+    <string name="premium_features">- Все VIP-функции\n\n\n- Кто вам понравился\n\n\n- 10 мега-симпатий в неделю\n\n\n- 5 повышений профиля в месяц\n\n\n- Изменение цвета профиля</string>
+    <string name="luxe_features">- Все премиум-функции\n\n\n- Добавление комментариев к мега-симпатиям\n\n\n- 30 мега-симпатий в неделю\n\n\n- 20 повышений профиля в месяц\n\n\n- Список избежания</string>
 
 </resources>

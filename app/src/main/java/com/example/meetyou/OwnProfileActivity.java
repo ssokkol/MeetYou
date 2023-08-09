@@ -61,6 +61,20 @@ public class OwnProfileActivity extends AppCompatActivity {
 
         getWindow().setStatusBarColor(ContextCompat.getColor(OwnProfileActivity.this, R.color.main));
 
+        getName(new OnNameReceivedListener() {
+            @Override
+            public void onNameReceived(String name) {
+                binding.nameTextView.setText(name);
+            }
+        });
+
+        getBio(new OnBioReceivedListener() {
+            @Override
+            public void onBioReceived(String bio) {
+                binding.additionalTextView.setText(bio);
+            }
+        });
+
         RelativeLayout imageOverlay = findViewById(R.id.image_overlay);
         ImageView expandedImage = findViewById(R.id.expanded_image);
         // Обработчик кнопки "Настройки", переход к активности OptionsActivity
@@ -76,7 +90,6 @@ public class OwnProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(OwnProfileActivity.this,ShopActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
         // Обработчик кнопки "Найти", переход к активности MainActivity и завершение текущей активности
@@ -207,9 +220,9 @@ public class OwnProfileActivity extends AppCompatActivity {
         super.onStart();
 
         // Получение данных пользователя и отображение их в представлении
-        String nameText = getUserName();
-        binding.nameTextView.setText(nameText);
-        binding.additionalTextView.setText(getUserBio());
+//        String nameText = getUserName();
+//        binding.nameTextView.setText(nameText);
+//        binding.additionalTextView.setText(getUserBio());
         Users.getUserDataFromFirebase(getUID(), new Users.OnUserDataListener() {
             @Override
             public void onDataLoaded(String color, String userName, String bio, String photo1, String photo2, String photo3, String photo4,String photo5, String UID) {
@@ -278,20 +291,20 @@ public class OwnProfileActivity extends AppCompatActivity {
     }
 
     // Методы для получения данных пользователя из SharedPreferences
-    private String getUserBio() {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return sharedPreferences.getString("bio", "");
-    }
+//    private String getUserBio() {
+//        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+//        return sharedPreferences.getString("bio", "");
+//    }
 
 //    private int getUserAge() {
 //        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
 //        return sharedPreferences.getInt("age", 0);
 //    }
 
-    private String getUserName() {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return sharedPreferences.getString("name", "");
-    }
+//    private String getUserName() {
+//        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+//        return sharedPreferences.getString("name", "");
+//    }
 
     private boolean getChanges() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
@@ -357,6 +370,52 @@ public class OwnProfileActivity extends AppCompatActivity {
         imageOverlay.animate().alpha(1f).setDuration(300).start();
     }
 
+    private void getName(final OnNameReceivedListener listener) {
+        DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("name");
+        nameRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String name = snapshot.getValue(String.class);
+                if (name != null) {
+                    listener.onNameReceived(name);
+                } else {
+                    listener.onNameReceived(" ");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onNameReceived(" ");
+            }
+        });
+    }
+    interface OnNameReceivedListener {
+        void onNameReceived(String name);
+    }
+
+    private void getBio(final OnBioReceivedListener listener) {
+        DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("bio");
+        nameRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String bio = snapshot.getValue(String.class);
+                if (bio != null) {
+                    listener.onBioReceived(bio);
+                } else {
+                    listener.onBioReceived(" ");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onBioReceived(" ");
+            }
+        });
+    }
+
+    interface OnBioReceivedListener {
+        void onBioReceived(String bio);
+    }
     // Метод для получения UID пользователя из SharedPreferences
     private String getUID() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);

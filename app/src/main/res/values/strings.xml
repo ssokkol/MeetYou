@@ -87,5 +87,9 @@
     <string name="you_are_not_signed_in_message">You are not signed in!</string>
     <string name="bio_was_copied_in_clipboard">Bio was copied in clipboard</string>
     <string name="name_was_copied_in_clipboard">Name was copied in clipboard</string>
+    <string name="please_enter_new_name_message">Please enter new Name</string>
+    <string name="vip_features">- Unlimited return\n\n\n- Global search\n\n\n- No ads</string>
+    <string name="premium_features">- All VIP Features\n\n\n- Who liked you\n\n\n- 10 mega-sympathies\nper week\n\n\n- 5 profile boosts\nper month\n\n\n- Change profile color</string>
+    <string name="luxe_features">- All Premium Features\n\n\n- Add comments to\nmega-sympathies\n\n\n- 30 mega-sympathies\nper week\n\n\n- 20 profile boosts\nper month\n\n\n- Avoid list</string>
 
 </resources>

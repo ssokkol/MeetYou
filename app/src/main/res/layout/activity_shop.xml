@@ -13,7 +13,8 @@
         android:text="Shop"
         android:textSize="30sp"
         android:gravity="center"
-        android:textColor="@color/main"/>
+        android:textColor="@color/main"
+        android:elevation="15dp"/>
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/go_back_button"
         android:layout_width="match_parent"
@@ -50,7 +51,7 @@
             android:layout_height="300dp"
             android:layout_marginLeft="40dp"
             android:background="@drawable/statusbannervip"
-            android:text="- Unlimited return\n\n\n- Global search\n\n\n- No ads"
+            android:text="@string/vip_features"
             android:textColor="@color/white"
             android:gravity="left"
             android:paddingTop="75dp"
@@ -70,7 +71,7 @@
             android:layout_height="300dp"
             android:layout_marginLeft="160dp"
             android:background="@drawable/statusbannerprem"
-            android:text="- All VIP Features\n\n\n- Who liked you\n\n\n- 10 mega-sympathies\nper week\n\n\n- 5 profile boosts\nper month\n\n\n- Change profile color"
+            android:text="@string/premium_features"
             android:textColor="@color/white"
             android:gravity="right"
             android:paddingTop="59dp"
@@ -86,7 +87,7 @@
             android:layout_height="300dp"
             android:layout_marginLeft="40dp"
             android:background="@drawable/statusbannerluxe"
-            android:text="- All Premium Features\n\n\n- Add comments to\nmega-sympathies\n\n\n- 30 mega-sympathies\nper week\n\n\n- 20 profile boosts\nper month\n\n\n- Avoid list"
+            android:text="@string/luxe_features"
             android:textColor="@color/white"
             android:gravity="left"
             android:paddingTop="50dp"

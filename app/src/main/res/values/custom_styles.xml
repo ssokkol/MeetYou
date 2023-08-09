@@ -6,4 +6,8 @@
     <style name="rounded">
         <item name="cornerSize">20%</item>
     </style>
+    
+    <style name="white_checkbox">
+        <item name="colorAccent">@color/white</item>
+    </style>
 </resources>

@@ -27,23 +27,6 @@ public class ChangeNameActivity extends AppCompatActivity {
 
         getWindow().setStatusBarColor(getColor(R.color.main));
 
-        binding.currentNameEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                checkEditText();
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
         binding.newNameEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -65,9 +48,7 @@ public class ChangeNameActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!isNextActivated) {
-                    NotificationHelper.showCustomNotification(ChangeNameActivity.this, null, "Please enter NewName or CurrentName", getString(R.string.close), 0, 0, 0, 0);
-                } else if (!binding.currentNameEditText.getText().toString().equals(getUserName())) {
-                    NotificationHelper.showCustomNotification(ChangeNameActivity.this, null, "Wrong name", getString(R.string.close), 0, 0, 0, 0);
+                    NotificationHelper.showCustomNotification(ChangeNameActivity.this, null, getString(R.string.please_enter_new_name_message), getString(R.string.close), 0, 0, 0, 0);
                 } else {
                     setSomethingWasChanged(true);
                     Users.updateUserName(getUID(), binding.newNameEditText.getText().toString());
@@ -86,7 +67,7 @@ public class ChangeNameActivity extends AppCompatActivity {
     }
 
     private void checkEditText(){
-        if(binding.currentNameEditText.length() > 0 && binding.newNameEditText.length() > 0){
+        if(binding.newNameEditText.length() > 0){
             binding.confirmButton.setBackgroundResource(R.drawable.button_background_blue);
             binding.confirmButton.setTextColor(getColor(R.color.white));
             isNextActivated = true;
@@ -103,11 +84,6 @@ public class ChangeNameActivity extends AppCompatActivity {
         Users.updateUserName(getUID(), name);
         editor.putString("name", name);
         editor.apply();
-    }
-
-    private String getUserName(){
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return sharedPreferences.getString("name", "");
     }
 
     private void setSomethingWasChanged(boolean parameter){
