@@ -71,7 +71,14 @@ public class OwnProfileActivity extends AppCompatActivity {
             startActivity(intent);
             }
         });
-
+        binding.shopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(OwnProfileActivity.this,ShopActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         // Обработчик кнопки "Найти", переход к активности MainActivity и завершение текущей активности
         binding.findButton.setOnClickListener(new View.OnClickListener() {
             @Override

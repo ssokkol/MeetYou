@@ -276,6 +276,10 @@ public class UploadPhotoActivity extends AppCompatActivity {
         StorageReference folderRef = storageReference.child(folderName);
 
         String fileExtension = getFileExtension(photoUri);
+        if (!fileExtension.equalsIgnoreCase("jpg")) {
+            // Если формат не jpg, меняем его на jpg
+            fileExtension = "jpg";
+        }
         String uniqueFileName = "photo" + number + "." + fileExtension;
         if (!fileExtension.equalsIgnoreCase("jpg")) {
             // Если формат не jpg, меняем его на jpg
