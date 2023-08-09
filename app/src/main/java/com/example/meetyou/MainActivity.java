@@ -16,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.meetyou.MYFiles.NotificationHelper;
 import com.example.meetyou.MYFiles.PhotoAdapter;
 import com.example.meetyou.MYFiles.Users;
+import com.example.meetyou.Messager.ChatActivity;
 import com.example.meetyou.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -63,8 +64,23 @@ public class MainActivity extends AppCompatActivity {
         binding.likebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Users.updateUserLikes(getUID(), foundUID, MainActivity.this);
+                findUser();
                 NotificationHelper.showHeart(MainActivity.this);
+            }
+        });
+
+        binding.megasbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                findUser();
+            }
+        });
+
+        binding.megasbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                startActivity(intent);
             }
         });
 

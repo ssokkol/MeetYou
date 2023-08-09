@@ -3,9 +3,6 @@ package com.example.meetyou.MYFiles;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import androidx.annotation.NonNull;
-
-import com.example.meetyou.Messager.Chat;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -14,13 +11,10 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 public class Users {
-    HashMap<String, Boolean> likedUsers;
     String UID, email, name, bio, height, weight, gender, findGender, findHeight, findWeight, hobbies, target, color, status, photo1, photo2, photo3, photo4, photo5;
     int age, boosts, likes, megasymps;
 
@@ -56,15 +50,6 @@ public class Users {
         this.likes = likes;
         this.megasymps = megasymps;
         this.verified = verified;
-        likedUsers = new HashMap<>();
-    }
-
-    public void addLikedUser(String userUID) {
-        likedUsers.put(userUID, true);
-    }
-
-    public Set<String> getLikedUsers() {
-        return likedUsers.keySet();
     }
 
     public String getFindHeight() {
@@ -485,106 +470,6 @@ public class Users {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 listener.onDataNotAvailable();
-            }
-        });
-    }
-
-
-    //CHATTING с коментариями для эмирки, хотя, я надеюсь, что он сюды суваться не будет
-
-    public static void updateUserLikes(String currentUserUID, String likedUserUID,  Context context) {
-        DatabaseReference currentUserRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserUID);
-        DatabaseReference likedUserRef = FirebaseDatabase.getInstance().getReference("Users").child(likedUserUID);
-
-        // Проверяем, был ли пользователь уже лайкнут
-        currentUserRef.child("likedUsers").child(likedUserUID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // Пользователь уже был лайкнут, ничего не делаем
-                    return;
-                }
-
-                // Если пользователь еще не лайкал этого человека, добавляем лайк
-                currentUserRef.child("likedUsers").child(likedUserUID).setValue(true);
-
-                likedUserRef.child("likedUsers").child(currentUserUID).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot likedUserSnapshot) {
-                        if (likedUserSnapshot.exists()) {
-                            // Оба пользователей лайкнули друг друга, создаем объект Chat
-                            currentUserRef.child("name").addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot nameSnapshot) {
-                                    String currentUserUserName = nameSnapshot.getValue(String.class);
-                                    currentUserRef.child("photo1").addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot photoSnapshot) {
-                                            String currentUserProfilePhoto = photoSnapshot.getValue(String.class);
-                                            likedUserRef.child("name").addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot likedNameSnapshot) {
-                                                    String likedUserUserName = likedNameSnapshot.getValue(String.class);
-                                                    likedUserRef.child("photo1").addListenerForSingleValueEvent(new ValueEventListener() {
-                                                        @Override
-                                                        public void onDataChange(@NonNull DataSnapshot likedPhotoSnapshot) {
-                                                            String likedUserProfilePhoto = likedPhotoSnapshot.getValue(String.class);
-
-                                                            DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("Chats").push();
-                                                            String chatUID = chatRef.getKey();
-
-                                                            Chat currentUserChat = new Chat(likedUserUserName, likedUserProfilePhoto, null);
-                                                            Chat likedUserChat = new Chat(currentUserUserName, currentUserProfilePhoto, null);
-
-                                                            chatRef.child(currentUserUID).setValue(currentUserChat);
-                                                            chatRef.child(likedUserUID).setValue(likedUserChat);
-
-                                                            NotificationHelper.showCustomNotification(context, "LOVE", "You find your two-sided like!", null, 0, 0, 0,0);
-                                                            return;
-                                                        }
-
-                                                        @Override
-                                                        public void onCancelled(@NonNull DatabaseError error) {
-                                                            // Обработка ошибок, если не удалось получить фото понравившегося пользователя
-                                                        }
-                                                    });
-                                                    return;
-                                                }
-
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError error) {
-                                                    // Обработка ошибок, если не удалось получить имя понравившегося пользователя
-                                                }
-                                            });
-                                            return;
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-                                            // Обработка ошибок, если не удалось получить фото текущего пользователя
-                                        }
-                                    });
-                                    return;
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-                                    // Обработка ошибок, если не удалось получить имя текущего пользователя
-                                }
-                            });
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        // Обработка ошибок, если не удалось получить информацию о пользователях
-                    }
-                });
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Обработка ошибок, если не удалось проверить наличие лайка
             }
         });
     }

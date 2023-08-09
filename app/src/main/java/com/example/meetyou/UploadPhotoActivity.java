@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.meetyou.Database.DatabaseHelper;
+import com.example.meetyou.MYFiles.NotificationHelper;
 import com.example.meetyou.MYFiles.Users;
 import com.example.meetyou.databinding.ActivityUploadPhotoBinding;
 import com.google.firebase.storage.FirebaseStorage;
@@ -276,7 +277,12 @@ public class UploadPhotoActivity extends AppCompatActivity {
 
         String fileExtension = getFileExtension(photoUri);
         String uniqueFileName = "photo" + number + "." + fileExtension;
-
+        if (!fileExtension.equalsIgnoreCase("jpg")) {
+            // Если формат не jpg, меняем его на jpg
+//            fileExtension = "jpg";
+            NotificationHelper.showCustomNotification(UploadPhotoActivity.this, null, "Incorrect file format", null, 0,0,0,0);
+        }
+        else {
         StorageReference photoRef = folderRef.child(uniqueFileName);
 
         photoRef.putFile(photoUri)
@@ -310,6 +316,7 @@ public class UploadPhotoActivity extends AppCompatActivity {
                     // Error occurred while uploading the photo
                     Log.e(TAG, "Error uploading photo to Firebase Storage: " + exception.getMessage());
                 });
+        }
     }
 
     private void savePhotoUrlToSharedPreferences(String key, String photoUrl) {
