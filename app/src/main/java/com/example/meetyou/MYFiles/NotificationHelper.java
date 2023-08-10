@@ -125,7 +125,41 @@ public class NotificationHelper {
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         animateScreenDim(overlayView);
     }
+    public static void showMatchNotification(Context context, String title, String buttonLabel,
+                                              int backgroundColor, int textColor, int buttonBackgroundColor, int buttonTextColor) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View dialogView = inflater.inflate(R.layout.match_notification, null);
+        builder.setView(dialogView);
 
+        View overlayView = dialogView.findViewById(R.id.overlayView);
+        overlayView.setAlpha(0);
+
+        RelativeLayout mainLayout = dialogView.findViewById(R.id.main_layout);
+        mainLayout.setBackgroundResource(backgroundColor != 0 ? backgroundColor : defaultBackgroundColor);
+
+        TextView titleTextView = dialogView.findViewById(R.id.titleTextView);
+        titleTextView.setText(title != null ? title : "Match!");
+        titleTextView.setTextColor(textColor != 0 ? ContextCompat.getColor(context, textColor) : ContextCompat.getColor(context, defaultTextColor));
+
+        AppCompatButton waitButton = dialogView.findViewById(R.id.waitButton);
+        waitButton.setText(buttonLabel != null ? buttonLabel : "Close");
+        waitButton.setTextColor(buttonTextColor != 0 ? ContextCompat.getColor(context, buttonTextColor) : ContextCompat.getColor(context, defaultButtonTextColor));
+        waitButton.setBackgroundResource(buttonBackgroundColor != 0 ? buttonBackgroundColor : defaultButtonBackgroundColor);
+
+        waitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeNotificationWithAnimation(dialogView);
+            }
+        });
+
+        dialog = builder.create();
+        dialog.show();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        animateScreenDim(overlayView);
+    }
     private static void closeNotificationWithAnimation(View dialogView) {
         if (dialogView == null) {
             return;

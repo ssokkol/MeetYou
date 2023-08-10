@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 
+import com.example.meetyou.MYFiles.NotificationHelper;
+
 public class StartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class StartActivity extends AppCompatActivity {
             FAQButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    NotificationHelper.showMatchNotification(StartActivity.this,"Match!",null,0,0,0,0);
                     // NotificationHelper.showCustomNotification(StartActivity.this, null, null, null, R.drawable.button_background_dark_gray, 0, R.drawable.button_background, 0);
                 }
             });
