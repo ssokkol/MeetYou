@@ -51,7 +51,7 @@
             android:textColor="@color/black"
             android:layout_gravity="center"
             android:textColorHint="@color/neutral_dark_gray"
-            android:textSize="10dp" />
+            android:textSize="14sp" />
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/sendMessageButton"
             android:layout_width="30dp"

@@ -91,7 +91,7 @@ public class MessengerActivity extends AppCompatActivity {
                 ChatItem selectedChat = chatItems.get(position);
                 String chatUID = selectedChat.getChatUID();
                 String chatName;
-                getUserName(getUID(), new ChatAdapter.OnNameReceivedListener() {
+                getUserName(getUID(), new OnNameReceivedListener() {
                     @Override
                     public void onNameReceived(String name) {
                         if(name.equals(selectedChat.getName1())){
@@ -115,7 +115,7 @@ public class MessengerActivity extends AppCompatActivity {
     }
 
 
-    private void getUserName(String UID, final ChatAdapter.OnNameReceivedListener listener) {
+    private void getUserName(String UID, final OnNameReceivedListener listener) {
         DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference("Users").child(UID).child("name");
         nameRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

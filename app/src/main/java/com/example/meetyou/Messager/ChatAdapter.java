@@ -65,12 +65,17 @@ public class ChatAdapter extends BaseAdapter {
             @Override
             public void onUIDReceived(String UID) {
                 if (UID != null){
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
                     if(chatItem.getChatUID().startsWith(UID+"_") || chatItem.getChatUID().endsWith("_"+UID)) {
                         if (chatItem.getName1().equals(UID)) {
                             getUserName(chatItem.getName2(), new OnNameReceivedListener() {
                                 @Override
                                 public void onNameReceived(String name) {
                                     holder.nameTextView.setText(name);
+
+                                    editor.putString("chatName", name);
+                                    editor.apply();
                                 }
                             });
                             holder.messageTextView.setText(chatItem.getMessage2());
@@ -80,6 +85,9 @@ public class ChatAdapter extends BaseAdapter {
                                 @Override
                                 public void onNameReceived(String name) {
                                     holder.nameTextView.setText(name);
+
+                                    editor.putString("chatName", name);
+                                    editor.apply();
                                 }
                             });
 //                        holder.nameTextView.setText(chatItem.getName1());
