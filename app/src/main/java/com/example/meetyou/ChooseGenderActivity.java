@@ -104,15 +104,20 @@ public class ChooseGenderActivity extends AppCompatActivity {
                 } else if (isFemale) {
                     Users.updateUserGender(getUID(), "female");
                     Users.updateUserColor(getUID(), "#E337FF");
+                    Users.updateUserStatus(getUID(), "basic");
                     Users.updateUID(getUID());
                     Intent intent = new Intent(ChooseGenderActivity.this, CreateBioActivity.class);
                     startActivity(intent);
                 } else if (isMale) {
                     Users.updateUserGender(getUID(), "male");
                     Users.updateUserColor(getUID(), "#374BFF");
+                    Users.updateUserStatus(getUID(), "basic");
                     Users.updateUID(getUID());
                     Intent intent = new Intent(ChooseGenderActivity.this, CreateBioActivity.class);
                     startActivity(intent);
+                }
+                else {
+                    NotificationHelper.showCustomNotification(ChooseGenderActivity.this, null, getString(R.string.registration_error_message), null, 0,0,0,0);
                 }
             }
         });

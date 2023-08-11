@@ -2,12 +2,14 @@ package com.example.meetyou.Messager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,7 +41,9 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        getWindow().setStatusBarColor(getColor(R.color.main));
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.main));
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             NotificationHelper.showCustomNotification(ChatActivity.this, null, getString(R.string.you_are_not_signed_in_message), null, 0, 0, 0, 0);

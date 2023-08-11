@@ -67,7 +67,9 @@ public class SignInActivity extends AppCompatActivity {
                 loginUser(savedEmail, savedPassword);
             } else {
                 clearUserCredentials();
-                Toast.makeText(this, "Saved email or password is empty. Please log in again.", Toast.LENGTH_SHORT).show();
+                binding.rememberMeCheckbox.setChecked(false);
+                saveRememberMeState(false);
+                Toast.makeText(this, R.string.empty_saved_password_email_message, Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -90,8 +92,12 @@ public class SignInActivity extends AppCompatActivity {
                 String email = binding.mailText.getText().toString().trim();
                 String password = binding.password.getText().toString().trim();
 
-                // Сохранение состояния флага "Запомнить меня" в SharedPreferences
-                saveRememberMeState(binding.rememberMeCheckbox.isChecked());
+                if(binding.rememberMeCheckbox.isChecked()){
+                    saveUserCredentials(email, password);
+
+                    // Сохранение состояния флага "Запомнить меня" в SharedPreferences
+                    saveRememberMeState(binding.rememberMeCheckbox.isChecked());
+                }
 
                 // Проверка корректности формата электронной почты
                 if (!isValidEmail(email)) {

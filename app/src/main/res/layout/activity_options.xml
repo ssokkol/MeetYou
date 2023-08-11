@@ -97,7 +97,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:background="@drawable/buttonwitharrow"
-            android:text="Change bio"
+            android:text="@string/change_bio_button_text"
             android:textColor="@color/white"
             android:gravity="center_vertical"
             android:textAllCaps="false"

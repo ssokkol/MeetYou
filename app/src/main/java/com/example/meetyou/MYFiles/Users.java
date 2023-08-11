@@ -3,6 +3,9 @@ package com.example.meetyou.MYFiles;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.annotation.NonNull;
+
+import com.example.meetyou.Messager.ChatItem;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -442,7 +445,7 @@ public class Users {
         }
     }
 
-    public static void getRandomUserFromPool(String gender, String findGender, String findHeight, String findWeight, final OnUserDataListener listener) {
+    public static void getRandomUserFromPool(String gender, String findGender, String findHeight, String findWeight, String targetUID, final OnUserDataListener listener) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
         Query query = usersRef.orderByChild("gender").equalTo(findGender.equals("any") ? getRandomGender() : findGender);
 
@@ -458,10 +461,18 @@ public class Users {
                 }
 
                 if (!matchingUsers.isEmpty()) {
-                    int randomIndex = new Random().nextInt(matchingUsers.size());
-                    Users randomUser = matchingUsers.get(randomIndex);
-                    listener.onDataLoaded(randomUser.getColor(), randomUser.getName(), randomUser.getBio(),
-                            randomUser.getPhoto1(), randomUser.getPhoto2(), randomUser.getPhoto3(), randomUser.getPhoto4(), randomUser.getPhoto5(), randomUser.getUID());
+                    Users randomUser = null;
+                    do {
+                        int randomIndex = new Random().nextInt(matchingUsers.size());
+                        randomUser = matchingUsers.get(randomIndex);
+                    } while (randomUser != null && randomUser.getUID().equals(targetUID));
+
+                    if (randomUser != null) {
+                        listener.onDataLoaded(randomUser.getColor(), randomUser.getName(), randomUser.getBio(),
+                                randomUser.getPhoto1(), randomUser.getPhoto2(), randomUser.getPhoto3(), randomUser.getPhoto4(), randomUser.getPhoto5(), randomUser.getUID());
+                    } else {
+                        listener.onDataNotAvailable();
+                    }
                 } else {
                     listener.onDataNotAvailable();
                 }
@@ -470,6 +481,73 @@ public class Users {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 listener.onDataNotAvailable();
+            }
+        });
+    }
+
+
+
+    //CHATTING с коментариями для эмирки, хотя, я надеюсь, что он сюды суваться не будет
+    public static void updateUserLikes(String currentUserPhoto, String likedUserPhoto,String currentUserUID, String likedUserUID, Context context) {
+        String chatName = currentUserUID + "_" + likedUserUID;
+        DatabaseReference currentUserRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserUID);
+        DatabaseReference likedUserRef = FirebaseDatabase.getInstance().getReference("Users").child(likedUserUID);
+
+        // Проверяем, был ли пользователь уже лайкнут
+        currentUserRef.child("likedUsers").child(likedUserUID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // Пользователь уже был лайкнут, ничего не делаем
+                    return;
+                }
+
+                // Если пользователь еще не лайкал этого человека, добавляем лайк
+                currentUserRef.child("likedUsers").child(likedUserUID).setValue(true);
+
+                likedUserRef.child("likedUsers").child(currentUserUID).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot likedUserSnapshot) {
+                        if (likedUserSnapshot.exists()) {
+                            // Оба пользователей лайкнули друг друга, проверяем наличие чата
+                            DatabaseReference chatCheckRef = FirebaseDatabase.getInstance().getReference("Chats");
+
+                            chatCheckRef.orderByChild(currentUserUID + "/" + likedUserUID).equalTo(true).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot chatSnapshot) {
+                                    if (!chatSnapshot.exists()) {
+                                        // Чата еще нет, создаем чат
+                                        DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("Chats").child(chatName);
+                                        String chatUID = chatRef.getKey();
+
+                                        ChatItem currentUserChat = new ChatItem(chatName,currentUserPhoto, likedUserPhoto, currentUserUID, likedUserUID, "Hello there!", "Hello there!");
+//                                        ChatItem likedUserChat = new ChatItem(R.drawable.photo_1, currentUserUID, null);
+
+                                        chatRef.setValue(currentUserChat);
+//                                        chatRef.child(likedUserUID).setValue(likedUserChat);
+
+                                        NotificationHelper.showMatchNotification(context, null, null, 0, 0, 0, 0);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    // Обработка ошибок, если не удалось проверить наличие чата
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Обработка ошибок, если не удалось получить информацию о пользователях
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Обработка ошибок, если не удалось проверить наличие лайка
             }
         });
     }

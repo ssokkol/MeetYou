@@ -16,7 +16,6 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.meetyou.MYFiles.NotificationHelper;
 import com.example.meetyou.MYFiles.PhotoAdapter;
 import com.example.meetyou.MYFiles.Users;
-import com.example.meetyou.Messager.ChatActivity;
 import com.example.meetyou.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +29,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private List<String> currentUrls = new ArrayList<>();
+    private List<String> viewedUsersList = new ArrayList<>();
     FirebaseAuth mAuth;
     @NonNull ActivityMainBinding binding;
     String gender;
@@ -65,7 +65,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 findUser();
-                NotificationHelper.showHeart(MainActivity.this);
+                getProfilePhoto(new OnProfilePhotoReceivedListener() {
+                    @Override
+                    public void onProfilePhotoReceived(String profilePhoto) {
+
+                        Users.updateUserLikes(profilePhoto, currentUrls.get(0),getUID(), foundUID, MainActivity.this);
+                        NotificationHelper.showHeart(MainActivity.this);
+                    }
+                });
             }
         });
 
@@ -73,14 +80,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 findUser();
-            }
-        });
-
-        binding.megasbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ChatActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -116,6 +115,47 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 findUser();
+            }
+        });
+
+        binding.gobackbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!viewedUsersList.isEmpty()) {
+                    viewedUsersList.remove(viewedUsersList.size() - 1);
+
+                    if (!viewedUsersList.isEmpty()) {
+                        String lastViewedUID = viewedUsersList.get(viewedUsersList.size() - 1);
+                        getUserByUID(lastViewedUID, new Users.OnUserDataListener() {
+                            @Override
+                            public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4, String photo5, String UID) {
+                                binding.informationTextView.setText(userBio);
+                                binding.nameTextView.setText(userName);
+                                binding.genderColor2View.setBackgroundColor(Color.parseColor(color));
+                                binding.genderColorView.setBackgroundColor(Color.parseColor(color));
+
+                                currentUrls.clear();
+                                currentUrls.add(photo1);
+                                currentUrls.add(photo2);
+                                currentUrls.add(photo3);
+                                currentUrls.add(photo4);
+                                currentUrls.add(photo5);
+                                PhotoAdapter photoAdapter = new PhotoAdapter(currentUrls);
+                                binding.viewPager.setAdapter(photoAdapter);
+                                photoAdapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onDataLoaded(Users user) {
+                            }
+
+                            @Override
+                            public void onDataNotAvailable() {
+                                NotificationHelper.showCustomNotification(MainActivity.this, null, getString(R.string.something_went_wrong_message), null, 0,0,0,0);
+                            }
+                        });
+                    }
+                }
             }
         });
 
@@ -185,16 +225,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void findUser(){
-//        for(int i = 0; i < 10; i++){
-//            Log.e("Error", getFindHeight());
-//            getName(new OnNameReceivedListener() {
-//                @Override
-//                public void onNameReceived(String name) {
-//                    Log.e("Error", name);
-//                }
-//            });
-//        }
-        Users.getRandomUserFromPool(gender,findGender,findHeight,findWeight, new Users.OnUserDataListener() {
+        Users.getRandomUserFromPool(gender,findGender,findHeight,findWeight, getUID(),new Users.OnUserDataListener() {
             @Override
             public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5, String UID) {
                 binding.informationTextView.setText(userBio);
@@ -202,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
                 binding.genderColor2View.setBackgroundColor(Color.parseColor(color));
                 binding.genderColorView.setBackgroundColor(Color.parseColor(color));
                 foundUID = UID;
+                viewedUsersList.add(UID);
                 for(int i = 0; i < 10; i++){
                     Log.e("Error", foundUID+" Hello ");
                 }
@@ -226,4 +258,49 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void getProfilePhoto(final OnProfilePhotoReceivedListener listener) {
+        DatabaseReference photoRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("photo1");
+        photoRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String profilePhoto = snapshot.getValue(String.class);
+                if (profilePhoto != null) {
+                    listener.onProfilePhotoReceived(profilePhoto);
+                } else {
+                    listener.onProfilePhotoReceived(" ");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onProfilePhotoReceived(" ");
+            }
+        });
+    }
+    interface OnProfilePhotoReceivedListener {
+        void onProfilePhotoReceived(String profilePhoto);
+    }
+    public static void getUserByUID(String uid, final Users.OnUserDataListener listener) {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users").child(uid);
+
+        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Users user = dataSnapshot.getValue(Users.class);
+                if (user != null) {
+                    listener.onDataLoaded(user.getColor(), user.getName(), user.getBio(),
+                            user.getPhoto1(), user.getPhoto2(), user.getPhoto3(), user.getPhoto4(), user.getPhoto5(), user.getUID());
+                } else {
+                    listener.onDataNotAvailable();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.onDataNotAvailable();
+            }
+        });
+    }
+
 }

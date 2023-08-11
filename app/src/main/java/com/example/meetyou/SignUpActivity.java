@@ -81,8 +81,9 @@ public class SignUpActivity extends AppCompatActivity {
                     // Создаем нового пользователя и сохраняем его в базу данных
 //                    Users users = new Users(sanitizedEmail, false,"none", "none", "none", "none", "none", "none", "none", "none", "#2C59CC", "basic",0);
                     saveUID(sanitizedEmail);
-                    db = FirebaseDatabase.getInstance();
-                    reference = db.getReference("Users");
+                    saveUserEmail(email);
+//                    db = FirebaseDatabase.getInstance();
+//                    reference = db.getReference("Users");
 //                    reference.child(sanitizedEmail).setValue(users);
                 }
             } else {
@@ -171,7 +172,7 @@ public class SignUpActivity extends AppCompatActivity {
                     } else {
                         // Если email не зарегистрирован, регистрируем нового пользователя
                         registerUser(email, password);
-                        saveUserEmail(email);
+                        saveUserInfo(email, password);
                         Intent intent = new Intent(SignUpActivity.this, ChooseGenderActivity.class);
                         startActivity(intent);
                         finish();
@@ -212,6 +213,7 @@ public class SignUpActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("email", email);
         editor.putString("password", password);
+        editor.putBoolean("remember_me", true);
         editor.apply();
     }
 
@@ -225,7 +227,7 @@ public class SignUpActivity extends AppCompatActivity {
     private void saveUserEmail(String email){
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("userEmail", email);
+        editor.putString("email", email);
         editor.apply();
     }
 

@@ -38,12 +38,10 @@
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="70dp"
-        android:orientation="vertical"
-
-
-
-
-        >
+        android:orientation="vertical">
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buyvip"

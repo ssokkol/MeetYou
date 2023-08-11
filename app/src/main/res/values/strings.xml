@@ -91,5 +91,8 @@
     <string name="vip_features">- Unlimited return\n\n\n- Global search\n\n\n- No ads</string>
     <string name="premium_features">- All VIP Features\n\n\n- Who liked you\n\n\n- 10 mega-sympathies\nper week\n\n\n- 5 profile boosts\nper month\n\n\n- Change profile color</string>
     <string name="luxe_features">- All Premium Features\n\n\n- Add comments to\nmega-sympathies\n\n\n- 30 mega-sympathies\nper week\n\n\n- 20 profile boosts\nper month\n\n\n- Avoid list</string>
+    <string name="empty_saved_password_email_message">Saved email or password is empty. Please log in again.</string>
+    <string name="change_bio_button_text">Change bio</string>
+    <string name="something_went_wrong_message">Something went wrong!</string>
 
 </resources>

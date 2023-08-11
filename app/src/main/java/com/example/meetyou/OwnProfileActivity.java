@@ -21,12 +21,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
 import com.example.meetyou.MYFiles.Users;
-import com.example.meetyou.Messager.ChatActivity;
+import com.example.meetyou.Messager.MessengerActivity;
 import com.example.meetyou.databinding.ActivityOwnProfileBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,6 +36,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -209,7 +212,7 @@ public class OwnProfileActivity extends AppCompatActivity {
         binding.messageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(OwnProfileActivity.this, ChatActivity.class);
+                Intent intent = new Intent(OwnProfileActivity.this, MessengerActivity.class);
                 startActivity(intent);
             }
         });
@@ -389,7 +392,7 @@ public class OwnProfileActivity extends AppCompatActivity {
             }
         });
     }
-    interface OnNameReceivedListener {
+    public interface OnNameReceivedListener {
         void onNameReceived(String name);
     }
 

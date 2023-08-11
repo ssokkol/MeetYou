@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Messager.MessengerActivity">
+    tools:context=".Messager.MessengerActivity"
+    android:background="@color/white">
     <ListView
+        android:id="@+id/chats_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/main_header"
@@ -54,7 +56,7 @@
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/settingsbutton" />
             <Button
-                android:id="@+id/message_button"
+                android:id="@+id/setting_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent" />
@@ -73,7 +75,7 @@
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/profilebutton" />
             <Button
-                android:id="@+id/setting_button"
+                android:id="@+id/profile_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
