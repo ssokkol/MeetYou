@@ -20,41 +20,47 @@
         >
     </androidx.recyclerview.widget.RecyclerView>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/message_layout"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
-        android:elevation="15dp">
+        android:elevation="15dp"
+        android:layout_centerHorizontal="true">
+
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/send_message_button"
+            android:id="@+id/uploadFileButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/btn_bg_gray"
-            android:layout_marginRight="10dp"
-            android:elevation="0dp"
-            android:shadowColor="@android:color/transparent"/>
-
+            android:background="@drawable/addicon"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            />
         <EditText
             android:id="@+id/message_text"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_centerInParent="true"
-            android:layout_marginHorizontal="45dp"
+            android:layout_width="300dp"
+            android:layout_height="35dp"
             android:layout_marginVertical="5dp"
             android:background="@drawable/button_background_gray"
             android:gravity="center_vertical"
             android:hint="Enter message..."
+            android:layout_marginLeft="10dp"
             android:paddingLeft="10dp"
             android:textColor="@color/black"
+            android:layout_gravity="center"
             android:textColorHint="@color/neutral_dark_gray"
-            android:textSize="10dp"
-            />
+            android:textSize="10dp" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/sendMessageButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/arriow"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/main_header"
