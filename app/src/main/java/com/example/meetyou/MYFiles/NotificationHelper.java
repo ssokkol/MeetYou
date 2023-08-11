@@ -13,11 +13,18 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 
 import com.example.meetyou.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 public class NotificationHelper {
     private static AlertDialog dialog;
@@ -125,7 +132,7 @@ public class NotificationHelper {
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         animateScreenDim(overlayView);
     }
-    public static void showMatchNotification(Context context, String title, String buttonLabel,
+    public static void showMatchNotification(Context context, String currentChat,String title, String buttonLabel,
                                               int backgroundColor, int textColor, int buttonBackgroundColor, int buttonTextColor) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -146,6 +153,12 @@ public class NotificationHelper {
         waitButton.setText(buttonLabel != null ? buttonLabel : "Close");
         waitButton.setTextColor(buttonTextColor != 0 ? ContextCompat.getColor(context, buttonTextColor) : ContextCompat.getColor(context, defaultButtonTextColor));
         waitButton.setBackgroundResource(buttonBackgroundColor != 0 ? buttonBackgroundColor : defaultButtonBackgroundColor);
+
+        ImageView leftImage = dialogView.findViewById(R.id.match_own_user);
+        ImageView rightImage = dialogView.findViewById(R.id.match_new_user);
+
+        customPhotoLoadingToClient(currentChat, "profilePhoto1", leftImage);
+        customPhotoLoadingToClient(currentChat, "profilePhoto2", rightImage);
 
         waitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -277,5 +290,26 @@ public class NotificationHelper {
 
     public interface ButtonClickListener {
         void onButtonClick();
+    }
+
+    private static void customPhotoLoadingToClient(String currentChat, String photoName, ImageView imageView) {
+        DatabaseReference imagesRef = FirebaseDatabase.getInstance().getReference("Chats").child(currentChat).child(photoName);
+        imagesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String imageUrl = snapshot.getValue(String.class);
+                if (imageUrl != null) {
+                    // Загрузка изображения с помощью библиотеки Picasso
+                    Picasso.get().load(imageUrl).into(imageView);
+                } else {
+                    // Обработка ошибки, если изображение не удалось загрузить
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Обработка ошибки, если загрузка изображения не удалась
+            }
+        });
     }
 }

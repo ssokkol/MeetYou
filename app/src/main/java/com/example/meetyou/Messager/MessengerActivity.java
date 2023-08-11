@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -76,6 +77,25 @@ public class MessengerActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        binding.chatsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ChatItem selectedChat = chatItems.get(position);
+                String chatUID = selectedChat.getChatUID();
+
+                // Сохранение chatUID в SharedPreferences
+                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("chatUID", chatUID);
+                editor.apply();
+
+                // Запуск ChatActivity с передачей chatUID
+                Intent intent = new Intent(MessengerActivity.this, ChatActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private String getChatUID(){

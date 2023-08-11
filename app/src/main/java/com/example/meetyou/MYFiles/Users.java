@@ -526,7 +526,7 @@ public class Users {
                                         chatRef.setValue(currentUserChat);
 //                                        chatRef.child(likedUserUID).setValue(likedUserChat);
 
-                                        NotificationHelper.showMatchNotification(context, null, null, 0, 0, 0, 0);
+                                        NotificationHelper.showMatchNotification(context, chatName,null, null, 0, 0, 0, 0);
                                     }
                                 }
 

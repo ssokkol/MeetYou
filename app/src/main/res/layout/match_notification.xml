@@ -56,12 +56,13 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/match_own_user"
-                    app:riv_corner_radius="300dp"
-                    app:shapeAppearanceOverlay="@style/circular"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/photo_1" />
+                    android:src="@drawable/photo_1"
+                    app:riv_corner_radius="300dp"
+                    app:shapeAppearanceOverlay="@style/circular" />
+
                 <Space
                     android:layout_width="50dp"
                     android:layout_height="match_parent"/>

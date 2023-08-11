@@ -59,7 +59,7 @@ public class ChatActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     String messageText = binding.messageText.getText().toString().trim();
                     if (messageText.equals("")) return;
-                    FirebaseDatabase.getInstance().getReference().child("Users").child(getUID()).child("Messages").child(getUID()+"_to_").push().setValue(new Message(getUID(), messageText));
+                    FirebaseDatabase.getInstance().getReference().child("Chats").child(getChatUID()).child("Messages").push().setValue(new Message(getUID(), messageText));
                     binding.messageText.setText("");
                 }
             });
@@ -82,7 +82,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void displayAllMessages() {
-        FirebaseDatabase.getInstance().getReference().child("Users").child(getUID()).child("Messages").child(getUID()+"_to_").addChildEventListener(new ChildEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("Chats").child(getChatUID()).child("Messages").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Message message = dataSnapshot.getValue(Message.class);
@@ -127,6 +127,10 @@ public class ChatActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+    }
+    private String getChatUID(){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getString("chatUID", "");
     }
 
     private String getUID() {
