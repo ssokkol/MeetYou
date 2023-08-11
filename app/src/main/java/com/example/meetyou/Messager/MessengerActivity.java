@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -39,23 +40,27 @@ public class MessengerActivity extends AppCompatActivity {
         ArrayList<ChatItem> chatItems = new ArrayList<>();
 
         messagesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot chatSnapshot : dataSnapshot.getChildren()) {
                     String chatUID = chatSnapshot.child("chatUID").getValue(String.class);
-                    String photo1 = chatSnapshot.child("photo1").getValue(String.class);
-                    String photo2 = chatSnapshot.child("photo2").getValue(String.class);
-                    String name1 = chatSnapshot.child("name1").getValue(String.class);
-                    String name2 = chatSnapshot.child("name2").getValue(String.class);
-                    String message1 = chatSnapshot.child("message1").getValue(String.class);
-                    String message2 = chatSnapshot.child("message2").getValue(String.class);
-                    chatItems.add(new ChatItem(chatUID, photo1, photo2, name1, name2, message1, message2));
+                    if(chatUID.startsWith(getUID()+"_")||chatUID.endsWith("_"+getUID()))
+                    {
+                        String photo1 = chatSnapshot.child("photo1").getValue(String.class);
+                        String photo2 = chatSnapshot.child("photo2").getValue(String.class);
+                        String name1 = chatSnapshot.child("name1").getValue(String.class);
+                        String name2 = chatSnapshot.child("name2").getValue(String.class);
+                        String message1 = chatSnapshot.child("message1").getValue(String.class);
+                        String message2 = chatSnapshot.child("message2").getValue(String.class);
+                        chatItems.add(new ChatItem(chatUID, photo1, photo2, name1, name2, message1, message2));
+                    }
                 }
 
                 ChatAdapter chatAdapter = new ChatAdapter(MessengerActivity.this, chatItems);
-
                 ListView chatsListView = findViewById(R.id.chats_list_view);
                 chatsListView.setAdapter(chatAdapter);
+
             }
 
             @Override
@@ -81,12 +86,23 @@ public class MessengerActivity extends AppCompatActivity {
         binding.chatsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ChatItem selectedChat = chatItems.get(position);
-                String chatUID = selectedChat.getChatUID();
-
-                // Сохранение chatUID в SharedPreferences
                 SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
+                ChatItem selectedChat = chatItems.get(position);
+                String chatUID = selectedChat.getChatUID();
+                String chatName;
+                getUserName(getUID(), new ChatAdapter.OnNameReceivedListener() {
+                    @Override
+                    public void onNameReceived(String name) {
+                        if(name.equals(selectedChat.getName1())){
+                            editor.putString("chatName", selectedChat.getName2());
+                        }else{
+                            editor.putString("chatName", selectedChat.getName1());
+                        }
+                    }
+                });
+
+                // Сохранение chatUID в SharedPreferences
                 editor.putString("chatUID", chatUID);
                 editor.apply();
 
@@ -96,6 +112,31 @@ public class MessengerActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+
+    private void getUserName(String UID, final ChatAdapter.OnNameReceivedListener listener) {
+        DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference("Users").child(UID).child("name");
+        nameRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String name = snapshot.getValue(String.class);
+                if (name != null) {
+                    listener.onNameReceived(name);
+                } else {
+                    listener.onNameReceived(" ");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onNameReceived(" ");
+            }
+        });
+    }
+
+    interface OnNameReceivedListener {
+        void onNameReceived(String name);
     }
 
     private String getChatUID(){

@@ -1,0 +1,264 @@
+Index: app/src/main/java/com/example/meetyou/Messager/MessengerActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.meetyou.Messager;\r\n\r\nimport android.content.Intent;\r\nimport android.content.SharedPreferences;\r\nimport android.content.pm.ActivityInfo;\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.AdapterView;\r\nimport android.widget.ListView;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.core.content.ContextCompat;\r\n\r\nimport com.example.meetyou.OptionsActivity;\r\nimport com.example.meetyou.R;\r\nimport com.example.meetyou.databinding.ActivityMessengerBinding;\r\nimport com.google.firebase.database.DataSnapshot;\r\nimport com.google.firebase.database.DatabaseError;\r\nimport com.google.firebase.database.DatabaseReference;\r\nimport com.google.firebase.database.FirebaseDatabase;\r\nimport com.google.firebase.database.ValueEventListener;\r\n\r\nimport java.util.ArrayList;\r\n\r\npublic class MessengerActivity extends AppCompatActivity {\r\n    ActivityMessengerBinding binding;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        binding = ActivityMessengerBinding.inflate(getLayoutInflater());\r\n        setContentView(binding.getRoot());\r\n        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);\r\n\r\n        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.main));\r\n        FirebaseDatabase database = FirebaseDatabase.getInstance();\r\n        DatabaseReference messagesRef = database.getReference(\"Chats\");\r\n\r\n        ArrayList<ChatItem> chatItems = new ArrayList<>();\r\n\r\n        messagesRef.addListenerForSingleValueEvent(new ValueEventListener() {\r\n            @Override\r\n            public void onDataChange(DataSnapshot dataSnapshot) {\r\n                for (DataSnapshot chatSnapshot : dataSnapshot.getChildren()) {\r\n                    String chatUID = chatSnapshot.child(\"chatUID\").getValue(String.class);\r\n                    String photo1 = chatSnapshot.child(\"photo1\").getValue(String.class);\r\n                    String photo2 = chatSnapshot.child(\"photo2\").getValue(String.class);\r\n                    String name1 = chatSnapshot.child(\"name1\").getValue(String.class);\r\n                    String name2 = chatSnapshot.child(\"name2\").getValue(String.class);\r\n                    String message1 = chatSnapshot.child(\"message1\").getValue(String.class);\r\n                    String message2 = chatSnapshot.child(\"message2\").getValue(String.class);\r\n                    chatItems.add(new ChatItem(chatUID, photo1, photo2, name1, name2, message1, message2));\r\n                }\r\n\r\n                ChatAdapter chatAdapter = new ChatAdapter(MessengerActivity.this, chatItems);\r\n\r\n                ListView chatsListView = findViewById(R.id.chats_list_view);\r\n                chatsListView.setAdapter(chatAdapter);\r\n            }\r\n\r\n            @Override\r\n            public void onCancelled(DatabaseError databaseError) {\r\n            }\r\n        });\r\n\r\n        binding.profileButton.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                finish();\r\n            }\r\n        });\r\n\r\n        binding.settingButton.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                Intent intent = new Intent(MessengerActivity.this, OptionsActivity.class);\r\n                startActivity(intent);\r\n            }\r\n        });\r\n\r\n        binding.chatsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {\r\n            @Override\r\n            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {\r\n                ChatItem selectedChat = chatItems.get(position);\r\n                String chatUID = selectedChat.getChatUID();\r\n\r\n                // Сохранение chatUID в SharedPreferences\r\n                SharedPreferences sharedPreferences = getSharedPreferences(\"UserPrefs\", MODE_PRIVATE);\r\n                SharedPreferences.Editor editor = sharedPreferences.edit();\r\n                editor.putString(\"chatUID\", chatUID);\r\n                editor.apply();\r\n\r\n                // Запуск ChatActivity с передачей chatUID\r\n                Intent intent = new Intent(MessengerActivity.this, ChatActivity.class);\r\n                startActivity(intent);\r\n            }\r\n        });\r\n\r\n    }\r\n\r\n    private String getChatUID(){\r\n        SharedPreferences sharedPreferences = getSharedPreferences(\"UserPrefs\", MODE_PRIVATE);\r\n        return sharedPreferences.getString(\"chatUID\", \"\");\r\n    }\r\n\r\n    private String getUID() {\r\n        SharedPreferences sharedPreferences = getSharedPreferences(\"UserPrefs\", MODE_PRIVATE);\r\n        return sharedPreferences.getString(\"UID\", \"\");\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/meetyou/Messager/MessengerActivity.java b/app/src/main/java/com/example/meetyou/Messager/MessengerActivity.java
+--- a/app/src/main/java/com/example/meetyou/Messager/MessengerActivity.java	(revision 790c595833c254c31e4c4d2b5bf668e7287394e3)
++++ b/app/src/main/java/com/example/meetyou/Messager/MessengerActivity.java	(date 1691783971462)
+@@ -39,23 +39,27 @@
+         ArrayList<ChatItem> chatItems = new ArrayList<>();
+ 
+         messagesRef.addListenerForSingleValueEvent(new ValueEventListener() {
++
+             @Override
+             public void onDataChange(DataSnapshot dataSnapshot) {
+                 for (DataSnapshot chatSnapshot : dataSnapshot.getChildren()) {
+                     String chatUID = chatSnapshot.child("chatUID").getValue(String.class);
+-                    String photo1 = chatSnapshot.child("photo1").getValue(String.class);
+-                    String photo2 = chatSnapshot.child("photo2").getValue(String.class);
+-                    String name1 = chatSnapshot.child("name1").getValue(String.class);
+-                    String name2 = chatSnapshot.child("name2").getValue(String.class);
+-                    String message1 = chatSnapshot.child("message1").getValue(String.class);
+-                    String message2 = chatSnapshot.child("message2").getValue(String.class);
+-                    chatItems.add(new ChatItem(chatUID, photo1, photo2, name1, name2, message1, message2));
++                    if(chatUID.startsWith(getUID()+"_")||chatUID.endsWith("_"+getUID()))
++                    {
++                        String photo1 = chatSnapshot.child("photo1").getValue(String.class);
++                        String photo2 = chatSnapshot.child("photo2").getValue(String.class);
++                        String name1 = chatSnapshot.child("name1").getValue(String.class);
++                        String name2 = chatSnapshot.child("name2").getValue(String.class);
++                        String message1 = chatSnapshot.child("message1").getValue(String.class);
++                        String message2 = chatSnapshot.child("message2").getValue(String.class);
++                        chatItems.add(new ChatItem(chatUID, photo1, photo2, name1, name2, message1, message2));
++                    }
+                 }
+ 
+                 ChatAdapter chatAdapter = new ChatAdapter(MessengerActivity.this, chatItems);
+-
+                 ListView chatsListView = findViewById(R.id.chats_list_view);
+                 chatsListView.setAdapter(chatAdapter);
++
+             }
+ 
+             @Override
+Index: app/src/main/res/layout/activity_chat.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".Messager.ChatActivity\"\r\n    android:background=\"@color/white\">\r\n\r\n    <androidx.recyclerview.widget.RecyclerView\r\n        android:id=\"@+id/messages_list\"\r\n        android:layout_below=\"@+id/main_header\"\r\n        android:layout_above=\"@+id/message_layout\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:divider=\"@android:color/transparent\"\r\n        android:dividerHeight=\"5dp\"\r\n        android:transcriptMode=\"alwaysScroll\"\r\n        android:orientation=\"vertical\"\r\n        >\r\n    </androidx.recyclerview.widget.RecyclerView>\r\n\r\n    <RelativeLayout\r\n        android:id=\"@+id/message_layout\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"40dp\"\r\n        android:layout_alignParentBottom=\"true\"\r\n        android:background=\"@color/white\"\r\n        android:elevation=\"15dp\">\r\n        <androidx.appcompat.widget.AppCompatButton\r\n            android:id=\"@+id/send_message_button\"\r\n            android:layout_width=\"30dp\"\r\n            android:layout_height=\"30dp\"\r\n            android:layout_centerVertical=\"true\"\r\n            android:layout_alignParentRight=\"true\"\r\n            android:background=\"@drawable/btn_bg_gray\"\r\n            android:layout_marginRight=\"10dp\"\r\n            android:elevation=\"0dp\"\r\n            android:shadowColor=\"@android:color/transparent\"/>\r\n\r\n        <EditText\r\n            android:id=\"@+id/message_text\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"40dp\"\r\n            android:layout_centerInParent=\"true\"\r\n            android:layout_marginHorizontal=\"45dp\"\r\n            android:layout_marginVertical=\"5dp\"\r\n            android:background=\"@drawable/button_background_gray\"\r\n            android:gravity=\"center_vertical\"\r\n            android:hint=\"Enter message...\"\r\n            android:paddingLeft=\"10dp\"\r\n            android:textColor=\"@color/black\"\r\n            android:textColorHint=\"@color/neutral_dark_gray\"\r\n            android:textSize=\"10dp\"\r\n            />\r\n\r\n    </RelativeLayout>\r\n\r\n    <RelativeLayout\r\n        android:id=\"@+id/main_header\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"35dp\"\r\n        android:orientation=\"horizontal\"\r\n        android:elevation=\"15dp\"\r\n        android:background=\"@android:color/white\">\r\n        <FrameLayout\r\n            android:id=\"@+id/go_back_layout\"\r\n            android:layout_width=\"28dp\"\r\n            android:layout_height=\"42dp\"\r\n            android:layout_alignParentLeft=\"true\"\r\n            android:layout_marginLeft=\"5dp\">\r\n            <ImageView\r\n                android:id=\"@+id/go_back_image\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:padding=\"8dp\"\r\n                android:scaleType=\"fitCenter\"\r\n                android:scaleX=\"-0.8\"\r\n                android:scaleY=\"0.65\"\r\n                app:srcCompat=\"@drawable/arrow\"\r\n                app:tint=\"@color/neutral_dark_gray\" />\r\n            <Button\r\n                android:id=\"@+id/go_back_button\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:background=\"@android:color/transparent\" />\r\n        </FrameLayout>\r\n\r\n        <TextView\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_centerInParent=\"true\"\r\n            android:gravity=\"center\"\r\n            android:text=\"Nick_Name\"\r\n            android:textColor=\"@color/black\"\r\n            android:textSize=\"14sp\"\r\n            android:textStyle=\"normal\" />\r\n\r\n        <com.google.android.material.imageview.ShapeableImageView\r\n            android:layout_width=\"30dp\"\r\n            android:layout_height=\"30dp\"\r\n            android:layout_alignParentRight=\"true\"\r\n            android:layout_marginRight=\"15dp\"\r\n            android:layout_centerVertical=\"true\"\r\n            app:shapeAppearanceOverlay=\"@style/circular\"\r\n            android:src=\"@drawable/photo_1\"\r\n            android:scaleType=\"centerCrop\"/>\r\n    </RelativeLayout>\r\n\r\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_chat.xml b/app/src/main/res/layout/activity_chat.xml
+--- a/app/src/main/res/layout/activity_chat.xml	(revision 790c595833c254c31e4c4d2b5bf668e7287394e3)
++++ b/app/src/main/res/layout/activity_chat.xml	(date 1691774122697)
+@@ -51,8 +51,7 @@
+             android:paddingLeft="10dp"
+             android:textColor="@color/black"
+             android:textColorHint="@color/neutral_dark_gray"
+-            android:textSize="10dp"
+-            />
++            android:textSize="14sp" />
+ 
+     </RelativeLayout>
+ 
+Index: app/src/main/java/com/example/meetyou/Messager/ChatAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.meetyou.Messager;\r\n\r\nimport android.content.Context;\r\nimport android.content.SharedPreferences;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.BaseAdapter;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.annotation.NonNull;\r\n\r\nimport com.example.meetyou.R;\r\nimport com.google.firebase.database.DataSnapshot;\r\nimport com.google.firebase.database.DatabaseError;\r\nimport com.google.firebase.database.DatabaseReference;\r\nimport com.google.firebase.database.FirebaseDatabase;\r\nimport com.google.firebase.database.ValueEventListener;\r\nimport com.squareup.picasso.Picasso;\r\n\r\nimport java.util.ArrayList;\r\n\r\npublic class ChatAdapter extends BaseAdapter {\r\n    private Context context;\r\n    private ArrayList<ChatItem> chatItems;\r\n\r\n    public ChatAdapter(Context context, ArrayList<ChatItem> chatItems) {\r\n        this.context = context;\r\n        this.chatItems = chatItems;\r\n    }\r\n\r\n    @Override\r\n    public int getCount() {\r\n        return chatItems.size();\r\n    }\r\n\r\n    @Override\r\n    public Object getItem(int position) {\r\n        return chatItems.get(position);\r\n    }\r\n\r\n    @Override\r\n    public long getItemId(int position) {\r\n        return position;\r\n    }\r\n\r\n    @Override\r\n    public View getView(int position, View convertView, ViewGroup parent) {\r\n        ViewHolder holder;\r\n        if (convertView == null) {\r\n            convertView = LayoutInflater.from(context).inflate(R.layout.chat_layout, parent, false);\r\n            holder = new ViewHolder();\r\n            holder.profilePhoto = convertView.findViewById(R.id.profile_photo);\r\n            holder.nameTextView = convertView.findViewById(R.id.name_text_view);\r\n            holder.messageTextView = convertView.findViewById(R.id.message_text_view);\r\n            convertView.setTag(holder);\r\n        } else {\r\n            holder = (ViewHolder) convertView.getTag();\r\n        }\r\n\r\n        ChatItem chatItem = chatItems.get(position);\r\n        getUserUID(new OnUIDReceivedListener() {\r\n            @Override\r\n            public void onUIDReceived(String UID) {\r\n                if (UID != null){\r\n                    if (chatItem.getName1().equals(UID)) {\r\n                        getUserName(chatItem.getName2(), new OnNameReceivedListener() {\r\n                            @Override\r\n                            public void onNameReceived(String name) {\r\n                                holder.nameTextView.setText(name);\r\n                            }\r\n                        });\r\n                        holder.messageTextView.setText(chatItem.getMessage2());\r\n                        customPhotoLoadingToClient(chatItem.getChatUID(),\"profilePhoto2\", holder.profilePhoto);\r\n                    } else if (chatItem.getName2().equals(UID)) {\r\n                        getUserName(chatItem.getName1(), new OnNameReceivedListener() {\r\n                            @Override\r\n                            public void onNameReceived(String name) {\r\n                                holder.nameTextView.setText(name);\r\n                            }\r\n                        });\r\n//                        holder.nameTextView.setText(chatItem.getName1());\r\n                        holder.messageTextView.setText(chatItem.getMessage1());\r\n                        customPhotoLoadingToClient(chatItem.getChatUID(), \"profilePhoto1\", holder.profilePhoto);\r\n                    }\r\n                }\r\n            }\r\n        });\r\n        return convertView;\r\n    }\r\n\r\n    private static class ViewHolder {\r\n        ImageView profilePhoto;\r\n        TextView nameTextView;\r\n        TextView messageTextView;\r\n    }\r\n\r\n    private void getUserUID(final OnUIDReceivedListener listener) {\r\n        DatabaseReference UIDRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(getUID()).child(\"UID\");\r\n        UIDRef.addListenerForSingleValueEvent(new ValueEventListener() {\r\n            @Override\r\n            public void onDataChange(@NonNull DataSnapshot snapshot) {\r\n                String UID = snapshot.getValue(String.class);\r\n                if (UID != null) {\r\n                    listener.onUIDReceived(UID);\r\n                } else {\r\n                    listener.onUIDReceived(\" \");\r\n                }\r\n            }\r\n\r\n            @Override\r\n            public void onCancelled(@NonNull DatabaseError error) {\r\n                listener.onUIDReceived(\" \");\r\n            }\r\n        });\r\n    }\r\n\r\n    interface OnUIDReceivedListener {\r\n        void onUIDReceived(String UID);\r\n    }\r\n\r\n    private void getUserName(String UID, final OnNameReceivedListener listener) {\r\n        DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(UID).child(\"name\");\r\n        nameRef.addListenerForSingleValueEvent(new ValueEventListener() {\r\n            @Override\r\n            public void onDataChange(@NonNull DataSnapshot snapshot) {\r\n                String name = snapshot.getValue(String.class);\r\n                if (name != null) {\r\n                    listener.onNameReceived(name);\r\n                } else {\r\n                    listener.onNameReceived(\" \");\r\n                }\r\n            }\r\n\r\n            @Override\r\n            public void onCancelled(@NonNull DatabaseError error) {\r\n                listener.onNameReceived(\" \");\r\n            }\r\n        });\r\n    }\r\n\r\n    interface OnNameReceivedListener {\r\n        void onNameReceived(String name);\r\n    }\r\n\r\n    private void customPhotoLoadingToClient(String currentChat, String photoName, ImageView imageView) {\r\n        DatabaseReference imagesRef = FirebaseDatabase.getInstance().getReference(\"Chats\").child(currentChat).child(photoName);\r\n        imagesRef.addListenerForSingleValueEvent(new ValueEventListener() {\r\n            @Override\r\n            public void onDataChange(@NonNull DataSnapshot snapshot) {\r\n                String imageUrl = snapshot.getValue(String.class);\r\n                if (imageUrl != null) {\r\n                    // Загрузка изображения с помощью библиотеки Picasso\r\n                    Picasso.get().load(imageUrl).into(imageView);\r\n                } else {\r\n                    // Обработка ошибки, если изображение не удалось загрузить\r\n                }\r\n            }\r\n\r\n            @Override\r\n            public void onCancelled(@NonNull DatabaseError error) {\r\n                // Обработка ошибки, если загрузка изображения не удалась\r\n            }\r\n        });\r\n    }\r\n\r\n    private String getUID() {\r\n        SharedPreferences sharedPreferences = context.getSharedPreferences(\"UserPrefs\", Context.MODE_PRIVATE);\r\n        return sharedPreferences.getString(\"UID\", \"\");\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/meetyou/Messager/ChatAdapter.java b/app/src/main/java/com/example/meetyou/Messager/ChatAdapter.java
+--- a/app/src/main/java/com/example/meetyou/Messager/ChatAdapter.java	(revision 790c595833c254c31e4c4d2b5bf668e7287394e3)
++++ b/app/src/main/java/com/example/meetyou/Messager/ChatAdapter.java	(date 1691783959738)
+@@ -60,29 +60,35 @@
+         }
+ 
+         ChatItem chatItem = chatItems.get(position);
++        View finalConvertView = convertView;
+         getUserUID(new OnUIDReceivedListener() {
+             @Override
+             public void onUIDReceived(String UID) {
+                 if (UID != null){
+-                    if (chatItem.getName1().equals(UID)) {
+-                        getUserName(chatItem.getName2(), new OnNameReceivedListener() {
+-                            @Override
+-                            public void onNameReceived(String name) {
+-                                holder.nameTextView.setText(name);
+-                            }
+-                        });
+-                        holder.messageTextView.setText(chatItem.getMessage2());
+-                        customPhotoLoadingToClient(chatItem.getChatUID(),"profilePhoto2", holder.profilePhoto);
+-                    } else if (chatItem.getName2().equals(UID)) {
+-                        getUserName(chatItem.getName1(), new OnNameReceivedListener() {
+-                            @Override
+-                            public void onNameReceived(String name) {
+-                                holder.nameTextView.setText(name);
+-                            }
+-                        });
++                    if(chatItem.getChatUID().startsWith(UID+"_") || chatItem.getChatUID().endsWith("_"+UID)) {
++                        if (chatItem.getName1().equals(UID)) {
++                            getUserName(chatItem.getName2(), new OnNameReceivedListener() {
++                                @Override
++                                public void onNameReceived(String name) {
++                                    holder.nameTextView.setText(name);
++                                }
++                            });
++                            holder.messageTextView.setText(chatItem.getMessage2());
++                            customPhotoLoadingToClient(chatItem.getChatUID(), "profilePhoto2", holder.profilePhoto);
++                        } else if (chatItem.getName2().equals(UID)) {
++                            getUserName(chatItem.getName1(), new OnNameReceivedListener() {
++                                @Override
++                                public void onNameReceived(String name) {
++                                    holder.nameTextView.setText(name);
++                                }
++                            });
+ //                        holder.nameTextView.setText(chatItem.getName1());
+-                        holder.messageTextView.setText(chatItem.getMessage1());
+-                        customPhotoLoadingToClient(chatItem.getChatUID(), "profilePhoto1", holder.profilePhoto);
++                            holder.messageTextView.setText(chatItem.getMessage1());
++                            customPhotoLoadingToClient(chatItem.getChatUID(), "profilePhoto1", holder.profilePhoto);
++                        }
++                    }else {
++                        finalConvertView.setVisibility(View.GONE);
++                        finalConvertView.setLayoutParams(new ViewGroup.LayoutParams(0,0));
+                     }
+                 }
+             }
+Index: app/src/main/res/layout/message_style.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"wrap_content\">\r\n\r\n\r\n    <TextView\r\n        android:id=\"@+id/message_user\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginTop=\"-17dp\"\r\n        android:layout_marginLeft=\"5dp\"\r\n        android:textSize=\"12sp\"\r\n        android:textColor=\"@color/neutral_dark_gray\"\r\n        android:text=\"Nick_name\"\r\n        android:layout_alignTop=\"@+id/message_layout\"\r\n        />\r\n    <RelativeLayout\r\n        android:id=\"@+id/message_layout\"\r\n        android:layout_marginTop=\"20dp\"\r\n        android:layout_marginLeft=\"5dp\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:background=\"@drawable/button_background_gray\">\r\n        <TextView\r\n            android:id=\"@+id/message_text\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:maxWidth=\"275dp\"\r\n            android:layout_centerVertical=\"true\"\r\n            android:text=\"Test message message message message message message message message message message message message message message\"\r\n            android:textSize=\"14sp\"\r\n            android:textColor=\"@color/black\"\r\n            android:paddingVertical=\"5dp\"\r\n            android:paddingLeft=\"15dp\"\r\n            android:paddingRight=\"15dp\"/>\r\n    </RelativeLayout>\r\n    <TextView\r\n        android:id=\"@+id/message_time\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginBottom=\"-10dp\"\r\n        android:layout_marginLeft=\"10dp\"\r\n        android:textSize=\"7sp\"\r\n        android:textColor=\"@color/neutral_dark_gray\"\r\n        android:text=\"10:20\"\r\n        android:layout_alignRight=\"@+id/message_layout\"\r\n        android:layout_alignBottom=\"@+id/message_layout\"\r\n        />\r\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/message_style.xml b/app/src/main/res/layout/message_style.xml
+--- a/app/src/main/res/layout/message_style.xml	(revision 790c595833c254c31e4c4d2b5bf668e7287394e3)
++++ b/app/src/main/res/layout/message_style.xml	(date 1691780724930)
+@@ -3,18 +3,35 @@
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content">
+ 
+-
++<LinearLayout
++    android:layout_width="wrap_content"
++    android:layout_height="wrap_content"
++    android:orientation="horizontal"
++    android:layout_marginTop="-17dp"
++    android:layout_alignTop="@+id/message_layout">
+     <TextView
+         android:id="@+id/message_user"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+-        android:layout_marginTop="-17dp"
++        android:layout_gravity="center_vertical"
+         android:layout_marginLeft="5dp"
+         android:textSize="12sp"
+         android:textColor="@color/neutral_dark_gray"
+         android:text="Nick_name"
+         android:layout_alignTop="@+id/message_layout"
+         />
++    <Space
++        android:layout_width="3dp"
++        android:layout_height="match_parent"/>
++    <TextView
++        android:id="@+id/message_time"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_gravity="center_vertical"
++        android:textSize="10sp"
++        android:textColor="@color/neutral_dark_gray"
++        android:text="10:20"/>
++</LinearLayout>
+     <RelativeLayout
+         android:id="@+id/message_layout"
+         android:layout_marginTop="20dp"
+@@ -35,16 +52,4 @@
+             android:paddingLeft="15dp"
+             android:paddingRight="15dp"/>
+     </RelativeLayout>
+-    <TextView
+-        android:id="@+id/message_time"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:layout_marginBottom="-10dp"
+-        android:layout_marginLeft="10dp"
+-        android:textSize="7sp"
+-        android:textColor="@color/neutral_dark_gray"
+-        android:text="10:20"
+-        android:layout_alignRight="@+id/message_layout"
+-        android:layout_alignBottom="@+id/message_layout"
+-        />
+ </RelativeLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/own_message_style.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"wrap_content\">\r\n\r\n\r\n    <TextView\r\n        android:id=\"@+id/message_user\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_alignParentRight=\"true\"\r\n        android:layout_marginTop=\"-17dp\"\r\n        android:layout_marginRight=\"15dp\"\r\n        android:textSize=\"12sp\"\r\n        android:textColor=\"@color/neutral_dark_gray\"\r\n        android:text=\"Nick_name\"\r\n        android:layout_alignTop=\"@+id/message_layout\"\r\n        />\r\n    <RelativeLayout\r\n        android:id=\"@+id/message_layout\"\r\n        android:layout_marginTop=\"20dp\"\r\n        android:layout_alignParentRight=\"true\"\r\n        android:layout_marginRight=\"5dp\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:background=\"@drawable/button_background_blue\">\r\n        <TextView\r\n            android:id=\"@+id/message_text\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:maxWidth=\"275dp\"\r\n            android:layout_centerVertical=\"true\"\r\n            android:text=\"Test message message message message message message message message message message message message message message\"\r\n            android:textSize=\"14sp\"\r\n            android:textColor=\"@color/white\"\r\n            android:paddingVertical=\"5dp\"\r\n            android:paddingLeft=\"15dp\"\r\n            android:paddingRight=\"15dp\"/>\r\n    </RelativeLayout>\r\n    <TextView\r\n        android:id=\"@+id/message_time\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginBottom=\"-10dp\"\r\n        android:layout_marginLeft=\"10dp\"\r\n        android:textSize=\"7sp\"\r\n        android:textColor=\"@color/neutral_dark_gray\"\r\n        android:text=\"10:20\"\r\n        android:layout_alignRight=\"@+id/message_layout\"\r\n        android:layout_alignBottom=\"@+id/message_layout\"\r\n        />\r\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/own_message_style.xml b/app/src/main/res/layout/own_message_style.xml
+--- a/app/src/main/res/layout/own_message_style.xml	(revision 790c595833c254c31e4c4d2b5bf668e7287394e3)
++++ b/app/src/main/res/layout/own_message_style.xml	(date 1691782789238)
+@@ -3,19 +3,35 @@
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content">
+ 
+-
+-    <TextView
+-        android:id="@+id/message_user"
++    <LinearLayout
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentRight="true"
++        android:orientation="horizontal"
+         android:layout_marginTop="-17dp"
+         android:layout_marginRight="15dp"
++        android:layout_alignTop="@+id/message_layout">
++    <TextView
++        android:id="@+id/message_user"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_gravity="center_vertical"
+         android:textSize="12sp"
+         android:textColor="@color/neutral_dark_gray"
+         android:text="Nick_name"
+-        android:layout_alignTop="@+id/message_layout"
+         />
++        <Space
++        android:layout_width="3dp"
++        android:layout_height="match_parent"/>
++        <TextView
++            android:id="@+id/message_time"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_gravity="center_vertical"
++            android:textSize="10sp"
++            android:textColor="@color/neutral_dark_gray"
++            android:text="10:20"/>
++    </LinearLayout>
+     <RelativeLayout
+         android:id="@+id/message_layout"
+         android:layout_marginTop="20dp"
+@@ -37,16 +53,4 @@
+             android:paddingLeft="15dp"
+             android:paddingRight="15dp"/>
+     </RelativeLayout>
+-    <TextView
+-        android:id="@+id/message_time"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:layout_marginBottom="-10dp"
+-        android:layout_marginLeft="10dp"
+-        android:textSize="7sp"
+-        android:textColor="@color/neutral_dark_gray"
+-        android:text="10:20"
+-        android:layout_alignRight="@+id/message_layout"
+-        android:layout_alignBottom="@+id/message_layout"
+-        />
+ </RelativeLayout>
+\ No newline at end of file

@@ -60,29 +60,35 @@ public class ChatAdapter extends BaseAdapter {
         }
 
         ChatItem chatItem = chatItems.get(position);
+        View finalConvertView = convertView;
         getUserUID(new OnUIDReceivedListener() {
             @Override
             public void onUIDReceived(String UID) {
                 if (UID != null){
-                    if (chatItem.getName1().equals(UID)) {
-                        getUserName(chatItem.getName2(), new OnNameReceivedListener() {
-                            @Override
-                            public void onNameReceived(String name) {
-                                holder.nameTextView.setText(name);
-                            }
-                        });
-                        holder.messageTextView.setText(chatItem.getMessage2());
-                        customPhotoLoadingToClient(chatItem.getChatUID(),"profilePhoto2", holder.profilePhoto);
-                    } else if (chatItem.getName2().equals(UID)) {
-                        getUserName(chatItem.getName1(), new OnNameReceivedListener() {
-                            @Override
-                            public void onNameReceived(String name) {
-                                holder.nameTextView.setText(name);
-                            }
-                        });
+                    if(chatItem.getChatUID().startsWith(UID+"_") || chatItem.getChatUID().endsWith("_"+UID)) {
+                        if (chatItem.getName1().equals(UID)) {
+                            getUserName(chatItem.getName2(), new OnNameReceivedListener() {
+                                @Override
+                                public void onNameReceived(String name) {
+                                    holder.nameTextView.setText(name);
+                                }
+                            });
+                            holder.messageTextView.setText(chatItem.getMessage2());
+                            customPhotoLoadingToClient(chatItem.getChatUID(), "profilePhoto2", holder.profilePhoto);
+                        } else if (chatItem.getName2().equals(UID)) {
+                            getUserName(chatItem.getName1(), new OnNameReceivedListener() {
+                                @Override
+                                public void onNameReceived(String name) {
+                                    holder.nameTextView.setText(name);
+                                }
+                            });
 //                        holder.nameTextView.setText(chatItem.getName1());
-                        holder.messageTextView.setText(chatItem.getMessage1());
-                        customPhotoLoadingToClient(chatItem.getChatUID(), "profilePhoto1", holder.profilePhoto);
+                            holder.messageTextView.setText(chatItem.getMessage1());
+                            customPhotoLoadingToClient(chatItem.getChatUID(), "profilePhoto1", holder.profilePhoto);
+                        }
+                    }else {
+                        finalConvertView.setVisibility(View.GONE);
+                        finalConvertView.setLayoutParams(new ViewGroup.LayoutParams(0,0));
                     }
                 }
             }

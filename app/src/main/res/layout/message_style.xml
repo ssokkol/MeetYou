@@ -3,18 +3,35 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="-17dp"
+    android:layout_alignTop="@+id/message_layout">
     <TextView
         android:id="@+id/message_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-17dp"
+        android:layout_gravity="center_vertical"
         android:layout_marginLeft="5dp"
         android:textSize="12sp"
         android:textColor="@color/neutral_dark_gray"
         android:text="Nick_name"
         android:layout_alignTop="@+id/message_layout"
         />
+    <Space
+        android:layout_width="3dp"
+        android:layout_height="match_parent"/>
+    <TextView
+        android:id="@+id/message_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textSize="10sp"
+        android:textColor="@color/neutral_dark_gray"
+        android:text="10:20"/>
+</LinearLayout>
     <RelativeLayout
         android:id="@+id/message_layout"
         android:layout_marginTop="20dp"
@@ -35,16 +52,4 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"/>
     </RelativeLayout>
-    <TextView
-        android:id="@+id/message_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="-10dp"
-        android:layout_marginLeft="10dp"
-        android:textSize="7sp"
-        android:textColor="@color/neutral_dark_gray"
-        android:text="10:20"
-        android:layout_alignRight="@+id/message_layout"
-        android:layout_alignBottom="@+id/message_layout"
-        />
 </RelativeLayout>

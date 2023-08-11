@@ -45,6 +45,10 @@ public class ChatActivity extends AppCompatActivity {
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.main));
 
+        binding.chatNameTextView.setText(getChatName());
+
+//        customPhotoLoadingToClient();
+
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             NotificationHelper.showCustomNotification(ChatActivity.this, null, getString(R.string.you_are_not_signed_in_message), null, 0, 0, 0, 0);
             FirebaseAuth.getInstance().signOut();
@@ -114,23 +118,35 @@ public class ChatActivity extends AppCompatActivity {
         messageList.clear();
     }
 
-    private void customPhotoLoadingToClient(String photoName, ImageView imageView) {
-        DatabaseReference Images = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child(photoName);
-        Images.addValueEventListener(new ValueEventListener() {
+    private void customPhotoLoadingToClient(String currentChat, String photoName, ImageView imageView) {
+        DatabaseReference imagesRef = FirebaseDatabase.getInstance().getReference("Chats").child(currentChat).child(photoName);
+        imagesRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String value = snapshot.getValue(String.class);
-                Picasso.get().load(value).into(imageView);
+                String imageUrl = snapshot.getValue(String.class);
+                if (imageUrl != null) {
+                    // Загрузка изображения с помощью библиотеки Picasso
+                    Picasso.get().load(imageUrl).into(imageView);
+                } else {
+                    // Обработка ошибки, если изображение не удалось загрузить
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                // Обработка ошибки, если загрузка изображения не удалась
             }
         });
     }
+
     private String getChatUID(){
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("chatUID", "");
+    }
+
+    private String getChatName(){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getString("chatName", "");
     }
 
     private String getUID() {

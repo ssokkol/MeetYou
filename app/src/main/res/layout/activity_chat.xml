@@ -58,7 +58,8 @@
             android:layout_height="30dp"
             android:background="@drawable/arriow"
             android:layout_gravity="center"
-            android:layout_marginLeft="5dp"/>
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"/>
 
     </LinearLayout>
 
@@ -93,6 +94,7 @@
         </FrameLayout>
 
         <TextView
+            android:id="@+id/chat_name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
