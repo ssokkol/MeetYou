@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.meetyou.MYFiles.NotificationHelper;
+import com.example.meetyou.Messager.ChatActivity;
+import com.example.meetyou.Messager.MessengerActivity;
 import com.example.meetyou.databinding.ActivityOptionsBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,6 +45,15 @@ public class OptionsActivity extends AppCompatActivity {
         binding.profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
+            }
+        });
+
+        binding.messageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(OptionsActivity.this, MessengerActivity.class);
+                startActivity(intent);
                 finish();
             }
         });

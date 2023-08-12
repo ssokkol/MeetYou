@@ -1,0 +1,472 @@
+Index: app/src/main/res/layout/two_buttons_custom_notification_layout.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!-- res/layout/custom_notification_layout.xml -->\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_height=\"match_parent\"\r\n    android:layout_width=\"match_parent\"\r\n    android:background=\"@android:color/transparent\">\r\n    <View\r\n        android:id=\"@+id/overlayView\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:background=\"#80000000\" />\r\n        <RelativeLayout\r\n            android:id=\"@+id/matter_layout\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_centerHorizontal=\"true\"\r\n            android:layout_centerVertical=\"true\"\r\n            android:layout_gravity=\"center\"\r\n            android:gravity=\"center\"\r\n            android:background=\"@android:color/transparent\"\r\n            android:backgroundTint=\"@android:color/transparent\">\r\n            <RelativeLayout\r\n                android:id=\"@+id/main_layout\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"170dp\"\r\n                android:layout_marginLeft=\"40dp\"\r\n                android:layout_marginRight=\"40dp\"\r\n                android:background=\"@drawable/button_background_blue\">\r\n                <RelativeLayout\r\n                    android:id=\"@+id/header_title\"\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"60dp\">\r\n                    <TextView\r\n                        android:id=\"@+id/titleTextView\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:gravity=\"center\"\r\n                        android:text=\"Oops!\"\r\n                        android:textColor=\"@color/white\"\r\n                        android:textSize=\"24sp\"\r\n                        android:textStyle=\"bold\"\r\n                        android:layout_centerInParent=\"true\" />\r\n                </RelativeLayout>\r\n\r\n                <RelativeLayout\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"match_parent\"\r\n                    android:layout_marginLeft=\"10dp\"\r\n                    android:layout_marginRight=\"10dp\"\r\n                    android:layout_marginBottom=\"20dp\"\r\n                    android:layout_below=\"@id/header_title\">\r\n                <TextView\r\n                    android:id=\"@+id/messageTextView\"\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:gravity=\"center\"\r\n                    android:text=\"NotifyMessage\"\r\n                    android:textColor=\"@color/white\"\r\n                    android:textSize=\"16sp\"\r\n                    android:layout_centerHorizontal=\"true\"\r\n                    android:layout_marginTop=\"8dp\" />\r\n                </RelativeLayout>\r\n            </RelativeLayout>\r\n            <LinearLayout\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"36dp\"\r\n                android:layout_below=\"@+id/main_layout\"\r\n                android:layout_centerHorizontal=\"true\"\r\n                android:layout_marginTop=\"-15dp\"\r\n                android:orientation=\"horizontal\"\r\n                android:background=\"@drawable/button_background\">\r\n                <Button\r\n                    android:id=\"@+id/waitButton\"\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"36dp\"\r\n                    android:background=\"#00000000\"\r\n                    android:text=\"wait\"\r\n                    android:textColor=\"#2c59cc\"\r\n                    android:textSize=\"14sp\" />\r\n                <View\r\n                    android:layout_width=\"1dp\"\r\n                    android:layout_height=\"match_parent\"\r\n                    android:background=\"@color/main\"/>\r\n                <Button\r\n                    android:id=\"@+id/okay_Button\"\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"36dp\"\r\n                    android:background=\"#00000000\"\r\n                    android:text=\"@string/okay\"\r\n                    android:textColor=\"#2c59cc\"\r\n                    android:textSize=\"14sp\" />\r\n            </LinearLayout>\r\n    </RelativeLayout>\r\n</RelativeLayout>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/two_buttons_custom_notification_layout.xml b/app/src/main/res/layout/two_buttons_custom_notification_layout.xml
+--- a/app/src/main/res/layout/two_buttons_custom_notification_layout.xml	(revision c354bbb3498144d75668df542eaed069e880363d)
++++ b/app/src/main/res/layout/two_buttons_custom_notification_layout.xml	(date 1691786888599)
+@@ -21,7 +21,7 @@
+             <RelativeLayout
+                 android:id="@+id/main_layout"
+                 android:layout_width="match_parent"
+-                android:layout_height="170dp"
++                android:layout_height="140dp"
+                 android:layout_marginLeft="40dp"
+                 android:layout_marginRight="40dp"
+                 android:background="@drawable/button_background_blue">
+@@ -66,26 +66,26 @@
+                 android:layout_below="@+id/main_layout"
+                 android:layout_centerHorizontal="true"
+                 android:layout_marginTop="-15dp"
+-                android:orientation="horizontal"
+-                android:background="@drawable/button_background">
+-                <Button
++                android:orientation="horizontal">
++                <androidx.appcompat.widget.AppCompatButton
+                     android:id="@+id/waitButton"
+                     android:layout_width="wrap_content"
+                     android:layout_height="36dp"
+-                    android:background="#00000000"
++                    android:background="#ffffff"
+                     android:text="wait"
++                    android:layout_gravity="center"
+                     android:textColor="#2c59cc"
+                     android:textSize="14sp" />
+-                <View
+-                    android:layout_width="1dp"
+-                    android:layout_height="match_parent"
+-                    android:background="@color/main"/>
+-                <Button
++                <androidx.legacy.widget.Space
++                    android:layout_width="35dp"
++                    android:layout_height="0dp"/>
++                <androidx.appcompat.widget.AppCompatButton
+                     android:id="@+id/okay_Button"
+                     android:layout_width="wrap_content"
+                     android:layout_height="36dp"
+-                    android:background="#00000000"
++                    android:background="#ffffff"
+                     android:text="@string/okay"
++                    android:layout_gravity="center"
+                     android:textColor="#2c59cc"
+                     android:textSize="14sp" />
+             </LinearLayout>
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_04_08_2023_23_59_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_04_08_2023_23_59_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_04_08_2023_23_59_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_04_08_2023_23_59_[Changes]/shelved.patch	(revision c354bbb3498144d75668df542eaed069e880363d)
++++ /dev/null	(revision c354bbb3498144d75668df542eaed069e880363d)
+@@ -1,360 +0,0 @@
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_27_07_2023_22_22_[Changes]/shelved.patch
+-===================================================================
+-diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_27_07_2023_22_22_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_27_07_2023_22_22_[Changes]/shelved.patch
+-deleted file mode 100644
+---- a/.idea/shelf/Uncommitted_changes_before_Update_at_27_07_2023_22_22_[Changes]/shelved.patch	(revision cc9031a695e3cd2cf15811a88b006304a9417a0a)
+-+++ /dev/null	(revision cc9031a695e3cd2cf15811a88b006304a9417a0a)
+-@@ -1,131 +0,0 @@
+--Index: .idea/misc.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+--diff --git a/.idea/misc.xml b/.idea/misc.xml
+--deleted file mode 100644
+----- a/.idea/misc.xml	(revision 7ccc73d7720455a2d7be0b3b0d6efe4103477b22)
+--+++ /dev/null	(revision 7ccc73d7720455a2d7be0b3b0d6efe4103477b22)
+--@@ -1,16 +0,0 @@
+---<project version="4">
+---  <component name="ExternalStorageConfigurationManager" enabled="true" />
+---  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
+---    <output url="file://$PROJECT_DIR$/build/classes" />
+---  </component>
+---  <component name="ProjectType">
+---    <option name="id" value="Android" />
+---  </component>
+---  <component name="VisualizationToolProject">
+---    <option name="state">
+---      <ProjectState>
+---        <option name="scale" value="0.5" />
+---      </ProjectState>
+---    </option>
+---  </component>
+---</project>
+--\ No newline at end of file
+--Index: .idea/.gitignore
+--===================================================================
+--diff --git a/.idea/.gitignore b/.idea/.gitignore
+--deleted file mode 100644
+----- a/.idea/.gitignore	(revision 7ccc73d7720455a2d7be0b3b0d6efe4103477b22)
+--+++ /dev/null	(revision 7ccc73d7720455a2d7be0b3b0d6efe4103477b22)
+--@@ -1,3 +0,0 @@
+---# Default ignored files
+---/shelf/
+---/workspace.xml
+--Index: .idea/compiler.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+--diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+--deleted file mode 100644
+----- a/.idea/compiler.xml	(revision 7ccc73d7720455a2d7be0b3b0d6efe4103477b22)
+--+++ /dev/null	(revision 7ccc73d7720455a2d7be0b3b0d6efe4103477b22)
+--@@ -1,6 +0,0 @@
+---<?xml version="1.0" encoding="UTF-8"?>
+---<project version="4">
+---  <component name="CompilerConfiguration">
+---    <bytecodeTargetLevel target="17" />
+---  </component>
+---</project>
+--\ No newline at end of file
+--Index: .idea/gradle.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+--diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+--deleted file mode 100644
+----- a/.idea/gradle.xml	(revision 7ccc73d7720455a2d7be0b3b0d6efe4103477b22)
+--+++ /dev/null	(revision 7ccc73d7720455a2d7be0b3b0d6efe4103477b22)
+--@@ -1,19 +0,0 @@
+---<?xml version="1.0" encoding="UTF-8"?>
+---<project version="4">
+---  <component name="GradleMigrationSettings" migrationVersion="1" />
+---  <component name="GradleSettings">
+---    <option name="linkedExternalProjectsSettings">
+---      <GradleProjectSettings>
+---        <option name="testRunner" value="GRADLE" />
+---        <option name="distributionType" value="DEFAULT_WRAPPED" />
+---        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+---        <option name="modules">
+---          <set>
+---            <option value="$PROJECT_DIR$" />
+---            <option value="$PROJECT_DIR$/app" />
+---          </set>
+---        </option>
+---      </GradleProjectSettings>
+---    </option>
+---  </component>
+---</project>
+--\ No newline at end of file
+--Index: .idea/git_toolbox_prj.xml
+--===================================================================
+--diff --git a/.idea/git_toolbox_prj.xml b/.idea/git_toolbox_prj.xml
+--deleted file mode 100644
+----- a/.idea/git_toolbox_prj.xml	(revision 7ccc73d7720455a2d7be0b3b0d6efe4103477b22)
+--+++ /dev/null	(revision 7ccc73d7720455a2d7be0b3b0d6efe4103477b22)
+--@@ -1,15 +0,0 @@
+---<?xml version="1.0" encoding="UTF-8"?>
+---<project version="4">
+---  <component name="GitToolBoxProjectSettings">
+---    <option name="commitMessageIssueKeyValidationOverride">
+---      <BoolValueOverride>
+---        <option name="enabled" value="true" />
+---      </BoolValueOverride>
+---    </option>
+---    <option name="commitMessageValidationEnabledOverride">
+---      <BoolValueOverride>
+---        <option name="enabled" value="true" />
+---      </BoolValueOverride>
+---    </option>
+---  </component>
+---</project>
+--\ No newline at end of file
+--Index: app/src/main/res/layout/activity_main.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".MainActivity\">\r\n\r\n\r\n    <ImageView\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:layout_marginBottom=\"90dp\"\r\n        android:layout_marginTop=\"42dp\"\r\n        app:srcCompat=\"@drawable/photo_2023_07_17_20_31_45\"\r\n        android:scaleType=\"centerCrop\"/>\r\n\r\n    <ImageView\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:src=\"@drawable/gradient_bottom\"\r\n        android:scaleY=\"0.4\"\r\n        android:layout_marginTop=\"600dp\"/>\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"90dp\"\r\n        android:layout_alignParentBottom=\"true\"\r\n        android:layout_gravity=\"bottom\"\r\n        android:layout_marginBottom=\"0dp\"\r\n        android:background=\"#000000\"\r\n        android:gravity=\"bottom\">\r\n\r\n\r\n\r\n        <FrameLayout\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\">\r\n\r\n            <View\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"@dimen/bottomline\"\r\n                android:background=\"#FFFFFF\" />\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageView5\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:scaleY=\"0.55\"\r\n                android:scaleX=\"0.50\"\r\n                android:scaleType=\"centerInside\"\r\n                app:srcCompat=\"@drawable/gobackbutton\" />\r\n\r\n            <Button\r\n                android:id=\"@+id/gobackbutton\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:background=\"@android:color/transparent\" />\r\n\r\n        </FrameLayout>\r\n\r\n        <FrameLayout\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\">\r\n\r\n            <View\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"@dimen/bottomline\"\r\n                android:background=\"#FFFFFF\" />\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageView6\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:scaleY=\"0.55\"\r\n                android:scaleX=\"0.55\"\r\n                android:scaleType=\"centerInside\"\r\n                app:srcCompat=\"@drawable/dislikebutton\" />\r\n\r\n            <Button\r\n                android:id=\"@+id/dislikebutton\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:background=\"@android:color/transparent\" />\r\n\r\n        </FrameLayout>\r\n\r\n        <FrameLayout\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\">\r\n\r\n            <View\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"@dimen/bottomline\"\r\n                android:background=\"#FFFFFF\" />\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageView7\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:scaleY=\"0.7\"\r\n                android:scaleX=\"0.7\"\r\n                android:scaleType=\"centerInside\"\r\n                app:srcCompat=\"@drawable/megasbutton\" />\r\n\r\n            <Button\r\n                android:id=\"@+id/megasbutton\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:background=\"@android:color/transparent\" />\r\n\r\n        </FrameLayout>\r\n\r\n        <FrameLayout\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\">\r\n\r\n            <View\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"@dimen/bottomline\"\r\n                android:background=\"#FFFFFF\" />\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageView8\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:scaleY=\"0.55\"\r\n                android:scaleX=\"0.55\"\r\n                android:scaleType=\"centerInside\"\r\n                app:srcCompat=\"@drawable/likebutton\" />\r\n\r\n            <Button\r\n                android:id=\"@+id/likebutton\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:background=\"@android:color/transparent\" />\r\n\r\n        </FrameLayout>\r\n\r\n        <FrameLayout\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\">\r\n\r\n            <View\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"@dimen/bottomline\"\r\n                android:background=\"#FFFFFF\" />\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageView9\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:scaleY=\"0.55\"\r\n                android:scaleX=\"0.55\"\r\n                android:scaleType=\"centerInside\"\r\n                app:srcCompat=\"@drawable/powerupbutton\" />\r\n\r\n            <Button\r\n                android:id=\"@+id/boostbutton\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:background=\"@android:color/transparent\" />\r\n\r\n        </FrameLayout>\r\n    </LinearLayout>\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"25dp\"\r\n        android:layout_alignParentStart=\"true\"\r\n        android:layout_alignParentEnd=\"true\"\r\n        android:layout_marginTop=\"42dp\"\r\n        android:gravity=\"center_horizontal\"\r\n        android:background=\"@drawable/gradient_shadow\">\r\n\r\n        <FrameLayout\r\n            android:layout_width=\"50dp\"\r\n            android:layout_height=\"14dp\"\r\n            android:layout_weight=\"1\">\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageselector1\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:layout_gravity=\"center\"\r\n                android:scaleType=\"centerCrop\"\r\n                android:scaleX=\"0.75\"\r\n                android:scaleY=\"0.45\"\r\n                app:srcCompat=\"@drawable/selectedimage\" />\r\n\r\n        </FrameLayout>\r\n\r\n        <FrameLayout\r\n            android:layout_width=\"50dp\"\r\n            android:layout_height=\"14dp\"\r\n            android:layout_marginStart=\"1dp\"\r\n            android:layout_weight=\"1\">\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageselector2\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:scaleType=\"centerCrop\"\r\n                android:scaleX=\"0.75\"\r\n                android:scaleY=\"0.45\"\r\n                app:srcCompat=\"@drawable/unselectedimage\" />\r\n\r\n        </FrameLayout>\r\n\r\n        <FrameLayout\r\n            android:layout_width=\"50dp\"\r\n            android:layout_height=\"14dp\"\r\n            android:layout_marginStart=\"1dp\"\r\n            android:layout_weight=\"1\">\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageselector3\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:scaleType=\"centerCrop\"\r\n                android:scaleX=\"0.75\"\r\n                android:scaleY=\"0.45\"\r\n                app:srcCompat=\"@drawable/unselectedimage\" />\r\n\r\n        </FrameLayout>\r\n\r\n        <FrameLayout\r\n            android:layout_width=\"50dp\"\r\n            android:layout_height=\"14dp\"\r\n            android:layout_marginStart=\"1dp\"\r\n            android:layout_weight=\"1\">\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageselector4\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:scaleType=\"centerCrop\"\r\n                android:scaleX=\"0.75\"\r\n                android:scaleY=\"0.45\"\r\n                app:srcCompat=\"@drawable/unselectedimage\" />\r\n\r\n        </FrameLayout>\r\n\r\n        <FrameLayout\r\n            android:layout_width=\"50dp\"\r\n            android:layout_height=\"14dp\"\r\n            android:layout_marginStart=\"1dp\"\r\n            android:layout_weight=\"1\">\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageselector5\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:scaleType=\"centerCrop\"\r\n                android:scaleX=\"0.75\"\r\n                android:scaleY=\"0.45\"\r\n                app:srcCompat=\"@drawable/unselectedimage\" />\r\n        </FrameLayout>\r\n    </LinearLayout>\r\n\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"42dp\"\r\n        android:orientation=\"horizontal\"\r\n        android:gravity=\"end\"\r\n        android:elevation=\"15dp\"\r\n        android:background=\"@android:color/white\">\r\n        <TextView\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"match_parent\"\r\n            android:gravity=\"center_vertical\"\r\n            android:text=\"meet\"\r\n            android:textSize=\"16sp\"\r\n            android:textStyle=\"bold\"\r\n            android:textColor=\"#2C59CC\"\r\n            android:paddingLeft=\"16dp\"\r\n            android:paddingRight=\"0dp\"/>\r\n        <TextView\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"match_parent\"\r\n            android:gravity=\"center_vertical\"\r\n            android:text=\"you\"\r\n            android:textSize=\"16sp\"\r\n            android:textColor=\"#000000\"\r\n            android:paddingLeft=\"5dp\"\r\n            android:paddingRight=\"16dp\"\r\n            android:layout_marginRight=\"230dp\"/>\r\n        <FrameLayout\r\n            android:layout_width=\"28dp\"\r\n            android:layout_height=\"42dp\"\r\n            android:layout_marginLeft=\"5dp\">\r\n            <ImageView\r\n                android:id=\"@+id/imageView2\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:scaleType=\"fitCenter\"\r\n                app:srcCompat=\"@drawable/messagerbutton\" />\r\n            <Button\r\n                android:id=\"@+id/profilebutton\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:background=\"@android:color/transparent\" />\r\n        </FrameLayout>\r\n        <FrameLayout\r\n            android:layout_width=\"28dp\"\r\n            android:layout_height=\"42dp\"\r\n            android:layout_marginLeft=\"5dp\"\r\n            android:layout_marginRight=\"5dp\">\r\n            <ImageView\r\n                android:id=\"@+id/imageView4\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:scaleType=\"fitCenter\"\r\n                app:srcCompat=\"@drawable/profilebutton\" />\r\n            <Button\r\n                android:id=\"@+id/anotherbutton\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:background=\"@android:color/transparent\"\r\n                />\r\n        </FrameLayout>\r\n    </LinearLayout>\r\n</RelativeLayout>\r\n
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+--diff --git a/app/src/main/res/layout/activity_main.xml b/app/src/main/res/layout/activity_main.xml
+----- a/app/src/main/res/layout/activity_main.xml	(revision 7ccc73d7720455a2d7be0b3b0d6efe4103477b22)
+--+++ b/app/src/main/res/layout/activity_main.xml	(date 1690060435380)
+--@@ -10,10 +10,10 @@
+--     <ImageView
+--         android:layout_width="match_parent"
+--         android:layout_height="match_parent"
+---        android:layout_marginBottom="90dp"
+--         android:layout_marginTop="42dp"
+---        app:srcCompat="@drawable/photo_2023_07_17_20_31_45"
+---        android:scaleType="centerCrop"/>
+--+        android:layout_marginBottom="90dp"
+--+        android:scaleType="centerCrop"
+--+        app:srcCompat="@drawable/photo_2023_07_17_20_31_45" />
+-- 
+--     <ImageView
+--         android:layout_width="match_parent"
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_27_07_2023_22_22__Changes_.xml
+-===================================================================
+-diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_27_07_2023_22_22__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_27_07_2023_22_22__Changes_.xml
+-deleted file mode 100644
+---- a/.idea/shelf/Uncommitted_changes_before_Update_at_27_07_2023_22_22__Changes_.xml	(revision cc9031a695e3cd2cf15811a88b006304a9417a0a)
+-+++ /dev/null	(revision cc9031a695e3cd2cf15811a88b006304a9417a0a)
+-@@ -1,4 +0,0 @@
+--<changelist name="Uncommitted_changes_before_Update_at_27_07_2023_22_22_[Changes]" date="1690485828206" recycled="true" deleted="true">
+--  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_07_2023_22_22_[Changes]/shelved.patch" />
+--  <option name="DESCRIPTION" value="Uncommitted changes before Update at 27.07.2023 22:22 [Changes]" />
+--</changelist>
+-\ No newline at end of file
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_28_07_2023_1_18_[Changes]/shelved.patch
+-===================================================================
+-diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_28_07_2023_1_18_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_28_07_2023_1_18_[Changes]/shelved.patch
+-deleted file mode 100644
+---- a/.idea/shelf/Uncommitted_changes_before_Update_at_28_07_2023_1_18_[Changes]/shelved.patch	(revision cc9031a695e3cd2cf15811a88b006304a9417a0a)
+-+++ /dev/null	(revision cc9031a695e3cd2cf15811a88b006304a9417a0a)
+-@@ -1,166 +0,0 @@
+--Index: build.gradle
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+>buildscript {\r\n    dependencies {\r\n        classpath 'com.google.gms:google-services:4.3.15'\r\n    }\r\n}// Top-level build file where you can add configuration options common to all sub-projects/modules.\r\nplugins {\r\n    id 'com.google.gms.google-services' version '4.3.15' apply false\r\n    id 'com.android.application' version '8.0.2' apply false\r\n    id 'com.android.library' version '8.0.2' apply false\r\n}
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+--diff --git a/build.gradle b/build.gradle
+----- a/build.gradle	(revision 643cf26a75f5e4d65ab88e0a0ccb2e3dd1fac6c7)
+--+++ b/build.gradle	(date 1690495658183)
+--@@ -1,6 +1,8 @@
+-- buildscript {
+--     dependencies {
+---        classpath 'com.google.gms:google-services:4.3.15'
+--+        classpath "com.android.tools.build:gradle:4.1.3"
+--+        classpath 'com.google.gms:google-services:4.3.5'
+--+
+--     }
+-- }// Top-level build file where you can add configuration options common to all sub-projects/modules.
+-- plugins {
+--Index: app/build.gradle
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+>plugins {\r\n    id 'com.android.application'\r\n    id 'com.google.gms.google-services'\r\n}\r\n\r\nandroid {\r\n    namespace 'com.example.meetyou'\r\n    compileSdk 33\r\n\r\n    defaultConfig {\r\n        applicationId \"com.example.meetyou\"\r\n        minSdk 24\r\n        targetSdk 33\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n    buildFeatures{\r\n        viewBinding true\r\n    }\r\n    compileOptions {\r\n        sourceCompatibility JavaVersion.VERSION_1_8\r\n        targetCompatibility JavaVersion.VERSION_1_8\r\n    }\r\n}\r\n\r\ndependencies {\r\n\r\n    implementation 'androidx.appcompat:appcompat:1.6.1'\r\n    implementation 'com.google.android.material:material:1.5.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'\r\n    implementation 'net.sourceforge.jtds:jtds:1.3.1'\r\n    implementation platform('com.google.firebase:firebase-bom:32.2.0')\r\n    implementation 'com.google.firebase:firebase-analytics'\r\n    implementation 'com.google.firebase:firebase-database:20.2.2'\r\n    implementation 'com.google.firebase:firebase-auth:22.1.0'\r\n    implementation 'androidx.viewpager2:viewpager2:1.0.0'\r\n    implementation 'com.makeramen:roundedimageview:2.3.0'\r\n    testImplementation 'junit:junit:4.13.2'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.5'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'\r\n}
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+--diff --git a/app/build.gradle b/app/build.gradle
+----- a/app/build.gradle	(revision 643cf26a75f5e4d65ab88e0a0ccb2e3dd1fac6c7)
+--+++ b/app/build.gradle	(date 1690495625545)
+--@@ -47,4 +47,6 @@
+--     testImplementation 'junit:junit:4.13.2'
+--     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+--     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+--+
+--+
+-- }
+--\ No newline at end of file
+--Index: .idea/misc.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+--diff --git a/.idea/misc.xml b/.idea/misc.xml
+--deleted file mode 100644
+----- a/.idea/misc.xml	(revision 643cf26a75f5e4d65ab88e0a0ccb2e3dd1fac6c7)
+--+++ /dev/null	(revision 643cf26a75f5e4d65ab88e0a0ccb2e3dd1fac6c7)
+--@@ -1,16 +0,0 @@
+---<project version="4">
+---  <component name="ExternalStorageConfigurationManager" enabled="true" />
+---  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
+---    <output url="file://$PROJECT_DIR$/build/classes" />
+---  </component>
+---  <component name="ProjectType">
+---    <option name="id" value="Android" />
+---  </component>
+---  <component name="VisualizationToolProject">
+---    <option name="state">
+---      <ProjectState>
+---        <option name="scale" value="0.5" />
+---      </ProjectState>
+---    </option>
+---  </component>
+---</project>
+--\ No newline at end of file
+--Index: .idea/.gitignore
+--===================================================================
+--diff --git a/.idea/.gitignore b/.idea/.gitignore
+--deleted file mode 100644
+----- a/.idea/.gitignore	(revision 643cf26a75f5e4d65ab88e0a0ccb2e3dd1fac6c7)
+--+++ /dev/null	(revision 643cf26a75f5e4d65ab88e0a0ccb2e3dd1fac6c7)
+--@@ -1,3 +0,0 @@
+---# Default ignored files
+---/shelf/
+---/workspace.xml
+--Index: .idea/compiler.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+--diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+--deleted file mode 100644
+----- a/.idea/compiler.xml	(revision 643cf26a75f5e4d65ab88e0a0ccb2e3dd1fac6c7)
+--+++ /dev/null	(revision 643cf26a75f5e4d65ab88e0a0ccb2e3dd1fac6c7)
+--@@ -1,6 +0,0 @@
+---<?xml version="1.0" encoding="UTF-8"?>
+---<project version="4">
+---  <component name="CompilerConfiguration">
+---    <bytecodeTargetLevel target="17" />
+---  </component>
+---</project>
+--\ No newline at end of file
+--Index: .idea/gradle.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+--diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+--deleted file mode 100644
+----- a/.idea/gradle.xml	(revision 643cf26a75f5e4d65ab88e0a0ccb2e3dd1fac6c7)
+--+++ /dev/null	(revision 643cf26a75f5e4d65ab88e0a0ccb2e3dd1fac6c7)
+--@@ -1,19 +0,0 @@
+---<?xml version="1.0" encoding="UTF-8"?>
+---<project version="4">
+---  <component name="GradleMigrationSettings" migrationVersion="1" />
+---  <component name="GradleSettings">
+---    <option name="linkedExternalProjectsSettings">
+---      <GradleProjectSettings>
+---        <option name="testRunner" value="GRADLE" />
+---        <option name="distributionType" value="DEFAULT_WRAPPED" />
+---        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+---        <option name="modules">
+---          <set>
+---            <option value="$PROJECT_DIR$" />
+---            <option value="$PROJECT_DIR$/app" />
+---          </set>
+---        </option>
+---      </GradleProjectSettings>
+---    </option>
+---  </component>
+---</project>
+--\ No newline at end of file
+--Index: .idea/git_toolbox_prj.xml
+--===================================================================
+--diff --git a/.idea/git_toolbox_prj.xml b/.idea/git_toolbox_prj.xml
+--deleted file mode 100644
+----- a/.idea/git_toolbox_prj.xml	(revision 643cf26a75f5e4d65ab88e0a0ccb2e3dd1fac6c7)
+--+++ /dev/null	(revision 643cf26a75f5e4d65ab88e0a0ccb2e3dd1fac6c7)
+--@@ -1,15 +0,0 @@
+---<?xml version="1.0" encoding="UTF-8"?>
+---<project version="4">
+---  <component name="GitToolBoxProjectSettings">
+---    <option name="commitMessageIssueKeyValidationOverride">
+---      <BoolValueOverride>
+---        <option name="enabled" value="true" />
+---      </BoolValueOverride>
+---    </option>
+---    <option name="commitMessageValidationEnabledOverride">
+---      <BoolValueOverride>
+---        <option name="enabled" value="true" />
+---      </BoolValueOverride>
+---    </option>
+---  </component>
+---</project>
+--\ No newline at end of file
+--Index: app/src/main/res/layout/activity_main.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".MainActivity\">\r\n\r\n    <RelativeLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:layout_marginTop=\"42dp\"\r\n        android:layout_marginBottom=\"90dp\">\r\n        <androidx.viewpager2.widget.ViewPager2\r\n            android:id=\"@+id/viewPager\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\" />\r\n\r\n        <RelativeLayout\r\n            xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"200dp\"\r\n            android:layout_alignParentBottom=\"true\"\r\n            android:background=\"@drawable/description_header_background\"\r\n            android:padding=\"16dp\">\r\n\r\n            <!-- Name Space -->\r\n            <RelativeLayout\r\n                android:id=\"@+id/nameSpaceLayout\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_alignParentBottom=\"true\"\r\n                android:layout_marginBottom=\"100dp\">\r\n\r\n                <View\r\n                    android:id=\"@+id/genderColor2View\"\r\n                    android:layout_width=\"2.2dp\"\r\n                    android:layout_height=\"50dp\"\r\n                    android:background=\"#e337ff\"\r\n                    android:layout_marginLeft=\"10dp\"/>\r\n\r\n                <TextView\r\n                    android:id=\"@+id/name_text_view\"\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:layout_marginLeft=\"20dp\"\r\n                    android:layout_marginTop=\"5dp\"\r\n                    android:layout_marginBottom=\"5dp\"\r\n                    android:text=\"Nick_Name\"\r\n                    android:textColor=\"#ffffff\"\r\n                    android:textSize=\"18sp\"/>\r\n                <TextView\r\n                    android:id=\"@+id/location_text_view\"\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:layout_marginLeft=\"20dp\"\r\n                    android:layout_marginTop=\"25dp\"\r\n                    android:layout_marginBottom=\"5dp\"\r\n                    android:text=\"Russia, Moscow\"\r\n                    android:textColor=\"#9fffffff\"\r\n                    android:textSize=\"14sp\"/>\r\n            </RelativeLayout>\r\n\r\n            <!-- Additional Space -->\r\n            <RelativeLayout\r\n                android:id=\"@+id/additionalSpaceLayout\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"75dp\"\r\n                android:layout_alignParentBottom=\"true\"\r\n                android:layout_marginBottom=\"15dp\"\r\n                android:layout_above=\"@+id/nameSpaceLayout\">\r\n\r\n                <View\r\n                    android:id=\"@+id/genderColorView\"\r\n                    android:layout_width=\"2.2dp\"\r\n                    android:layout_height=\"75dp\"\r\n                    android:layout_alignParentBottom=\"true\"\r\n                    android:background=\"#e337ff\"\r\n                    android:layout_marginLeft=\"10dp\"/>\r\n\r\n                <TextView\r\n                    android:id=\"@+id/informationTextView\"\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:layout_marginBottom=\"0dp\"\r\n                    android:layout_marginTop=\"5dp\"\r\n                    android:layout_marginLeft=\"20dp\"\r\n                    android:layout_marginRight=\"10dp\"\r\n                    android:gravity=\"left\"\r\n                    android:text=\"Information, hobbies, city, what do i like and many others.\\nI love chocolate cookies and National Geographic, if u understood what i’ve said rn write me in DM\"\r\n                    android:textColor=\"#ffffff\"\r\n                    android:textSize=\"14sp\"/>\r\n            </RelativeLayout>\r\n\r\n        </RelativeLayout>\r\n    </RelativeLayout>\r\n\r\n\r\n    <LinearLayout\r\n        android:id=\"@+id/bottom_layout\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"90dp\"\r\n        android:layout_alignParentBottom=\"true\"\r\n        android:layout_gravity=\"bottom\"\r\n        android:layout_marginBottom=\"0dp\"\r\n        android:background=\"#000000\"\r\n        android:gravity=\"bottom\">\r\n\r\n\r\n\r\n        <FrameLayout\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\">\r\n\r\n            <View\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"@dimen/bottomline\"\r\n                android:background=\"#FFFFFF\" />\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageView5\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:layout_margin=\"20dp\"\r\n                android:layout_gravity=\"center\"\r\n                android:scaleType=\"centerInside\"\r\n                app:srcCompat=\"@drawable/gobackbutton\" />\r\n\r\n            <Button\r\n                android:id=\"@+id/gobackbutton\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:background=\"@android:color/transparent\" />\r\n\r\n        </FrameLayout>\r\n\r\n        <FrameLayout\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\">\r\n\r\n            <View\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"@dimen/bottomline\"\r\n                android:background=\"#FFFFFF\" />\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageView6\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:layout_margin=\"20dp\"\r\n                android:layout_gravity=\"center\"\r\n                android:scaleType=\"centerInside\"\r\n                app:srcCompat=\"@drawable/dislikebutton\" />\r\n\r\n            <Button\r\n                android:id=\"@+id/dislikebutton\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:background=\"@android:color/transparent\" />\r\n\r\n        </FrameLayout>\r\n\r\n        <FrameLayout\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\">\r\n\r\n            <View\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"@dimen/bottomline\"\r\n                android:background=\"#FFFFFF\" />\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageView7\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:layout_margin=\"10dp\"\r\n                android:layout_gravity=\"center\"\r\n                android:scaleType=\"centerInside\"\r\n                app:srcCompat=\"@drawable/megasbutton\" />\r\n\r\n            <Button\r\n                android:id=\"@+id/megasbutton\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:background=\"@android:color/transparent\" />\r\n\r\n        </FrameLayout>\r\n\r\n        <FrameLayout\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\">\r\n\r\n            <View\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"@dimen/bottomline\"\r\n                android:background=\"#FFFFFF\" />\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageView8\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:layout_margin=\"20dp\"\r\n                android:layout_gravity=\"center\"\r\n                android:scaleType=\"centerInside\"\r\n                app:srcCompat=\"@drawable/likebutton\" />\r\n\r\n            <Button\r\n                android:id=\"@+id/likebutton\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:background=\"@android:color/transparent\" />\r\n\r\n        </FrameLayout>\r\n\r\n        <FrameLayout\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\">\r\n\r\n            <View\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"@dimen/bottomline\"\r\n                android:background=\"#FFFFFF\" />\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageView9\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:layout_margin=\"20dp\"\r\n                android:layout_gravity=\"center\"\r\n                android:scaleType=\"centerInside\"\r\n                app:srcCompat=\"@drawable/powerupbutton\" />\r\n\r\n            <Button\r\n                android:id=\"@+id/boostbutton\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center\"\r\n                android:background=\"@android:color/transparent\" />\r\n\r\n        </FrameLayout>\r\n    </LinearLayout>\r\n\r\n    <RelativeLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"25dp\"\r\n        android:layout_alignTop=\"@+id/main_header\"\r\n        android:layout_marginTop=\"42dp\"\r\n        android:gravity=\"center_horizontal\"\r\n        android:background=\"@drawable/gradient_shadow\">\r\n        <ImageView\r\n            android:id=\"@+id/choose_image\"\r\n            android:layout_marginRight=\"120dp\"\r\n            android:layout_marginLeft=\"120dp\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:src=\"@drawable/nochoosed\"/>\r\n    </RelativeLayout>\r\n\r\n\r\n    <RelativeLayout\r\n        android:id=\"@+id/main_header\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"42dp\"\r\n        android:orientation=\"horizontal\"\r\n        android:elevation=\"15dp\"\r\n        android:background=\"@android:color/white\">\r\n        <TextView\r\n            android:id=\"@+id/meet\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_marginLeft=\"25dp\"\r\n            android:gravity=\"center_vertical\"\r\n            android:layout_alignParentLeft=\"true\"\r\n            android:text=\"meet\"\r\n            android:textSize=\"16sp\"\r\n            android:textStyle=\"bold\"\r\n            android:textColor=\"#2C59CC\"/>\r\n        <TextView\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_marginLeft=\"40dp\"\r\n            android:gravity=\"center_vertical\"\r\n            android:layout_alignLeft=\"@+id/meet\"\r\n            android:text=\"you\"\r\n            android:textSize=\"16sp\"\r\n            android:textColor=\"#000000\"\r\n            android:paddingLeft=\"5dp\"\r\n            android:paddingRight=\"16dp\"/>\r\n        <FrameLayout\r\n            android:layout_width=\"28dp\"\r\n            android:layout_height=\"42dp\"\r\n            android:layout_alignRight=\"@+id/profile_layout\"\r\n            android:layout_marginRight=\"45dp\"\r\n            android:layout_marginLeft=\"5dp\">\r\n            <ImageView\r\n                android:id=\"@+id/imageView2\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:scaleType=\"fitCenter\"\r\n                app:srcCompat=\"@drawable/messagerbutton\" />\r\n            <Button\r\n                android:id=\"@+id/message_button\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:background=\"@android:color/transparent\" />\r\n        </FrameLayout>\r\n        <FrameLayout\r\n            android:id=\"@+id/profile_layout\"\r\n            android:layout_width=\"28dp\"\r\n            android:layout_height=\"42dp\"\r\n            android:layout_alignParentRight=\"true\"\r\n            android:layout_marginLeft=\"5dp\"\r\n            android:layout_marginRight=\"15dp\">\r\n            <ImageView\r\n                android:id=\"@+id/imageView4\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:scaleType=\"fitCenter\"\r\n                app:srcCompat=\"@drawable/profilebutton\" />\r\n            <Button\r\n                android:id=\"@+id/profile_button\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:background=\"@android:color/transparent\"\r\n                />\r\n        </FrameLayout>\r\n    </RelativeLayout>\r\n</RelativeLayout>\r\n
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+--diff --git a/app/src/main/res/layout/activity_main.xml b/app/src/main/res/layout/activity_main.xml
+----- a/app/src/main/res/layout/activity_main.xml	(revision 643cf26a75f5e4d65ab88e0a0ccb2e3dd1fac6c7)
+--+++ b/app/src/main/res/layout/activity_main.xml	(date 1690485978533)
+--@@ -9,8 +9,8 @@
+--     <RelativeLayout
+--         android:layout_width="match_parent"
+--         android:layout_height="match_parent"
+---        android:layout_marginTop="42dp"
+---        android:layout_marginBottom="90dp">
+--+        android:layout_marginBottom="90dp"
+--+        android:layout_marginTop="42dp">
+--         <androidx.viewpager2.widget.ViewPager2
+--             android:id="@+id/viewPager"
+--             android:layout_width="match_parent"
+-Index: .idea/deploymentTargetDropDown.xml
+-===================================================================
+-diff --git a/.idea/deploymentTargetDropDown.xml b/.idea/deploymentTargetDropDown.xml
+-deleted file mode 100644
+---- a/.idea/deploymentTargetDropDown.xml	(revision cc9031a695e3cd2cf15811a88b006304a9417a0a)
+-+++ /dev/null	(revision cc9031a695e3cd2cf15811a88b006304a9417a0a)
+-@@ -1,17 +0,0 @@
+--<?xml version="1.0" encoding="UTF-8"?>
+--<project version="4">
+--  <component name="deploymentTargetDropDown">
+--    <runningDeviceTargetSelectedWithDropDown>
+--      <Target>
+--        <type value="RUNNING_DEVICE_TARGET" />
+--        <deviceKey>
+--          <Key>
+--            <type value="VIRTUAL_DEVICE_PATH" />
+--            <value value="C:\Users\User\.android\avd\Pixel_3a_API_34_extension_level_7_x86_64.avd" />
+--          </Key>
+--        </deviceKey>
+--      </Target>
+--    </runningDeviceTargetSelectedWithDropDown>
+--    <timeTargetWasSelectedWithDropDown value="2023-08-03T22:23:17.788405100Z" />
+--  </component>
+--</project>
+-\ No newline at end of file
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_28_07_2023_1_18__Changes_.xml
+-===================================================================
+-diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_28_07_2023_1_18__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_28_07_2023_1_18__Changes_.xml
+-deleted file mode 100644
+---- a/.idea/shelf/Uncommitted_changes_before_Update_at_28_07_2023_1_18__Changes_.xml	(revision cc9031a695e3cd2cf15811a88b006304a9417a0a)
+-+++ /dev/null	(revision cc9031a695e3cd2cf15811a88b006304a9417a0a)
+-@@ -1,4 +0,0 @@
+--<changelist name="Uncommitted_changes_before_Update_at_28_07_2023_1_18_[Changes]" date="1690496325352" recycled="true" deleted="true">
+--  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_07_2023_1_18_[Changes]/shelved.patch" />
+--  <option name="DESCRIPTION" value="Uncommitted changes before Update at 28.07.2023 1:18 [Changes]" />
+--</changelist>
+-\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_04_08_2023_23_59__Changes_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_04_08_2023_23_59__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_04_08_2023_23_59__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_04_08_2023_23_59__Changes_.xml	(revision c354bbb3498144d75668df542eaed069e880363d)
++++ /dev/null	(revision c354bbb3498144d75668df542eaed069e880363d)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_04_08_2023_23_59_[Changes]" date="1691182762759" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_04_08_2023_23_59_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 04.08.2023 23:59 [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_05_08_2023_22_14_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_05_08_2023_22_14_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_05_08_2023_22_14_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_05_08_2023_22_14_[Changes]/shelved.patch	(revision c354bbb3498144d75668df542eaed069e880363d)
++++ /dev/null	(revision c354bbb3498144d75668df542eaed069e880363d)
+@@ -1,18 +0,0 @@
+-Index: app/src/main/java/com/example/meetyou/MYFiles/Users.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package com.example.meetyou.MYFiles;\r\n\r\nimport android.content.Context;\r\nimport android.content.SharedPreferences;\r\n\r\nimport com.google.firebase.database.DataSnapshot;\r\nimport com.google.firebase.database.DatabaseError;\r\nimport com.google.firebase.database.DatabaseReference;\r\nimport com.google.firebase.database.FirebaseDatabase;\r\nimport com.google.firebase.database.Query;\r\nimport com.google.firebase.database.ValueEventListener;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\nimport java.util.Random;\r\n\r\npublic class Users {\r\n    String UID, email, name, bio, height, weight, gender, findGender, findHeight, findWeight, hobbies, target, color, status, photo1, photo2, photo3, photo4, photo5;\r\n    int age, boosts, likes, megasymps;\r\n\r\n    boolean verified;\r\n\r\n    public Users() {\r\n    }\r\n\r\n    public Users(String UID, String email, String name, String bio, String height, String weight, String gender, String findGender, String findHeight, String findWeight, String hobbies, String target,\r\n                 String color, String status,\r\n                 String photo1, String photo2, String photo3, String photo4, int age, int boosts, int likes, int megasymps, boolean verified)\r\n    {\r\n        this.UID = UID;\r\n        this.email = email;\r\n        this.name = name;\r\n        this.bio = bio;\r\n        this.height = height;\r\n        this.weight = weight;\r\n        this.gender = gender;\r\n        this.findGender = findGender;\r\n        this.findHeight = findHeight;\r\n        this.findWeight = findWeight;\r\n        this.hobbies = hobbies;\r\n        this.target = target;\r\n        this.color = color;\r\n        this.status = status;\r\n        this.photo1 = photo1;\r\n        this.photo2 = photo2;\r\n        this.photo3 = photo3;\r\n        this.photo4 = photo4;\r\n        this.photo5 = photo5;\r\n        this.age = age;\r\n        this.boosts = boosts;\r\n        this.likes = likes;\r\n        this.megasymps = megasymps;\r\n        this.verified = verified;\r\n    }\r\n\r\n    public String getFindHeight() {\r\n        return findHeight;\r\n    }\r\n\r\n    public void setFindHeight(String findHeight) {\r\n        this.findHeight = findHeight;\r\n    }\r\n\r\n    public String getFindWeight() {\r\n        return findWeight;\r\n    }\r\n\r\n    public void setFindWeight(String findWeight) {\r\n        this.findWeight = findWeight;\r\n    }\r\n\r\n    public String getPhoto1() {\r\n        return photo1;\r\n    }\r\n\r\n    public void setPhoto1(String photo1) {\r\n        this.photo1 = photo1;\r\n    }\r\n\r\n    public String getPhoto2() {\r\n        return photo2;\r\n    }\r\n\r\n    public void setPhoto2(String photo2) {\r\n        this.photo2 = photo2;\r\n    }\r\n\r\n    public String getPhoto3() {\r\n        return photo3;\r\n    }\r\n\r\n    public void setPhoto3(String photo3) {\r\n        this.photo3 = photo3;\r\n    }\r\n\r\n    public String getPhoto4() {\r\n        return photo4;\r\n    }\r\n\r\n    public void setPhoto4(String photo4) {\r\n        this.photo4 = photo4;\r\n    }\r\n\r\n    public String getPhoto5() {\r\n        return photo5;\r\n    }\r\n\r\n    public void setPhoto5(String photo5) {\r\n        this.photo5 = photo5;\r\n    }\r\n\r\n    public int getBoosts() {\r\n        return boosts;\r\n    }\r\n\r\n    public void setBoosts(int boosts) {\r\n        this.boosts = boosts;\r\n    }\r\n\r\n    public int getLikes() {\r\n        return likes;\r\n    }\r\n\r\n    public void setLikes(int likes) {\r\n        this.likes = likes;\r\n    }\r\n\r\n    public int getMegasymps() {\r\n        return megasymps;\r\n    }\r\n\r\n    public void setMegasymps(int megasymps) {\r\n        this.megasymps = megasymps;\r\n    }\r\n\r\n    public boolean isVerified() {\r\n        return verified;\r\n    }\r\n\r\n    public void setVerified(boolean verified) {\r\n        this.verified = verified;\r\n    }\r\n\r\n    public String getColor() {\r\n        return color;\r\n    }\r\n\r\n    public void setColor(String color) {\r\n        this.color = color;\r\n    }\r\n\r\n    public String getStatus() {\r\n        return status;\r\n    }\r\n\r\n    public void setStatus(String status) {\r\n        this.status = status;\r\n    }\r\n\r\n    public String getUID() {\r\n        return UID;\r\n    }\r\n\r\n    public void setUID(String UID) {\r\n        this.UID = UID;\r\n    }\r\n\r\n    public String getEmail() {\r\n        return email;\r\n    }\r\n\r\n    public void setEmail(String email) {\r\n        this.email = email;\r\n    }\r\n\r\n    public String getName() {\r\n        return name;\r\n    }\r\n\r\n    public void setName(String name) {\r\n        this.name = name;\r\n    }\r\n\r\n    public String getBio() {\r\n        return bio;\r\n    }\r\n\r\n    public void setBio(String bio) {\r\n        this.bio = bio;\r\n    }\r\n\r\n    public String getHeight() {\r\n        return height;\r\n    }\r\n\r\n    public void setHeight(String height) {\r\n        this.height = height;\r\n    }\r\n\r\n    public String getWeight() {\r\n        return weight;\r\n    }\r\n\r\n    public void setWeight(String weight) {\r\n        this.weight = weight;\r\n    }\r\n\r\n    public String getGender() {\r\n        return gender;\r\n    }\r\n\r\n    public void setGender(String gender) {\r\n        this.gender = gender;\r\n    }\r\n\r\n    public String getFindGender() {\r\n        return findGender;\r\n    }\r\n\r\n    public void setFindGender(String findGender) {\r\n        this.findGender = findGender;\r\n    }\r\n\r\n    public String getHobbies() {\r\n        return hobbies;\r\n    }\r\n\r\n    public void setHobbies(String hobbies) {\r\n        this.hobbies = hobbies;\r\n    }\r\n\r\n    public String getTarget() {\r\n        return target;\r\n    }\r\n\r\n    public void setTarget(String target) {\r\n        this.target = target;\r\n    }\r\n\r\n    public int getAge() {\r\n        return age;\r\n    }\r\n\r\n    public void setAge(int age) {\r\n        this.age = age;\r\n    }\r\n\r\n    public static void updateUserName(String UID, String newName) {\r\n        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(UID).child(\"name\");\r\n        userRef.setValue(newName);\r\n    }\r\n\r\n    public static void updateUserBio(String UID, String newBio) {\r\n        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(UID).child(\"bio\");\r\n        userRef.setValue(newBio);\r\n    }\r\n\r\n    public static void updateUserHeight(String UID, String newHeight) {\r\n        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(UID).child(\"height\");\r\n        userRef.setValue(newHeight);\r\n    }\r\n\r\n    public static void updateUserWeight(String UID, String newWeight) {\r\n        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(UID).child(\"weight\");\r\n        userRef.setValue(newWeight);\r\n    }\r\n\r\n    public static void updateUserGender(String UID, String newGender) {\r\n        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(UID).child(\"gender\");\r\n        userRef.setValue(newGender);\r\n    }\r\n\r\n    public static void updateUserFindGender(String UID, String newFindGender) {\r\n        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(UID).child(\"findGender\");\r\n        userRef.setValue(newFindGender);\r\n    }\r\n\r\n    public static void updateUserHobbies(String UID, String newHobbies) {\r\n        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(UID).child(\"hobbies\");\r\n        userRef.setValue(newHobbies);\r\n    }\r\n\r\n    public static void updateUserTarget(String UID, String newTarget) {\r\n        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(UID).child(\"target\");\r\n        userRef.setValue(newTarget);\r\n    }\r\n\r\n    public static void updateUserColor(String UID, String newColor) {\r\n        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(UID).child(\"color\");\r\n        userRef.setValue(newColor);\r\n    }\r\n\r\n    public static void updateUserStatus(String UID, String newStatus) {\r\n        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(UID).child(\"status\");\r\n        userRef.setValue(newStatus);\r\n    }\r\n\r\n    public static void updateUserAge(String UID, int newAge) {\r\n        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(UID).child(\"age\");\r\n        userRef.setValue(newAge);\r\n    }\r\n\r\n    public static void updateVerification(String UID, boolean newVerification){\r\n        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(UID).child(\"verified\");\r\n        userRef.setValue(newVerification);\r\n    }\r\n\r\n\r\n    public static void updateUserPhoto(String UID, String photoName,String photoURL){\r\n        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(UID).child(photoName);\r\n        userRef.setValue(photoURL);\r\n    }\r\n\r\n\r\n    public static void updateUserFindHeight(String UID, String newFindHeight) {\r\n        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(UID).child(\"findHeight\");\r\n        userRef.setValue(newFindHeight);\r\n    }\r\n\r\n    public static void updateUserFindWeight(String UID, String newFindWeight) {\r\n        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(UID).child(\"findWeight\");\r\n        userRef.setValue(newFindWeight);\r\n    }\r\n\r\n    public static void getUserDataFromFirebase(String UID, final OnUserDataListener listener) {\r\n        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(UID);\r\n        userRef.addListenerForSingleValueEvent(new ValueEventListener() {\r\n            @Override\r\n            public void onDataChange(DataSnapshot dataSnapshot) {\r\n                Users user = dataSnapshot.getValue(Users.class);\r\n                if (user != null) {\r\n                    listener.onDataLoaded(user);\r\n                } else {\r\n                    listener.onDataNotAvailable();\r\n                }\r\n            }\r\n\r\n            @Override\r\n            public void onCancelled(DatabaseError databaseError) {\r\n                listener.onDataNotAvailable();\r\n            }\r\n        });\r\n    }\r\n\r\n    public interface OnUserDataListener {\r\n\r\n        void onDataLoaded(String userName, String userBio);\r\n\r\n        void onDataLoaded(Users user);\r\n        void onDataNotAvailable();\r\n    }\r\n\r\n    public static void saveUserDataToSharedPreferences(Context context, String UID) {\r\n        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(UID);\r\n        userRef.addListenerForSingleValueEvent(new ValueEventListener() {\r\n            @Override\r\n            public void onDataChange(DataSnapshot dataSnapshot) {\r\n                Users user = dataSnapshot.getValue(Users.class);\r\n\r\n                if (user != null) {\r\n                    SharedPreferences sharedPreferences = context.getSharedPreferences(\"UserPrefs\", Context.MODE_PRIVATE);\r\n                    SharedPreferences.Editor editor = sharedPreferences.edit();\r\n                    editor.putString(\"UID\", user.getUID());\r\n                    editor.putString(\"name\", user.getName());\r\n                    editor.putString(\"bio\", user.getBio());\r\n                    editor.putString(\"height\", user.getHeight());\r\n                    editor.putString(\"weight\", user.getWeight());\r\n                    editor.putString(\"gender\", user.getGender());\r\n                    editor.putString(\"findGender\", user.getFindGender());\r\n                    editor.putString(\"findHeight\", user.getFindHeight());\r\n                    editor.putString(\"findWeight\", user.getFindWeight());\r\n                    editor.putString(\"hobbies\", user.getHobbies());\r\n                    editor.putString(\"target\", user.getTarget());\r\n                    editor.putString(\"color\", user.getColor());\r\n                    editor.putString(\"status\", user.getStatus());\r\n                    editor.putString(\"photo1\", user.getPhoto1());\r\n                    editor.putString(\"photo2\", user.getPhoto2());\r\n                    editor.putString(\"photo3\", user.getPhoto3());\r\n                    editor.putString(\"photo4\", user.getPhoto4());\r\n                    editor.putString(\"photo5\", user.getPhoto5());\r\n                    editor.putInt(\"age\", user.getAge());\r\n                    editor.putInt(\"boosts\", user.getBoosts());\r\n                    editor.putInt(\"likes\", user.getLikes());\r\n                    editor.putInt(\"megasymps\", user.getMegasymps());\r\n                    editor.putBoolean(\"verified\", user.isVerified());\r\n                    editor.apply();\r\n                } else {\r\n                }\r\n            }\r\n\r\n            @Override\r\n            public void onCancelled(DatabaseError databaseError) {\r\n            }\r\n        });\r\n    }\r\n\r\n\r\n    public static Users getUserDataFromSharedPreferences(Context context) {\r\n        SharedPreferences sharedPreferences = context.getSharedPreferences(\"UserPrefs\", Context.MODE_PRIVATE);\r\n        String UID = sharedPreferences.getString(\"UID\", \"\");\r\n        String name = sharedPreferences.getString(\"name\", \"\");\r\n        String bio = sharedPreferences.getString(\"bio\", \"\");\r\n        String height = sharedPreferences.getString(\"height\", \"\");\r\n        String weight = sharedPreferences.getString(\"weight\", \"\");\r\n        String gender = sharedPreferences.getString(\"gender\", \"\");\r\n        String findGender = sharedPreferences.getString(\"findGender\", \"\");\r\n        String findHeight = sharedPreferences.getString(\"findHeight\", \"\");\r\n        String findWeight = sharedPreferences.getString(\"findWeight\", \"\");\r\n        String hobbies = sharedPreferences.getString(\"hobbies\", \"\");\r\n        String target = sharedPreferences.getString(\"target\", \"\");\r\n        String color = sharedPreferences.getString(\"color\", \"\");\r\n        String status = sharedPreferences.getString(\"status\", \"\");\r\n        String photo1 = sharedPreferences.getString(\"photo1\", \"\");\r\n        String photo2 = sharedPreferences.getString(\"photo2\", \"\");\r\n        String photo3 = sharedPreferences.getString(\"photo3\", \"\");\r\n        String photo4 = sharedPreferences.getString(\"photo4\", \"\");\r\n        String photo5 = sharedPreferences.getString(\"photo5\", \"\");\r\n        int age = sharedPreferences.getInt(\"age\", 0);\r\n        int boosts = sharedPreferences.getInt(\"boosts\", 0);\r\n        int likes = sharedPreferences.getInt(\"likes\", 0);\r\n        int megasymps = sharedPreferences.getInt(\"megasymps\", 0);\r\n        boolean verified = sharedPreferences.getBoolean(\"verified\", false);\r\n\r\n        return new Users(UID, name, bio, height, weight, gender, findGender, findHeight, findHeight, hobbies, target, color, status, photo1, photo2, photo3, photo4, photo5, age, boosts, likes, megasymps, verified);\r\n    }\r\n\r\n\r\n\r\n    public static void getRandomUserFromPool(String gender, String findGender, String findHeight, String findWeight, final OnUserDataListener listener) {\r\n        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference(\"Users\");\r\n        Query query = usersRef.orderByChild(\"gender\").equalTo(gender);\r\n\r\n        query.addListenerForSingleValueEvent(new ValueEventListener() {\r\n            @Override\r\n            public void onDataChange(DataSnapshot dataSnapshot) {\r\n                List<Users> femaleUsers = new ArrayList<>();\r\n                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {\r\n                    Users user = snapshot.getValue(Users.class);\r\n                    if (findGender.equals(\"any\")) {\r\n                        if (user != null && user.getHeight().equals(findHeight) && user.getWeight().equals(findWeight) && user.getFindGender().equals(gender)) {\r\n                            femaleUsers.add(user);\r\n                        }\r\n                    }else {\r\n                        if (user != null && user.getGender().equals(findGender) && user.getHeight().equals(findHeight) && user.getWeight().equals(findWeight) && user.getFindGender().equals(gender)) {\r\n                            femaleUsers.add(user);\r\n                        }\r\n                    }\r\n                }\r\n\r\n                if (!femaleUsers.isEmpty()) {\r\n                    int randomIndex = new Random().nextInt(femaleUsers.size());\r\n                    Users randomFemaleUser = femaleUsers.get(randomIndex);\r\n                    listener.onDataLoaded(randomFemaleUser.getName(), randomFemaleUser.getBio());\r\n                } else {\r\n                    listener.onDataNotAvailable();\r\n                }\r\n            }\r\n\r\n            @Override\r\n            public void onCancelled(DatabaseError databaseError) {\r\n                listener.onDataNotAvailable();\r\n            }\r\n        });\r\n    }\r\n\r\n}\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/src/main/java/com/example/meetyou/MYFiles/Users.java b/app/src/main/java/com/example/meetyou/MYFiles/Users.java
+---- a/app/src/main/java/com/example/meetyou/MYFiles/Users.java	(revision 41913542140fa0963b3f022386f1053d300bbc50)
+-+++ b/app/src/main/java/com/example/meetyou/MYFiles/Users.java	(date 1691185134052)
+-@@ -360,7 +360,6 @@
+-                 if (user != null) {
+-                     SharedPreferences sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+-                     SharedPreferences.Editor editor = sharedPreferences.edit();
+--                    editor.putString("UID", user.getUID());
+-                     editor.putString("name", user.getName());
+-                     editor.putString("bio", user.getBio());
+-                     editor.putString("height", user.getHeight());
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_05_08_2023_22_14__Changes_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_05_08_2023_22_14__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_05_08_2023_22_14__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_05_08_2023_22_14__Changes_.xml	(revision c354bbb3498144d75668df542eaed069e880363d)
++++ /dev/null	(revision c354bbb3498144d75668df542eaed069e880363d)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_05_08_2023_22_14_[Changes]" date="1691262862974" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05_08_2023_22_14_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 05.08.2023 22:14 [Changes]" />
+-</changelist>
+\ No newline at end of file
