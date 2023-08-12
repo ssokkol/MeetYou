@@ -1,5 +1,7 @@
 package com.example.meetyou.Messager;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,17 +12,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meetyou.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private Context context;
 
     private List<Message> messages;
     private String currentUserId;
     private static final int OWN_MESSAGE = 1;
     private static final int OTHER_MESSAGE = 2;
 
-    public MessageAdapter(List<Message> messages, String currentUserId) {
+    public MessageAdapter(Context context,List<Message> messages, String currentUserId) {
+        this.context = context;
         this.messages = messages;
         this.currentUserId = currentUserId;
     }
@@ -61,9 +70,10 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemViewType(int position) {
         Message message = messages.get(position);
-        if (message != null && message.getUserName() != null && message.getUserName().equals(currentUserId)) {
+        if(message.getUserName().equals(currentUserId)){
             return OWN_MESSAGE;
-        } else {
+        }
+        else{
             return OTHER_MESSAGE;
         }
     }
@@ -92,6 +102,34 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             message = itemView.findViewById(R.id.message_text);
             messageTime = itemView.findViewById(R.id.message_time);
         }
+    }
+
+    private void getName(final OnNameReceivedListener listener) {
+        DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("name");
+        nameRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String name = snapshot.getValue(String.class);
+                if (name != null) {
+                    listener.onNameReceived(name);
+                } else {
+                    listener.onNameReceived(" ");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onNameReceived(" ");
+            }
+        });
+    }
+    public interface OnNameReceivedListener {
+        void onNameReceived(String name);
+    }
+
+    private String getUID() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("UserRefs", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("UID", "");
     }
 }
 

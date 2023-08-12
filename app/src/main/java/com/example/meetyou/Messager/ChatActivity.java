@@ -61,8 +61,13 @@ public class ChatActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     String messageText = binding.messageText.getText().toString().trim();
                     if (messageText.equals("")) return;
-                    FirebaseDatabase.getInstance().getReference().child("Chats").child(getChatUID()).child("Messages").push().setValue(new Message(getUID(), messageText));
-                    binding.messageText.setText("");
+                    getName(new OnNameReceivedListener() {
+                        @Override
+                        public void onNameReceived(String name) {
+                            FirebaseDatabase.getInstance().getReference().child("Chats").child(getChatUID()).child("Messages").push().setValue(new Message(name, messageText));
+                            binding.messageText.setText("");
+                        }
+                    });
                 }
             });
 
@@ -78,9 +83,14 @@ public class ChatActivity extends AppCompatActivity {
     private void initRecyclerView() {
         RecyclerView messagesRecyclerView = findViewById(R.id.messages_list);
         messagesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        messageAdapter = new MessageAdapter(messageList, getUID());
-        messagesRecyclerView.setAdapter(messageAdapter);
-        displayAllMessages();
+        getName(new OnNameReceivedListener() {
+            @Override
+            public void onNameReceived(String name) {
+                messageAdapter = new MessageAdapter(ChatActivity.this,messageList, name);
+                messagesRecyclerView.setAdapter(messageAdapter);
+                displayAllMessages();
+            }
+        });
     }
 
     private void displayAllMessages() {
