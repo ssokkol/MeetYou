@@ -1,0 +1,168 @@
+Index: app/src/main/java/com/example/meetyou/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.meetyou;\r\n\r\nimport android.content.Intent;\r\nimport android.content.SharedPreferences;\r\nimport android.content.pm.ActivityInfo;\r\nimport android.graphics.Color;\r\nimport android.os.Bundle;\r\nimport android.util.Log;\r\nimport android.view.View;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.core.content.ContextCompat;\r\nimport androidx.viewpager2.widget.ViewPager2;\r\n\r\nimport com.example.meetyou.MYFiles.NotificationHelper;\r\nimport com.example.meetyou.MYFiles.PhotoAdapter;\r\nimport com.example.meetyou.MYFiles.Users;\r\nimport com.example.meetyou.databinding.ActivityMainBinding;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\nimport com.google.firebase.database.DataSnapshot;\r\nimport com.google.firebase.database.DatabaseError;\r\nimport com.google.firebase.database.DatabaseReference;\r\nimport com.google.firebase.database.FirebaseDatabase;\r\nimport com.google.firebase.database.ValueEventListener;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class MainActivity extends AppCompatActivity {\r\n    private List<String> currentUrls = new ArrayList<>();\r\n    private List<String> viewedUsersList = new ArrayList<>();\r\n    FirebaseAuth mAuth;\r\n    @NonNull ActivityMainBinding binding;\r\n    String gender;\r\n    String findGender;\r\n    String findWeight;\r\n    String findHeight;\r\n    Users user = new Users();\r\n    String foundUID;\r\n\r\n    int[] photos = {\r\n            R.drawable.photo_1,\r\n            R.drawable.photo_2,\r\n            R.drawable.photo_3,\r\n            R.drawable.photo_4,\r\n            R.drawable.photo_5\r\n    };\r\n    private int currentPosition = 0;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.main));\r\n        gender = getGender();\r\n        findGender = getFindGender();\r\n        findWeight = getFindWeight();\r\n        findHeight = getFindHeight();\r\n        binding = ActivityMainBinding.inflate(getLayoutInflater());\r\n        setContentView(binding.getRoot());\r\n        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);\r\n\r\n\r\n        binding.likebutton.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                findUser();\r\n                getProfilePhoto(new OnProfilePhotoReceivedListener() {\r\n                    @Override\r\n                    public void onProfilePhotoReceived(String profilePhoto) {\r\n\r\n                        Users.updateUserLikes(profilePhoto, currentUrls.get(0),getUID(), foundUID, MainActivity.this);\r\n                        NotificationHelper.showHeart(MainActivity.this);\r\n                    }\r\n                });\r\n            }\r\n        });\r\n\r\n        binding.megasbutton.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                findUser();\r\n            }\r\n        });\r\n\r\n        binding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {\r\n            @Override\r\n            public void onPageSelected(int position) {\r\n                currentPosition = position;\r\n                if (currentPosition == 0) {\r\n                    binding.chooseImage.setImageResource(R.drawable.left2choosed);\r\n                } else if (currentPosition == 1) {\r\n                    binding.chooseImage.setImageResource(R.drawable.left1choosed);\r\n                } else if (currentPosition == 2) {\r\n                    binding.chooseImage.setImageResource(R.drawable.centerchoosed);\r\n                } else if (currentPosition == 3) {\r\n                    binding.chooseImage.setImageResource(R.drawable.right1choosed);\r\n                } else {\r\n                    binding.chooseImage.setImageResource(R.drawable.right2choosed);\r\n                }\r\n            }\r\n        });\r\n\r\n        binding.profileButton.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                Intent intent = new Intent(MainActivity.this, OwnProfileActivity.class);\r\n                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);\r\n                startActivity(intent);\r\n                finish();\r\n            }\r\n        });\r\n\r\n        binding.dislikebutton.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                findUser();\r\n            }\r\n        });\r\n\r\n        binding.gobackbutton.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                if (!viewedUsersList.isEmpty()) {\r\n                    viewedUsersList.remove(viewedUsersList.size() - 1);\r\n\r\n                    if (!viewedUsersList.isEmpty()) {\r\n                        String lastViewedUID = viewedUsersList.get(viewedUsersList.size() - 1);\r\n                        getUserByUID(lastViewedUID, new Users.OnUserDataListener() {\r\n                            @Override\r\n                            public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4, String photo5, String UID) {\r\n                                binding.informationTextView.setText(userBio);\r\n                                binding.nameTextView.setText(userName);\r\n                                binding.genderColor2View.setBackgroundColor(Color.parseColor(color));\r\n                                binding.genderColorView.setBackgroundColor(Color.parseColor(color));\r\n\r\n                                currentUrls.clear();\r\n                                currentUrls.add(photo1);\r\n                                currentUrls.add(photo2);\r\n                                currentUrls.add(photo3);\r\n                                currentUrls.add(photo4);\r\n                                currentUrls.add(photo5);\r\n                                PhotoAdapter photoAdapter = new PhotoAdapter(currentUrls);\r\n                                binding.viewPager.setAdapter(photoAdapter);\r\n                                photoAdapter.notifyDataSetChanged();\r\n                            }\r\n\r\n                            @Override\r\n                            public void onDataLoaded(Users user) {\r\n                            }\r\n\r\n                            @Override\r\n                            public void onDataNotAvailable() {\r\n                                NotificationHelper.showCustomNotification(MainActivity.this, null, getString(R.string.something_went_wrong_message), null, 0,0,0,0);\r\n                            }\r\n                        });\r\n                    }\r\n                }\r\n            }\r\n        });\r\n\r\n    }\r\n    @Override\r\n    public void onStart() {\r\n\r\n        super.onStart();\r\n        findUser();\r\n    }\r\n    private String getUserEmail() {\r\n        SharedPreferences sharedPreferences = getSharedPreferences(\"UserPrefs\", MODE_PRIVATE);\r\n        return sharedPreferences.getString(\"email\", \"\");\r\n    }\r\n\r\n    private String getUserPassword() {\r\n        SharedPreferences sharedPreferences = getSharedPreferences(\"UserPrefs\", MODE_PRIVATE);\r\n        return sharedPreferences.getString(\"password\", \"\");\r\n    }\r\n\r\n    private String getUID(){\r\n        SharedPreferences sharedPreferences = getSharedPreferences(\"UserPrefs\", MODE_PRIVATE);\r\n        return sharedPreferences.getString(\"UID\", \"\");\r\n    }\r\n    private String getGender(){\r\n        SharedPreferences sharedPreferences = getSharedPreferences(\"UserPrefs\", MODE_PRIVATE);\r\n        return sharedPreferences.getString(\"gender\", \"\");\r\n//        return user.getGender();\r\n    }\r\n    private String getFindGender(){\r\n        SharedPreferences sharedPreferences = getSharedPreferences(\"UserPrefs\", MODE_PRIVATE);\r\n        return sharedPreferences.getString(\"findGender\", \"\");\r\n//        return user.getFindGender();\r\n    }\r\n    private String getFindWeight(){\r\n        SharedPreferences sharedPreferences = getSharedPreferences(\"UserPrefs\", MODE_PRIVATE);\r\n        return sharedPreferences.getString(\"findWeight\", \"\");\r\n//        return user.getFindWeight();\r\n    }\r\n    private String getFindHeight(){\r\n        SharedPreferences sharedPreferences = getSharedPreferences(\"UserPrefs\", MODE_PRIVATE);\r\n        return sharedPreferences.getString(\"findHeight\", \"\");\r\n//        return user.getFindHeight();\r\n    }\r\n\r\n    private void getName(final OnNameReceivedListener listener) {\r\n        DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(getUID()).child(\"name\");\r\n        nameRef.addListenerForSingleValueEvent(new ValueEventListener() {\r\n            @Override\r\n            public void onDataChange(@NonNull DataSnapshot snapshot) {\r\n                String name = snapshot.getValue(String.class);\r\n                if (name != null) {\r\n                    listener.onNameReceived(name);\r\n                } else {\r\n                    listener.onNameReceived(\" \");\r\n                }\r\n            }\r\n\r\n            @Override\r\n            public void onCancelled(@NonNull DatabaseError error) {\r\n                listener.onNameReceived(\" \");\r\n            }\r\n        });\r\n    }\r\n    interface OnNameReceivedListener {\r\n        void onNameReceived(String name);\r\n    }\r\n\r\n    private void findUser(){\r\n        Users.getRandomUserFromPool(gender,findGender,findHeight,findWeight, getUID(),new Users.OnUserDataListener() {\r\n            @Override\r\n            public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5, String UID) {\r\n                binding.informationTextView.setText(userBio);\r\n                binding.nameTextView.setText(userName);\r\n                binding.genderColor2View.setBackgroundColor(Color.parseColor(color));\r\n                binding.genderColorView.setBackgroundColor(Color.parseColor(color));\r\n                foundUID = UID;\r\n                viewedUsersList.add(UID);\r\n                for(int i = 0; i < 10; i++){\r\n                    Log.e(\"Error\", foundUID+\" Hello \");\r\n                }\r\n                currentUrls.clear();\r\n                currentUrls.add(photo1);\r\n                currentUrls.add(photo2);\r\n                currentUrls.add(photo3);\r\n                currentUrls.add(photo4);\r\n                currentUrls.add(photo5);\r\n                PhotoAdapter photoAdapter = new PhotoAdapter(currentUrls);\r\n                binding.viewPager.setAdapter(photoAdapter);\r\n                photoAdapter.notifyDataSetChanged();\r\n            }\r\n\r\n            @Override\r\n            public void onDataLoaded(Users user) {\r\n\r\n            }\r\n\r\n            @Override\r\n            public void onDataNotAvailable() {\r\n            }\r\n        });\r\n    }\r\n\r\n    private void getProfilePhoto(final OnProfilePhotoReceivedListener listener) {\r\n        DatabaseReference photoRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(getUID()).child(\"photo1\");\r\n        photoRef.addListenerForSingleValueEvent(new ValueEventListener() {\r\n            @Override\r\n            public void onDataChange(@NonNull DataSnapshot snapshot) {\r\n                String profilePhoto = snapshot.getValue(String.class);\r\n                if (profilePhoto != null) {\r\n                    listener.onProfilePhotoReceived(profilePhoto);\r\n                } else {\r\n                    listener.onProfilePhotoReceived(\" \");\r\n                }\r\n            }\r\n\r\n            @Override\r\n            public void onCancelled(@NonNull DatabaseError error) {\r\n                listener.onProfilePhotoReceived(\" \");\r\n            }\r\n        });\r\n    }\r\n    interface OnProfilePhotoReceivedListener {\r\n        void onProfilePhotoReceived(String profilePhoto);\r\n    }\r\n    public static void getUserByUID(String uid, final Users.OnUserDataListener listener) {\r\n        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference(\"Users\").child(uid);\r\n\r\n        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {\r\n            @Override\r\n            public void onDataChange(DataSnapshot dataSnapshot) {\r\n                Users user = dataSnapshot.getValue(Users.class);\r\n                if (user != null) {\r\n                    listener.onDataLoaded(user.getColor(), user.getName(), user.getBio(),\r\n                            user.getPhoto1(), user.getPhoto2(), user.getPhoto3(), user.getPhoto4(), user.getPhoto5(), user.getUID());\r\n                } else {\r\n                    listener.onDataNotAvailable();\r\n                }\r\n            }\r\n\r\n            @Override\r\n            public void onCancelled(DatabaseError databaseError) {\r\n                listener.onDataNotAvailable();\r\n            }\r\n        });\r\n    }\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/meetyou/MainActivity.java b/app/src/main/java/com/example/meetyou/MainActivity.java
+--- a/app/src/main/java/com/example/meetyou/MainActivity.java	(revision 1ffe9cb2928d99cf8696d97c15fc497404dfda36)
++++ b/app/src/main/java/com/example/meetyou/MainActivity.java	(date 1691877953066)
+@@ -6,6 +6,8 @@
+ import android.graphics.Color;
+ import android.os.Bundle;
+ import android.util.Log;
++import android.view.GestureDetector;
++import android.view.MotionEvent;
+ import android.view.View;
+ 
+ import androidx.annotation.NonNull;
+@@ -28,6 +30,7 @@
+ import java.util.List;
+ 
+ public class MainActivity extends AppCompatActivity {
++    private GestureDetector gestureDetector;
+     private List<String> currentUrls = new ArrayList<>();
+     private List<String> viewedUsersList = new ArrayList<>();
+     FirebaseAuth mAuth;
+@@ -60,7 +63,6 @@
+         setContentView(binding.getRoot());
+         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+ 
+-
+         binding.likebutton.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+@@ -121,45 +123,99 @@
+         binding.gobackbutton.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+-                if (!viewedUsersList.isEmpty()) {
+-                    viewedUsersList.remove(viewedUsersList.size() - 1);
++                goBackUserList();
++            }
++        });
++
++        gestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener(){
++           @Override
++           public boolean onDoubleTap(MotionEvent event){
++               findUser();
++               getProfilePhoto(new OnProfilePhotoReceivedListener() {
++                   @Override
++                   public void onProfilePhotoReceived(String profilePhoto) {
++
++                       Users.updateUserLikes(profilePhoto, currentUrls.get(0),getUID(), foundUID, MainActivity.this);
++                       NotificationHelper.showHeart(MainActivity.this);
++                   }
++               });
++               return true;
++           }
++            @Override
++            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
++                float deltaX = e2.getX() - e1.getX();
++                float deltaY = e2.getY() - e1.getY();
++
++                if (Math.abs(deltaY) > Math.abs(deltaX)) {
++                    if (deltaY < 0 && deltaX > 0) {
++                        findUser();
++                        getProfilePhoto(new OnProfilePhotoReceivedListener() {
++                            @Override
++                            public void onProfilePhotoReceived(String profilePhoto) {
++
++                                Users.updateUserLikes(profilePhoto, currentUrls.get(0),getUID(), foundUID, MainActivity.this);
++                                NotificationHelper.showHeart(MainActivity.this);
++                            }
++                        });
++                    } else {
++                        findUser();
++                    }
++                } else {
++                    if (deltaX < 0) {
++                        // Свайп влево
++                    } else {
++                        // Свайп вправо
++                    }
++                }
++
++                return true;
++            }
++        });
++    }
++
++    private void goBackUserList() {if (!viewedUsersList.isEmpty()) {
++        viewedUsersList.remove(viewedUsersList.size() - 1);
+ 
+-                    if (!viewedUsersList.isEmpty()) {
+-                        String lastViewedUID = viewedUsersList.get(viewedUsersList.size() - 1);
+-                        getUserByUID(lastViewedUID, new Users.OnUserDataListener() {
+-                            @Override
+-                            public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4, String photo5, String UID) {
+-                                binding.informationTextView.setText(userBio);
+-                                binding.nameTextView.setText(userName);
+-                                binding.genderColor2View.setBackgroundColor(Color.parseColor(color));
+-                                binding.genderColorView.setBackgroundColor(Color.parseColor(color));
++        if (!viewedUsersList.isEmpty()) {
++            String lastViewedUID = viewedUsersList.get(viewedUsersList.size() - 1);
++            getUserByUID(lastViewedUID, new Users.OnUserDataListener() {
++                @Override
++                public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4, String photo5, String UID) {
++                    binding.informationTextView.setText(userBio);
++                    binding.nameTextView.setText(userName);
++                    binding.genderColor2View.setBackgroundColor(Color.parseColor(color));
++                    binding.genderColorView.setBackgroundColor(Color.parseColor(color));
+ 
+-                                currentUrls.clear();
+-                                currentUrls.add(photo1);
+-                                currentUrls.add(photo2);
+-                                currentUrls.add(photo3);
+-                                currentUrls.add(photo4);
+-                                currentUrls.add(photo5);
+-                                PhotoAdapter photoAdapter = new PhotoAdapter(currentUrls);
+-                                binding.viewPager.setAdapter(photoAdapter);
+-                                photoAdapter.notifyDataSetChanged();
+-                            }
++                    currentUrls.clear();
++                    currentUrls.add(photo1);
++                    currentUrls.add(photo2);
++                    currentUrls.add(photo3);
++                    currentUrls.add(photo4);
++                    currentUrls.add(photo5);
++                    PhotoAdapter photoAdapter = new PhotoAdapter(currentUrls);
++                    binding.viewPager.setAdapter(photoAdapter);
++                    photoAdapter.notifyDataSetChanged();
++                }
+ 
+-                            @Override
+-                            public void onDataLoaded(Users user) {
+-                            }
++                @Override
++                public void onDataLoaded(Users user) {
++                }
+ 
+-                            @Override
+-                            public void onDataNotAvailable() {
+-                                NotificationHelper.showCustomNotification(MainActivity.this, null, getString(R.string.something_went_wrong_message), null, 0,0,0,0);
+-                            }
+-                        });
+-                    }
+-                }
+-            }
+-        });
++                @Override
++                public void onDataNotAvailable() {
++                    NotificationHelper.showCustomNotification(MainActivity.this, null, getString(R.string.something_went_wrong_message), null, 0,0,0,0);
++                }
++            });
++        }
++    }
++    }
+ 
++    @Override
++    public boolean onTouchEvent(MotionEvent event) {
++        gestureDetector.onTouchEvent(event);
++        return super.onTouchEvent(event);
+     }
++
+     @Override
+     public void onStart() {
+ 

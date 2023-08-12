@@ -1,7 +1,5 @@
 package com.example.meetyou;
 
-import static com.example.meetyou.MYFiles.Users.saveUserDataToSharedPreferences;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -56,23 +54,6 @@ public class SignInActivity extends AppCompatActivity {
         // Получение экземпляра Firebase для аутентификации
         mAuth = FirebaseAuth.getInstance();
 
-        // Получение состояния флага "Запомнить меня" из SharedPreferences
-        rememberMeCheckbox = findViewById(R.id.remember_me_checkbox);
-        isRememberMeChecked = isRememberMeChecked(); // Получаем значение из SharedPreferences
-        rememberMeCheckbox.setChecked(isRememberMeChecked); // Устанавливаем состояние RememberMeCheckbox
-        if (isRememberMeChecked) {
-            String savedEmail = getSavedEmail();
-            String savedPassword = getSavedPassword();
-            if (!savedEmail.isEmpty() && !savedPassword.isEmpty()) {
-                loginUser(savedEmail, savedPassword);
-            } else {
-                clearUserCredentials();
-                binding.rememberMeCheckbox.setChecked(false);
-                saveRememberMeState(false);
-                Toast.makeText(this, R.string.empty_saved_password_email_message, Toast.LENGTH_SHORT).show();
-            }
-        }
-
         // Инициализация помощника для работы с базой данных
         databaseHelper = new DatabaseHelper(this);
 
@@ -91,13 +72,6 @@ public class SignInActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = binding.mailText.getText().toString().trim();
                 String password = binding.password.getText().toString().trim();
-
-                if(binding.rememberMeCheckbox.isChecked()){
-                    saveUserCredentials(email, password);
-
-                    // Сохранение состояния флага "Запомнить меня" в SharedPreferences
-                    saveRememberMeState(binding.rememberMeCheckbox.isChecked());
-                }
 
                 // Проверка корректности формата электронной почты
                 if (!isValidEmail(email)) {
@@ -121,30 +95,23 @@ public class SignInActivity extends AppCompatActivity {
 
     // Метод для входа пользователя
     private void loginUser(String email, String password) {
+        // Если вход успешен, получаем уникальный идентификатор пользователя (UID) и загружаем его данные
+        String userUID = sanitizeEmail(email);
+        saveUID(userUID);
+        saveUserEmail(binding.mailText.getText().toString().trim());
+        saveUserPassword(binding.password.getText().toString().trim());
+        saveCheckboxState(binding.rememberMeCheckbox.isChecked());
         // Вызов метода Firebase для входа с указанными данными
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            if (binding.rememberMeCheckbox.isChecked()) {
-                                saveUserCredentials(email, password);
-                            } else {
-                                clearUserCredentials();
-                            }
-
-                            startMainActivity();
-                            // Если вход успешен, получаем уникальный идентификатор пользователя (UID) и загружаем его данные
-                            String userUID = sanitizeEmail(email);
-                            saveUID(userUID);
-                            saveUserDataToSharedPreferences(SignInActivity.this, userUID);
 
                             // Вызов метода для загрузки данных пользователя
                             Users.getUserDataFromFirebase(userUID, new Users.OnUserDataListener() {
                                 @Override
                                 public void onDataLoaded(String color, String userName, String bio,String photo1, String photo2, String photo3, String photo4,String photo5, String UID) {
-                                    // Здесь вы можете обработать полученные данные, если это необходимо.
-                                    // Например, отобразить их на экране или выполнить другие действия с этими данными.
                                 }
 
                                 @Override
@@ -168,20 +135,17 @@ public class SignInActivity extends AppCompatActivity {
                 });
     }
 
-    // Метод для очистки учетных данных пользователя
-    private void clearUserCredentials() {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove("email");
-        editor.remove("password");
-        editor.apply();
-    }
-
     // Метод для сохранения учетных данных пользователя в SharedPreferences
-    private void saveUserCredentials(String email, String password) {
+    private void saveUserEmail(String email) {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("email", email);
+        editor.apply();
+    }
+
+    private void saveUserPassword(String password){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("password", password);
         editor.apply();
     }
@@ -190,7 +154,7 @@ public class SignInActivity extends AppCompatActivity {
     private void saveUserCredentials(Users user) {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("email", user.getEmail());
+        editor.putString("email", binding.mailText.getText().toString().trim());
         editor.putString("name", user.getName());
         editor.putString("bio", user.getBio());
         editor.putString("height", user.getHeight());
@@ -211,30 +175,11 @@ public class SignInActivity extends AppCompatActivity {
         finish();
     }
 
-    // Сохранение состояния флага "Запомнить меня" в SharedPreferences
-    private void saveRememberMeState(boolean isChecked) {
+    private void saveCheckboxState(boolean isChecked){
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("remember_me", isChecked);
         editor.apply();
-    }
-
-    // Получение состояния флага "Запомнить меня" из SharedPreferences
-    private boolean isRememberMeChecked() {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return sharedPreferences.getBoolean("remember_me", false);
-    }
-
-    // Получение сохраненного email из SharedPreferences
-    private String getSavedEmail() {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return sharedPreferences.getString("email", "");
-    }
-
-    // Получение сохраненного password из SharedPreferences
-    private String getSavedPassword() {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return sharedPreferences.getString("password", "");
     }
 
     // Метод для "санитарной" обработки email (удаление символов [@, .])

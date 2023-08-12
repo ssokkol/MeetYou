@@ -10,15 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.meetyou.MYFiles.NotificationHelper;
-import com.example.meetyou.Messager.ChatActivity;
 import com.example.meetyou.Messager.MessengerActivity;
 import com.example.meetyou.databinding.ActivityOptionsBinding;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 public class OptionsActivity extends AppCompatActivity {
 
@@ -31,13 +25,7 @@ public class OptionsActivity extends AppCompatActivity {
         binding = ActivityOptionsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference usersRef = database.getReference("Users");
         mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference folderReference = storage.getReference().child("/"+getUID());
-        DatabaseReference userRef = usersRef.child(getUID());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         getWindow().setStatusBarColor(ContextCompat.getColor(OptionsActivity.this, R.color.main));

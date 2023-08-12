@@ -6,6 +6,8 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private GestureDetector gestureDetector;
     private List<String> currentUrls = new ArrayList<>();
     private List<String> viewedUsersList = new ArrayList<>();
     FirebaseAuth mAuth;
@@ -60,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
 
         binding.likebutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,45 +132,99 @@ public class MainActivity extends AppCompatActivity {
         binding.gobackbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!viewedUsersList.isEmpty()) {
-                    viewedUsersList.remove(viewedUsersList.size() - 1);
-
-                    if (!viewedUsersList.isEmpty()) {
-                        String lastViewedUID = viewedUsersList.get(viewedUsersList.size() - 1);
-                        getUserByUID(lastViewedUID, new Users.OnUserDataListener() {
-                            @Override
-                            public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4, String photo5, String UID) {
-                                binding.informationTextView.setText(userBio);
-                                binding.nameTextView.setText(userName);
-                                binding.genderColor2View.setBackgroundColor(Color.parseColor(color));
-                                binding.genderColorView.setBackgroundColor(Color.parseColor(color));
-
-                                currentUrls.clear();
-                                currentUrls.add(photo1);
-                                currentUrls.add(photo2);
-                                currentUrls.add(photo3);
-                                currentUrls.add(photo4);
-                                currentUrls.add(photo5);
-                                PhotoAdapter photoAdapter = new PhotoAdapter(currentUrls);
-                                binding.viewPager.setAdapter(photoAdapter);
-                                photoAdapter.notifyDataSetChanged();
-                            }
-
-                            @Override
-                            public void onDataLoaded(Users user) {
-                            }
-
-                            @Override
-                            public void onDataNotAvailable() {
-                                NotificationHelper.showCustomNotification(MainActivity.this, null, getString(R.string.something_went_wrong_message), null, 0,0,0,0);
-                            }
-                        });
-                    }
-                }
+                goBackUserList();
             }
         });
 
+        gestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener(){
+           @Override
+           public boolean onDoubleTap(MotionEvent event){
+               findUser();
+               getProfilePhoto(new OnProfilePhotoReceivedListener() {
+                   @Override
+                   public void onProfilePhotoReceived(String profilePhoto) {
+
+                       Users.updateUserLikes(profilePhoto, currentUrls.get(0),getUID(), foundUID, MainActivity.this);
+                       NotificationHelper.showHeart(MainActivity.this);
+                   }
+               });
+               return true;
+           }
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                float deltaX = e2.getX() - e1.getX();
+                float deltaY = e2.getY() - e1.getY();
+
+                if (Math.abs(deltaY) > Math.abs(deltaX)) {
+                    if (deltaY < 0 && deltaX > 0) {
+                        findUser();
+                        getProfilePhoto(new OnProfilePhotoReceivedListener() {
+                            @Override
+                            public void onProfilePhotoReceived(String profilePhoto) {
+
+                                Users.updateUserLikes(profilePhoto, currentUrls.get(0),getUID(), foundUID, MainActivity.this);
+                                NotificationHelper.showHeart(MainActivity.this);
+                            }
+                        });
+                    } else {
+                        findUser();
+                    }
+                } else {
+                    if (deltaX < 0) {
+                        // Свайп влево
+                    } else {
+                        // Свайп вправо
+                    }
+                }
+
+                return true;
+            }
+        });
     }
+
+    private void goBackUserList() {if (!viewedUsersList.isEmpty()) {
+        viewedUsersList.remove(viewedUsersList.size() - 1);
+
+        if (!viewedUsersList.isEmpty()) {
+            String lastViewedUID = viewedUsersList.get(viewedUsersList.size() - 1);
+            getUserByUID(lastViewedUID, new Users.OnUserDataListener() {
+                @Override
+                public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4, String photo5, String UID) {
+                    binding.informationTextView.setText(userBio);
+                    binding.nameTextView.setText(userName);
+                    binding.genderColor2View.setBackgroundColor(Color.parseColor(color));
+                    binding.genderColorView.setBackgroundColor(Color.parseColor(color));
+
+                    currentUrls.clear();
+                    currentUrls.add(photo1);
+                    currentUrls.add(photo2);
+                    currentUrls.add(photo3);
+                    currentUrls.add(photo4);
+                    currentUrls.add(photo5);
+                    PhotoAdapter photoAdapter = new PhotoAdapter(currentUrls);
+                    binding.viewPager.setAdapter(photoAdapter);
+                    photoAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onDataLoaded(Users user) {
+                }
+
+                @Override
+                public void onDataNotAvailable() {
+                    NotificationHelper.showCustomNotification(MainActivity.this, null, getString(R.string.something_went_wrong_message), null, 0,0,0,0);
+                }
+            });
+        }
+    }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        gestureDetector.onTouchEvent(event);
+        return super.onTouchEvent(event);
+    }
+
     @Override
     public void onStart() {
 

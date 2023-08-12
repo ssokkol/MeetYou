@@ -80,6 +80,7 @@ public class MessengerActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MessengerActivity.this, OptionsActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
