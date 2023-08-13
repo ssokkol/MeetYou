@@ -6,6 +6,8 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
@@ -101,6 +103,8 @@ public class SignInActivity extends AppCompatActivity {
         saveUserEmail(binding.mailText.getText().toString().trim());
         saveUserPassword(binding.password.getText().toString().trim());
         saveCheckboxState(binding.rememberMeCheckbox.isChecked());
+        binding.registrationWindow.setVisibility(0);
+        binding.logoImageView.startAnimation(AnimationUtils.loadAnimation(SignInActivity.this, R.anim.rotate_logo));
         // Вызов метода Firebase для входа с указанными данными
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

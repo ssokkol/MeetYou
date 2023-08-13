@@ -2,13 +2,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/logo_image_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/ic_launcher"/>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/registration_window"
         android:layout_width="1227px"
         android:layout_height="2660px"
-        android:background="#2c59cc">
+        android:background="@color/main">
 
         <LinearLayout
             android:layout_width="match_parent"

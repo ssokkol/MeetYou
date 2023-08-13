@@ -38,7 +38,7 @@ public class StartActivity extends AppCompatActivity {
                 finish();
             }
         }else{
-            NotificationHelper.showCustomNotification(StartActivity.this, "DEBUG", "I wasn't remembered", "FUCK OFF",0,0,0,0);
+//            NotificationHelper.showCustomNotification(StartActivity.this, "DEBUG", "I wasn't remembered", "FUCK OFF",0,0,0,0);
         }
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
