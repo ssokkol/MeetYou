@@ -10,4 +10,5 @@
     <style name="white_checkbox">
         <item name="colorAccent">@color/white</item>
     </style>
+
 </resources>

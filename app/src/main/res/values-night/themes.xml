@@ -2,7 +2,8 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.MeetYou" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+         <item name="colorPrimary">@color/white</item>
+         <item name="colorSecondary">@color/main</item>
     </style>
 
     <style name="Theme.MeetYou" parent="Base.Theme.MeetYou" />

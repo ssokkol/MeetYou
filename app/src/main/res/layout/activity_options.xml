@@ -119,18 +119,46 @@
             android:textAllCaps="false"
             android:textSize="16sp"
             android:paddingLeft="25dp"/>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="25dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_centerInParent="true"
-            android:text="Слайдера пока нет"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:textColor="@color/main"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginHorizontal="15dp"
+            android:orientation="vertical"
+            android:background="@drawable/button_background_gray">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_centerInParent="true"
+                android:text="@string/age_slider"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="@color/main"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <com.google.android.material.slider.RangeSlider
+                android:layout_marginHorizontal="25dp"
+                android:id="@+id/age_slider"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                app:values="@array/default_age_range"
+                android:valueFrom="18"
+                android:valueTo="72"
+                android:stepSize="1"
+                android:textStyle="bold"
+                app:tickColor="@color/main"
+                app:thumbColor="@color/main"
+                app:thumbStrokeColor="@color/white"
+                app:trackColorActive="@color/main"
+                app:trackColorInactive="@color/mainLight"/>
+
+
+        </LinearLayout>
         <TextView
             android:id="@+id/vip_functions_text"
             android:layout_width="wrap_content"
@@ -243,7 +271,7 @@
             android:layout_marginTop="25dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:background="@drawable/buttonwitharrow_gray"
+            android:background="@drawable/button_background_gray"
             android:text="Sign Out"
             android:textColor="@color/white"
             android:gravity="center_vertical"
@@ -259,7 +287,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:background="@drawable/buttonwitharrow_red"
+            android:background="@drawable/button_background_red"
             android:text="Delete Account"
             android:textColor="@color/white"
             android:gravity="center_vertical"

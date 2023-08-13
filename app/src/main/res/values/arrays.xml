@@ -25,7 +25,7 @@
         <item>Moderate drinker</item>
         <item>Heavy drinker</item>
     </string-array>
-    <array name="rangeSlider">
+    <array name="default_age_range">
         <item>18</item>
         <item>32</item>
     </array>

@@ -4,6 +4,7 @@
     <color name="button_text">#202020</color>
     <color name="white">#FFFFFFFF</color>
     <color name="main">#2C59CC</color>
+    <color name="mainLight">#6B8CD9</color>
     <color name="female">#E337FF</color>
     <color name="male">#374BFF</color>
     <color name="neutral_light_gray">#d9d9d9</color>

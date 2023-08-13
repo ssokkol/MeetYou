@@ -94,5 +94,6 @@
     <string name="empty_saved_password_email_message">Saved email or password is empty. Please log in again.</string>
     <string name="change_bio_button_text">Change bio</string>
     <string name="something_went_wrong_message">Something went wrong!</string>
+    <string name="age_slider">Age slider</string>
 
 </resources>

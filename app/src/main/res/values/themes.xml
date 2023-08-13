@@ -3,6 +3,8 @@
     <style name="Base.Theme.MeetYou" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorSecondary">@color/main</item>
     </style>
 
     <style name="Theme.MeetYou" parent="Base.Theme.MeetYou" />
