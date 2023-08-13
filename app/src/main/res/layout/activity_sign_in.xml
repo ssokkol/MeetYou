@@ -79,7 +79,8 @@
                 android:padding="10dp"
                 android:textColor="@color/white"
                 android:textColorHint="#b3ffffff"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                style="@style/CustomCursorStyleWhite"/>
 
             <View
                 android:layout_width="match_parent"
@@ -103,7 +104,8 @@
                 android:padding="10dp"
                 android:textColor="@color/white"
                 android:textColorHint="#b3ffffff"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                style="@style/CustomCursorStyleWhite" />
 
             <View
                 android:layout_width="match_parent"

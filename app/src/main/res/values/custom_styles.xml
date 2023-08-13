@@ -10,5 +10,13 @@
     <style name="white_checkbox">
         <item name="colorAccent">@color/white</item>
     </style>
-
+    <style name="CustomCursorStyleWhite" parent="android:Widget.EditText">
+        <item name="android:textCursorDrawable">@drawable/custom_white_cursor_drawable</item>
+    </style>
+    <style name="CustomCursorStyleBlue" parent="android:Widget.EditText">
+        <item name="android:textCursorDrawable">@drawable/custom_blue_cursor_drawable</item>
+    </style>
+    <style name="CustomCursorStyleBlack" parent="android:Widget.EditText">
+        <item name="android:textCursorDrawable">@drawable/custom_black_cursor_drawable</item>
+    </style>
 </resources>

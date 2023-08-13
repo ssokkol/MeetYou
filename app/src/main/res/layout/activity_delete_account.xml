@@ -58,7 +58,9 @@
                 android:paddingLeft="15dp"
                 android:textColor="@color/main"
                 android:textColorHint="@color/main"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:inputType="textPassword"
+                style="@style/CustomCursorStyleBlue"/>
         </LinearLayout>
     </RelativeLayout>
     <RelativeLayout

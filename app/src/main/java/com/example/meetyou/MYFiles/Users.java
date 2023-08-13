@@ -447,7 +447,7 @@ public class Users {
 
     public static void getRandomUserFromPool(String gender, String findGender, String findHeight, String findWeight, String targetUID, final OnUserDataListener listener) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
-        Query query = usersRef.orderByChild("findGender").equalTo(findGender.equals("any") ? getRandomGender() : findGender);
+        Query query = usersRef.orderByChild("gender").equalTo(findGender.equals("any") ? getRandomGender() : findGender);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -455,7 +455,7 @@ public class Users {
                 List<Users> matchingUsers = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Users user = snapshot.getValue(Users.class);
-                    if (user != null && user.getHeight().equals(findHeight) && user.getWeight().equals(findWeight) && user.getGender().equals(findGender)) {
+                    if (user != null && user.getHeight().equals(findHeight) && user.getWeight().equals(findWeight)) {
                         matchingUsers.add(user);
                     }
                 }
