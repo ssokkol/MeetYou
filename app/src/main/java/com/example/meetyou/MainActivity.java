@@ -290,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void findUser(){
-        Users.getRandomUserFromPool(gender,findGender,findHeight,findWeight, getUID(),new Users.OnUserDataListener() {
+        Users.getRandomUserFromPool(getMinAge(), getMaxAge(), gender, findGender, findHeight, findWeight, getUID(), new Users.OnUserDataListener() {
             @Override
             public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5, String UID) {
                 binding.informationTextView.setText(userBio);
@@ -368,4 +368,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    private float getMinAge(){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getFloat("minAge", 18);
+    }
+    private float getMaxAge(){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getFloat("maxAge", 32);
+    }
 }

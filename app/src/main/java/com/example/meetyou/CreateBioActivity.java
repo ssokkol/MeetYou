@@ -246,6 +246,7 @@ public class CreateBioActivity extends AppCompatActivity {
         if (currentMonth < birthMonth || (currentMonth == birthMonth && currentDay < birthDay)) {
             age--;
         }
+        saveAges(18, age);
         return age;
     }
 
@@ -285,6 +286,15 @@ public class CreateBioActivity extends AppCompatActivity {
         editor.putString("age", String.valueOf(age));
         editor.apply();
     }
+
+    private void saveAges(float minAge, float maxAge){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putFloat("minAge", minAge);
+        editor.putFloat("maxAge", maxAge);
+        editor.apply();
+    }
+
 
     private String getUID(){
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);

@@ -14,6 +14,8 @@ import com.example.meetyou.Messager.MessengerActivity;
 import com.example.meetyou.databinding.ActivityOptionsBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.List;
+
 public class OptionsActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -29,6 +31,7 @@ public class OptionsActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         getWindow().setStatusBarColor(ContextCompat.getColor(OptionsActivity.this, R.color.main));
+
 
         binding.profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +129,37 @@ public class OptionsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        binding.ageSlider.setValues(getMinAge(), getMaxAge());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        List<Float> sliderValues = binding.ageSlider.getValues();
+        float minAge = sliderValues.get(0);
+        float maxAge = sliderValues.get(1);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putFloat("minAge", minAge);
+        editor.putFloat("maxAge", maxAge);
+        editor.apply();
+    }
+
+    private float getMinAge(){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getFloat("minAge", 18);
+    }
+    private float getMaxAge(){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getFloat("maxAge", 32);
     }
 
     private String getUID() {
