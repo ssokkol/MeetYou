@@ -151,6 +151,7 @@
                 android:valueTo="72"
                 android:stepSize="1"
                 android:textStyle="bold"
+                style="@style/SliderStyle"
                 app:tickColor="@color/main"
                 app:thumbColor="@color/main"
                 app:thumbStrokeColor="@color/white"
