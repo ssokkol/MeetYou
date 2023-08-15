@@ -18,7 +18,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.meetyou.MYFiles.NotificationHelper;
 import com.example.meetyou.MYFiles.PhotoAdapter;
 import com.example.meetyou.MYFiles.Users;
-import com.example.meetyou.Messager.MessengerActivity;
+import com.example.meetyou.Messenger.MessengerActivity;
 import com.example.meetyou.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.main));
         gender = getGender();
-        findGender = getFindGender();
         findWeight = getFindWeight();
         findHeight = getFindHeight();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -250,10 +249,27 @@ public class MainActivity extends AppCompatActivity {
         return sharedPreferences.getString("gender", "");
 //        return user.getGender();
     }
-    private String getFindGender(){
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return sharedPreferences.getString("findGender", "");
-//        return user.getFindGender();
+    private void getFindGender(final OnFindGenderReceivedListener listener) {
+        DatabaseReference findGenderRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("findGender");
+        findGenderRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String userFindGender = snapshot.getValue(String.class);
+                if (userFindGender != null) {
+                    listener.onFindGenderReceived(userFindGender);
+                } else {
+                    listener.onFindGenderReceived(" ");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onFindGenderReceived(" ");
+            }
+        });
+    }
+    interface OnFindGenderReceivedListener {
+        void onFindGenderReceived(String userFindGender);
     }
     private String getFindWeight(){
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
@@ -290,38 +306,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void findUser(){
-        Users.getRandomUserFromPool(getMinAge(), getMaxAge(), gender, findGender, findHeight, findWeight, getUID(), new Users.OnUserDataListener() {
+        getFindGender(new OnFindGenderReceivedListener() {
             @Override
-            public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5, String UID) {
-                binding.informationTextView.setText(userBio);
-                binding.nameTextView.setText(userName);
-                binding.genderColor2View.setBackgroundColor(Color.parseColor(color));
-                binding.genderColorView.setBackgroundColor(Color.parseColor(color));
-                foundUID = UID;
-                viewedUsersList.add(UID);
-                for(int i = 0; i < 10; i++){
-                    Log.e("Error", foundUID+" Hello ");
-                }
-                currentUrls.clear();
-                currentUrls.add(photo1);
-                currentUrls.add(photo2);
-                currentUrls.add(photo3);
-                currentUrls.add(photo4);
-                currentUrls.add(photo5);
-                PhotoAdapter photoAdapter = new PhotoAdapter(currentUrls);
-                binding.viewPager.setAdapter(photoAdapter);
-                photoAdapter.notifyDataSetChanged();
-            }
+            public void onFindGenderReceived(String userFindGender) {
+                Users.getRandomUserFromPool(getMinAge(), getMaxAge(), gender, userFindGender, findHeight, findWeight, getUID(), new Users.OnUserDataListener() {
+                    @Override
+                    public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5, String UID) {
+                        binding.informationTextView.setText(userBio);
+                        binding.nameTextView.setText(userName);
+                        binding.genderColor2View.setBackgroundColor(Color.parseColor(color));
+                        binding.genderColorView.setBackgroundColor(Color.parseColor(color));
+                        foundUID = UID;
+                        viewedUsersList.add(UID);
+                        for(int i = 0; i < 10; i++){
+                            Log.e("Error", foundUID+" Hello ");
+                        }
+                        currentUrls.clear();
+                        currentUrls.add(photo1);
+                        currentUrls.add(photo2);
+                        currentUrls.add(photo3);
+                        currentUrls.add(photo4);
+                        currentUrls.add(photo5);
+                        PhotoAdapter photoAdapter = new PhotoAdapter(currentUrls);
+                        binding.viewPager.setAdapter(photoAdapter);
+                        photoAdapter.notifyDataSetChanged();
+                    }
 
-            @Override
-            public void onDataLoaded(Users user) {
+                    @Override
+                    public void onDataLoaded(Users user) {
 
-            }
+                    }
 
-            @Override
-            public void onDataNotAvailable() {
+                    @Override
+                    public void onDataNotAvailable() {
+                    }
+                });
             }
         });
+
     }
 
     private void getProfilePhoto(final OnProfilePhotoReceivedListener listener) {

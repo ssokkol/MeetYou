@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 
-import com.example.meetyou.Messager.ChatItem;
+import com.example.meetyou.Messenger.ChatItem;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -445,9 +445,15 @@ public class Users {
         }
     }
 
-    public static void getRandomUserFromPool(float minAge, float maxAge,String gender, String findGender, String findHeight, String findWeight, String targetUID, final OnUserDataListener listener) {
+    public static void getRandomUserFromPool(float minAge, float maxAge, String gender, String findGender, String findHeight, String findWeight, String targetUID, final OnUserDataListener listener) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
-        Query query = usersRef.orderByChild("gender").equalTo(findGender.equals("any") ? getRandomGender() : findGender);
+        Query query;
+
+        if (findGender.equals("any")) {
+            query = usersRef.orderByChild("gender").equalTo(getRandomGender());
+        } else {
+            query = usersRef.orderByChild("gender").equalTo(findGender);
+        }
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

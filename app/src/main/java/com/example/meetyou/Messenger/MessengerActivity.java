@@ -1,4 +1,4 @@
-package com.example.meetyou.Messager;
+package com.example.meetyou.Messenger;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -91,27 +91,25 @@ public class MessengerActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 ChatItem selectedChat = chatItems.get(position);
                 String chatUID = selectedChat.getChatUID();
-                String chatName;
+
                 getUserName(getUID(), new OnNameReceivedListener() {
                     @Override
                     public void onNameReceived(String name) {
-                        if(name.equals(selectedChat.getName1())){
-                            editor.putString("chatName", selectedChat.getName2());
-                        }else{
-                            editor.putString("chatName", selectedChat.getName1());
-                        }
+                        String chatName = selectedChat.getName1().equals(name) ? selectedChat.getName2() : selectedChat.getName1();
+                        editor.putString("chatName", chatName);
+                        editor.apply();
+
+                        Intent intent = new Intent(MessengerActivity.this, ChatActivity.class);
+                        startActivity(intent);
                     }
                 });
 
-                // Сохранение chatUID в SharedPreferences
                 editor.putString("chatUID", chatUID);
                 editor.apply();
-
-                // Запуск ChatActivity с передачей chatUID
-                Intent intent = new Intent(MessengerActivity.this, ChatActivity.class);
-                startActivity(intent);
             }
         });
+
+
 
     }
 

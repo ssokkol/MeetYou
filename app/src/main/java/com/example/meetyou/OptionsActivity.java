@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.meetyou.MYFiles.NotificationHelper;
-import com.example.meetyou.Messager.MessengerActivity;
+import com.example.meetyou.Messenger.MessengerActivity;
 import com.example.meetyou.databinding.ActivityOptionsBinding;
 import com.google.firebase.auth.FirebaseAuth;
 

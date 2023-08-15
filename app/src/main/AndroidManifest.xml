@@ -22,10 +22,10 @@
             android:name=".ShopActivity"
             android:exported="false" />
         <activity
-            android:name=".Messager.ChatActivity"
+            android:name=".Messenger.ChatActivity"
             android:exported="false" />
         <activity
-            android:name=".Messager.MessengerActivity"
+            android:name=".Messenger.MessengerActivity"
             android:exported="false" />
         <activity
             android:name=".DeleteAccountActivity"

@@ -1,4 +1,4 @@
-package com.example.meetyou.Messager;
+package com.example.meetyou.Messenger;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -45,7 +45,13 @@ public class ChatActivity extends AppCompatActivity {
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.main));
 
-        binding.chatNameTextView.setText(getChatName());
+
+        getUserNameFromDatabase(getChatName(), new OnNameReceivedListener() {
+            @Override
+            public void onNameReceived(String name) {
+                binding.chatNameTextView.setText(name);
+            }
+        });
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             NotificationHelper.showCustomNotification(ChatActivity.this, null, getString(R.string.you_are_not_signed_in_message), null, 0, 0, 0, 0);
@@ -177,6 +183,26 @@ public class ChatActivity extends AppCompatActivity {
     }
     public interface OnNameReceivedListener {
         void onNameReceived(String name);
+    }
+
+    private void getUserNameFromDatabase(String UID, final OnNameReceivedListener listener) {
+        DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference("Users").child(UID).child("name");
+        nameRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String name = snapshot.getValue(String.class);
+                if (name != null) {
+                    listener.onNameReceived(name);
+                } else {
+                    listener.onNameReceived(" ");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onNameReceived(" ");
+            }
+        });
     }
 
     private String getUID() {

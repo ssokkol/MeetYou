@@ -1,4 +1,4 @@
-package com.example.meetyou.Messager;
+package com.example.meetyou.Messenger;
 
 public class ChatItem {
     private String profilePhoto1, profilePhoto2;

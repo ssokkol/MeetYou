@@ -1,4 +1,4 @@
-package com.example.meetyou.Messager;
+package com.example.meetyou.Messenger;
 
 import android.graphics.Rect;
 import android.view.View;

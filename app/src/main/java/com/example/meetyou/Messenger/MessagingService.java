@@ -1,4 +1,4 @@
-package com.example.meetyou.Messager;
+package com.example.meetyou.Messenger;
 
 import androidx.annotation.NonNull;
 
