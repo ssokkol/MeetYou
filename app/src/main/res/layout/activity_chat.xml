@@ -111,7 +111,6 @@
             android:layout_marginRight="15dp"
             android:layout_centerVertical="true"
             app:shapeAppearanceOverlay="@style/circular"
-            android:src="@drawable/photo_1"
             android:scaleType="centerCrop"/>
     </RelativeLayout>
 

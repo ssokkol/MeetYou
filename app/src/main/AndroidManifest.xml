@@ -19,6 +19,9 @@
         android:theme="@style/Theme.MeetYou"
         tools:targetApi="31">
         <activity
+            android:name=".userLikedBy"
+            android:exported="false" />
+        <activity
             android:name=".ShopActivity"
             android:exported="false" />
         <activity
