@@ -73,17 +73,23 @@
                 />
         </FrameLayout>
     </RelativeLayout>
+    <ScrollView
+        android:layout_marginTop="42dp"
+        android:layout_marginBottom="61dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <TableLayout
+        android:id="@+id/liked_by_table"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/testtesttest"
+        android:layout_above="@id/bottom_layout"
         android:layout_below="@id/main_header"
         >
 
-
     </TableLayout>
+    </ScrollView>
     <RelativeLayout
-        android:id="@+id/testtesttest"
+        android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true">

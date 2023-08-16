@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
             String lastViewedUID = viewedUsersList.get(viewedUsersList.size() - 1);
             getUserByUID(lastViewedUID, new Users.OnUserDataListener() {
                 @Override
-                public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4, String photo5, String UID) {
+                public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4, String photo5, String UID, int age) {
                     binding.informationTextView.setText(userBio);
                     binding.nameTextView.setText(userName);
                     binding.genderColor2View.setBackgroundColor(Color.parseColor(color));
@@ -312,9 +312,9 @@ public class MainActivity extends AppCompatActivity {
                 Log.w("findGender", userFindGender);
                 Users.getRandomUserFromPool(MainActivity.this ,getMinAge(), getMaxAge(), gender, userFindGender, findHeight, findWeight, getUID(), new Users.OnUserDataListener() {
                     @Override
-                    public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5, String UID) {
+                    public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5, String UID, int age) {
                         binding.informationTextView.setText(userBio);
-                        binding.nameTextView.setText(userName);
+                        binding.nameTextView.setText(userName + ", " + String.valueOf(age));
                         binding.genderColor2View.setBackgroundColor(Color.parseColor(color));
                         binding.genderColorView.setBackgroundColor(Color.parseColor(color));
                         foundUID = UID;
@@ -378,7 +378,7 @@ public class MainActivity extends AppCompatActivity {
                 Users user = dataSnapshot.getValue(Users.class);
                 if (user != null) {
                     listener.onDataLoaded(user.getColor(), user.getName(), user.getBio(),
-                            user.getPhoto1(), user.getPhoto2(), user.getPhoto3(), user.getPhoto4(), user.getPhoto5(), user.getUID());
+                            user.getPhoto1(), user.getPhoto2(), user.getPhoto3(), user.getPhoto4(), user.getPhoto5(), user.getUID(), user.getAge());
                 } else {
                     listener.onDataNotAvailable();
                 }
@@ -390,8 +390,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
     private float getMinAge(){
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getFloat("minAge", 18);

@@ -114,7 +114,7 @@ public class SignInActivity extends AppCompatActivity {
                             // Вызов метода для загрузки данных пользователя
                             Users.getUserDataFromFirebase(userUID, new Users.OnUserDataListener() {
                                 @Override
-                                public void onDataLoaded(String color, String userName, String bio,String photo1, String photo2, String photo3, String photo4,String photo5, String UID) {
+                                public void onDataLoaded(String color, String userName, String bio,String photo1, String photo2, String photo3, String photo4,String photo5, String UID, int age) {
                                 }
 
                                 @Override

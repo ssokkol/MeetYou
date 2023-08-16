@@ -50,6 +50,9 @@ public class OwnProfileActivity extends AppCompatActivity {
     private LocationManager locationManager;
     private LocationListener locationListener;
 
+    private long lastBackPressedTime = 0;
+
+
     // Объект для привязки макета активности
     ActivityOwnProfileBinding binding;
 
@@ -67,7 +70,12 @@ public class OwnProfileActivity extends AppCompatActivity {
         getName(new OnNameReceivedListener() {
             @Override
             public void onNameReceived(String name) {
-                binding.nameTextView.setText(name);
+                getAge(new OnAgeReceivedListener() {
+                    @Override
+                    public void onAgeReceived(int age) {
+                        binding.nameTextView.setText(name + ", " + String.valueOf(age));
+                    }
+                });
             }
         });
 
@@ -226,7 +234,7 @@ public class OwnProfileActivity extends AppCompatActivity {
 //        binding.additionalTextView.setText(getUserBio());
         Users.getUserDataFromFirebase(getUID(), new Users.OnUserDataListener() {
             @Override
-            public void onDataLoaded(String color, String userName, String bio, String photo1, String photo2, String photo3, String photo4,String photo5, String UID) {
+            public void onDataLoaded(String color, String userName, String bio, String photo1, String photo2, String photo3, String photo4,String photo5, String UID, int age) {
 
             }
 
@@ -269,6 +277,18 @@ public class OwnProfileActivity extends AppCompatActivity {
             locationManager.removeUpdates(locationListener);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastBackPressedTime > 750) {
+            Toast.makeText(this, R.string.to_exit_press_again_message, Toast.LENGTH_SHORT).show();
+            lastBackPressedTime = currentTime;
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 
     // Обновление текстового представления с местоположением
     private void updateLocationTextView(Location location) {
@@ -394,6 +414,28 @@ public class OwnProfileActivity extends AppCompatActivity {
         void onNameReceived(String name);
     }
 
+    private void getAge(final OnAgeReceivedListener listener) {
+        DatabaseReference ageRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("age");
+        ageRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int age = snapshot.getValue(Integer.class);
+                if (age != 0) {
+                    listener.onAgeReceived(age);
+                } else {
+                    listener.onAgeReceived(0);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onAgeReceived(0);
+            }
+        });
+    }
+    public interface OnAgeReceivedListener {
+        void onAgeReceived(int age);
+    }
     private void getBio(final OnBioReceivedListener listener) {
         DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("bio");
         nameRef.addListenerForSingleValueEvent(new ValueEventListener() {

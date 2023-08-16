@@ -356,7 +356,7 @@ public class Users {
 
     public interface OnUserDataListener {
 
-        void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5, String UID);
+        void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5, String UID, int Age);
 
         void onDataLoaded(Users user);
         void onDataNotAvailable();
@@ -476,7 +476,7 @@ public class Users {
 
                     if (randomUser != null) {
                         listener.onDataLoaded(randomUser.getColor(), randomUser.getName(), randomUser.getBio(),
-                                randomUser.getPhoto1(), randomUser.getPhoto2(), randomUser.getPhoto3(), randomUser.getPhoto4(), randomUser.getPhoto5(), randomUser.getUID());
+                                randomUser.getPhoto1(), randomUser.getPhoto2(), randomUser.getPhoto3(), randomUser.getPhoto4(), randomUser.getPhoto5(), randomUser.getUID(), randomUser.getAge());
                     } else {
                         listener.onDataNotAvailable();
                         NotificationHelper.showCustomNotification(context, null, "According to your parameters, no users were found", null, 0,0,0,0);
