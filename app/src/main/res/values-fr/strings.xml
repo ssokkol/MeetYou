@@ -92,10 +92,10 @@
     <string name="vip_features">- Retour illimité\n\n\n- Recherche mondiale\n\n\n- Pas de publicité</string>
     <string name="premium_features">- Toutes les fonctionnalités VIP\n\n\n- Qui vous a aimé\n\n\n- 10 méga-sympathies par semaine\n\n\n- 5 boosts de profil par mois\n\n\n- Changer la couleur du profil</string>
     <string name="luxe_features">- Toutes les fonctionnalités Premium\n\n\n- Ajouter des commentaires aux méga-sympathies\n\n\n- 30 méga-sympathies par semaine\n\n\n- 20 boosts de profil par mois\n\n\n- Liste d\'évitement</string>
-    <string name="empty_saved_password_email_message">L'adresse e-mail ou le mot de passe enregistré est vide. Veuillez vous reconnecter.</string>
+    <string name="empty_saved_password_email_message">L\'adresse e-mail ou le mot de passe enregistré est vide. Veuillez vous reconnecter.</string>
     <string name="change_bio_button_text">Modifier la biographie</string>
-    <string name="something_went_wrong_message">Quelque chose s'est mal passé !</string>
-    <string name="age_slider">Curseur d'âge</string>
+    <string name="something_went_wrong_message">Quelque chose s\'est mal passé !</string>
+    <string name="age_slider">Curseur d\'âge</string>
     <string name="to_exit_press_again_message">Pour quitter, appuyez à nouveau</string>
 
 </resources>
