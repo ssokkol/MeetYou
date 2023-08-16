@@ -309,7 +309,8 @@ public class MainActivity extends AppCompatActivity {
         getFindGender(new OnFindGenderReceivedListener() {
             @Override
             public void onFindGenderReceived(String userFindGender) {
-                Users.getRandomUserFromPool(getMinAge(), getMaxAge(), gender, userFindGender, findHeight, findWeight, getUID(), new Users.OnUserDataListener() {
+                Log.w("findGender", userFindGender);
+                Users.getRandomUserFromPool(MainActivity.this ,getMinAge(), getMaxAge(), gender, userFindGender, findHeight, findWeight, getUID(), new Users.OnUserDataListener() {
                     @Override
                     public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5, String UID) {
                         binding.informationTextView.setText(userBio);

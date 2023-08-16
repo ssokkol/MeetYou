@@ -35,7 +35,7 @@ public class NotificationHelper {
     private static int defaultBackgroundColor = R.drawable.button_background_blue;
     private static int defaultButtonBackgroundColor = R.drawable.button_background;
     private static int defaultTextColor = R.color.white;
-    private static int defaultButtonTextColor = R.color.black;
+    private static int defaultButtonTextColor = R.color.main;
 
     public static void showCustomNotification(Context context, String title, String message, String buttonLabel,
                                               int backgroundColor, int textColor, int buttonBackgroundColor, int buttonTextColor) {

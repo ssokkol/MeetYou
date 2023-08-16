@@ -92,17 +92,17 @@ public class MessengerActivity extends AppCompatActivity {
                 ChatItem selectedChat = chatItems.get(position);
                 String chatUID = selectedChat.getChatUID();
 
-                getUserName(getUID(), new OnNameReceivedListener() {
-                    @Override
-                    public void onNameReceived(String name) {
-                        String chatName = selectedChat.getName1().equals(name) ? selectedChat.getName2() : selectedChat.getName1();
-                        editor.putString("chatName", chatName);
-                        editor.apply();
+                if (selectedChat.getName1().equals(getUID())) {
+                    editor.putString("chatName", selectedChat.getName2());
+                    editor.apply();
+                } else {
+                    editor.putString("chatName", selectedChat.getName1());
+                    editor.apply();
+                }
 
-                        Intent intent = new Intent(MessengerActivity.this, ChatActivity.class);
-                        startActivity(intent);
-                    }
-                });
+                Intent intent = new Intent(MessengerActivity.this, ChatActivity.class);
+                startActivity(intent);
+
 
                 editor.putString("chatUID", chatUID);
                 editor.apply();
@@ -114,8 +114,8 @@ public class MessengerActivity extends AppCompatActivity {
     }
 
 
-    private void getUserName(String UID, final OnNameReceivedListener listener) {
-        DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference("Users").child(UID).child("name");
+    private void getUserName(final OnNameReceivedListener listener) {
+        DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("name");
         nameRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

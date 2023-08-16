@@ -445,14 +445,15 @@ public class Users {
         }
     }
 
-    public static void getRandomUserFromPool(float minAge, float maxAge, String gender, String findGender, String findHeight, String findWeight, String targetUID, final OnUserDataListener listener) {
+    public static void getRandomUserFromPool(Context context, float minAge, float maxAge, String gender, String findGender, String findHeight, String findWeight, String targetUID, final OnUserDataListener listener) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
         Query query;
 
         if (findGender.equals("any")) {
-            query = usersRef.orderByChild("gender").equalTo(getRandomGender());
+            query = usersRef;
         } else {
-            query = usersRef.orderByChild("gender").equalTo(findGender);
+            String genderToQuery = findGender.equals("random") ? getRandomGender() : findGender;
+            query = usersRef.orderByChild("gender").equalTo(genderToQuery);
         }
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -478,9 +479,11 @@ public class Users {
                                 randomUser.getPhoto1(), randomUser.getPhoto2(), randomUser.getPhoto3(), randomUser.getPhoto4(), randomUser.getPhoto5(), randomUser.getUID());
                     } else {
                         listener.onDataNotAvailable();
+                        NotificationHelper.showCustomNotification(context, null, "According to your parameters, no users were found", null, 0,0,0,0);
                     }
                 } else {
                     listener.onDataNotAvailable();
+                    NotificationHelper.showCustomNotification(context, null, "According to your parameters, no users were found", null, 0,0,0,0);
                 }
             }
 
