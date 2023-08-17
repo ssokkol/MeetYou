@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -33,6 +32,7 @@ import com.google.firebase.storage.StorageReference;
 import java.io.ByteArrayOutputStream;
 
 public class UploadPhotoActivity extends AppCompatActivity {
+    int maxFileSizeBytes = 4 * 1024 * 1024;
 
     private ImageView selectedImageView;
 
@@ -173,34 +173,53 @@ public class UploadPhotoActivity extends AppCompatActivity {
             if (requestCode == GALLERY_REQ_CODE) {
                 if (selectedImageView != null) {
                     selectedImageView.setImageURI(data.getData());
+                    Bitmap selectedBitmap = ((BitmapDrawable) selectedImageView.getDrawable()).getBitmap();
+
+                    // Ограничение размера изображения до 4 МБ (в байтах)
+                    int maxFileSizeBytes = 4 * 1024 * 1024;
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+
+                    int quality = 100;
+                    while (outputStream.toByteArray().length > maxFileSizeBytes && quality > 0) {
+                        outputStream.reset();
+                        selectedBitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+                        quality -= 5;
+                    }
+
 
                     if (selectedImageView == imageView1) {
-                        photo1 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
+                        photo1 = outputStream.toByteArray();
+//                        photo1 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
                         saveImageToSharedPreferences("photo1", photo1);
                         uploadPhotoToFirebaseStorage(data.getData(), 1);
                         firstUploaded = true;
                     } else if (selectedImageView == imageView2) {
-                        photo2 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
+                        photo2 = outputStream.toByteArray();
+//                        photo2 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
                         saveImageToSharedPreferences("photo2", photo2);
                         uploadPhotoToFirebaseStorage(data.getData(), 2);
                         secondUploaded = true;
                     } else if (selectedImageView == imageView3) {
-                        photo3 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
+                        photo3 = outputStream.toByteArray();
+//                        photo3 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
                         saveImageToSharedPreferences("photo3", photo3);
                         uploadPhotoToFirebaseStorage(data.getData(), 3);
                         thirdUploaded = true;
                     } else if (selectedImageView == imageView4) {
-                        photo4 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
+                        photo4 = outputStream.toByteArray();
+//                        photo4 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
                         saveImageToSharedPreferences("photo4", photo4);
                         uploadPhotoToFirebaseStorage(data.getData(), 4);
                         fourthUploaded = true;
                     } else if (selectedImageView == imageView5) {
-                        photo5 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
+                        photo5 = outputStream.toByteArray();
+//                        photo5 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
                         saveImageToSharedPreferences("photo5", photo5);
                         uploadPhotoToFirebaseStorage(data.getData(), 5);
                         fifthUploaded = true;
                     }
-                    applyRoundedCorners(selectedImageView);
+//                    applyRoundedCorners(selectedImageView);
                     checkAllPhotosUploaded();
                 }
             }
@@ -208,36 +227,36 @@ public class UploadPhotoActivity extends AppCompatActivity {
     }
 
 
-    private void applyRoundedCorners(ImageView imageView) {
-        Drawable originalDrawable = imageView.getDrawable();
-        if (originalDrawable == null) return;
+//    private void applyRoundedCorners(ImageView imageView) {
+//        Drawable originalDrawable = imageView.getDrawable();
+//        if (originalDrawable == null) return;
+//
+//        Bitmap originalBitmap = ((BitmapDrawable) originalDrawable).getBitmap();
+//        int cornerRadius = 150;
+//        Bitmap roundedBitmap = getRoundedCornerBitmap(originalBitmap, cornerRadius);
+//
+//        imageView.setImageBitmap(roundedBitmap);
+//    }
 
-        Bitmap originalBitmap = ((BitmapDrawable) originalDrawable).getBitmap();
-        int cornerRadius = 150;
-        Bitmap roundedBitmap = getRoundedCornerBitmap(originalBitmap, cornerRadius);
-
-        imageView.setImageBitmap(roundedBitmap);
-    }
-
-    private Bitmap getRoundedCornerBitmap(Bitmap bitmap, int cornerRadius) {
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        android.graphics.Canvas canvas = new android.graphics.Canvas(output);
-
-        final int color = 0xff424242;
-        final android.graphics.Paint paint = new android.graphics.Paint();
-        final android.graphics.Rect rect = new android.graphics.Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        final android.graphics.RectF rectF = new android.graphics.RectF(rect);
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, paint);
-
-        paint.setXfermode(new android.graphics.PorterDuffXfermode(android.graphics.PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-
-        return output;
-    }
+//    private Bitmap getRoundedCornerBitmap(Bitmap bitmap, int cornerRadius) {
+//        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+//        android.graphics.Canvas canvas = new android.graphics.Canvas(output);
+//
+//        final int color = 0xff424242;
+//        final android.graphics.Paint paint = new android.graphics.Paint();
+//        final android.graphics.Rect rect = new android.graphics.Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+//        final android.graphics.RectF rectF = new android.graphics.RectF(rect);
+//
+//        paint.setAntiAlias(true);
+//        canvas.drawARGB(0, 0, 0, 0);
+//        paint.setColor(color);
+//        canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, paint);
+//
+//        paint.setXfermode(new android.graphics.PorterDuffXfermode(android.graphics.PorterDuff.Mode.SRC_IN));
+//        canvas.drawBitmap(bitmap, rect, rect, paint);
+//
+//        return output;
+//    }
 
     private void checkAllPhotosUploaded() {
         if (firstUploaded && secondUploaded && thirdUploaded && fourthUploaded && fifthUploaded) {

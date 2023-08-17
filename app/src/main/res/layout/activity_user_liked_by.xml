@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".userLikedBy"
+    tools:context=".UserLikedByActivity"
     android:background="@color/white">
     <RelativeLayout
         android:id="@+id/main_header"
@@ -84,7 +84,8 @@
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_layout"
         android:layout_below="@id/main_header"
-        >
+        android:columnCount="3"
+        android:rowCount="0">
 
     </TableLayout>
     </ScrollView>

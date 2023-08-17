@@ -1,41 +1,45 @@
 package com.example.meetyou;
 
 import static android.content.ContentValues.TAG;
+import static com.example.meetyou.MYFiles.Users.updateUserPhoto;
 
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
-import com.example.meetyou.MYFiles.Users;
-import com.example.meetyou.databinding.ActivityChangeUsersPhotosBinding;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.example.meetyou.Database.DatabaseHelper;
+import com.example.meetyou.MYFiles.NotificationHelper;
+import com.example.meetyou.databinding.ActivityUploadPhotoBinding;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
-
-import java.io.ByteArrayOutputStream;
 
 public class ChangeUsersPhotosActivity extends AppCompatActivity {
+    int maxFileSizeBytes = 4 * 1024 * 1024;
+
+    private int selectedImageIndex = -1;
+
+    private ImageView selectedImageView;
+
+    private StorageReference storageReference;
+
+    ActivityUploadPhotoBinding binding;
+    DatabaseHelper databaseHelper;
+
+    public Boolean firstUploaded = false;
+    public Boolean secondUploaded = false;
+    public Boolean thirdUploaded = false;
+    public Boolean fourthUploaded = false;
+    public Boolean fifthUploaded = false;
 
     private String sPhoto1;
     private String sPhoto2;
@@ -43,11 +47,6 @@ public class ChangeUsersPhotosActivity extends AppCompatActivity {
     private String sPhoto4;
     private String sPhoto5;
 
-    private boolean isSomethingChanged = false;
-    private boolean isNextActivated = false;
-
-    private ImageView selectedImageView;
-    private StorageReference storageReference;
     ImageView imageView1;
     ImageView imageView2;
     ImageView imageView3;
@@ -61,31 +60,30 @@ public class ChangeUsersPhotosActivity extends AppCompatActivity {
     private byte[] photo5;
 
     private final int GALLERY_REQ_CODE = 1000;
-    ActivityChangeUsersPhotosBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityChangeUsersPhotosBinding.inflate(getLayoutInflater());
+        binding = ActivityUploadPhotoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        storageReference = FirebaseStorage.getInstance().getReference();
 
+        getWindow().setStatusBarColor(ContextCompat.getColor(ChangeUsersPhotosActivity.this, R.color.main));
 
-        getWindow().setStatusBarColor(getColor(R.color.main));
+        databaseHelper = new DatabaseHelper(this);
 
-        customPhotoLoadingToClient("photo1", binding.image1);
-        customPhotoLoadingToClient("photo2", binding.image2);
-        customPhotoLoadingToClient("photo3", binding.image3);
-        customPhotoLoadingToClient("photo4", binding.image4);
-        customPhotoLoadingToClient("photo5", binding.image5);
+        imageView1 = findViewById(R.id.image1);
+        imageView2 = findViewById(R.id.image2);
+        imageView3 = findViewById(R.id.image3);
+        imageView4 = findViewById(R.id.image4);
+        imageView5 = findViewById(R.id.image5);
 
         binding.buttonUpload1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectedImageView = imageView1;
-                Intent iGallery = new Intent(Intent.ACTION_PICK);
-                iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(iGallery, GALLERY_REQ_CODE);
+                selectedImageIndex = 1;
+                openGallery();
             }
         });
 
@@ -94,10 +92,8 @@ public class ChangeUsersPhotosActivity extends AppCompatActivity {
         binding.buttonUpload2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectedImageView = imageView2;
-                Intent iGallery = new Intent(Intent.ACTION_PICK);
-                iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(iGallery, GALLERY_REQ_CODE);
+                selectedImageIndex = 2;
+                openGallery();
             }
         });
 
@@ -105,10 +101,8 @@ public class ChangeUsersPhotosActivity extends AppCompatActivity {
         binding.buttonUpload3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectedImageView = imageView3;
-                Intent iGallery = new Intent(Intent.ACTION_PICK);
-                iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(iGallery, GALLERY_REQ_CODE);
+                selectedImageIndex = 3;
+                openGallery();
             }
         });
 
@@ -116,10 +110,8 @@ public class ChangeUsersPhotosActivity extends AppCompatActivity {
         binding.buttonUpload4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectedImageView = imageView4;
-                Intent iGallery = new Intent(Intent.ACTION_PICK);
-                iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(iGallery, GALLERY_REQ_CODE);
+                selectedImageIndex = 4;
+                openGallery();
             }
         });
 
@@ -127,24 +119,26 @@ public class ChangeUsersPhotosActivity extends AppCompatActivity {
         binding.buttonUpload5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectedImageView = imageView5;
-                Intent iGallery = new Intent(Intent.ACTION_PICK);
-                iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(iGallery, GALLERY_REQ_CODE);
+                selectedImageIndex = 5;
+                openGallery();
             }
         });
 
-        binding.confirmButton.setOnClickListener(new View.OnClickListener() {
+        binding.goNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isNextActivated){
-                    Users.updateUserPhoto(getUID(), "photo5", sPhoto5);
-                    Users.updateUserPhoto(getUID(), "photo1", sPhoto1);
-                    Users.updateUserPhoto(getUID(), "photo2", sPhoto2);
-                    Users.updateUserPhoto(getUID(), "photo3", sPhoto3);
-                    Users.updateUserPhoto(getUID(), "photo4", sPhoto4);
-                    finish();
+                if (firstUploaded) {
+                    updateUserPhoto(getUID(), "photo1", sPhoto1);
+                } else if (secondUploaded) {
+                    updateUserPhoto(getUID(), "photo2", sPhoto2);
+                } else if (thirdUploaded) {
+                    updateUserPhoto(getUID(), "photo3", sPhoto3);
+                } else if (fourthUploaded) {
+                    updateUserPhoto(getUID(), "photo4", sPhoto4);
+                } else if (fifthUploaded) {
+                    updateUserPhoto(getUID(), "photo5", sPhoto5);
                 }
+                finish();
             }
         });
 
@@ -156,154 +150,88 @@ public class ChangeUsersPhotosActivity extends AppCompatActivity {
         });
     }
 
+    private void openGallery() {
+        Intent iGallery = new Intent(Intent.ACTION_PICK);
+        iGallery.setType("image/*");
+        startActivityForResult(iGallery, GALLERY_REQ_CODE);
+    }
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
-            if (requestCode == GALLERY_REQ_CODE) {
-                if (selectedImageView != null) {
-                    selectedImageView.setImageURI(data.getData());
-
-                    if (selectedImageView == imageView1) {
-                        photo1 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
-                        saveImageToSharedPreferences("photo1", photo1);
-                        uploadPhotoToFirebaseStorage(data.getData(), 1);
-                        isSomethingChanged = true;
-                    } else if (selectedImageView == imageView2) {
-                        photo2 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
-                        saveImageToSharedPreferences("photo2", photo2);
-                        uploadPhotoToFirebaseStorage(data.getData(), 2);
-                        isSomethingChanged = true;
-                    } else if (selectedImageView == imageView3) {
-                        photo3 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
-                        saveImageToSharedPreferences("photo3", photo3);
-                        uploadPhotoToFirebaseStorage(data.getData(), 3);
-                        isSomethingChanged = true;
-                    } else if (selectedImageView == imageView4) {
-                        photo4 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
-                        saveImageToSharedPreferences("photo4", photo4);
-                        uploadPhotoToFirebaseStorage(data.getData(), 4);
-                        isSomethingChanged = true;
-                    } else if (selectedImageView == imageView5) {
-                        photo5 = getByteArrayFromBitmap(((BitmapDrawable) selectedImageView.getDrawable()).getBitmap());
-                        saveImageToSharedPreferences("photo5", photo5);
-                        uploadPhotoToFirebaseStorage(data.getData(), 5);
-                        isSomethingChanged = true;
+        if (resultCode == RESULT_OK && requestCode == GALLERY_REQ_CODE) {
+            if (data != null) {
+                Uri selectedImageUri = data.getData();
+                if (selectedImageUri != null && selectedImageIndex != -1) {
+                    ImageView selectedImageView = getSelectedImageView(selectedImageIndex);
+                    if (selectedImageView != null) {
+                        selectedImageView.setImageURI(selectedImageUri);
+                        uploadSelectedPhoto(selectedImageUri, selectedImageIndex);
                     }
-                    applyRoundedCorners(selectedImageView);
-                    checkIsSomethingChanged();
                 }
             }
         }
+        checkAllPhotosUploaded();
     }
 
-    private void checkIsSomethingChanged() {
-        if(isSomethingChanged){
-            binding.confirmButton.setBackgroundResource(R.drawable.button_background_blue);
-            binding.confirmButton.setTextColor(getColor(R.color.white));
-            isNextActivated = true;
-        } else{
-            isNextActivated = false;
-            binding.confirmButton.setBackgroundResource(R.drawable.button_background_gray);
-            binding.confirmButton.setTextColor(getColor(R.color.neutral_dark_gray));
+    private ImageView getSelectedImageView(int index) {
+        switch (index) {
+            case 1:
+                return imageView1;
+            case 2:
+                return imageView2;
+            case 3:
+                return imageView3;
+            case 4:
+                return imageView4;
+            case 5:
+                return imageView5;
+            default:
+                return null;
         }
     }
 
-    private void applyRoundedCorners(ImageView imageView) {
-        Drawable originalDrawable = imageView.getDrawable();
-        if (originalDrawable == null) return;
+    private void uploadSelectedPhoto(Uri photoUri, int index) {
+        String UID = getUID();
 
-        Bitmap originalBitmap = ((BitmapDrawable) originalDrawable).getBitmap();
-        int cornerRadius = 150;
-        Bitmap roundedBitmap = getRoundedCornerBitmap(originalBitmap, cornerRadius);
-
-        imageView.setImageBitmap(roundedBitmap);
-    }
-
-    private Bitmap getRoundedCornerBitmap(Bitmap bitmap, int cornerRadius) {
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        android.graphics.Canvas canvas = new android.graphics.Canvas(output);
-
-        final int color = 0xff424242;
-        final android.graphics.Paint paint = new android.graphics.Paint();
-        final android.graphics.Rect rect = new android.graphics.Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        final android.graphics.RectF rectF = new android.graphics.RectF(rect);
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, paint);
-
-        paint.setXfermode(new android.graphics.PorterDuffXfermode(android.graphics.PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-
-        return output;
-    }
-
-    private byte[] getByteArrayFromBitmap(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        return stream.toByteArray();
-    }
-
-    private String getUID() {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return sharedPreferences.getString("UID", "");
-    }
-
-    private void saveImageToSharedPreferences(String key, byte[] imageData) {
-        String base64Image = Base64.encodeToString(imageData, Base64.DEFAULT);
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(key, base64Image);
-        editor.apply();
-    }
-
-    private String getFileExtension(Uri uri) {
-        ContentResolver contentResolver = getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
-    }
-
-    private Bitmap getImageBitmapFromSharedPreferences(String key) {
-        byte[] imageByteArray = getImageFromSharedPreferences(key);
-        if (imageByteArray != null) {
-            return BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
+        if (UID == null) {
+            Log.e(TAG, "UID is null, cannot upload photo to Firebase Storage.");
+            return;
         }
-        return null;
+
+        StorageReference folderRef = storageReference.child(UID);
+        String fileExtension = getFileExtension(photoUri);
+        String uniqueFileName = "photo" + index + "." + fileExtension;
+
+        StorageReference photoRef = folderRef.child(uniqueFileName);
+
+        photoRef.putFile(photoUri)
+                .addOnSuccessListener(taskSnapshot -> {
+                    // Photo upload success
+                    photoRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        String photoUrl = uri.toString();
+                        savePhotoUrlToSharedPreferences("photoUrl" + index, photoUrl);
+                        updateUserPhoto(UID, "photo" + index, photoUrl);
+                        checkAllPhotosUploaded();
+                    });
+                })
+                .addOnFailureListener(exception -> {
+                    // Error occurred while uploading the photo
+                    Log.e(TAG, "Error uploading photo to Firebase Storage: " + exception.getMessage());
+                });
+        checkAllPhotosUploaded();
     }
 
-    private byte[] getImageFromSharedPreferences(String key) {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        String base64Image = sharedPreferences.getString(key, null);
-        if (base64Image != null) {
-            return Base64.decode(base64Image, Base64.DEFAULT);
+
+    private void checkAllPhotosUploaded() {
+        if (selectedImageIndex != 0) {
+            binding.goNextButton.setBackgroundResource(R.drawable.button_background_blue);
+            binding.goNextButton.setTextColor(ContextCompat.getColor(ChangeUsersPhotosActivity.this, android.R.color.white));
+        } else {
+            binding.goNextButton.setBackgroundResource(R.drawable.button_background_gray);
+            binding.goNextButton.setTextColor(ContextCompat.getColor(ChangeUsersPhotosActivity.this, R.color.neutral_dark_gray));
         }
-        return null;
-    }
-
-    private void setSomethingWasChanged(boolean parameter){
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("isSomethingWasChanged", parameter);
-        editor.apply();
-    }
-
-    private void customPhotoLoadingToClient(String photoName, ImageView imageView){
-        DatabaseReference Images = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child(photoName);
-        Images.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String value = snapshot.getValue(String.class);
-                Picasso.get().load(value).into(imageView);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
     private void uploadPhotoToFirebaseStorage(Uri photoUri, int number) {
@@ -319,40 +247,44 @@ public class ChangeUsersPhotosActivity extends AppCompatActivity {
 
         String fileExtension = getFileExtension(photoUri);
         String uniqueFileName = "photo" + number + "." + fileExtension;
+        if (!fileExtension.equalsIgnoreCase("jpg")) {
+            NotificationHelper.showCustomNotification(ChangeUsersPhotosActivity.this, null, "Incorrect file format", null, 0,0,0,0);
+        }
+        else {
+            StorageReference photoRef = folderRef.child(uniqueFileName);
 
-        StorageReference photoRef = folderRef.child(uniqueFileName);
-
-        photoRef.putFile(photoUri)
-                .addOnSuccessListener(taskSnapshot -> {
-                    // Photo upload success
-                    photoRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                        String photoUrl = uri.toString();
-                        // Сохраняем URL (Access token) изображения в соответствующую переменную
-                        switch (number) {
-                            case 1:
-                                sPhoto1 = photoUrl;
-                                break;
-                            case 2:
-                                sPhoto2 = photoUrl;
-                                break;
-                            case 3:
-                                sPhoto3 = photoUrl;
-                                break;
-                            case 4:
-                                sPhoto4 = photoUrl;
-                                break;
-                            case 5:
-                                sPhoto5 = photoUrl;
-                                break;
-                        }
-                        // Также можно сохранить URL (Access token) изображения в SharedPreferences, если это требуется
-                        savePhotoUrlToSharedPreferences("photoUrl" + number, photoUrl);
+            photoRef.putFile(photoUri)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        // Photo upload success
+                        photoRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                            String photoUrl = uri.toString();
+                            // Сохраняем URL (Access token) изображения в соответствующую переменную
+                            switch (number) {
+                                case 1:
+                                    sPhoto1 = photoUrl;
+                                    break;
+                                case 2:
+                                    sPhoto2 = photoUrl;
+                                    break;
+                                case 3:
+                                    sPhoto3 = photoUrl;
+                                    break;
+                                case 4:
+                                    sPhoto4 = photoUrl;
+                                    break;
+                                case 5:
+                                    sPhoto5 = photoUrl;
+                                    break;
+                            }
+                            // Также можно сохранить URL (Access token) изображения в SharedPreferences, если это требуется
+                            savePhotoUrlToSharedPreferences("photoUrl" + number, photoUrl);
+                        });
+                    })
+                    .addOnFailureListener(exception -> {
+                        // Error occurred while uploading the photo
+                        Log.e(TAG, "Error uploading photo to Firebase Storage: " + exception.getMessage());
                     });
-                })
-                .addOnFailureListener(exception -> {
-                    // Error occurred while uploading the photo
-                    Log.e(TAG, "Error uploading photo to Firebase Storage: " + exception.getMessage());
-                });
+        }
     }
 
     private void savePhotoUrlToSharedPreferences(String key, String photoUrl) {
@@ -360,5 +292,16 @@ public class ChangeUsersPhotosActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key, photoUrl);
         editor.apply();
+    }
+
+    private String getFileExtension(Uri uri) {
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    private String getUID() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getString("UID", "");
     }
 }

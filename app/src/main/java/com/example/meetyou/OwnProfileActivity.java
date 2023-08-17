@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class OwnProfileActivity extends AppCompatActivity {
+    Toast currentToast;
     public String photo1URL;
     public String photo2URL;
     public String photo3URL;
@@ -222,6 +223,14 @@ public class OwnProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        binding.likesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(OwnProfileActivity.this, UserLikedByActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -282,7 +291,12 @@ public class OwnProfileActivity extends AppCompatActivity {
     public void onBackPressed() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastBackPressedTime > 750) {
-            Toast.makeText(this, R.string.to_exit_press_again_message, Toast.LENGTH_SHORT).show();
+            if (currentToast != null) {
+                currentToast.cancel();
+            }
+            currentToast = Toast.makeText(this, R.string.to_exit_press_again_message, Toast.LENGTH_SHORT);
+            currentToast.show();
+//            Toast.makeText(this, R.string.to_exit_press_again_message, Toast.LENGTH_SHORT).show();
             lastBackPressedTime = currentTime;
         } else {
             super.onBackPressed();
