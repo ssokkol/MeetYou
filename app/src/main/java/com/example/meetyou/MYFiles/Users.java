@@ -12,6 +12,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -510,6 +515,21 @@ public class Users {
                     // Пользователь уже был лайкнут, ничего не делаем
                     return;
                 }
+                likedUserRef.child("likesCount").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Integer currentLikesCount = snapshot.getValue(Integer.class);
+                        if (currentLikesCount != null) {
+                            int newLikesCount = currentLikesCount + 1;
+                            likedUserRef.child("likesCount").setValue(newLikesCount);
+                        } else{
+                            likedUserRef.child("likesCount").setValue(1);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
 
                 // Если пользователь еще не лайкал этого человека, добавляем лайк
                 currentUserRef.child("likedUsers").child(likedUserUID).setValue(true);
@@ -518,6 +538,20 @@ public class Users {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot likedUserSnapshot) {
                         if (likedUserSnapshot.exists()) {
+                            likedUserRef.child("userToken").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()) {
+                                        String likedUserToken = snapshot.getValue(String.class);
+                                        sendLikeNotification(likedUserToken, "Name");
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
                             // Оба пользователей лайкнули друг друга, проверяем наличие чата
                             DatabaseReference chatCheckRef = FirebaseDatabase.getInstance().getReference("Chats");
 
@@ -531,7 +565,6 @@ public class Users {
 
                                         ChatItem currentUserChat = new ChatItem(chatName,currentUserPhoto, likedUserPhoto, currentUserUID, likedUserUID, "Hello there!", "Hello there!");
 //                                        ChatItem likedUserChat = new ChatItem(R.drawable.photo_1, currentUserUID, null);
-
                                         chatRef.setValue(currentUserChat);
 //                                        chatRef.child(likedUserUID).setValue(likedUserChat);
 
@@ -559,5 +592,24 @@ public class Users {
                 // Обработка ошибок, если не удалось проверить наличие лайка
             }
         });
+    }
+
+    public static void sendLikeNotification(String likedUserToken, String currentUserDisplayName) {
+        JSONObject notification = new JSONObject();
+        JSONObject notificationBody = new JSONObject();
+
+        try {
+            notificationBody.put("title", "New Like!");
+            notificationBody.put("body", currentUserDisplayName + " liked you back!");
+            notification.put("to", likedUserToken);
+            notification.put("data", notificationBody);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        FirebaseMessaging.getInstance().send(new RemoteMessage.Builder("YOUR_SENDER_ID@gcm.googleapis.com")
+                .setMessageId(Integer.toString(0))
+                .addData("notification", notification.toString())
+                .build());
     }
 }

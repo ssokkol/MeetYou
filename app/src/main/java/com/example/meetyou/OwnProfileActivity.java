@@ -17,6 +17,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -35,6 +36,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -67,6 +69,18 @@ public class OwnProfileActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         getWindow().setStatusBarColor(ContextCompat.getColor(OwnProfileActivity.this, R.color.main));
+
+        FirebaseMessaging.getInstance().getToken()
+                        .addOnCompleteListener(task -> {
+                            if(task.isSuccessful() && task.getResult() != null){
+                                String token = task.getResult();
+                                FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("userToken").setValue(token);
+                                Log.d("FCM token", token);
+                            } else{
+                                Log.e("FCM token", "token registration failed", task.getException());
+                            }
+                        });
+
 
         getName(new OnNameReceivedListener() {
             @Override
@@ -238,9 +252,12 @@ public class OwnProfileActivity extends AppCompatActivity {
         super.onStart();
 
         // Получение данных пользователя и отображение их в представлении
-//        String nameText = getUserName();
-//        binding.nameTextView.setText(nameText);
-//        binding.additionalTextView.setText(getUserBio());
+        getStats(new OnStatsReceivedListener() {
+            @Override
+            public void onStatsReceived(int likes) {
+                binding.likesText.setText(String.valueOf(likes));
+            }
+        });
         Users.getUserDataFromFirebase(getUID(), new Users.OnUserDataListener() {
             @Override
             public void onDataLoaded(String color, String userName, String bio, String photo1, String photo2, String photo3, String photo4,String photo5, String UID, int age) {
@@ -323,27 +340,6 @@ public class OwnProfileActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-    }
-
-    // Методы для получения данных пользователя из SharedPreferences
-//    private String getUserBio() {
-//        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-//        return sharedPreferences.getString("bio", "");
-//    }
-
-//    private int getUserAge() {
-//        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-//        return sharedPreferences.getInt("age", 0);
-//    }
-
-//    private String getUserName() {
-//        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-//        return sharedPreferences.getString("name", "");
-//    }
-
-    private boolean getChanges() {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return sharedPreferences.getBoolean("isSomethingWasChanged", false);
     }
 
     // Преобразование закодированного изображения в Bitmap
@@ -472,6 +468,30 @@ public class OwnProfileActivity extends AppCompatActivity {
 
     interface OnBioReceivedListener {
         void onBioReceived(String bio);
+    }
+
+    private void getStats(final OnStatsReceivedListener listener){
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID());
+        userRef.child("likesCount").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    int likes = snapshot.getValue(Integer.class);
+                    listener.onStatsReceived(likes);
+                } else{
+                    listener.onStatsReceived(0);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    interface OnStatsReceivedListener{
+        void onStatsReceived(int likes);
     }
     // Метод для получения UID пользователя из SharedPreferences
     private String getUID() {

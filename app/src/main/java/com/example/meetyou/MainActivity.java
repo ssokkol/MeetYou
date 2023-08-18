@@ -36,11 +36,6 @@ public class MainActivity extends AppCompatActivity {
     private List<String> viewedUsersList = new ArrayList<>();
     FirebaseAuth mAuth;
     @NonNull ActivityMainBinding binding;
-    String gender;
-    String findGender;
-    String findWeight;
-    String findHeight;
-    Users user = new Users();
     String foundUID;
 
     int[] photos = {
@@ -56,12 +51,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.main));
-        gender = getGender();
-        findWeight = getFindWeight();
-        findHeight = getFindHeight();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        findUser();
 
         binding.likebutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,7 +222,6 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
 
         super.onStart();
-        findUser();
     }
     private String getUserEmail() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
@@ -243,11 +236,6 @@ public class MainActivity extends AppCompatActivity {
     private String getUID(){
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("UID", "");
-    }
-    private String getGender(){
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return sharedPreferences.getString("gender", "");
-//        return user.getGender();
     }
     private void getFindGender(final OnFindGenderReceivedListener listener) {
         DatabaseReference findGenderRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("findGender");
@@ -270,16 +258,6 @@ public class MainActivity extends AppCompatActivity {
     }
     interface OnFindGenderReceivedListener {
         void onFindGenderReceived(String userFindGender);
-    }
-    private String getFindWeight(){
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return sharedPreferences.getString("findWeight", "");
-//        return user.getFindWeight();
-    }
-    private String getFindHeight(){
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return sharedPreferences.getString("findHeight", "");
-//        return user.getFindHeight();
     }
 
     private void getName(final OnNameReceivedListener listener) {
@@ -306,45 +284,58 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void findUser(){
-        getFindGender(new OnFindGenderReceivedListener() {
+        getFindWeight(new onFindWeightReceivedListener() {
             @Override
-            public void onFindGenderReceived(String userFindGender) {
-                Log.w("findGender", userFindGender);
-                Users.getRandomUserFromPool(MainActivity.this ,getMinAge(), getMaxAge(), gender, userFindGender, findHeight, findWeight, getUID(), new Users.OnUserDataListener() {
+            public void onFindWeightReceived(String findWeight) {
+                getFindHeight(new onFindHeightReceivedListener() {
                     @Override
-                    public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5, String UID, int age) {
-                        binding.informationTextView.setText(userBio);
-                        binding.nameTextView.setText(userName + ", " + String.valueOf(age));
-                        binding.genderColor2View.setBackgroundColor(Color.parseColor(color));
-                        binding.genderColorView.setBackgroundColor(Color.parseColor(color));
-                        foundUID = UID;
-                        viewedUsersList.add(UID);
-                        for(int i = 0; i < 10; i++){
-                            Log.e("Error", foundUID+" Hello ");
-                        }
-                        currentUrls.clear();
-                        currentUrls.add(photo1);
-                        currentUrls.add(photo2);
-                        currentUrls.add(photo3);
-                        currentUrls.add(photo4);
-                        currentUrls.add(photo5);
-                        PhotoAdapter photoAdapter = new PhotoAdapter(currentUrls);
-                        binding.viewPager.setAdapter(photoAdapter);
-                        photoAdapter.notifyDataSetChanged();
-                    }
+                    public void onFindHeightReceived(String findHeight) {
+                        getGender(new OnGenderReceivedListener() {
+                            @Override
+                            public void onGenderReceived(String gender) {
+                                getFindGender(new OnFindGenderReceivedListener() {
+                                    @Override
+                                    public void onFindGenderReceived(String userFindGender) {
+                                        Log.w("findGender", userFindGender);
+                                        Users.getRandomUserFromPool(MainActivity.this ,getMinAge(), getMaxAge(), gender, userFindGender, findHeight, findWeight, getUID(), new Users.OnUserDataListener() {
+                                            @Override
+                                            public void onDataLoaded(String color, String userName, String userBio, String photo1, String photo2, String photo3, String photo4,String photo5, String UID, int age) {
+                                                binding.informationTextView.setText(userBio);
+                                                binding.nameTextView.setText(userName + ", " + String.valueOf(age));
+                                                binding.genderColor2View.setBackgroundColor(Color.parseColor(color));
+                                                binding.genderColorView.setBackgroundColor(Color.parseColor(color));
+                                                foundUID = UID;
+                                                viewedUsersList.add(UID);
+                                                for(int i = 0; i < 10; i++){
+                                                    Log.e("Error", foundUID+" Hello ");
+                                                }
+                                                currentUrls.clear();
+                                                currentUrls.add(photo1);
+                                                currentUrls.add(photo2);
+                                                currentUrls.add(photo3);
+                                                currentUrls.add(photo4);
+                                                currentUrls.add(photo5);
+                                                PhotoAdapter photoAdapter = new PhotoAdapter(currentUrls);
+                                                binding.viewPager.setAdapter(photoAdapter);
+                                                photoAdapter.notifyDataSetChanged();
+                                            }
 
-                    @Override
-                    public void onDataLoaded(Users user) {
+                                            @Override
+                                            public void onDataLoaded(Users user) {
 
-                    }
-
-                    @Override
-                    public void onDataNotAvailable() {
+                                            }
+                                            @Override
+                                            public void onDataNotAvailable() {
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             }
         });
-
     }
 
     private void getProfilePhoto(final OnProfilePhotoReceivedListener listener) {
@@ -368,6 +359,78 @@ public class MainActivity extends AppCompatActivity {
     }
     interface OnProfilePhotoReceivedListener {
         void onProfilePhotoReceived(String profilePhoto);
+    }
+
+    private void getGender(final OnGenderReceivedListener listener){
+        DatabaseReference genderRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("gender");
+        genderRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String gender = snapshot.getValue(String.class);
+                if(gender != null){
+                    listener.onGenderReceived(gender);
+                }else{
+                    listener.onGenderReceived(" ");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onGenderReceived(" ");
+            }
+        });
+    }
+
+    interface OnGenderReceivedListener{
+        void onGenderReceived(String gender);
+    }
+
+    private void getFindWeight(final onFindWeightReceivedListener listener){
+        DatabaseReference findWeightRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("findWeight");
+        findWeightRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String findWeight = snapshot.getValue(String.class);
+                if(findWeight != null){
+                    listener.onFindWeightReceived(findWeight);
+                } else{
+                    listener.onFindWeightReceived(" ");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onFindWeightReceived(" ");
+            }
+        });
+    }
+
+    interface onFindWeightReceivedListener{
+        void onFindWeightReceived(String findWeight);
+    }
+
+    private void getFindHeight(final onFindHeightReceivedListener listener){
+        DatabaseReference findHeightRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("findHeight");
+        findHeightRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String findHeight = snapshot.getValue(String.class);
+                if(findHeight != null){
+                    listener.onFindHeightReceived(findHeight);
+                } else{
+                    listener.onFindHeightReceived(" ");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onFindHeightReceived(" ");
+            }
+        });
+    }
+
+    interface onFindHeightReceivedListener{
+        void onFindHeightReceived(String findHeight);
     }
     public static void getUserByUID(String uid, final Users.OnUserDataListener listener) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users").child(uid);
