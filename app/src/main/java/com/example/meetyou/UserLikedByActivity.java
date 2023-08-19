@@ -3,6 +3,7 @@ package com.example.meetyou;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.TableLayout;
@@ -13,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.meetyou.Messenger.MessengerActivity;
 import com.example.meetyou.UserLikedBy.NonMegaLikeAdapter;
 import com.example.meetyou.UserLikedBy.NonMegaLikeItem;
+import com.example.meetyou.UserLikedBy.NonPrimeLikeAdapter;
+import com.example.meetyou.UserLikedBy.NonPrimeLikeItem;
 import com.example.meetyou.databinding.ActivityUserLikedByBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -106,28 +109,56 @@ public class UserLikedByActivity extends AppCompatActivity {
 
     private void loadUsersWhoLikedMe() {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
+        DatabaseReference userStatus = FirebaseDatabase.getInstance().getReference("Users").child(getUID());
 
         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<NonMegaLikeItem> likedByUsersList = new ArrayList<>();
+                getStatus(new OnStatusReceivedListener() {
+                    @Override
+                    public void OnStatusReceived(String userSub) {
+                        if (!userSub.equals("basic") && !userSub.equals("vip")) {
+                            List<NonMegaLikeItem> likedByUsersList = new ArrayList<>();
+                            for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                                String userID = userSnapshot.getKey();
+                                DataSnapshot likedUsersSnapshot = userSnapshot.child("likedUsers");
 
-                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                    String userID = userSnapshot.getKey();
-                    DataSnapshot likedUsersSnapshot = userSnapshot.child("likedUsers");
+                                if (likedUsersSnapshot.hasChild(getUID()) && likedUsersSnapshot.child(getUID()).getValue(Boolean.class)) {
+                                    likedByUsersList.add(new NonMegaLikeItem(userID, "photo1"));
+                                }
+                            }
 
-                    if (likedUsersSnapshot.hasChild(getUID()) && likedUsersSnapshot.child(getUID()).getValue(Boolean.class)) {
-                        likedByUsersList.add(new NonMegaLikeItem(userID, "photo1"));
+                            GridLayout likedByTable = findViewById(R.id.liked_by_table);
+                            NonMegaLikeAdapter adapter = new NonMegaLikeAdapter(UserLikedByActivity.this, R.layout.nonmegalike, likedByUsersList);
+
+                            for (int i = 0; i < adapter.getCount(); i++) {
+                                View itemRow = adapter.getView(i, null, likedByTable);
+                                likedByTable.addView(itemRow);
+                            }
+                        }else {
+                            List<NonPrimeLikeItem> likedByUsersList = new ArrayList<>();
+                            for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                                String userID = userSnapshot.getKey();
+                                DataSnapshot likedUsersSnapshot = userSnapshot.child("likedUsers");
+
+                                if (likedUsersSnapshot.hasChild(getUID()) && likedUsersSnapshot.child(getUID()).getValue(Boolean.class)) {
+                                    likedByUsersList.add(new NonPrimeLikeItem(null, null));
+                                }
+                            }
+
+                            GridLayout likedByTable = findViewById(R.id.liked_by_table);
+                            NonPrimeLikeAdapter adapter = new NonPrimeLikeAdapter(UserLikedByActivity.this, R.layout.non_prime_like, likedByUsersList);
+
+                            for (int i = 0; i < adapter.getCount(); i++) {
+                                View itemRow = adapter.getView(i, null, likedByTable);
+                                likedByTable.addView(itemRow);
+                            }
+                        }
+
                     }
-                }
+                });
 
-                GridLayout likedByTable = findViewById(R.id.liked_by_table);
-                NonMegaLikeAdapter adapter = new NonMegaLikeAdapter(UserLikedByActivity.this, R.layout.nonmegalike, likedByUsersList);
-
-                for (int i = 0; i < adapter.getCount(); i++) {
-                    View itemRow = adapter.getView(i, null, likedByTable);
-                    likedByTable.addView(itemRow);
-                }
             }
 
             @Override
@@ -137,9 +168,30 @@ public class UserLikedByActivity extends AppCompatActivity {
         });
     }
 
-
+    public interface OnStatusReceivedListener{
+        void OnStatusReceived(String userSub);
+    }
     private String getUID() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("UID", "");
+    }
+    private void getStatus(final OnStatusReceivedListener listener){
+        DatabaseReference statusRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("status");
+        statusRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String userSub = snapshot.getValue(String.class);
+                if (snapshot.exists()) {
+                    listener.OnStatusReceived(userSub);
+                } else {
+                    listener.OnStatusReceived("basic");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.OnStatusReceived("basic");
+            }
+        });
     }
 }

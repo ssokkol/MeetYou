@@ -5,34 +5,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/transparent">
     <RelativeLayout
-        android:id="@+id/main_layout"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
+            android:id="@+id/main_layout"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
         android:layout_centerInParent="true"
-        android:background="@drawable/button_background">
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/Imageepta"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@mipmap/ic_launcher"
-            android:scaleType="centerCrop"
-            android:padding="15dp"
-            app:shapeAppearanceOverlay="@style/rounded"/>
-        <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/gradient_shadow"
-            android:scaleType="centerCrop"
-            android:padding="15dp"
-            app:shapeAppearanceOverlay="@style/rounded"/>
-        <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/gradient_shadow"
-            android:scaleType="centerCrop"
-            android:scaleY="-1"
-            android:padding="15dp"
-            app:shapeAppearanceOverlay="@style/rounded"/>
+            android:background="@drawable/button_background">
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/Imageepta"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@color/main"
+                android:scaleType="centerCrop"
+                android:padding="12dp"
+                app:shapeAppearanceOverlay="@style/rounded"/>
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/gradient_shadow"
+                android:scaleType="centerCrop"
+                android:padding="12dp"
+                app:shapeAppearanceOverlay="@style/rounded"/>
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/gradient_shadow"
+                android:scaleType="centerCrop"
+                android:scaleY="-1"
+                android:padding="12dp"
+                app:shapeAppearanceOverlay="@style/rounded"/>
         <TextView
             android:id="@+id/name_text_view"
             android:layout_width="match_parent"
@@ -42,7 +42,7 @@
             android:textColor="@color/white"
             android:textAllCaps="false"
             android:textStyle="normal"
-            android:textSize="13sp"
+            android:textSize="12sp"
             android:gravity="center"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"/>

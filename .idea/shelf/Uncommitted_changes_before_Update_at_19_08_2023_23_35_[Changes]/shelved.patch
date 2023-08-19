@@ -1,0 +1,224 @@
+Index: app/src/main/java/com/example/meetyou/UserLikedByActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.meetyou;\r\n\r\nimport android.content.Intent;\r\nimport android.content.SharedPreferences;\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.GridLayout;\r\nimport android.widget.TableLayout;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport com.example.meetyou.Messenger.MessengerActivity;\r\nimport com.example.meetyou.UserLikedBy.NonMegaLikeAdapter;\r\nimport com.example.meetyou.UserLikedBy.NonMegaLikeItem;\r\nimport com.example.meetyou.databinding.ActivityUserLikedByBinding;\r\nimport com.google.firebase.database.DataSnapshot;\r\nimport com.google.firebase.database.DatabaseError;\r\nimport com.google.firebase.database.DatabaseReference;\r\nimport com.google.firebase.database.FirebaseDatabase;\r\nimport com.google.firebase.database.ValueEventListener;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class UserLikedByActivity extends AppCompatActivity {\r\n\r\n    ActivityUserLikedByBinding binding;\r\n    private ArrayList<NonMegaLikeItem> nonMegaLikeItems;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        binding = ActivityUserLikedByBinding.inflate(getLayoutInflater());\r\n        setContentView(binding.getRoot());\r\n\r\n        loadUsersWhoLikedMe();\r\n\r\n        binding.profileButton.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                finish();\r\n            }\r\n        });\r\n\r\n        binding.messageButton.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                Intent intent = new Intent(UserLikedByActivity.this, MessengerActivity.class);\r\n                startActivity(intent);\r\n                finish();\r\n            }\r\n        });\r\n\r\n\r\n        binding.shopButton.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                Intent intent = new Intent(UserLikedByActivity.this, ShopActivity.class);\r\n                startActivity(intent);\r\n                finish();\r\n            }\r\n        });\r\n\r\n\r\n        binding.findButton.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                Intent intent = new Intent(UserLikedByActivity.this, MainActivity.class);\r\n                startActivity(intent);\r\n                finish();\r\n            }\r\n        });\r\n    }\r\n    private void loadLikedUsers() {\r\n        DatabaseReference currentUserLikedRef = FirebaseDatabase.getInstance().getReference(\"Users\")\r\n                .child(getUID())\r\n                .child(\"likedUsers\");\r\n\r\n        currentUserLikedRef.addListenerForSingleValueEvent(new ValueEventListener() {\r\n            @Override\r\n            public void onDataChange(@NonNull DataSnapshot snapshot) {\r\n                List<NonMegaLikeItem> likedUsersList = new ArrayList<>();\r\n\r\n                for (DataSnapshot userSnapshot : snapshot.getChildren()) {\r\n                    String likedUserID = userSnapshot.getKey();\r\n                    if (userSnapshot.getValue(Boolean.class) != null && userSnapshot.getValue(Boolean.class)) {\r\n                        likedUsersList.add(new NonMegaLikeItem(likedUserID, \"photo1\"));\r\n                    }\r\n                }\r\n\r\n                GridLayout likedByTable = findViewById(R.id.liked_by_table);\r\n                NonMegaLikeAdapter adapter = new NonMegaLikeAdapter(UserLikedByActivity.this, R.layout.nonmegalike, likedUsersList);\r\n\r\n                for (int i = 0; i < adapter.getCount(); i++) {\r\n                    View itemRow = adapter.getView(i, null, likedByTable);\r\n                    likedByTable.addView(itemRow);\r\n                }\r\n            }\r\n\r\n            @Override\r\n            public void onCancelled(@NonNull DatabaseError error) {\r\n            }\r\n        });\r\n    }\r\n\r\n    private void loadUsersWhoLikedMe() {\r\n        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference(\"Users\");\r\n\r\n        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {\r\n            @Override\r\n            public void onDataChange(@NonNull DataSnapshot snapshot) {\r\n                List<NonMegaLikeItem> likedByUsersList = new ArrayList<>();\r\n\r\n                for (DataSnapshot userSnapshot : snapshot.getChildren()) {\r\n                    String userID = userSnapshot.getKey();\r\n                    DataSnapshot likedUsersSnapshot = userSnapshot.child(\"likedUsers\");\r\n\r\n                    if (likedUsersSnapshot.hasChild(getUID()) && likedUsersSnapshot.child(getUID()).getValue(Boolean.class)) {\r\n                        likedByUsersList.add(new NonMegaLikeItem(userID, \"photo1\"));\r\n                    }\r\n                }\r\n\r\n                GridLayout likedByTable = findViewById(R.id.liked_by_table);\r\n                NonMegaLikeAdapter adapter = new NonMegaLikeAdapter(UserLikedByActivity.this, R.layout.nonmegalike, likedByUsersList);\r\n\r\n                for (int i = 0; i < adapter.getCount(); i++) {\r\n                    View itemRow = adapter.getView(i, null, likedByTable);\r\n                    likedByTable.addView(itemRow);\r\n                }\r\n            }\r\n\r\n            @Override\r\n            public void onCancelled(@NonNull DatabaseError error) {\r\n                finish();\r\n            }\r\n        });\r\n    }\r\n\r\n\r\n    private String getUID() {\r\n        SharedPreferences sharedPreferences = getSharedPreferences(\"UserPrefs\", MODE_PRIVATE);\r\n        return sharedPreferences.getString(\"UID\", \"\");\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/meetyou/UserLikedByActivity.java b/app/src/main/java/com/example/meetyou/UserLikedByActivity.java
+--- a/app/src/main/java/com/example/meetyou/UserLikedByActivity.java	(revision edfd13b67aa39174526fd9de0f1e8892b2e998ac)
++++ b/app/src/main/java/com/example/meetyou/UserLikedByActivity.java	(date 1692477283780)
+@@ -3,6 +3,7 @@
+ import android.content.Intent;
+ import android.content.SharedPreferences;
+ import android.os.Bundle;
++import android.util.Log;
+ import android.view.View;
+ import android.widget.GridLayout;
+ import android.widget.TableLayout;
+@@ -13,6 +14,8 @@
+ import com.example.meetyou.Messenger.MessengerActivity;
+ import com.example.meetyou.UserLikedBy.NonMegaLikeAdapter;
+ import com.example.meetyou.UserLikedBy.NonMegaLikeItem;
++import com.example.meetyou.UserLikedBy.NonPrimeLikeAdapter;
++import com.example.meetyou.UserLikedBy.NonPrimeLikeItem;
+ import com.example.meetyou.databinding.ActivityUserLikedByBinding;
+ import com.google.firebase.database.DataSnapshot;
+ import com.google.firebase.database.DatabaseError;
+@@ -106,28 +109,56 @@
+ 
+     private void loadUsersWhoLikedMe() {
+         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
++        DatabaseReference userStatus = FirebaseDatabase.getInstance().getReference("Users").child(getUID());
+ 
+         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
++
+             @Override
+             public void onDataChange(@NonNull DataSnapshot snapshot) {
+-                List<NonMegaLikeItem> likedByUsersList = new ArrayList<>();
+-
+-                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+-                    String userID = userSnapshot.getKey();
+-                    DataSnapshot likedUsersSnapshot = userSnapshot.child("likedUsers");
++                getStatus(new OnStatusReceivedListener() {
++                    @Override
++                    public void OnStatusReceived(String userSub) {
++                        if (!userSub.equals("basic")) {
++                            List<NonMegaLikeItem> likedByUsersList = new ArrayList<>();
++                            for (DataSnapshot userSnapshot : snapshot.getChildren()) {
++                                String userID = userSnapshot.getKey();
++                                DataSnapshot likedUsersSnapshot = userSnapshot.child("likedUsers");
+ 
+-                    if (likedUsersSnapshot.hasChild(getUID()) && likedUsersSnapshot.child(getUID()).getValue(Boolean.class)) {
+-                        likedByUsersList.add(new NonMegaLikeItem(userID, "photo1"));
+-                    }
+-                }
++                                if (likedUsersSnapshot.hasChild(getUID()) && likedUsersSnapshot.child(getUID()).getValue(Boolean.class)) {
++                                    likedByUsersList.add(new NonMegaLikeItem(userID, "photo1"));
++                                }
++                            }
+ 
+-                GridLayout likedByTable = findViewById(R.id.liked_by_table);
+-                NonMegaLikeAdapter adapter = new NonMegaLikeAdapter(UserLikedByActivity.this, R.layout.nonmegalike, likedByUsersList);
++                            GridLayout likedByTable = findViewById(R.id.liked_by_table);
++                            NonMegaLikeAdapter adapter = new NonMegaLikeAdapter(UserLikedByActivity.this, R.layout.nonmegalike, likedByUsersList);
+ 
+-                for (int i = 0; i < adapter.getCount(); i++) {
+-                    View itemRow = adapter.getView(i, null, likedByTable);
+-                    likedByTable.addView(itemRow);
+-                }
++                            for (int i = 0; i < adapter.getCount(); i++) {
++                                View itemRow = adapter.getView(i, null, likedByTable);
++                                likedByTable.addView(itemRow);
++                            }
++                        }else {
++                            List<NonPrimeLikeItem> likedByUsersList = new ArrayList<>();
++                            for (DataSnapshot userSnapshot : snapshot.getChildren()) {
++                                String userID = userSnapshot.getKey();
++                                DataSnapshot likedUsersSnapshot = userSnapshot.child("likedUsers");
++
++                                if (likedUsersSnapshot.hasChild(getUID()) && likedUsersSnapshot.child(getUID()).getValue(Boolean.class)) {
++                                    likedByUsersList.add(new NonPrimeLikeItem(null, null));
++                                }
++                            }
++
++                            GridLayout likedByTable = findViewById(R.id.liked_by_table);
++                            NonPrimeLikeAdapter adapter = new NonPrimeLikeAdapter(UserLikedByActivity.this, R.layout.non_prime_like, likedByUsersList);
++
++                            for (int i = 0; i < adapter.getCount(); i++) {
++                                View itemRow = adapter.getView(i, null, likedByTable);
++                                likedByTable.addView(itemRow);
++                            }
++                        }
++
++                    }
++                });
++
+             }
+ 
+             @Override
+@@ -137,9 +168,30 @@
+         });
+     }
+ 
+-
++    public interface OnStatusReceivedListener{
++        void OnStatusReceived(String userSub);
++    }
+     private String getUID() {
+         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+         return sharedPreferences.getString("UID", "");
+     }
++    private void getStatus(final OnStatusReceivedListener listener){
++        DatabaseReference statusRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("status");
++        statusRef.addListenerForSingleValueEvent(new ValueEventListener() {
++            @Override
++            public void onDataChange(@NonNull DataSnapshot snapshot) {
++                String userSub = snapshot.getValue(String.class);
++                if (snapshot.exists()) {
++                    listener.OnStatusReceived(userSub);
++                } else {
++                    listener.OnStatusReceived("basic");
++                }
++            }
++
++            @Override
++            public void onCancelled(@NonNull DatabaseError error) {
++                listener.OnStatusReceived("basic");
++            }
++        });
++    }
+ }
+\ No newline at end of file
+Index: app/src/main/java/com/example/meetyou/UserLikedBy/NonPrimeLikeItem.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/meetyou/UserLikedBy/NonPrimeLikeItem.java b/app/src/main/java/com/example/meetyou/UserLikedBy/NonPrimeLikeItem.java
+new file mode 100644
+--- /dev/null	(date 1692476060964)
++++ b/app/src/main/java/com/example/meetyou/UserLikedBy/NonPrimeLikeItem.java	(date 1692476060964)
+@@ -0,0 +1,19 @@
++package com.example.meetyou.UserLikedBy;
++
++public class NonPrimeLikeItem {
++    private String name;
++    private String photoName;
++
++    public NonPrimeLikeItem(String name, String photoName) {
++        this.name = name;
++        this.photoName = photoName;
++    }
++
++    public String getName() {
++        return name;
++    }
++
++    public String getPhotoName() {
++        return photoName;
++    }
++}
+Index: app/src/main/java/com/example/meetyou/UserLikedBy/NonPrimeLikeAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/meetyou/UserLikedBy/NonPrimeLikeAdapter.java b/app/src/main/java/com/example/meetyou/UserLikedBy/NonPrimeLikeAdapter.java
+new file mode 100644
+--- /dev/null	(date 1692476263118)
++++ b/app/src/main/java/com/example/meetyou/UserLikedBy/NonPrimeLikeAdapter.java	(date 1692476263118)
+@@ -0,0 +1,52 @@
++package com.example.meetyou.UserLikedBy;
++
++import android.content.Context;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.ArrayAdapter;
++import android.widget.ImageView;
++import android.widget.TextView;
++
++import androidx.annotation.NonNull;
++
++import com.example.meetyou.R;
++import com.google.firebase.database.DataSnapshot;
++import com.google.firebase.database.DatabaseError;
++import com.google.firebase.database.DatabaseReference;
++import com.google.firebase.database.FirebaseDatabase;
++import com.google.firebase.database.ValueEventListener;
++import com.google.firebase.database.annotations.Nullable;
++import com.squareup.picasso.Picasso;
++
++import java.util.List;
++
++public class NonPrimeLikeAdapter extends ArrayAdapter<NonPrimeLikeItem> {
++
++    private Context context;
++    private int resource;
++
++    public NonPrimeLikeAdapter(Context context, int resource, List<NonPrimeLikeItem> items) {
++        super(context, resource, items);
++        this.context = context;
++        this.resource = resource;
++    }
++
++    @NonNull
++    @Override
++    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
++        View view = convertView;
++        if (view == null) {
++            view = LayoutInflater.from(context).inflate(resource, parent, false);
++        }
++
++        NonPrimeLikeItem item = getItem(position);
++        if (item != null) {
++            TextView nameText = view.findViewById(R.id.name_text_view);
++            ImageView imageView = view.findViewById(R.id.profile_image);
++        }
++
++        return view;
++    }
++
++}
+\ No newline at end of file
