@@ -10,7 +10,7 @@
             android:layout_height="150dp"
             android:background="@drawable/button_background">
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/Imageepta"
+                android:id="@+id/profile_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/photo_2"
@@ -18,7 +18,7 @@
                 android:padding="15dp"
                 app:shapeAppearanceOverlay="@style/rounded"/>
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/Imagepta"
+                android:id="@+id/shadow_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/gradient_shadow"
@@ -27,6 +27,7 @@
                 android:padding="15dp"
                 app:shapeAppearanceOverlay="@style/rounded"/>
         <TextView
+            android:id="@+id/name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name, 19"
@@ -34,8 +35,8 @@
             android:textAllCaps="false"
             android:textStyle="bold"
             android:textSize="15sp"
-            android:layout_alignBottom="@id/Imageepta"
+            android:layout_alignBottom="@id/profile_image"
             android:layout_centerHorizontal="true"
-            android:paddingBottom="20dp"/>
+            android:layout_marginBottom="20dp"/>
     </RelativeLayout>
 </RelativeLayout>

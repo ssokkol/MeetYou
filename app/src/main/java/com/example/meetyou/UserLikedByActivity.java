@@ -102,6 +102,7 @@ public class UserLikedByActivity extends AppCompatActivity {
             }
         });
     }
+
     private void loadUsersWhoLikedMe() {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
 
