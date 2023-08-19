@@ -6,8 +6,9 @@
     android:background="@android:color/transparent">
     <RelativeLayout
         android:id="@+id/main_layout"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_centerInParent="true"
         android:background="@drawable/button_background">
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/Imageepta"
@@ -21,7 +22,9 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/megalike"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
+            android:scaleY="0.8"
+            android:scaleX="0.8"
             android:layout_alignParentRight="true"/>
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/Imagepta"
