@@ -43,7 +43,7 @@
             android:textColor="@color/white"
             android:textAllCaps="false"
             android:textStyle="bold"
-            android:textSize="15sp"
+            android:textSize="13sp"
             android:layout_alignBottom="@id/Imageepta"
             android:layout_centerHorizontal="true"
             android:paddingBottom="20dp"/>
