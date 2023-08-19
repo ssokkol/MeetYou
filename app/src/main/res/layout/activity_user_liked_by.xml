@@ -78,16 +78,16 @@
         android:layout_marginBottom="61dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <TableLayout
+    <GridLayout
         android:id="@+id/liked_by_table"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_layout"
         android:layout_below="@id/main_header"
-        android:columnCount="3"
-        android:rowCount="0">
+        android:rowCount="3"
+        android:columnCount="3">
 
-    </TableLayout>
+    </GridLayout>
     </ScrollView>
     <RelativeLayout
         android:id="@+id/bottom_layout"

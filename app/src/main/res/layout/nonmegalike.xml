@@ -6,8 +6,8 @@
     android:background="@android:color/transparent">
     <RelativeLayout
             android:id="@+id/main_layout"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:background="@drawable/button_background">
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/profile_image"
@@ -15,7 +15,7 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/photo_2"
                 android:scaleType="centerCrop"
-                android:padding="15dp"
+                android:padding="5dp"
                 app:shapeAppearanceOverlay="@style/rounded"/>
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/shadow_image"
@@ -24,7 +24,7 @@
                 android:src="@drawable/gradient_shadow"
                 android:scaleType="centerCrop"
                 android:scaleY="-1"
-                android:padding="15dp"
+                android:padding="5dp"
                 app:shapeAppearanceOverlay="@style/rounded"/>
         <TextView
             android:id="@+id/name_text_view"
@@ -34,9 +34,9 @@
             android:textColor="@color/white"
             android:textAllCaps="false"
             android:textStyle="bold"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:layout_alignBottom="@id/profile_image"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="10dp"/>
     </RelativeLayout>
 </RelativeLayout>

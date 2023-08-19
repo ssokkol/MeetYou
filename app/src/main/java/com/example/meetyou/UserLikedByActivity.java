@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.GridLayout;
 import android.widget.TableLayout;
 
 import androidx.annotation.NonNull;
@@ -88,7 +89,7 @@ public class UserLikedByActivity extends AppCompatActivity {
                     }
                 }
 
-                TableLayout likedByTable = findViewById(R.id.liked_by_table);
+                GridLayout likedByTable = findViewById(R.id.liked_by_table);
                 NonMegaLikeAdapter adapter = new NonMegaLikeAdapter(UserLikedByActivity.this, R.layout.nonmegalike, likedUsersList);
 
                 for (int i = 0; i < adapter.getCount(); i++) {
@@ -120,7 +121,7 @@ public class UserLikedByActivity extends AppCompatActivity {
                     }
                 }
 
-                TableLayout likedByTable = findViewById(R.id.liked_by_table);
+                GridLayout likedByTable = findViewById(R.id.liked_by_table);
                 NonMegaLikeAdapter adapter = new NonMegaLikeAdapter(UserLikedByActivity.this, R.layout.nonmegalike, likedByUsersList);
 
                 for (int i = 0; i < adapter.getCount(); i++) {
