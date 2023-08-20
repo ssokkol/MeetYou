@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.meetyou.Messenger.MessengerActivity;
+import com.example.meetyou.UserLikedBy.UserLikedByActivity;
 import com.example.meetyou.databinding.ActivityShopBinding;
 
 public class ShopActivity extends AppCompatActivity {

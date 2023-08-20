@@ -11,7 +11,7 @@
         android:layout_centerInParent="true"
         android:background="@drawable/button_background">
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/Imageepta"
+            android:id="@+id/profile_photo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/photo_2"
@@ -27,7 +27,6 @@
             android:scaleX="0.8"
             android:layout_alignParentRight="true"/>
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/Imagepta"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/gradient_shadow"
@@ -37,6 +36,7 @@
             android:padding="15dp"
             app:shapeAppearanceOverlay="@style/rounded"/>
         <TextView
+            android:id="@+id/name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name, 19"
@@ -44,7 +44,7 @@
             android:textAllCaps="false"
             android:textStyle="bold"
             android:textSize="13sp"
-            android:layout_alignBottom="@id/Imageepta"
+            android:layout_alignBottom="@id/profile_photo"
             android:layout_centerHorizontal="true"
             android:paddingBottom="20dp"/>
     </RelativeLayout>

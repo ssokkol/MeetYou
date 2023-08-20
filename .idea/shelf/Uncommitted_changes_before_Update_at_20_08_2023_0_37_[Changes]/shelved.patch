@@ -1,0 +1,39 @@
+Index: app/src/main/res/layout/non_prime_like.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!-- res/layout/custom_notification_layout.xml -->\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_height=\"wrap_content\"\r\n    android:layout_width=\"wrap_content\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    android:background=\"@android:color/transparent\">\r\n    <RelativeLayout\r\n        android:id=\"@+id/main_layout\"\r\n        android:layout_width=\"130dp\"\r\n        android:layout_height=\"130dp\"\r\n        android:layout_centerInParent=\"true\"\r\n        android:background=\"@drawable/button_background\">\r\n        <com.google.android.material.imageview.ShapeableImageView\r\n            android:id=\"@+id/Imageepta\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:src=\"@mipmap/ic_launcher\"\r\n            android:scaleType=\"centerCrop\"\r\n            android:padding=\"15dp\"\r\n            app:shapeAppearanceOverlay=\"@style/rounded\"/>\r\n        <com.google.android.material.imageview.ShapeableImageView\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:src=\"@drawable/gradient_shadow\"\r\n            android:scaleType=\"centerCrop\"\r\n            android:padding=\"15dp\"\r\n            app:shapeAppearanceOverlay=\"@style/rounded\"/>\r\n        <com.google.android.material.imageview.ShapeableImageView\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:src=\"@drawable/gradient_shadow\"\r\n            android:scaleType=\"centerCrop\"\r\n            android:scaleY=\"-1\"\r\n            android:padding=\"15dp\"\r\n            app:shapeAppearanceOverlay=\"@style/rounded\"/>\r\n        <TextView\r\n            android:id=\"@+id/name_text_view\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginHorizontal=\"15dp\"\r\n            android:text=\"Buy Premium to see who licked you\"\r\n            android:textColor=\"@color/white\"\r\n            android:textAllCaps=\"false\"\r\n            android:textStyle=\"normal\"\r\n            android:textSize=\"13sp\"\r\n            android:gravity=\"center\"\r\n            android:layout_centerVertical=\"true\"\r\n            android:layout_centerHorizontal=\"true\"/>\r\n    </RelativeLayout>\r\n</RelativeLayout>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/non_prime_like.xml b/app/src/main/res/layout/non_prime_like.xml
+--- a/app/src/main/res/layout/non_prime_like.xml	(revision 6050a8d85944b3a9f2d831890c0b3ecc377c54bd)
++++ b/app/src/main/res/layout/non_prime_like.xml	(date 1692450558959)
+@@ -25,14 +25,16 @@
+             android:scaleType="centerCrop"
+             android:padding="15dp"
+             app:shapeAppearanceOverlay="@style/rounded"/>
++
+         <com.google.android.material.imageview.ShapeableImageView
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+-            android:src="@drawable/gradient_shadow"
++            android:layout_centerInParent="true"
++            android:padding="15dp"
+             android:scaleType="centerCrop"
+             android:scaleY="-1"
+-            android:padding="15dp"
+-            app:shapeAppearanceOverlay="@style/rounded"/>
++            android:src="@drawable/gradient_shadow"
++            app:shapeAppearanceOverlay="@style/rounded" />
+         <TextView
+             android:id="@+id/name_text_view"
+             android:layout_width="match_parent"
+@@ -42,7 +44,7 @@
+             android:textColor="@color/white"
+             android:textAllCaps="false"
+             android:textStyle="normal"
+-            android:textSize="13sp"
++            android:textSize="10sp"
+             android:gravity="center"
+             android:layout_centerVertical="true"
+             android:layout_centerHorizontal="true"/>

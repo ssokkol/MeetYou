@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserLikedByActivity"
+    tools:context=".UserLikedBy.UserLikedByActivity"
     android:background="@color/white">
     <RelativeLayout
         android:id="@+id/main_header"

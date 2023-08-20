@@ -1,21 +1,18 @@
-package com.example.meetyou;
+package com.example.meetyou.UserLikedBy;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.GridLayout;
-import android.widget.TableLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.meetyou.MainActivity;
 import com.example.meetyou.Messenger.MessengerActivity;
-import com.example.meetyou.UserLikedBy.NonMegaLikeAdapter;
-import com.example.meetyou.UserLikedBy.NonMegaLikeItem;
-import com.example.meetyou.UserLikedBy.NonPrimeLikeAdapter;
-import com.example.meetyou.UserLikedBy.NonPrimeLikeItem;
+import com.example.meetyou.R;
+import com.example.meetyou.ShopActivity;
 import com.example.meetyou.databinding.ActivityUserLikedByBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

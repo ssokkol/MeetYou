@@ -75,7 +75,15 @@ public class MainActivity extends AppCompatActivity {
         binding.megasbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                findUser();
+
+                getProfilePhoto(new OnProfilePhotoReceivedListener() {
+                    @Override
+                    public void onProfilePhotoReceived(String profilePhoto) {
+
+                        Users.updateUserMegasymps(profilePhoto, currentUrls.get(0),getUID(), foundUID, MainActivity.this);
+                        NotificationHelper.showHeart(MainActivity.this);
+                    }
+                });
             }
         });
 
@@ -164,9 +172,17 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } else {
                     if (deltaX < 0) {
-                        // Свайп влево
+                        findUser();
                     } else {
-                        // Свайп вправо
+
+                        getProfilePhoto(new OnProfilePhotoReceivedListener() {
+                            @Override
+                            public void onProfilePhotoReceived(String profilePhoto) {
+
+                                Users.updateUserLikes(profilePhoto, currentUrls.get(0),getUID(), foundUID, MainActivity.this);
+                                NotificationHelper.showHeart(MainActivity.this);
+                            }
+                        });
                     }
                 }
 

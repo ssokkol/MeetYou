@@ -594,6 +594,83 @@ public class Users {
         });
     }
 
+
+
+    public static void updateUserMegasymps(String currentUserPhoto, String likedUserPhoto,String currentUserUID, String sympedUserUID, Context context) {
+        String chatName = currentUserUID + "_" + sympedUserUID;
+        DatabaseReference currentUserRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserUID);
+        DatabaseReference likedUserRef = FirebaseDatabase.getInstance().getReference("Users").child(sympedUserUID);
+
+        // Проверяем, был ли пользователь уже лайкнут
+        currentUserRef.child("sympedUsers").child(sympedUserUID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // Пользователь уже был лайкнут, ничего не делаем
+                    return;
+                }
+                likedUserRef.child("sympsCount").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Integer currentLikesCount = snapshot.getValue(Integer.class);
+                        if (currentLikesCount != null) {
+                            int newLikesCount = currentLikesCount + 1;
+                            likedUserRef.child("sympsCount").setValue(newLikesCount);
+                        } else{
+                            likedUserRef.child("sympsCount").setValue(1);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+
+                // Если пользователь еще не лайкал этого человека, добавляем лайк
+                currentUserRef.child("sympedUsers").child(sympedUserUID).setValue(true);
+
+                likedUserRef.child("likedUsers").child(currentUserUID).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot likedUserSnapshot) {
+                        if (likedUserSnapshot.exists()) {
+                            // Оба пользователей лайкнули друг друга, проверяем наличие чата
+                            DatabaseReference chatCheckRef = FirebaseDatabase.getInstance().getReference("Chats");
+
+                            chatCheckRef.orderByChild(currentUserUID + "/" + sympedUserUID).equalTo(true).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot chatSnapshot) {
+                                    if (!chatSnapshot.exists()) {
+                                        // Чата еще нет, создаем чат
+                                        DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("Chats").child(chatName);
+
+                                        ChatItem currentUserChat = new ChatItem(chatName,currentUserPhoto, likedUserPhoto, currentUserUID, sympedUserUID, "Hello there!", "Hello there!");
+                                        chatRef.setValue(currentUserChat);
+
+                                        NotificationHelper.showMatchNotification(context, chatName,null, null, 0, 0, 0, 0);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    // Обработка ошибок, если не удалось проверить наличие чата
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Обработка ошибок, если не удалось получить информацию о пользователях
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Обработка ошибок, если не удалось проверить наличие лайка
+            }
+        });
+    }
+
     public static void sendLikeNotification(String likedUserToken, String currentUserDisplayName) {
         JSONObject notification = new JSONObject();
         JSONObject notificationBody = new JSONObject();
