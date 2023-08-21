@@ -626,7 +626,12 @@ public class Users {
                 });
 
                 // Если пользователь еще не лайкал этого человека, добавляем лайк
-                currentUserRef.child("sympedUsers").child(sympedUserUID).setValue(true);
+                NotificationHelper.showCustomNotificationMegasymp(context, 0, 0, 0, 0, "Hello there!", new NotificationHelper.ButtonClickListenerMessage() {
+                    @Override
+                    public void onMessageButtonClick(String messageText) {
+                        currentUserRef.child("sympedUsers").child(sympedUserUID).child("message").setValue(messageText);
+                    }
+                });
 
                 likedUserRef.child("likedUsers").child(currentUserUID).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override

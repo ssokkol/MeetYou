@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -67,6 +68,47 @@ public class NotificationHelper {
             @Override
             public void onClick(View v) {
                 closeNotificationWithAnimation(dialogView);
+            }
+        });
+
+        dialog = builder.create();
+        dialog.show();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        animateScreenDim(overlayView);
+    }
+
+    public static void showCustomNotificationMegasymp(Context context, int backgroundColor, int textColor, int buttonBackgroundColor, int buttonTextColor, String initialMessage,
+                                                      ButtonClickListenerMessage okayButtonClickListener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View dialogView = inflater.inflate(R.layout.custom_notification_with_edtit_text, null);
+        builder.setView(dialogView);
+
+        View overlayView = dialogView.findViewById(R.id.overlayView);
+        overlayView.setAlpha(0);
+
+        RelativeLayout mainLayout = dialogView.findViewById(R.id.main_layout);
+        mainLayout.setBackgroundResource(backgroundColor != 0 ? backgroundColor : defaultBackgroundColor);
+
+        TextView titleTextView = dialogView.findViewById(R.id.titleTextView);
+        titleTextView.setTextColor(textColor != 0 ? ContextCompat.getColor(context, textColor) : ContextCompat.getColor(context, defaultTextColor));
+
+        AppCompatButton waitButton = dialogView.findViewById(R.id.waitButton);
+        waitButton.setTextColor(buttonTextColor != 0 ? ContextCompat.getColor(context, buttonTextColor) : ContextCompat.getColor(context, defaultButtonTextColor));
+        waitButton.setBackgroundResource(buttonBackgroundColor != 0 ? buttonBackgroundColor : defaultButtonBackgroundColor);
+
+        EditText messageTextView = dialogView.findViewById(R.id.messageTextView);
+        messageTextView.setText(initialMessage);
+        String messageText = messageTextView.getText().toString().trim();
+
+        waitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeNotificationWithAnimation(dialogView);
+                if (okayButtonClickListener != null) {
+                    okayButtonClickListener.onMessageButtonClick(messageText);
+                }
             }
         });
 
@@ -312,4 +354,9 @@ public class NotificationHelper {
             }
         });
     }
+
+    public interface ButtonClickListenerMessage {
+        void onMessageButtonClick(String messageText);
+    }
+
 }
