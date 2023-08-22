@@ -255,8 +255,18 @@ public class OwnProfileActivity extends AppCompatActivity {
         // Получение данных пользователя и отображение их в представлении
         getStats(new OnStatsReceivedListener() {
             @Override
-            public void onStatsReceived(int likes) {
+            public void onLikessReceived(int likes) {
                 binding.likesText.setText(String.valueOf(likes));
+            }
+
+            @Override
+            public void onMegasympsReceived(int symps) {
+                binding.megasText.setText(String.valueOf(symps));
+            }
+
+            @Override
+            public void onBoostsReceived(int boosts) {
+                binding.boostText.setText(String.valueOf(boosts));
             }
         });
         Users.getUserDataFromFirebase(getUID(), new Users.OnUserDataListener() {
@@ -478,21 +488,59 @@ public class OwnProfileActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     int likes = snapshot.getValue(Integer.class);
-                    listener.onStatsReceived(likes);
+                    listener.onLikessReceived(likes);
                 } else{
-                    listener.onStatsReceived(0);
+                    listener.onLikessReceived(0);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                listener.onLikessReceived(0);
+            }
+        });
 
+        userRef.child("sympsCount").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    int symps = snapshot.getValue(Integer.class);
+                    listener.onMegasympsReceived(symps);
+                } else{
+                    listener.onMegasympsReceived(0);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onMegasympsReceived(0);
+            }
+        });
+
+        userRef.child("boostsCount").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    int boosts = snapshot.getValue(Integer.class);
+                    listener.onBoostsReceived(boosts);
+                } else{
+                    listener.onBoostsReceived(0);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onBoostsReceived(0);
             }
         });
     }
 
     interface OnStatsReceivedListener{
-        void onStatsReceived(int likes);
+        void onLikessReceived(int likes);
+
+        void onMegasympsReceived(int symps);
+
+        void onBoostsReceived(int boosts);
     }
     // Метод для получения UID пользователя из SharedPreferences
     private String getUID() {

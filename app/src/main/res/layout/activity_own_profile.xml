@@ -83,7 +83,7 @@
                     android:id="@+id/likes_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="15"
+                    android:text="0"
                     android:gravity="center"
                     android:textColor="@color/black"
                     android:textSize="12sp"/>
@@ -126,7 +126,7 @@
                     android:id="@+id/boost_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="3"
+                    android:text="0"
                     android:gravity="center"
                     android:textColor="@color/black"
                     android:textSize="12sp"/>
