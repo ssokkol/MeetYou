@@ -640,6 +640,7 @@ public class Users {
                             // Оба пользователей лайкнули друг друга, проверяем наличие чата
                             DatabaseReference chatCheckRef = FirebaseDatabase.getInstance().getReference("Chats");
 
+
                             chatCheckRef.orderByChild(currentUserUID + "/" + sympedUserUID).equalTo(true).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot chatSnapshot) {
