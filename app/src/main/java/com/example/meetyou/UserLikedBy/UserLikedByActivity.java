@@ -165,9 +165,6 @@ public class UserLikedByActivity extends AppCompatActivity {
         });
     }
 
-    public interface OnStatusReceivedListener{
-        void OnStatusReceived(String userSub);
-    }
     private String getUID() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("UID", "");
@@ -190,5 +187,10 @@ public class UserLikedByActivity extends AppCompatActivity {
                 listener.OnStatusReceived("basic");
             }
         });
+    }
+
+
+    public interface OnStatusReceivedListener{
+        void OnStatusReceived(String userSub);
     }
 }

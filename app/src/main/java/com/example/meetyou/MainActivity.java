@@ -76,14 +76,29 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                getProfilePhoto(new OnProfilePhotoReceivedListener() {
+                getStatus(new OnStatusReceivedListener() {
                     @Override
-                    public void onProfilePhotoReceived(String profilePhoto) {
-
-                        Users.updateUserMegasymps(profilePhoto, currentUrls.get(0),getUID(), foundUID, MainActivity.this);
-                        NotificationHelper.showHeart(MainActivity.this);
+                    public void OnStatusReceived(String userSub) {
+                        if(!userSub.equals("luxe")){
+                            getProfilePhoto(new OnProfilePhotoReceivedListener() {
+                                @Override
+                                public void onProfilePhotoReceived(String profilePhoto) {
+                                    Users.updateUserMegasympsLuxe(profilePhoto, currentUrls.get(0),getUID(), foundUID, MainActivity.this);
+                                }
+                            });
+                        }
+                        else{
+                            getProfilePhoto(new OnProfilePhotoReceivedListener() {
+                                @Override
+                                public void onProfilePhotoReceived(String profilePhoto) {
+                                    Users.updateUserMegasymps(profilePhoto, currentUrls.get(0),getUID(), foundUID, MainActivity.this);
+                                }
+                            });
+                        }
                     }
                 });
+
+
             }
         });
 
@@ -469,6 +484,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    private void getStatus(final OnStatusReceivedListener listener){
+        DatabaseReference statusRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("status");
+        statusRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String userSub = snapshot.getValue(String.class);
+                if (snapshot.exists()) {
+                    listener.OnStatusReceived(userSub);
+                } else {
+                    listener.OnStatusReceived("basic");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.OnStatusReceived("basic");
+            }
+        });
+    }
+
+
+    public interface OnStatusReceivedListener{
+        void OnStatusReceived(String userSub);
+    }
+
     private float getMinAge(){
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getFloat("minAge", 18);
