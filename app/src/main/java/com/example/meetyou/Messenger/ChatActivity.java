@@ -70,8 +70,34 @@ public class ChatActivity extends AppCompatActivity {
                     getName(new OnNameReceivedListener() {
                         @Override
                         public void onNameReceived(String name) {
-                            FirebaseDatabase.getInstance().getReference().child("Chats").child(getChatUID()).child("Messages").push().setValue(new Message(name, messageText));
-                            binding.messageText.setText("");
+                            getChatName1(new OnChatName1Received() {
+                                @Override
+                                public void onChatNameReceived(String name1) {
+                                    getChatName2(new OnChatName2Received() {
+                                        @Override
+                                        public void onChatNameReceived(String name2) {
+                                            if (getUID().equals(name1)) {
+                                                FirebaseDatabase.getInstance().getReference().child("Chats").child(getChatUID()).child("Messages").push().setValue(new Message(name, messageText));
+                                                binding.messageText.setText("");
+                                                if(messageText.length()>40){
+                                                    String trimmedMessage = messageText.substring(0, Math.min(messageText.length(), 40)) + "...";
+                                                    FirebaseDatabase.getInstance().getReference().child("Chats").child(getChatUID()).child("message1").setValue(trimmedMessage);
+                                                }
+                                                FirebaseDatabase.getInstance().getReference().child("Chats").child(getChatUID()).child("message1").setValue(messageText);
+                                            }
+                                            else{
+                                                FirebaseDatabase.getInstance().getReference().child("Chats").child(getChatUID()).child("Messages").push().setValue(new Message(name, messageText));
+                                                binding.messageText.setText("");
+                                                if(messageText.length()>40){
+                                                    String trimmedMessage = messageText.substring(0, Math.min(messageText.length(), 40)) + "...";
+                                                    FirebaseDatabase.getInstance().getReference().child("Chats").child(getChatUID()).child("message2").setValue(trimmedMessage);
+                                                }
+                                                FirebaseDatabase.getInstance().getReference().child("Chats").child(getChatUID()).child("message2").setValue(messageText);
+                                            }
+                                        }
+                                    });
+                                }
+                            });
                         }
                     });
                 }
@@ -183,6 +209,54 @@ public class ChatActivity extends AppCompatActivity {
     }
     public interface OnNameReceivedListener {
         void onNameReceived(String name);
+    }
+
+    private void getChatName1(final OnChatName1Received listener) {
+        DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference("Chats").child(getChatName()).child("name1");
+        nameRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String name = snapshot.getValue(String.class);
+                if (name != null) {
+                    listener.onChatNameReceived(name);
+                } else {
+                    listener.onChatNameReceived(" ");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onChatNameReceived(" ");
+            }
+        });
+    }
+
+    public interface OnChatName1Received{
+        void onChatNameReceived(String name);
+    }
+
+    private void getChatName2(final OnChatName2Received listener) {
+        DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference("Chats").child(getChatName()).child("name2");
+        nameRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String name = snapshot.getValue(String.class);
+                if (name != null) {
+                    listener.onChatNameReceived(name);
+                } else {
+                    listener.onChatNameReceived(" ");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onChatNameReceived(" ");
+            }
+        });
+    }
+
+    public interface OnChatName2Received{
+        void onChatNameReceived(String name);
     }
 
     private void getUserNameFromDatabase(String UID, final OnNameReceivedListener listener) {

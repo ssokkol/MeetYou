@@ -78,7 +78,7 @@ public class ChatAdapter extends BaseAdapter {
                                     editor.apply();
                                 }
                             });
-                            holder.messageTextView.setText(chatItem.getMessage2());
+                            holder.messageTextView.setText(chatItem.getMessage1());
                             customPhotoLoadingToClient(chatItem.getChatUID(), "profilePhoto2", holder.profilePhoto);
                         } else if (chatItem.getName2().equals(UID)) {
                             getUserName(chatItem.getName1(), new OnNameReceivedListener() {
@@ -91,7 +91,7 @@ public class ChatAdapter extends BaseAdapter {
                                 }
                             });
 //                        holder.nameTextView.setText(chatItem.getName1());
-                            holder.messageTextView.setText(chatItem.getMessage1());
+                            holder.messageTextView.setText(chatItem.getMessage2());
                             customPhotoLoadingToClient(chatItem.getChatUID(), "profilePhoto1", holder.profilePhoto);
                         }
                     }else {

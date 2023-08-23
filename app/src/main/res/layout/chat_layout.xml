@@ -37,6 +37,7 @@
             android:textSize="12sp"
             android:textColor="@color/neutral_dark_gray"
             android:text="Hello there!"
+            android:maxLength="45"
             android:textStyle="normal"
             android:maxLines="1"/>
 
