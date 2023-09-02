@@ -117,6 +117,8 @@ public class UserLikedByActivity extends AppCompatActivity {
                     public void OnStatusReceived(String userSub) {
                         if (!userSub.equals("basic") && !userSub.equals("vip")) {
                             List<NonMegaLikeItem> likedByUsersList = new ArrayList<>();
+                            List<MegaLikeItem> megaLikedUsersList = new ArrayList<>();
+                            List<LuxeMegaLikeItem> luxeLikedUsersList = new ArrayList<>();
                             for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                                 String userID = userSnapshot.getKey();
                                 DataSnapshot likedUsersSnapshot = userSnapshot.child("likedUsers");
@@ -125,10 +127,31 @@ public class UserLikedByActivity extends AppCompatActivity {
                                     likedByUsersList.add(new NonMegaLikeItem(userID, "photo1"));
                                 }
                             }
+                            for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                                String userID = userSnapshot.getKey();
+
+                                DataSnapshot likedUsersSnapshot = userSnapshot.child("sympedUsers");
+                                String bdMessage = likedUsersSnapshot.child(getUID()).child("message").getValue(String.class);
+                                if (likedUsersSnapshot.hasChild(getUID()) && bdMessage.equals("J9pR7cE2qL5zT1hY6gN0vW4xM8bF3a")){
+                                    megaLikedUsersList.add(new MegaLikeItem(userID,"photo1"));
+                                }else if (likedUsersSnapshot.hasChild(getUID()) && !bdMessage.equals("J9pR7cE2qL5zT1hY6gN0vW4xM8bF3a")){
+                                    luxeLikedUsersList.add(new LuxeMegaLikeItem(userID,"photo1",bdMessage));
+                                }
+                            }
 
                             GridLayout likedByTable = findViewById(R.id.liked_by_table);
+                            LuxeMegaLikeAdapter luxeAdapter = new LuxeMegaLikeAdapter(UserLikedByActivity.this,R.layout.luxe_mega_like,luxeLikedUsersList);
+                            MegaLikeAdapter megaAdapter = new MegaLikeAdapter(UserLikedByActivity.this,R.layout.megalike,megaLikedUsersList);
                             NonMegaLikeAdapter adapter = new NonMegaLikeAdapter(UserLikedByActivity.this, R.layout.nonmegalike, likedByUsersList);
+                            for (int i = 0; i < luxeAdapter.getCount(); i++) {
+                                View itemRow = luxeAdapter.getView(i, null, likedByTable);
+                                likedByTable.addView(itemRow);
+                            }
+                            for (int i = 0; i < megaAdapter.getCount(); i++) {
 
+                                View itemRow = megaAdapter.getView(i, null, likedByTable);
+                                likedByTable.addView(itemRow);
+                            }
                             for (int i = 0; i < adapter.getCount(); i++) {
                                 View itemRow = adapter.getView(i, null, likedByTable);
                                 likedByTable.addView(itemRow);
