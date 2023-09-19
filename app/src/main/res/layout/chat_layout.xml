@@ -12,7 +12,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
         app:shapeAppearanceOverlay="@style/circular"
-        android:src="@drawable/photo_1"
+        android:src="@mipmap/ic_launcher"
         android:scaleType="centerCrop"/>
     <LinearLayout
         android:layout_width="match_parent"
