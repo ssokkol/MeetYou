@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -76,23 +77,28 @@ public class ChatActivity extends AppCompatActivity {
                                     getChatName2(new OnChatName2Received() {
                                         @Override
                                         public void onChatNameReceived(String name2) {
+                                            Log.e("NAME DEBUG CHAT PIZDA", getChatName());
                                             if (getUID().equals(name1)) {
                                                 FirebaseDatabase.getInstance().getReference().child("Chats").child(getChatUID()).child("Messages").push().setValue(new Message(name, messageText));
                                                 binding.messageText.setText("");
-                                                if(messageText.length()>40){
-                                                    String trimmedMessage = messageText.substring(0, Math.min(messageText.length(), 40)) + "...";
+                                                if(messageText.length()>35){
+                                                    String trimmedMessage = messageText.substring(0, Math.min(messageText.length(), 25)) + "...";
                                                     FirebaseDatabase.getInstance().getReference().child("Chats").child(getChatUID()).child("message1").setValue(trimmedMessage);
                                                 }
-                                                FirebaseDatabase.getInstance().getReference().child("Chats").child(getChatUID()).child("message1").setValue(messageText);
+                                                else {
+                                                    FirebaseDatabase.getInstance().getReference().child("Chats").child(getChatUID()).child("message1").setValue(messageText);
+                                                }
                                             }
-                                            else{
+                                            else {
                                                 FirebaseDatabase.getInstance().getReference().child("Chats").child(getChatUID()).child("Messages").push().setValue(new Message(name, messageText));
                                                 binding.messageText.setText("");
-                                                if(messageText.length()>40){
-                                                    String trimmedMessage = messageText.substring(0, Math.min(messageText.length(), 40)) + "...";
+                                                if(messageText.length()>35){
+                                                    String trimmedMessage = messageText.substring(0, Math.min(messageText.length(), 25)) + "...";
                                                     FirebaseDatabase.getInstance().getReference().child("Chats").child(getChatUID()).child("message2").setValue(trimmedMessage);
                                                 }
-                                                FirebaseDatabase.getInstance().getReference().child("Chats").child(getChatUID()).child("message2").setValue(messageText);
+                                                else {
+                                                    FirebaseDatabase.getInstance().getReference().child("Chats").child(getChatUID()).child("message2").setValue(messageText);
+                                                }
                                             }
                                         }
                                     });
@@ -212,7 +218,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void getChatName1(final OnChatName1Received listener) {
-        DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference("Chats").child(getChatName()).child("name1");
+        DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference("Chats").child(getChatUID()).child("name1");
         nameRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -236,7 +242,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void getChatName2(final OnChatName2Received listener) {
-        DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference("Chats").child(getChatName()).child("name2");
+        DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference("Chats").child(getChatUID()).child("name2");
         nameRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -108,9 +108,6 @@ public class MessengerActivity extends AppCompatActivity {
                 editor.apply();
             }
         });
-
-
-
     }
 
 
