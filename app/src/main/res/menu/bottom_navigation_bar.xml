@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="mylikes" android:icon="@drawable/likebutton" android:id="@+id/likes_nbb"/>
+    <item android:title="search" android:icon="@drawable/findbutton" android:id="@+id/search_nbb"/>
+    <item android:title="profile" android:icon="@drawable/profilebutton" android:id="@+id/profile_nbb"/>
+    <item android:title="messager" android:icon="@drawable/messagerbutton" android:id="@+id/messager_nbb"/>
+    <item android:title="shop" android:icon="@drawable/shopbutton" android:id="@+id/shop_nbb"/>
+</menu>

@@ -1,12 +1,11 @@
 package com.example.meetyou;
 
+import static android.content.Context.LOCATION_SERVICE;
+import static android.content.Context.MODE_PRIVATE;
+
 import android.Manifest;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,29 +17,26 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.meetyou.MYFiles.Users;
-import com.example.meetyou.Messenger.MessangerFragment;
-import com.example.meetyou.Messenger.MessengerActivity;
-import com.example.meetyou.UserLikedBy.LikesFragment;
-import com.example.meetyou.databinding.ActivityOwnProfileBinding;
+import com.example.meetyou.databinding.FragmentOwnProfileBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
@@ -48,7 +44,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class OwnProfileActivity extends AppCompatActivity {
+public class OwnProfileFragment extends Fragment {
+    private Context context;
     Toast currentToast;
     public String photo1URL;
     public String photo2URL;
@@ -60,199 +57,58 @@ public class OwnProfileActivity extends AppCompatActivity {
 
     private long lastBackPressedTime = 0;
 
+    FragmentOwnProfileBinding binding;
 
-    // Объект для привязки макета активности
-    ActivityOwnProfileBinding binding;
-
-    private DatabaseReference mDatabase;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityOwnProfileBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        ReplaceFragments(new OwnProfileFragment());
-
-        getWindow().setStatusBarColor(ContextCompat.getColor(OwnProfileActivity.this, R.color.main));
-
-        FirebaseMessaging.getInstance().getToken()
-                        .addOnCompleteListener(task -> {
-                            if(task.isSuccessful() && task.getResult() != null){
-                                String token = task.getResult();
-                                FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("userToken").setValue(token);
-                                Log.d("FCM token", token);
-                            } else{
-                                Log.e("FCM token", "token registration failed", task.getException());
-                            }
-                        });
-
-
-        getName(new OnNameReceivedListener() {
-            @Override
-            public void onNameReceived(String name) {
-                getAge(new OnAgeReceivedListener() {
-                    @Override
-                    public void onAgeReceived(int age) {
-                        binding.nameTextView.setText(name + ", " + String.valueOf(age));
-                    }
-                });
-            }
-        });
-
-        getBio(new OnBioReceivedListener() {
-            @Override
-            public void onBioReceived(String bio) {
-                binding.additionalTextView.setText(bio);
-            }
-        });
-
-        RelativeLayout imageOverlay = findViewById(R.id.image_overlay);
-        ImageView expandedImage = findViewById(R.id.expanded_image);
-        // Обработчик кнопки "Настройки", переход к активности OptionsActivity
-        binding.settingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            Intent intent = new Intent(OwnProfileActivity.this, OptionsActivity.class);
-            startActivity(intent);
-            }
-        });
-
-        binding.navigation.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.likes_nbb) {
-                ReplaceFragments(new LikesFragment());
-            } else if (itemId == R.id.search_nbb) {
-                ReplaceFragments(new SearchFragment());
-            } else if (itemId == R.id.profile_nbb) {
-                ReplaceFragments(new OwnProfileFragment());
-            } else if (itemId == R.id.messager_nbb) {
-                ReplaceFragments(new MessangerFragment());
-            } else if (itemId == R.id.shop_nbb) {
-                ReplaceFragments(new ShopFragment());
-            }
-            return true;
-        });
-
-        // Получение LocationManager и установка слушателя для обновления местоположения
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                updateLocationTextView(location);
-            }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-                // Метод вызывается при изменении статуса провайдера (GPS или сеть)
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-                // Метод вызывается, когда пользователь включает провайдер (GPS или сеть)
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-                // Метод вызывается, когда пользователь отключает провайдер (GPS или сеть)
-            }
-        };
-
-        // Проверка наличия разрешения на доступ к местоположению, и запрос разрешения, если требуется
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        }
-
-
-        binding.profilePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showImageOverlay(binding.profilePhoto, imageOverlay, expandedImage);
-            }
-        });
-
-
-        binding.image1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showImageOverlay(binding.image1, imageOverlay, expandedImage);
-            }
-        });
-
-
-        binding.image2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showImageOverlay(binding.image2, imageOverlay, expandedImage);
-            }
-        });
-
-
-        binding.image3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showImageOverlay(binding.image3, imageOverlay, expandedImage);
-            }
-        });
-
-
-        binding.image4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showImageOverlay(binding.image4, imageOverlay, expandedImage);
-            }
-        });
-
-
-        binding.image5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showImageOverlay(binding.image5, imageOverlay, expandedImage);
-            }
-        });
-
-        binding.nameTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String textToCopy = binding.nameTextView.getText().toString();
-
-                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText(binding.nameTextView.getText().toString(), textToCopy);
-                clipboardManager.setPrimaryClip(clipData);
-
-                Toast.makeText(OwnProfileActivity.this, R.string.name_was_copied_in_clipboard, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        binding.additionalTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String textToCopy = binding.additionalTextView.getText().toString();
-
-                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText(binding.additionalTextView.getText().toString(), textToCopy);
-                clipboardManager.setPrimaryClip(clipData);
-
-                Toast.makeText(OwnProfileActivity.this, R.string.bio_was_copied_in_clipboard, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        binding.messageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(OwnProfileActivity.this, MessengerActivity.class);
-                startActivity(intent);
-            }
-        });
+    public static OwnProfileFragment newInstance(String param1, String param2) {
+        OwnProfileFragment fragment = new OwnProfileFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        // Получение данных пользователя и отображение их в представлении
-        getStats(new OnStatsReceivedListener() {
+
+        // Initialize Firebase Messaging token
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        String token = task.getResult();
+                        FirebaseDatabase.getInstance().getReference("Users")
+                                .child(getUID())
+                                .child("userToken")
+                                .setValue(token);
+                        Log.d("FCM token", token);
+                    } else {
+                        Log.e("FCM token", "Token registration failed", task.getException());
+                    }
+                });
+
+        // Load user data
+        loadUserData();
+
+        // Location-related setup
+        setupLocation();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentOwnProfileBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = context;
+
+        getStats(new OwnProfileActivity.OnStatsReceivedListener() {
             @Override
             public void onLikessReceived(int likes) {
                 binding.likesText.setText(String.valueOf(likes));
@@ -289,55 +145,118 @@ public class OwnProfileActivity extends AppCompatActivity {
             }
         });
 
+        try {
+            customPhotoLoadingToClient("photo1", binding.profilePhoto);
+            customPhotoLoadingToClient("photo1", binding.image1);
+            customPhotoLoadingToClient("photo2", binding.image2);
+            customPhotoLoadingToClient("photo3", binding.image3);
+            customPhotoLoadingToClient("photo4", binding.image4);
+            customPhotoLoadingToClient("photo5", binding.image5);
+        } catch (Exception e) {
+            Log.e("Fragment DEBUG OwnProfile", "An error occurred", e);
+        }
+
+        // Проверка наличия разрешения на доступ к местоположению и запрос обновлений местоположения
+        if (locationManager != null) {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 10, locationListener);
+            }
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        context = null;
+
+        if (locationManager != null) {
+            locationManager.removeUpdates(locationListener);
+        }
+    }
+
+    private void loadUserData() {
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID());
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Users user = snapshot.getValue(Users.class);
+                    if (user != null) {
+                        photo1URL = user.getPhoto1();
+                        photo2URL = user.getPhoto2();
+                        photo3URL = user.getPhoto3();
+                        photo4URL = user.getPhoto4();
+                        photo5URL = user.getPhoto5();
+                        // Update UI elements with user data
+                        updateUIWithUserData(user);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle data loading error
+            }
+        });
+    }
+
+    private void updateUIWithUserData(Users user) {
+        binding.nameTextView.setText(user.getName() + ", " + user.getAge());
+        binding.additionalTextView.setText(user.getBio());
+        // Load user photos
         customPhotoLoadingToClient("photo1", binding.profilePhoto);
         customPhotoLoadingToClient("photo1", binding.image1);
         customPhotoLoadingToClient("photo2", binding.image2);
         customPhotoLoadingToClient("photo3", binding.image3);
         customPhotoLoadingToClient("photo4", binding.image4);
         customPhotoLoadingToClient("photo5", binding.image5);
+    }
 
-        // Проверка наличия разрешения на доступ к местоположению и запрос обновлений местоположения
+    private void setupLocation() {
+        // Get the location manager and set up location listener
+        locationManager = (LocationManager) requireContext().getSystemService(LOCATION_SERVICE);
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                updateLocationTextView(location);
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+                // Handle status changes
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+                // Handle provider enablement
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+                // Handle provider disablement
+            }
+        };
+
+        // Check for location permission and request if not granted
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+
+        // Request location updates if permission granted
         if (locationManager != null) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 10, locationListener);
             }
         }
     }
 
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        // Остановка обновлений местоположения при остановке активности
-        if (locationManager != null) {
-            locationManager.removeUpdates(locationListener);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - lastBackPressedTime > 750) {
-            if (currentToast != null) {
-                currentToast.cancel();
-            }
-            currentToast = Toast.makeText(this, R.string.to_exit_press_again_message, Toast.LENGTH_SHORT);
-            currentToast.show();
-//            Toast.makeText(this, R.string.to_exit_press_again_message, Toast.LENGTH_SHORT).show();
-            lastBackPressedTime = currentTime;
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-
-    // Обновление текстового представления с местоположением
     private void updateLocationTextView(Location location) {
         if (location != null) {
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
 
-            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            Geocoder geocoder = new Geocoder(requireContext(), Locale.getDefault());
             try {
                 List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
                 if (!addresses.isEmpty()) {
@@ -352,6 +271,7 @@ public class OwnProfileActivity extends AppCompatActivity {
         }
     }
 
+
     // Преобразование закодированного изображения в Bitmap
     private Bitmap getImageBitmapFromSharedPreferences(String key) {
         byte[] imageByteArray = getImageFromSharedPreferences(key);
@@ -361,9 +281,10 @@ public class OwnProfileActivity extends AppCompatActivity {
         return null;
     }
 
+
     // Получение закодированного изображения из SharedPreferences
     private byte[] getImageFromSharedPreferences(String key) {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String base64Image = sharedPreferences.getString(key, null);
         if (base64Image != null) {
             return Base64.decode(base64Image, Base64.DEFAULT);
@@ -373,7 +294,7 @@ public class OwnProfileActivity extends AppCompatActivity {
 
     // Установка флага, указывающего на наличие изменений
     private void setSomethingWasChanged(boolean parameter) {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("isSomethingWasChanged", parameter);
         editor.apply();
@@ -411,7 +332,7 @@ public class OwnProfileActivity extends AppCompatActivity {
         imageOverlay.animate().alpha(1f).setDuration(300).start();
     }
 
-    private void getName(final OnNameReceivedListener listener) {
+    private void getName(final OwnProfileActivity.OnNameReceivedListener listener) {
         DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("name");
         nameRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -434,7 +355,7 @@ public class OwnProfileActivity extends AppCompatActivity {
         void onNameReceived(String name);
     }
 
-    private void getAge(final OnAgeReceivedListener listener) {
+    private void getAge(final OwnProfileActivity.OnAgeReceivedListener listener) {
         DatabaseReference ageRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("age");
         ageRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -456,7 +377,7 @@ public class OwnProfileActivity extends AppCompatActivity {
     public interface OnAgeReceivedListener {
         void onAgeReceived(int age);
     }
-    private void getBio(final OnBioReceivedListener listener) {
+    private void getBio(final OwnProfileActivity.OnBioReceivedListener listener) {
         DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID()).child("bio");
         nameRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -480,7 +401,7 @@ public class OwnProfileActivity extends AppCompatActivity {
         void onBioReceived(String bio);
     }
 
-    private void getStats(final OnStatsReceivedListener listener){
+    private void getStats(final OwnProfileActivity.OnStatsReceivedListener listener){
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(getUID());
         userRef.child("likesCount").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -534,12 +455,6 @@ public class OwnProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void ReplaceFragments(Fragment fragment){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_layout, fragment);
-        fragmentTransaction.commit();
-    }
 
     interface OnStatsReceivedListener{
         void onLikessReceived(int likes);
@@ -550,7 +465,7 @@ public class OwnProfileActivity extends AppCompatActivity {
     }
     // Метод для получения UID пользователя из SharedPreferences
     private String getUID() {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("UID", "");
     }
 }

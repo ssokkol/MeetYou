@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OwnProfileActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".OwnProfileFragment"
     android:background="@color/white">
+
 
     <RelativeLayout
         android:id="@+id/profile_header"
@@ -138,7 +139,6 @@
         android:layout_height="400dp"
         android:layout_alignTop="@+id/profile_header"
         android:layout_marginTop="300dp"
-        android:layout_marginBottom="60dp"
         tools:ignore="NotSibling">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -210,91 +210,7 @@
             app:shapeAppearanceOverlay="@style/rounded"
             android:adjustViewBounds="true"/>
     </RelativeLayout>
-    <FrameLayout
-        android:id="@+id/fragment_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="60dp"
-        android:background="@color/white">
 
-    </FrameLayout>
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="start"
-        app:itemIconTint="@color/neutral_medium_gray"
-        app:itemTextColor="@color/white"
-        android:background="@color/white"
-        app:menu="@menu/bottom_navigation_bar"
-        android:layout_centerHorizontal="true"
-        app:labelVisibilityMode="unlabeled">
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
-
-
-<!--    <RelativeLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="60dp"-->
-<!--        android:layout_alignParentBottom="true">-->
-<!--        <View-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="2dp"-->
-<!--            android:layout_alignParentTop="true"-->
-<!--            android:background="@color/neutral_light_gray"/>-->
-<!--        <FrameLayout-->
-<!--            android:id="@+id/likes_button_layout"-->
-<!--            android:layout_centerInParent="true"-->
-<!--            android:layout_alignRight="@+id/find_button_layout"-->
-<!--            android:layout_marginRight="120dp"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content">-->
-<!--            <ImageView-->
-<!--                android:layout_width="50dp"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:src="@drawable/mylikesbutton"-->
-<!--                android:padding="5dp"/>-->
-<!--            <androidx.appcompat.widget.AppCompatButton-->
-<!--                android:id="@+id/likes_button"-->
-<!--                android:layout_width="50dp"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:background="@android:color/transparent"/>-->
-<!--        </FrameLayout>-->
-<!--        <FrameLayout-->
-<!--            android:id="@+id/find_button_layout"-->
-<!--            android:layout_centerInParent="true"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content">-->
-<!--            <ImageView-->
-<!--                android:layout_width="50dp"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:src="@drawable/findbutton"-->
-<!--                android:padding="5dp"/>-->
-<!--            <androidx.appcompat.widget.AppCompatButton-->
-<!--                android:id="@+id/find_button"-->
-<!--                android:layout_width="50dp"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:background="@android:color/transparent"/>-->
-<!--        </FrameLayout>-->
-<!--        <FrameLayout-->
-<!--            android:id="@+id/shop_button_layout"-->
-<!--            android:layout_centerInParent="true"-->
-<!--            android:layout_alignLeft="@+id/find_button_layout"-->
-<!--            android:layout_marginLeft="120dp"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content">-->
-<!--            <ImageView-->
-<!--                android:layout_width="50dp"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:src="@drawable/shopbutton"-->
-<!--                android:padding="5dp"/>-->
-<!--            <androidx.appcompat.widget.AppCompatButton-->
-<!--                android:id="@+id/shop_button"-->
-<!--                android:layout_width="50dp"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:background="@android:color/transparent"/>-->
-<!--        </FrameLayout>-->
-<!--    </RelativeLayout>-->
     <RelativeLayout
         android:id="@+id/main_header"
         android:layout_width="match_parent"
@@ -371,12 +287,13 @@
         android:clickable="true"
         android:layout_centerInParent="true">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/expanded_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitCenter"
-        android:padding="2dp"
-        android:adjustViewBounds="true"/>
-</RelativeLayout>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/expanded_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:padding="2dp"
+            android:adjustViewBounds="true"/>
+    </RelativeLayout>
+
 </RelativeLayout>

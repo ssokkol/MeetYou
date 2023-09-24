@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Messenger.MessengerActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".UserLikedBy.LikesFragment"
     android:background="@color/white">
-    <ListView
-        android:id="@+id/chats_list_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/main_header">
-
-    </ListView>
 
     <RelativeLayout
         android:id="@+id/main_header"
@@ -45,27 +38,27 @@
         <FrameLayout
             android:layout_width="28dp"
             android:layout_height="42dp"
-            android:layout_alignRight="@+id/settings_layout"
-            android:layout_marginRight="35dp"
+            android:layout_alignRight="@+id/profile_layout"
+            android:layout_marginRight="45dp"
             android:layout_marginLeft="5dp">
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/settingsbutton" />
+                app:srcCompat="@drawable/messagerbutton" />
             <Button
-                android:id="@+id/setting_button"
+                android:id="@+id/message_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent" />
         </FrameLayout>
         <FrameLayout
-            android:id="@+id/settings_layout"
+            android:id="@+id/profile_layout"
             android:layout_width="28dp"
             android:layout_height="42dp"
             android:layout_alignParentRight="true"
-            android:layout_marginLeft="0dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginRight="15dp">
             <ImageView
                 android:id="@+id/imageView4"
@@ -81,5 +74,21 @@
                 />
         </FrameLayout>
     </RelativeLayout>
+    <ScrollView
+        android:layout_marginTop="42dp"
+        android:layout_marginBottom="61dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <GridLayout
+            android:id="@+id/liked_by_table"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/bottom_layout"
+            android:layout_below="@id/main_header"
+            android:rowCount="3"
+            android:columnCount="3">
+
+        </GridLayout>
+    </ScrollView>
 
 </RelativeLayout>
