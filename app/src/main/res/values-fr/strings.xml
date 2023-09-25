@@ -89,9 +89,9 @@
     <string name="bio_was_copied_in_clipboard">La bio a été copiée dans le presse-papiers</string>
     <string name="name_was_copied_in_clipboard">Le nom a été copié dans le presse-papiers</string>
     <string name="please_enter_new_name_message">Veuillez entrer un nouveau nom</string>
-    <string name="vip_features">- Retour illimité\n\n\n- Recherche mondiale\n\n\n- Pas de publicité</string>
-    <string name="premium_features">- Toutes les fonctionnalités VIP\n\n\n- Qui vous a aimé\n\n\n- 10 méga-sympathies par semaine\n\n\n- 5 boosts de profil par mois\n\n\n- Changer la couleur du profil</string>
-    <string name="luxe_features">- Toutes les fonctionnalités Premium\n\n\n- Ajouter des commentaires aux méga-sympathies\n\n\n- 30 méga-sympathies par semaine\n\n\n- 20 boosts de profil par mois\n\n\n- Liste d\'évitement</string>
+    <string name="vip_features">\n\n- Retour illimité\n\n\n- Recherche mondiale\n\n\n- Pas de publicité</string>
+    <string name="premium_features">- Toutes les \nfonctionnalités VIP\n\n\n- Qui vous a aimé\n\n\n- 10 méga-sympathies \npar semaine\n\n\n- 5 boosts de profil \npar mois\n\n\n- Changer la couleur \ndu profil</string>
+    <string name="luxe_features">- Toutes les \nfonctionnalités Premium\n\n\n- Ajouter des \ncommentaires aux \nméga-sympathies\n\n\n- 30 méga-sympathies \npar semaine\n\n\n- 20 boosts de profil \npar mois\n\n\n- Liste d\'évitement</string>
     <string name="empty_saved_password_email_message">L\'adresse e-mail ou le mot de passe enregistré est vide. Veuillez vous reconnecter.</string>
     <string name="change_bio_button_text">Modifier la biographie</string>
     <string name="something_went_wrong_message">Quelque chose s\'est mal passé !</string>
