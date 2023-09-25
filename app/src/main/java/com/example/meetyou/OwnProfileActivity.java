@@ -124,7 +124,8 @@ public class OwnProfileActivity extends AppCompatActivity {
             if (itemId == R.id.likes_nbb) {
                 ReplaceFragments(new LikesFragment());
             } else if (itemId == R.id.search_nbb) {
-                ReplaceFragments(new SearchFragment());
+                Intent intent = new Intent(OwnProfileActivity.this, MainActivity.class);
+                startActivity(intent);
             } else if (itemId == R.id.profile_nbb) {
                 ReplaceFragments(new OwnProfileFragment());
             } else if (itemId == R.id.messager_nbb) {
@@ -238,13 +239,13 @@ public class OwnProfileActivity extends AppCompatActivity {
             }
         });
 
-        binding.messageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(OwnProfileActivity.this, MessengerActivity.class);
-                startActivity(intent);
-            }
-        });
+//        binding.messageButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(OwnProfileActivity.this, MessengerActivity.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 
     @Override
